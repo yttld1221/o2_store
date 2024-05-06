@@ -1,0 +1,11 @@
+{
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
+  "usingComponents": {
+    "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons",
+    "post-type-zudui": "/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui",
+    "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more",
+    "tab-bar": "/uni_modules/tab-Bar/components/tab-Bar/tab-Bar"
+  }
+}

@@ -1,0 +1,1 @@
+<view class="content"><view><qf-image-cropper vue-id="5820bd7b-1" width="{{500}}" height="{{500}}" radius="{{0}}" data-event-opts="{{[['^crop',[['handleCrop']]]]}}" bind:crop="__e" bind:__l="__l"></qf-image-cropper></view></view>

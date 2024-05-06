@@ -1,0 +1,182 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 50
+			}
+		},
+		{
+			"path": "pages/index/address",
+			"style": {
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "选择地区",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/index/school",
+			"style": {
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "选择学校",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/index/detail",
+			"style": {
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "详情页",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 50
+			}
+		},
+		{
+			"path": "pages/follow/follow",
+			"style": {
+				"navigationStyle": "custom",
+				"onReachBottomDistance": 50
+			}
+		},
+		{
+			"path": "pages/follow/personalhome",
+			"style": {
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "个人主页"
+			}
+		},
+		{
+			"path": "pages/push/push",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/push/push_zudui",
+			"style": {
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "发布"
+			}
+		},
+		{
+			"path": "pages/push/range",
+			"style": {
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "发布范围"
+			}
+		},
+		{
+			"path": "pages/message/message",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/message/regard",
+			"style": {
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "关注/互动",
+				"onReachBottomDistance": 50
+			}
+		},
+		{
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 50
+			}
+		},
+		{
+			"path": "pages/mine/personal",
+			"style": {
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "个人主页"
+			}
+		},
+		{
+			"path": "pages/mine/edit_avatar",
+			"style": {
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "修改头像"
+			}
+		},
+		{
+			"path": "pages/mine/edit_other",
+			"style": {
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "修改"
+			}
+		},
+		{
+			"path": "pages/mine/register",
+			"style": {
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "学生认证"
+			}
+		},
+		{
+			"path": "pages/mine/mine_push",
+			"style": {
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "发布管理",
+				"onReachBottomDistance": 50
+			}
+		}
+		
+	],
+	"tabBar": {
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "/static/1_tabbar_index@3x.png",
+				"selectedIconPath": "/static/1_tabbar_index_selected@3x.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/follow/follow",
+				"iconPath": "/static/2_tabbar_follow@3x.png",
+				"selectedIconPath": "/static/2_tabbar_follow_selected@3x.png",
+				"text": "关注"
+			},
+			{
+				"pagePath": "pages/push/push",
+				
+				"text": "发布"
+			},
+			{
+				"pagePath": "pages/message/message",
+				"iconPath": "/static/4_tabbar_message@3x.png",
+				"selectedIconPath": "/static/4_tabbar_message_selected@3x.png",
+				"text": "消息"
+			},
+			{
+				"pagePath": "pages/mine/mine",
+				"iconPath": "/static/5_tabbar_mine@3x.png",
+				"selectedIconPath": "/static/5_tabbar_mine_selected@3x.png",
+				"text": "我的"
+			}
+		]
+	},
+
+
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}
