@@ -225,6 +225,183 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -237,9 +414,9 @@ var _default = {
       tempImageValue: [],
       tempVideoValue: [],
       // 当前页面类型，跳转过来的时候传过来的
-      type: '',
+      type: "",
       // 手动输入标签绑定的value
-      theHandAddLabel: '',
+      theHandAddLabel: "",
       // 显示范围
       theSelectedranges: [
         // {
@@ -254,46 +431,46 @@ var _default = {
         code: ""
       },
       // 结算单位，本地写死
-      settlement_1s: ['元/小时', '元/天', '元/月'],
+      settlement_1s: ["元/小时", "元/天", "元/月"],
       theSettlement_1sIndex: 0,
       // 结算周期，本地写死
-      settlement_2s: ['日结', '周结', '月结'],
+      settlement_2s: ["日结", "周结", "月结"],
       theSettlement_2sIndex: 0,
       // 发布的对象
       theData: {
         id: 0,
         // 	校园墙id，新增时传0
-        type: '',
+        type: "",
         //(!!!!!!必传) 校园墙类型：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        title: '',
+        title: "",
         //(!!!!!!必传) 标题或职位等
-        content: '',
+        content: "",
         //(!!!!!!必传) 正文内容
-        url: '',
+        url: "",
         // 图文或视频，如果有多个用英文逗号拼接，原型里面有图片的类型都是必传
-        is_on: '',
+        is_on: "",
         // 上线，1-是（默认），2-否
-        area_codes: '',
+        area_codes: "",
         // 开放区域范围的行政区划代码(地市级)，多个用逗号拼接
-        label: '',
+        label: "",
         // 校园墙标签，多个用逗号拼接
         is_anonymous: 2,
         //匿名，1-是，2-否
         hope_num: 0,
         // 期望人数（组队，必传）
-        free_type: '免费',
+        free_type: "免费",
         // 费用方式（组队，必传)
-        sex_type: '不限',
+        sex_type: "不限",
         // 性别要求（组队，必传）
-        area_code: '',
+        area_code: "",
         // 地点（组队兼职，必传）
-        start_at: '',
+        start_at: "",
         // 开始日期（组队，必传）
-        end_at: '',
+        end_at: "",
         //结束日期（组队，必传）
-        wages: '',
+        wages: "",
         //工资（兼职，必传，取值范围：面议或具体金额）
-        settlement: '元/小时/日结',
+        settlement: "元/小时/日结",
         // 结算方式（兼职，如果是面议自动转空字符串，多个值用/拼接）
         task_id: 0 // 关联的商品id
       },
@@ -301,14 +478,14 @@ var _default = {
       // 选中的话题
       theSelectedLabels: [],
       // 话题
-      theLabels: ['#我1啊', '#我是2啊', '#我才是3啊', '#我4啊', '#我5啊', '#我是不是6啊'],
+      theLabels: ["#我1啊", "#我是2啊", "#我才是3啊", "#我4啊", "#我5啊", "#我是不是6啊"],
       // 性别选择
-      sexs: ['不限', '男生', '女生'],
-      // 
+      sexs: ["不限", "男生", "女生"],
+      //
       theSexIndex: 0,
       // 费用方式
-      settlements: ['免费', 'AA'],
-      // 
+      settlements: ["免费", "AA"],
+      //
       theSettlementIndex: 0,
       // 时间选择的范围，是个数组，临时存储
       dateRange: []
@@ -351,37 +528,40 @@ var _default = {
             theDataUrl.push(that.tempImageValue[i].url);
           }
           //数组转字符串
-          that.theData.url = theDataUrl.join(',');
+          that.theData.url = theDataUrl.join(",");
           // console.log('that.theData.url',that.theData.url);
 
           // 把标签加进去
           //数组转字符串
-          that.theData.label = that.theSelectedLabels.join(',');
-          if (that.type == '兼职') {
+          that.theData.label = that.theSelectedLabels.join(",");
+          if (that.type == "兼职") {
             // 兼职的话，在这里给结算方式赋值一下
-            that.theData.settlement = that.settlement_1s[that.theSettlement_1sIndex] + '/' + that.settlement_2s[that.theSettlement_2sIndex];
+            that.theData.settlement = that.settlement_1s[that.theSettlement_1sIndex] + "/" + that.settlement_2s[that.theSettlement_2sIndex];
           }
           uni.request({
-            url: that.$store.state.theUrl + '/wechat/moments/publish',
-            method: 'POST',
+            url: that.$store.state.theUrl + "/wechat/moments/publish",
+            method: "POST",
             header: {
               token: that.$store.state.theToken
             },
             data: that.theData,
             success: function success(res) {
-              console.log('toPush_res', res);
+              console.log("toPush_res", res);
               if (res.data.code == 0) {
-                if (state == '存草稿') {
+                if (state == "存草稿") {
                   uni.showToast({
-                    title: '保存成功！',
+                    title: "保存成功！",
                     duration: 500,
-                    icon: 'none'
+                    icon: "none"
                   });
+                  that.$store.commit("changeOnload", true);
                   setTimeout(function () {
-                    uni.navigateBack();
+                    uni.switchTab({
+                      url: "/pages/index/index"
+                    });
                   }, 600);
                 } else {
-                  that.$store.dispatch('upDownMyMoments', {
+                  that.$store.dispatch("upDownMyMoments", {
                     id: res.data.data.id,
                     is_on: 1
                   });
@@ -389,16 +569,16 @@ var _default = {
                 resolve();
               } else if (res.data.code == 500) {
                 uni.showToast({
-                  title: '服务器连接失败，请反馈官方客服哦~',
+                  title: "服务器连接失败，请反馈官方客服哦~",
                   duration: 2500,
-                  icon: 'none'
+                  icon: "none"
                 });
               } else if (res.data.code == 410) {
                 uni.showModal({
-                  title: '温馨提示：',
-                  content: '当前登录身份已过期，点击“重新登录”继续吧~',
-                  confirmText: '重新登录',
-                  confirmColor: '#f89f12',
+                  title: "温馨提示：",
+                  content: "当前登录身份已过期，点击“重新登录”继续吧~",
+                  confirmText: "重新登录",
+                  confirmColor: "#f89f12",
                   showCancel: false,
                   success: function success(res) {
                     if (res.confirm) {
@@ -410,7 +590,7 @@ var _default = {
                             switch (_context.prev = _context.next) {
                               case 0:
                                 _context.next = 2;
-                                return __that.$store.dispatch('toLogon', {});
+                                return __that.$store.dispatch("toLogon", {});
                               case 2:
                                 // 重新发布
                                 __that.toPush();
@@ -428,15 +608,15 @@ var _default = {
                 uni.showToast({
                   title: res.data.msg,
                   duration: 2500,
-                  icon: 'none'
+                  icon: "none"
                 });
               }
             },
             fail: function fail(res) {
               uni.showToast({
-                title: '网络失败，请重试！多次无效后，反馈官方客服哦！',
+                title: "网络失败，请重试！多次无效后，反馈官方客服哦！",
                 duration: 2500,
-                icon: 'none'
+                icon: "none"
               });
             }
           });
@@ -445,19 +625,12 @@ var _default = {
     },
     // 发布的校验，情况有很多种
     pushChecking: function pushChecking() {
-      if (this.type != '组队/搭子' && this.type != '兼职') {
-        if (this.theData.title == '') {
+      if (this.type != "组队/搭子" && this.type != "兼职") {
+        if (this.theData.title == "") {
           uni.showToast({
-            title: '赶快填写一个标题吧~',
+            title: "赶快填写一个标题吧~",
             duration: 2500,
-            icon: 'none'
-          });
-          return false;
-        } else if (this.theData.content.length < 6) {
-          uni.showToast({
-            title: '请至少填写6个字的内容哦~',
-            duration: 2500,
-            icon: 'none'
+            icon: "none"
           });
           return false;
         } else {
@@ -465,40 +638,33 @@ var _default = {
           this.theData.type = this.type;
           return true;
         }
-      } else if (this.type == '组队/搭子') {
-        if (this.theData.title == '') {
+      } else if (this.type == "组队/搭子") {
+        if (this.theData.title == "") {
           uni.showToast({
-            title: '赶快填写一个标题吧~',
+            title: "赶快填写一个标题吧~",
             duration: 2500,
-            icon: 'none'
-          });
-          return false;
-        } else if (this.theData.content.length < 6) {
-          uni.showToast({
-            title: '请至少填写6个字的内容哦~',
-            duration: 2500,
-            icon: 'none'
+            icon: "none"
           });
           return false;
         } else if (this.theData.hope_num < 2) {
           uni.showToast({
-            title: '请至少填写2个及以上的组队期望人数哦~',
+            title: "请至少填写2个及以上的组队期望人数哦~",
             duration: 2500,
-            icon: 'none'
+            icon: "none"
           });
           return false;
-        } else if (this.theData.start_at == '' || this.theData.end_at == '') {
+        } else if (this.theData.start_at == "" || this.theData.end_at == "") {
           uni.showToast({
-            title: '请填写活动日期哦~',
+            title: "请填写活动日期哦~",
             duration: 2500,
-            icon: 'none'
+            icon: "none"
           });
           return false;
-        } else if (this.theData.area_code == '') {
+        } else if (this.theData.area_code == "") {
           uni.showToast({
-            title: '请选择活动所在城市~',
+            title: "请选择活动所在城市~",
             duration: 2500,
-            icon: 'none'
+            icon: "none"
           });
           return false;
         } else {
@@ -506,33 +672,26 @@ var _default = {
           this.theData.type = this.type;
           return true;
         }
-      } else if (this.type == '兼职') {
-        if (this.theData.title == '') {
+      } else if (this.type == "兼职") {
+        if (this.theData.title == "") {
           uni.showToast({
-            title: '赶快填写一个标题吧~',
+            title: "赶快填写一个标题吧~",
             duration: 2500,
-            icon: 'none'
+            icon: "none"
           });
           return false;
-        } else if (this.theData.content.length < 6) {
+        } else if (this.theData.area_code == "") {
           uni.showToast({
-            title: '请至少填写6个字的内容哦~',
+            title: "请选择兼职所在城市~",
             duration: 2500,
-            icon: 'none'
+            icon: "none"
           });
           return false;
-        } else if (this.theData.area_code == '') {
+        } else if (this.theData.wages == "") {
           uni.showToast({
-            title: '请选择兼职所在城市~',
+            title: "如不确定金额，可直接填写“面议”。",
             duration: 2500,
-            icon: 'none'
-          });
-          return false;
-        } else if (this.theData.wages == '') {
-          uni.showToast({
-            title: '如不确定金额，可直接填写“面议”。',
-            duration: 2500,
-            icon: 'none'
+            icon: "none"
           });
           return false;
         } else {
@@ -547,8 +706,8 @@ var _default = {
       var that = this;
       return new Promise(function (resolve, reject) {
         uni.request({
-          url: that.$store.state.theUrl + '/wechat/moments/getLabels',
-          method: 'POST',
+          url: that.$store.state.theUrl + "/wechat/moments/getLabels",
+          method: "POST",
           header: {
             token: that.$store.state.theToken
           },
@@ -557,7 +716,7 @@ var _default = {
           },
 
           success: function success(res) {
-            console.log('getLabels_res', res);
+            console.log("getLabels_res", res);
             if (res.data.code == 0) {
               // 重置
               that.theLabels = [];
@@ -569,16 +728,16 @@ var _default = {
               resolve();
             } else if (res.data.code == 500) {
               uni.showToast({
-                title: '服务器连接失败，请反馈官方客服哦~',
+                title: "服务器连接失败，请反馈官方客服哦~",
                 duration: 2500,
-                icon: 'none'
+                icon: "none"
               });
             } else if (res.data.code == 410) {
               uni.showModal({
-                title: '温馨提示：',
-                content: '当前登录身份已过期，点击“重新登录”继续吧~',
-                confirmText: '重新登录',
-                confirmColor: '#f89f12',
+                title: "温馨提示：",
+                content: "当前登录身份已过期，点击“重新登录”继续吧~",
+                confirmText: "重新登录",
+                confirmColor: "#f89f12",
                 showCancel: false,
                 success: function success(res) {
                   if (res.confirm) {
@@ -590,7 +749,7 @@ var _default = {
                           switch (_context2.prev = _context2.next) {
                             case 0:
                               _context2.next = 2;
-                              return __that.$store.dispatch('toLogon', {});
+                              return __that.$store.dispatch("toLogon", {});
                             case 2:
                               // 重新获取
                               __that.openPopup_huati();
@@ -608,15 +767,15 @@ var _default = {
               uni.showToast({
                 title: res.data.msg,
                 duration: 2500,
-                icon: 'none'
+                icon: "none"
               });
             }
           },
           fail: function fail(res) {
             uni.showToast({
-              title: '网络失败，请重试！多次无效后，反馈官方客服哦！',
+              title: "网络失败，请重试！多次无效后，反馈官方客服哦！",
               duration: 2500,
-              icon: 'none'
+              icon: "none"
             });
             resolve();
           }
@@ -645,13 +804,13 @@ var _default = {
               case 0:
                 theName = [];
                 for (i = 0; i < e.tempFiles.length; i++) {
-                  theName.push(nowDateTime + '_' + i);
+                  theName.push(nowDateTime + "_" + i);
                 }
 
                 // 调用全局方法
                 _context3.next = 4;
-                return that.$store.dispatch('upLoadImage', {
-                  type: 'img',
+                return that.$store.dispatch("upLoadImage", {
+                  type: "img",
                   tempFilePaths: e.tempFilePaths,
                   name: theName,
                   tempFiles: e.tempFiles
@@ -671,7 +830,7 @@ var _default = {
 
                   // 重置全局文件的临时存储字段
                   // 传完以后,把临时存储置空,否则下一个图就搞不清楚了
-                  that.$store.commit('changeTempImageUrl', {});
+                  that.$store.commit("changeTempImageUrl", {});
                 }
               case 6:
               case "end":
@@ -681,7 +840,7 @@ var _default = {
         }, _callee3);
       }))();
     },
-    // 
+    //
     imageDelete: function imageDelete(e) {
       // console.log('imageDelete_e',e);
       for (var i = 0; i < this.tempImageValue.length; i++) {
@@ -697,16 +856,16 @@ var _default = {
       if (this.theData.is_anonymous == 1) {
         this.theData.is_anonymous = 2;
         uni.showToast({
-          title: '已取消匿名',
+          title: "已取消匿名",
           duration: 1500,
-          icon: 'none'
+          icon: "none"
         });
       } else {
         this.theData.is_anonymous = 1;
         uni.showToast({
-          title: '已匿名',
+          title: "已匿名",
           duration: 1500,
-          icon: 'none'
+          icon: "none"
         });
       }
     },
@@ -736,9 +895,9 @@ var _default = {
     },
     // 手动输入话题
     handAddLabel: function handAddLabel() {
-      if (this.theHandAddLabel != '') {
+      if (this.theHandAddLabel != "") {
         this.addLabel(this.theHandAddLabel);
-        this.theHandAddLabel = '';
+        this.theHandAddLabel = "";
       }
     },
     // 添加标签及校验
@@ -747,9 +906,9 @@ var _default = {
       for (var i = 0; i < this.theSelectedLabels.length; i++) {
         if (item == this.theSelectedLabels[i]) {
           uni.showToast({
-            title: '已添加过这个话题了哦~',
+            title: "已添加过这个话题了哦~",
             duration: 1500,
-            icon: 'none'
+            icon: "none"
           });
           isAdd = false;
         }
@@ -765,7 +924,7 @@ var _default = {
     // 输入期望人数的预处理方案，因为默认是0 ，但是为了方便填写
     // 获得焦点的时候，如果是0 就要去掉，反之，失去焦点的时候需要补上
     easyinputFocus: function easyinputFocus(type) {
-      if (type == 'number') {
+      if (type == "number") {
         if (this.theData.hope_num == 0) {
           this.theData.hope_num = null;
         }
@@ -773,13 +932,13 @@ var _default = {
     },
     // 同上
     easyinputBlur: function easyinputBlur(type) {
-      if (type == 'number') {
+      if (type == "number") {
         if (this.theData.hope_num == null) {
           this.theData.hope_num = 0;
         }
       }
     },
-    // 选择性别 
+    // 选择性别
     selectedSexOne: function selectedSexOne(index) {
       this.theSexIndex = index;
       this.theData.sex_type = this.sexs[index];
@@ -811,14 +970,14 @@ var _default = {
     // 跳转范围选择
     toRange: function toRange() {
       uni.navigateTo({
-        url: '/pages/push/range'
+        url: "/pages/push/range"
       });
     },
     // 跳转地址选择
     toAddress: function toAddress() {
       uni.navigateTo({
         // type=1 表示是index页面过来的
-        url: '/pages/index/address?type=push'
+        url: "/pages/index/address?type=push"
       });
     }
   }
@@ -960,14 +1119,14 @@ try {
     uniPopup: function () {
       return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */ "uni_modules/uni-popup/components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 239))
     },
-    uniIcons: function () {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 174))
-    },
     uniEasyinput: function () {
       return __webpack_require__.e(/*! import() | uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput */ "uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue */ 232))
     },
     uniFilePicker: function () {
       return Promise.all(/*! import() | uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker.vue */ 246))
+    },
+    uniIcons: function () {
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 174))
     },
     uniDatetimePicker: function () {
       return Promise.all(/*! import() | uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker.vue */ 264))

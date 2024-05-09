@@ -4,12 +4,13 @@ function strToArr(str, char) { // str为字符串，char为间隔的字符
 }
 
 //方法：点击图片打开图片查看器
-function previewImage(urls) {
+function previewImage(urls,index=0) {
 	let theUrls = [];
 	for(let i =0;i<urls.length;i++){
 		theUrls.push(urls[i]+'?x-oss-process=image/resize,m_lfit,h_750,w_750')
 	}
 	uni.previewImage({
+		current: index,
 		urls: theUrls
 	})
 }

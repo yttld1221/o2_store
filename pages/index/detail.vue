@@ -38,7 +38,7 @@
 		</view>
 		<!-- 评论输入框 -->
 		<view class="comment-input" :style="'bottom:'+0+'px;'">
-			<uni-easyinput v-model="theInputComment" confirmType="send" placeholder="想要说点什么（￣ー+￣）..." :inputBorder="false" />
+			<uni-easyinput v-model="theInputComment" confirmType="send" placeholder="想要说点什么..." :inputBorder="false" />
 			<view @click="toComment" class="comment-button">发送</view>
 		</view>
 	</view>

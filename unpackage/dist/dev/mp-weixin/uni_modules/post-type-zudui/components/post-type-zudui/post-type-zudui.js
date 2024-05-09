@@ -106,13 +106,17 @@ var render = function () {
   var _c = _vm._self._c || _h
   var g0 =
     _vm.theData.type != "兼职" && _vm.type != "分享/安利"
-      ? _vm.pictures.length
+      ? _vm.label.length
       : null
   var g1 =
-    _vm.theData.type != "兼职" && _vm.type != "分享/安利" && g0
+    _vm.theData.type != "兼职" && _vm.type != "分享/安利"
       ? _vm.pictures.length
       : null
   var g2 =
+    _vm.theData.type != "兼职" && _vm.type != "分享/安利" && g1
+      ? _vm.pictures.length
+      : null
+  var g3 =
     _vm.theData.type != "兼职" &&
     _vm.type != "分享/安利" &&
     _vm.isDetail == true &&
@@ -120,9 +124,13 @@ var render = function () {
       ? _vm.theData.members.length
       : null
   if (!_vm._isMounted) {
-    _vm.e0 = function ($event) {
+    _vm.e0 = function ($event, index) {
+      var _temp = arguments[arguments.length - 1].currentTarget.dataset,
+        _temp2 = _temp.eventParams || _temp["event-params"],
+        index = _temp2.index
+      var _temp, _temp2
       $event.stopPropagation()
-      return _vm.$public.previewImage(_vm.pictures)
+      return _vm.$public.previewImage(_vm.pictures, index)
     }
     _vm.e1 = function ($event) {
       $event.stopPropagation()
@@ -136,6 +144,7 @@ var render = function () {
         g0: g0,
         g1: g1,
         g2: g2,
+        g3: g3,
       },
     }
   )
@@ -300,8 +309,111 @@ exports.default = void 0;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
-  name: 'post-type-zudui',
+  name: "post-type-zudui",
   props: {
     // 是否是详情页，详情页才会有content和members字段
     isDetail: {
@@ -332,7 +444,7 @@ var _default = {
     //
     type: {
       type: String,
-      default: '',
+      default: "",
       required: true
     },
     // 列表数据
@@ -419,13 +531,13 @@ var _default = {
   data: function data() {
     return {
       // 发帖时间
-      released_at: '',
+      released_at: "",
       // 话题
-      label: '',
+      label: "",
       // 图片
       pictures: [],
       // 活动日期，这里是处理后的
-      activeDate: ''
+      activeDate: ""
       // 组队的按钮
     };
   },
@@ -437,19 +549,19 @@ var _default = {
     var that = this;
     setTimeout(function () {
       that.released_at = that.getTime(that.theData.released_at);
-      that.label = that.$public.strToArr(that.theData.label, ',');
-      that.pictures = that.$public.strToArr(that.theData.url, ',');
-      that.pictures = that.pictures.filter(function (el) {
-        return el;
-      });
-      if (that.theData.type == '组队/搭子') {
+      that.label = that.theData.label ? that.theData.label.split(",") : [];
+      that.pictures = that.theData.url ? that.theData.url.split(",") : [];
+      //   that.$public.strToArr(that.theData.url, ",");
+      //   that.pictures = that.pictures.filter((el) => el);
+
+      if (that.theData.type == "组队/搭子") {
         // 只有组队/搭子，才需要处理这个
-        var nowYear = new Date().getFullYear() + '';
-        var starts = that.$public.strToArr(that.theData.start_at, '-');
+        var nowYear = new Date().getFullYear() + "";
+        var starts = that.$public.strToArr(that.theData.start_at, "-");
         // console.log(starts);
-        var ends = that.$public.strToArr(that.theData.end_at, '-');
+        var ends = that.$public.strToArr(that.theData.end_at, "-");
         // console.log(ends);
-        that.activeDate = (starts[0] == nowYear ? '' : starts[0] + '年') + starts[1] + '月' + starts[2] + '日' + '~' + (ends[0] == nowYear ? '' : ends[0] + '年') + ends[1] + '月' + ends[2] + '日';
+        that.activeDate = (starts[0] == nowYear ? "" : starts[0] + "年") + starts[1] + "月" + starts[2] + "日" + "~" + (ends[0] == nowYear ? "" : ends[0] + "年") + ends[1] + "月" + ends[2] + "日";
         // console.log('that.activeDate',that.activeDate);
       }
     }, 50);
@@ -459,7 +571,7 @@ var _default = {
       var thePictures = [];
       console.log(this.pictures);
       if (this.pictures.length > 4) {
-        for (var i = 0; i < this.pictures[i].length; i++) {
+        for (var i = 0; i < this.pictures.length; i++) {
           thePictures.push(this.pictures[i]);
           if (i == 3) {
             break;
@@ -476,16 +588,16 @@ var _default = {
     //---------------------------------------------------- 绑定的方法 ----------------------------------------------------
     //---------------------------------------------------- 绑定的方法 ----------------------------------------------------
     toDetail: function toDetail() {
-      this.$emit('toDetail', this.theData.id);
+      this.$emit("toDetail", this.theData.id);
     },
     topPerSonalhome: function topPerSonalhome() {
-      this.$emit('topPerSonalhome', {
+      this.$emit("topPerSonalhome", {
         id: this.theData.create_id,
         is_anonymous: this.theData.is_anonymous
       });
     },
     toThumb: function toThumb() {
-      this.$emit('toThumb', {
+      this.$emit("toThumb", {
         id: this.theData.id,
         is_thumb: this.theData.is_thumb
       });
@@ -493,7 +605,7 @@ var _default = {
     // 邀请好友 加入/退出组队
     zuduiButtons: function zuduiButtons(index) {
       // 传0表示是邀请，传1是组队按钮
-      this.$emit('zuduiButtons', {
+      this.$emit("zuduiButtons", {
         id: this.theData.id,
         is_entry: this.theData.is_entry,
         type: index
@@ -502,14 +614,14 @@ var _default = {
     // 上下线
     toOn: function toOn() {
       // 传0表示是邀请，传1是组队按钮
-      this.$emit('toOn', {
+      this.$emit("toOn", {
         id: this.theData.id,
         is_on: this.theData.is_on
       });
     },
     // 点击右上角的三个点
     actionMore: function actionMore() {
-      this.$emit('actionMore', {
+      this.$emit("actionMore", {
         id: this.theData.id,
         create_id: this.theData.create_id,
         is_collection: this.theData.is_collection
@@ -532,23 +644,23 @@ var _default = {
       if (difference < 5) {
         // 小于1个小时，就显示时间
         // console.log(difference+'分钟前');
-        return '刚刚';
+        return "刚刚";
       } else if (difference >= 5 && difference < 60) {
-        return Math.floor(difference) + '分钟前';
+        return Math.floor(difference) + "分钟前";
       } else {
         var theYear = theTime.substring(0, 4);
         var theMonth = theTime.substring(5, 7);
         var theDay = theTime.substring(8, 10);
         var now = new Date();
-        var nowYear = now.getFullYear() + '';
-        var nowMonth = now.getMonth() + 1 < 10 ? '0' + (now.getMonth() + 1) : now.getMonth() + 1 + '';
-        var nowDay = now.getDate() < 10 ? '0' + now.getDate() : now.getDate() + '';
+        var nowYear = now.getFullYear() + "";
+        var nowMonth = now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1 + "";
+        var nowDay = now.getDate() < 10 ? "0" + now.getDate() : now.getDate() + "";
         // 同一天的话
         if (theYear == nowYear && theMonth == nowMonth && theDay == nowDay) {
           // console.log(theTime.substring(11,19));
           // console.log(theYear,theMonth,theDay);
           // console.log(nowYear,nowMonth,nowDay);
-          return '今天' + ' ' + theTime.substring(11, 19);
+          return "今天" + " " + theTime.substring(11, 19);
         } else {
           // console.log(theTime.substring(11,19));
           // console.log(theYear,theMonth,theDay);

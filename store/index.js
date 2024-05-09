@@ -4,8 +4,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
+		isOnload:false,
 		// 接口前缀
-		theUrl: 'https://school.izekai.cn',
+		// theUrl: 'https://school.izekai.cn',
+		theUrl: 'https://api2.allinnb.com',
 		// WSS接口前缀
 		theWssUrl: 'wss://school.izekai.cn/wss',
 		// 每次传图片的临时存储
@@ -141,7 +143,9 @@ export default new Vuex.Store({
 			state.theLogonUser = payload.theLogonUser;
 			state.theToken = payload.theToken;
 		},
-		
+		changeOnload: function(state, payload) {
+			state.isOnload = payload;
+		},
 		changeTheLogonUser_register: function(state, payload) {
 			state.theLogonUser.level = payload.level;
 			state.theToken = payload.theToken;
@@ -599,9 +603,12 @@ export default new Vuex.Store({
 								// 注意发布管理点击上下线成功后，返回一个全部变量用于通知调用的页面
 								content.state.isOn_true = true;
 							}else{
-								setTimeout(function(){
-									uni.navigateBack();
-								},600)
+								content.commit("changeOnload", true);
+								setTimeout(function () {
+									uni.switchTab({
+									  url: "/pages/index/index",
+									});
+								}, 600);
 							}
 							resolve();
 						} else if (res.data.code == 500) {

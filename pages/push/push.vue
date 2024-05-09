@@ -2,7 +2,7 @@
 	<view class="content">
 		<!-- 标题 -->
 		<view class="titles" :style="'top:'+(statusBarHeight)+'px;height:'+(navBarHeight)+'px;'">
-			（*´▽`*) 想要说点什么呢~
+			想要说点什么呢~
 		</view>
 		<!-- 内容 -->
 		<view class="the-types" :style="'margin-top:'+(statusBarHeight+navBarHeight)+'px;'">
@@ -40,10 +40,10 @@
 			</view>
 		</view>
 		<!-- 表情包 -->
-		<view class="tips">点击即可复制哦(=^_^=)~</view>
+		<!-- <view class="tips">点击即可复制哦(=^_^=)~</view>
 		<view class="biaoqing-box">
 			<view @click="$public.setClipboardData(item)" class="biaoqing-item" v-for="(item,index) in biaoqingData">{{item}}</view>
-		</view>
+		</view> -->
 		<tab-Bar current="2"></tab-Bar>
 	</view>
 </template>

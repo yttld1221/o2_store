@@ -2311,7 +2311,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -9414,7 +9414,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -9435,14 +9435,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -9538,7 +9538,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -19350,8 +19350,10 @@ var _theLogonUser;
 _vue.default.use(_vuex.default);
 var _default = new _vuex.default.Store({
   state: {
+    isOnload: false,
     // 接口前缀
-    theUrl: 'https://school.izekai.cn',
+    // theUrl: 'https://school.izekai.cn',
+    theUrl: 'https://api2.allinnb.com',
     // WSS接口前缀
     theWssUrl: 'wss://school.izekai.cn/wss',
     // 每次传图片的临时存储
@@ -19461,6 +19463,9 @@ var _default = new _vuex.default.Store({
     changeTheLogonUser: function changeTheLogonUser(state, payload) {
       state.theLogonUser = payload.theLogonUser;
       state.theToken = payload.theToken;
+    },
+    changeOnload: function changeOnload(state, payload) {
+      state.isOnload = payload;
     },
     changeTheLogonUser_register: function changeTheLogonUser_register(state, payload) {
       state.theLogonUser.level = payload.level;
@@ -19950,8 +19955,11 @@ var _default = new _vuex.default.Store({
                 // 注意发布管理点击上下线成功后，返回一个全部变量用于通知调用的页面
                 content.state.isOn_true = true;
               } else {
+                content.commit("changeOnload", true);
                 setTimeout(function () {
-                  uni.navigateBack();
+                  uni.switchTab({
+                    url: "/pages/index/index"
+                  });
                 }, 600);
               }
               resolve();
@@ -22000,11 +22008,13 @@ function strToArr(str, char) {
 
 //方法：点击图片打开图片查看器
 function previewImage(urls) {
+  var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   var theUrls = [];
   for (var i = 0; i < urls.length; i++) {
     theUrls.push(urls[i] + '?x-oss-process=image/resize,m_lfit,h_750,w_750');
   }
   uni.previewImage({
+    current: index,
     urls: theUrls
   });
 }

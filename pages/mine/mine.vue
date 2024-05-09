@@ -7,7 +7,7 @@
 				<view class="back" @click="closePopup_erweima">
 					<uni-icons type="closeempty" size="25" color="#727272"></uni-icons>
 				</view>
-				<image class="popup-erweima" :src="erweima_img" mode="widthFix"></image>
+				<image :show-menu-by-longpress="true" class="popup-erweima" :src="erweima_img" mode="widthFix"></image>
 				<view class="popup-erweima-title">· 我的邀请码 ·</view>
 				<view class="popup-erweima-content">世界越来越小，你我越来越近。</view>
 			</view>
@@ -46,7 +46,7 @@
 					</view>
 					<view @click="toRegister(theLogonUser.level)" v-if="theLogonUser.level != 2" class="the-line-1-right-bottom-school">
 						<view v-if="theLogonUser.level == 0">未注册/认证，点击前往</view>
-						<view v-if="theLogonUser.level == 1">认证审核中...</view>
+						<view v-if="theLogonUser.level == 1">待认证</view>
 					</view>
 				</view>
 			</view>

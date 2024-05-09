@@ -300,21 +300,95 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
       theLevel: 0,
       contentText: {
-        contentdown: '查看更多',
-        contentrefresh: '加载中...',
-        contentnomore: '到底了，可点击此处手动加载~'
+        contentdown: "查看更多",
+        contentrefresh: "加载中...",
+        contentnomore: "到底了，可点击此处手动加载~"
       },
       // 最后的加载组件的加载动画效果，
-      isLoading: 'loading',
+      isLoading: "loading",
       // 当前获取的校园墙页码，每次需要+1
       theGetMomentsListPage: 1,
       theGetMomentsListPagesize: 10,
-      titleName: ['首页', '校园墙'],
+      titleName: ["首页", "校园墙"],
       theTitleIndex: 1,
       schoolOneTitleIndex: 0,
       // 顶部状态栏
@@ -324,16 +398,16 @@ var _default = {
       // 底部tabbar高度
       tabBarHeight: 0,
       // 搜索输入框内容
-      searchInputText: '',
+      searchInputText: "",
       // 获取焦点时候的输入框的高度，主要是给置顶的bottom用，就是键盘高度
       inputBottomHeight: 0,
       //
-      titles: ['综合', '话题', '组队/搭子', '分享/安利', '兼职', '表白', '求助', '其他'],
-      tempTitles: ['综合', '话题'],
+      titles: ["综合", "话题", "组队/搭子", "分享/安利", "兼职", "表白", "求助", "其他"],
+      tempTitles: ["综合", "话题"],
       textWidths: 0,
       // 注意这个临时地址主要是为了给首页判断的，当选择完地址后，这里要通过这个判断是否变更了地址，如果改变了，则需要重新获取数据的
-      tempAddressTitle: '',
-      tempSchoolTitle: '',
+      tempAddressTitle: "",
+      tempSchoolTitle: "",
       // 当前所在地址
       theAddress: {
         title: "",
@@ -600,8 +674,8 @@ var _default = {
     this.tempSchoolTitle = this.$store.state.store_schoolNow.title;
 
     // 获取本地地址（如果有的话），并传给全局变量中
-    var storage_addressNow = this.getStorageSync('storage_addressNow');
-    this.$store.commit('changeStore_addressNow', {
+    var storage_addressNow = this.getStorageSync("storage_addressNow");
+    this.$store.commit("changeStore_addressNow", {
       tempSelectedAddress: storage_addressNow
     });
   },
@@ -614,7 +688,7 @@ var _default = {
     // }
 
     // 记录当前的previousPage，用于二次点击发布回到原来页面
-    this.$store.commit('changePreviousPage', {
+    this.$store.commit("changePreviousPage", {
       previousPage: 0,
       isPage_2: false
     });
@@ -627,13 +701,13 @@ var _default = {
     var that = this;
 
     // console.log('that.theAddress.title',that.theAddress.title);
-    if (that.theAddress.title == '' || that.theAddress.title == undefined) {
+    if (that.theAddress.title == "" || that.theAddress.title == undefined) {
       // 表示当前地址为空，可能是用户第一次打开小程序，没有本地缓存数据
       uni.showModal({
-        title: '温馨提示：',
-        content: '您当前还没有选择地区，点击“前往”将前往地区选择哦~',
-        confirmText: '前往',
-        confirmColor: '#f89f12',
+        title: "温馨提示：",
+        content: "您当前还没有选择地区，点击“前往”将前往地区选择哦~",
+        confirmText: "前往",
+        confirmColor: "#f89f12",
         showCancel: false,
         success: function success(res) {
           if (res.confirm) {
@@ -653,7 +727,7 @@ var _default = {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                // 重置一下  地区改变了，学校肯定要重置为空的 
+                // 重置一下  地区改变了，学校肯定要重置为空的
                 that.theSchool = {
                   id: 0,
                   title: "",
@@ -662,7 +736,7 @@ var _default = {
                   create_id: 1,
                   update_id: 1
                 };
-                that.$store.commit('changeStore_schoolNow', {
+                that.$store.commit("changeStore_schoolNow", {
                   id: 0,
                   title: "",
                   status: 1,
@@ -687,28 +761,48 @@ var _default = {
           }
         }, _callee);
       }))();
-    }
-    if (that.tempSchoolTitle != that.theSchool.title) {
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
+    } else if (that.$store.state.isOnload) {
       (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
         return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                that.$store.commit("changeOnload", false);
                 that.theGetMomentsListPage = 1;
                 that.school_datas = [];
-                _context2.next = 4;
+                _context2.next = 5;
                 return that.getMomentsList();
-              case 4:
-                that.tempSchoolTitle = that.$store.state.store_schoolNow.title;
               case 5:
+                that.tempSchoolTitle = that.$store.state.store_schoolNow.title;
+              case 6:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2);
+      }))();
+    }
+    if (that.tempSchoolTitle != that.theSchool.title) {
+      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
+      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
+      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
+      (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
+        return _regenerator.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                that.theGetMomentsListPage = 1;
+                that.school_datas = [];
+                _context3.next = 4;
+                return that.getMomentsList();
+              case 4:
+                that.tempSchoolTitle = that.$store.state.store_schoolNow.title;
+              case 5:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
       }))();
     }
   },
@@ -718,32 +812,32 @@ var _default = {
     // 重置获取的页码
     that.theGetMomentsListPage = 1;
     // 重置搜索文本
-    this.searchInputText = '';
+    this.searchInputText = "";
     // 重置数组
     that.school_datas = [];
     // 异步转同步调用
-    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
-      return _regenerator.default.wrap(function _callee3$(_context3) {
+    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
+      return _regenerator.default.wrap(function _callee4$(_context4) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
-              _context3.next = 2;
+              _context4.next = 2;
               return that.getMomentsList();
             case 2:
               // 等待接口返回后，取消下拉刷新动画
               uni.stopPullDownRefresh();
             case 3:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
         }
-      }, _callee3);
+      }, _callee4);
     }))();
   },
   // 页面触底的监听事件，配合pages.json中的"onReachBottomDistance": 0，0的位置写距离底部的距离
   onReachBottom: function onReachBottom() {
     // 触底后动画效果开启
-    this.isLoading = 'loading';
+    this.isLoading = "loading";
 
     // 调用接口
     this.getMomentsList();
@@ -755,7 +849,7 @@ var _default = {
       var animtionActionInter = setInterval(function () {
         that.$refs.theMessage.animtionAction();
       }, 1000);
-      that.$store.commit('changeRedTip', {
+      that.$store.commit("changeRedTip", {
         isRedTip: true
       });
       setTimeout(function () {
@@ -770,7 +864,7 @@ var _default = {
         uni.showToast({
           title: e,
           duration: 2500,
-          icon: 'none'
+          icon: "none"
         });
       }
     },
@@ -782,7 +876,7 @@ var _default = {
         uni.showToast({
           title: e,
           duration: 2500,
-          icon: 'none'
+          icon: "none"
         });
       }
     },
@@ -803,7 +897,7 @@ var _default = {
           _this2.tabBarHeight = res.screenHeight - res.safeArea.bottom;
 
           // 设置全局变量
-          _this2.$store.commit('changeNavBarHeight', {
+          _this2.$store.commit("changeNavBarHeight", {
             statusBarHeight: _this2.statusBarHeight,
             navBarHeight: _this2.navBarHeight,
             tabBarHeight: _this2.tabBarHeight
@@ -827,9 +921,9 @@ var _default = {
       if (index == 0) {
         // 点击首页
         uni.showToast({
-          title: '当前功能区暂未开放哦，敬请期待~',
+          title: "当前功能区暂未开放哦，敬请期待~",
           duration: 2500,
-          icon: 'none'
+          icon: "none"
         });
       } else {
         this.theTitleIndex = index;
@@ -841,8 +935,8 @@ var _default = {
     },
     // 清空输入框
     emptyInput: function emptyInput(type) {
-      if (type = 'searchInputText') {
-        this.searchInputText = '';
+      if (type = "searchInputText") {
+        this.searchInputText = "";
       }
     },
     //------------------------------------------------  页面跳转  -----------------------------------------------------
@@ -852,19 +946,19 @@ var _default = {
     toAddress: function toAddress() {
       uni.navigateTo({
         // type=index 表示是index页面过来的
-        url: '/pages/index/address?type=index'
+        url: "/pages/index/address?type=index"
       });
     },
     // 跳转学校选择
     toSchool: function toSchool() {
       uni.navigateTo({
-        url: '/pages/index/school'
+        url: "/pages/index/school"
       });
     },
     // 跳转详情页
     toDetail: function toDetail(id) {
       uni.navigateTo({
-        url: '/pages/index/detail?id=' + id
+        url: "/pages/index/detail?id=" + id
       });
     },
     // 跳转主页
@@ -872,13 +966,13 @@ var _default = {
       if (option.is_anonymous == 2) {
         // 不匿名
         uni.navigateTo({
-          url: '/pages/follow/personalhome?id=' + option.id
+          url: "/pages/follow/personalhome?id=" + option.id
         });
       } else {
         uni.showToast({
-          title: '这个人很神秘，不想让你看到TA的主页~',
+          title: "这个人很神秘，不想让你看到TA的主页~",
           duration: 2500,
-          icon: 'none'
+          icon: "none"
         });
       }
     },
@@ -890,12 +984,12 @@ var _default = {
       var _this = this;
       return new Promise(function (resolve, reject) {
         var that = _this;
-        that.isLoading = 'loading'; // 加载中
+        that.isLoading = "loading"; // 加载中
         // 判断如果是空字符串，证明是首次加载进来，不应该调用接口
-        if (that.$store.state.store_addressNow.title != '') {
+        if (that.$store.state.store_addressNow.title != "") {
           uni.request({
-            url: that.$store.state.theUrl + '/wechat/moments/getMomentsList',
-            method: 'POST',
+            url: that.$store.state.theUrl + "/wechat/moments/getMomentsList",
+            method: "POST",
             header: {
               token: that.$store.state.theToken
             },
@@ -906,7 +1000,7 @@ var _default = {
               // 校园墙类型：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他，传空字符串为全部
               // schoolOneTitleIndex == 0 表示是综合，就是全部的意思，所以传空
               // type:(that.schoolOneTitleIndex == 0 ?'':that.titles[that.schoolOneTitleIndex]),
-              type: '',
+              type: "",
               // 搜索字段，默认是个空
               title: that.searchInputText,
               // // 当前选中的学校id
@@ -926,13 +1020,13 @@ var _default = {
                   for (var i = 0; i < res.data.data.length; i++) {
                     _that.school_datas.push(res.data.data[i]);
                   }
-                  _that.isLoading = 'no-more'; // 取消加载动画
+                  _that.isLoading = "no-more"; // 取消加载动画
                   // console.log('_that.addressData',_that.addressData);
                   // 页面+1
                   _that.theGetMomentsListPage += 1;
                   resolve();
                 } else {
-                  _that.isLoading = 'no-more'; // 取消加载动画
+                  _that.isLoading = "no-more"; // 取消加载动画
                   // uni.showToast({
                   // 	title: '没有更多了哦~',
                   // 	duration: 1500,
@@ -942,85 +1036,81 @@ var _default = {
                 }
               } else if (res.data.code == 500) {
                 uni.showToast({
-                  title: '服务器连接失败，请反馈官方客服哦~',
+                  title: "服务器连接失败，请反馈官方客服哦~",
                   duration: 2500,
-                  icon: 'none'
+                  icon: "none"
                 });
               } else if (res.data.code == 410) {
                 var __that = _that;
-                (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
-                  return _regenerator.default.wrap(function _callee4$(_context4) {
+                (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
+                  return _regenerator.default.wrap(function _callee5$(_context5) {
                     while (1) {
-                      switch (_context4.prev = _context4.next) {
+                      switch (_context5.prev = _context5.next) {
                         case 0:
-                          _context4.next = 2;
-                          return __that.$store.dispatch('toLogon', {});
+                          _context5.next = 2;
+                          return __that.$store.dispatch("toLogon", {});
                         case 2:
                           /*
                           // 连接WSS
                           uni.connectSocket({
-                            url: 'wss://school.izekai.cn/wss',
+                          url: 'wss://school.izekai.cn/wss',
                           });
-                          
-                          // 打开监听  
+                          				// 打开监听  
                           uni.onSocketOpen(function (res) {
-                          	// 登录
-                          	// 测试号数据存一下
-                          	// wss://school.izekai.cn/wss
-                          	// {"data":{"token":"639bba3ff80c75e545d336c5bc1118a5"},"cmd":"ws:login"}
-                          	// {"data":{"msg":"3523532532525","to_user_id":1},"cmd":"ws:sendChatMsg"}
-                          	uni.sendSocketMessage({
-                          		data:JSON.stringify({
-                          			data:{
-                          				token:__that.$store.state.theToken
-                          			},
-                          			cmd:'ws:login'
-                          		}),
-                          		success: (res) => {
-                          			console.log('登录WSS',res);
-                          		}
-                          	})
-                          	
-                          	// 心跳包
-                          	var inter = setInterval(function(){
-                          		uni.sendSocketMessage({
-                          			data:JSON.stringify({
-                          				data:'ping',
-                          				cmd:'ws:ping'
-                          			}),
-                          			success: (res) => {
-                          				console.log('心跳包',res);
-                          			}
-                          		})
-                          	},30000)
-                          	
-                          	console.log('onSocketMessage我监听到了',res);
-                          	// 发送消息
-                          	// uni.sendSocketMessage({
-                          	// 	data:JSON.stringify({
-                          	// 		data:{
-                          	// 			to_user_id:5
-                          	// 			msg:'我是发送的消息！！！！！'
-                          	// 		},
-                          	// 		cmd:'ws:sendChatMsg'
-                          	// 	})
-                          	// })
-                            
-                          });
+                          // 登录
+                          // 测试号数据存一下
+                          // wss://school.izekai.cn/wss
+                          // {"data":{"token":"639bba3ff80c75e545d336c5bc1118a5"},"cmd":"ws:login"}
+                          // {"data":{"msg":"3523532532525","to_user_id":1},"cmd":"ws:sendChatMsg"}
+                          uni.sendSocketMessage({
+                          data:JSON.stringify({
+                          data:{
+                          token:__that.$store.state.theToken
+                          },
+                          cmd:'ws:login'
+                          }),
+                          success: (res) => {
+                          console.log('登录WSS',res);
+                          }
+                          })
+                          						// 心跳包
+                          var inter = setInterval(function(){
+                          uni.sendSocketMessage({
+                          data:JSON.stringify({
+                          data:'ping',
+                          cmd:'ws:ping'
+                          }),
+                          success: (res) => {
+                          console.log('心跳包',res);
+                          }
+                          })
+                          },30000)
+                          						console.log('onSocketMessage我监听到了',res);
+                          // 发送消息
+                          // uni.sendSocketMessage({
+                          // 	data:JSON.stringify({
+                          // 		data:{
+                          // 			to_user_id:5
+                          // 			msg:'我是发送的消息！！！！！'
+                          // 		},
+                          // 		cmd:'ws:sendChatMsg'
+                          // 	})
+                          // })
+                          						});
                           // 监听关闭
                           uni.onSocketClose(function (res) {
-                            console.log('WebSocket 已关闭！');
+                          console.log('WebSocket 已关闭！');
                           });
                           // 监听消息
                           uni.onSocketMessage(function (res) {
-                            console.log('收到服务器内容：' + JSON.parse(res.data));
-                          	// __that.animtionAction();
-                          	if(JSON.parse(res.data).cmd == 'ws:sendChatMsg'){
-                          		console.log('我解析成功啦啦啦啦！！！');
-                          		__that.$store.dispatch('animtionAction',{
-                          			animtionAction:__that.$refs.theMessage.animtionAction()
-                          		});
-                          	}
+                          console.log('收到服务器内容：' + JSON.parse(res.data));
+                          // __that.animtionAction();
+                          if(JSON.parse(res.data).cmd == 'ws:sendChatMsg'){
+                          console.log('我解析成功啦啦啦啦！！！');
+                          __that.$store.dispatch('animtionAction',{
+                          animtionAction:__that.$refs.theMessage.animtionAction()
+                          });
+                          }
                           });
                           */
 
@@ -1030,10 +1120,10 @@ var _default = {
                           __that.getMomentsList();
                         case 4:
                         case "end":
-                          return _context4.stop();
+                          return _context5.stop();
                       }
                     }
-                  }, _callee4);
+                  }, _callee5);
                 }))();
                 // uni.showModal({
                 // 	title: '温馨提示：',
@@ -1061,15 +1151,15 @@ var _default = {
                 uni.showToast({
                   title: res.data.msg,
                   duration: 2500,
-                  icon: 'none'
+                  icon: "none"
                 });
               }
             },
             fail: function fail(res) {
               uni.showToast({
-                title: '网络失败，请重试！多次无效后，反馈官方客服哦！',
+                title: "网络失败，请重试！多次无效后，反馈官方客服哦！",
                 duration: 2500,
-                icon: 'none'
+                icon: "none"
               });
             }
           });
@@ -1088,17 +1178,17 @@ var _default = {
     // 点赞
     // 说明：点赞的接口放在index.js公共store中
     toThumb: function () {
-      var _toThumb = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(option) {
+      var _toThumb = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6(option) {
         var temp_is_thumb, i;
-        return _regenerator.default.wrap(function _callee5$(_context5) {
+        return _regenerator.default.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 // 这里之所以又加了一层，是为了拿到子组件传过来的option
                 // 这是保存一下当前本人的点赞状态，用于判断最后本地是增加还是减少点赞数的
                 temp_is_thumb = option.is_thumb;
-                _context5.next = 3;
-                return this.$store.dispatch('toThumb', {
+                _context6.next = 3;
+                return this.$store.dispatch("toThumb", {
                   id: option.id,
                   is_thumb: option.is_thumb
                 });
@@ -1109,20 +1199,20 @@ var _default = {
                     if (option.id == this.school_datas[i].id) {
                       if (temp_is_thumb == 2) {
                         // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
-                        this.$set(this.school_datas[i], 'thumb_num', this.school_datas[i].thumb_num + 1);
-                        this.$set(this.school_datas[i], 'is_thumb', 1);
+                        this.$set(this.school_datas[i], "thumb_num", this.school_datas[i].thumb_num + 1);
+                        this.$set(this.school_datas[i], "is_thumb", 1);
                         uni.showToast({
-                          title: '点赞成功',
+                          title: "点赞成功",
                           duration: 1000,
-                          icon: 'none'
+                          icon: "none"
                         });
                       } else {
-                        this.$set(this.school_datas[i], 'thumb_num', this.school_datas[i].thumb_num - 1);
-                        this.$set(this.school_datas[i], 'is_thumb', 2);
+                        this.$set(this.school_datas[i], "thumb_num", this.school_datas[i].thumb_num - 1);
+                        this.$set(this.school_datas[i], "is_thumb", 2);
                         uni.showToast({
-                          title: '已取消点赞',
+                          title: "已取消点赞",
                           duration: 1000,
-                          icon: 'none'
+                          icon: "none"
                         });
                       }
                     }
@@ -1130,10 +1220,10 @@ var _default = {
                 }
               case 4:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
       function toThumb(_x) {
         return _toThumb.apply(this, arguments);
@@ -1145,20 +1235,20 @@ var _default = {
       var that = this;
       var temp_is_collection = option.is_collection;
       uni.showActionSheet({
-        itemList: [option.is_collection == 2 ? '收藏该内容' : '取消收藏该内容', '举报'],
-        itemColor: '#f89f12',
+        itemList: [option.is_collection == 2 ? "收藏该内容" : "取消收藏该内容", "举报"],
+        itemColor: "#f89f12",
         success: function success(res) {
           // console.log(res.tapIndex);
           if (res.tapIndex == 0) {
             var _that = that;
-            (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
+            (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
               var i;
-              return _regenerator.default.wrap(function _callee6$(_context6) {
+              return _regenerator.default.wrap(function _callee7$(_context7) {
                 while (1) {
-                  switch (_context6.prev = _context6.next) {
+                  switch (_context7.prev = _context7.next) {
                     case 0:
-                      _context6.next = 2;
-                      return _that.$store.dispatch('toCollection', {
+                      _context7.next = 2;
+                      return _that.$store.dispatch("toCollection", {
                         id: option.id
                       });
                     case 2:
@@ -1168,18 +1258,18 @@ var _default = {
                           if (option.id == _that.school_datas[i].id) {
                             if (temp_is_collection == 2) {
                               // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
-                              _that.$set(_that.school_datas[i], 'is_collection', 1);
+                              _that.$set(_that.school_datas[i], "is_collection", 1);
                               uni.showToast({
-                                title: '收藏成功',
+                                title: "收藏成功",
                                 duration: 1000,
-                                icon: 'none'
+                                icon: "none"
                               });
                             } else {
-                              _that.$set(_that.school_datas[i], 'is_collection', 2);
+                              _that.$set(_that.school_datas[i], "is_collection", 2);
                               uni.showToast({
-                                title: '已取消收藏',
+                                title: "已取消收藏",
                                 duration: 1000,
-                                icon: 'none'
+                                icon: "none"
                               });
                             }
                           }
@@ -1187,16 +1277,16 @@ var _default = {
                       }
                     case 3:
                     case "end":
-                      return _context6.stop();
+                      return _context7.stop();
                   }
                 }
-              }, _callee6);
+              }, _callee7);
             }))();
           } else {
             uni.showToast({
-              title: '举报成功',
+              title: "举报成功",
               duration: 1000,
-              icon: 'none'
+              icon: "none"
             });
           }
         },
@@ -1207,21 +1297,21 @@ var _default = {
     },
     // 邀请/组队按钮
     zuduiButtons: function () {
-      var _zuduiButtons = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7(option) {
+      var _zuduiButtons = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8(option) {
         var temp_is_entry, i;
-        return _regenerator.default.wrap(function _callee7$(_context7) {
+        return _regenerator.default.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 if (!(option.type == 1)) {
-                  _context7.next = 5;
+                  _context8.next = 5;
                   break;
                 }
                 // 1表示是组队的按钮
                 // 这是保存一下当前本人的加入状态，用于判断最后本地是显示加入还是退出
                 temp_is_entry = option.is_entry;
-                _context7.next = 4;
-                return this.$store.dispatch('toEntry', {
+                _context8.next = 4;
+                return this.$store.dispatch("toEntry", {
                   id: option.id,
                   is_entry: option.is_entry
                 });
@@ -1232,20 +1322,20 @@ var _default = {
                     if (option.id == this.school_datas[i].id) {
                       if (temp_is_entry == 2) {
                         // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
-                        this.$set(this.school_datas[i], 'entry_num', this.school_datas[i].entry_num + 1);
-                        this.$set(this.school_datas[i], 'is_entry', 1);
+                        this.$set(this.school_datas[i], "entry_num", this.school_datas[i].entry_num + 1);
+                        this.$set(this.school_datas[i], "is_entry", 1);
                         uni.showToast({
-                          title: '加入成功',
+                          title: "加入成功",
                           duration: 1000,
-                          icon: 'none'
+                          icon: "none"
                         });
                       } else {
-                        this.$set(this.school_datas[i], 'entry_num', this.school_datas[i].entry_num - 1);
-                        this.$set(this.school_datas[i], 'is_entry', 2);
+                        this.$set(this.school_datas[i], "entry_num", this.school_datas[i].entry_num - 1);
+                        this.$set(this.school_datas[i], "is_entry", 2);
                         uni.showToast({
-                          title: '已退出组队',
+                          title: "已退出组队",
                           duration: 1000,
-                          icon: 'none'
+                          icon: "none"
                         });
                       }
                     }
@@ -1253,10 +1343,10 @@ var _default = {
                 }
               case 5:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
       function zuduiButtons(_x2) {
         return _zuduiButtons.apply(this, arguments);
