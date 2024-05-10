@@ -7,7 +7,6 @@
     "uni-search-bar": "/uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar",
     "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons",
     "address-recursion": "/uni_modules/address-recursion/components/address-recursion/address-recursion",
-    "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more",
-    "ceshi": "/pages/index/ceshi"
+    "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more"
   }
 }

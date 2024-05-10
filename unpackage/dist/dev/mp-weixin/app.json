@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/Middle/index",
     "pages/index/address",
     "pages/index/school",
     "pages/index/detail",

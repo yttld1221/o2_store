@@ -50,14 +50,11 @@
     <view class="space-line-bottom">
       <uni-load-more :status="isLoading"></uni-load-more>
     </view>
-    <ceshi></ceshi>
   </view>
 </template>
 
 <script>
-import ceshi from "./ceshi.vue";
 export default {
-  components: { ceshi },
   data() {
     return {
       // 这个页面是复用的，所以这里要知道到底是哪个页面过来的，"index"表示首页选择地区，"push"表示发布页面选择地区
@@ -207,7 +204,6 @@ export default {
     },
     // 确认选中的地址
     confirmAddress: function () {
-      console.log(111);
       if (this.tempSelectedAddress.title != "") {
         // 空的
         if (this.type == "index") {

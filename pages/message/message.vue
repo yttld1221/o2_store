@@ -134,15 +134,7 @@
 								})
 								
 							} else if (res.data.code == 410) {
-								uni.showModal({
-									title: '温馨提示：',
-									content: '当前登录身份已过期，点击“重新登录”继续吧~',
-									confirmText: '重新登录',
-									confirmColor: '#f89f12',
-									showCancel: false,
-									success: function(res) {
-										if (res.confirm) {
-											let __that = _that;
+								let __that = _that;
 											// 异步转同步，
 											(async function() {
 												// 登录
@@ -152,9 +144,6 @@
 				
 												__that.getSystemSummaryMsg();
 											})()
-										}
-									}
-								});
 							} else {
 								uni.showToast({
 									title: res.data.msg,

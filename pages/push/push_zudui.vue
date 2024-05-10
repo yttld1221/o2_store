@@ -520,7 +520,7 @@ export default {
                     duration: 500,
                     icon: "none",
                   });
-				  that.$store.commit("changeOnload", true);
+                  that.$store.commit("changeOnload", true);
                   setTimeout(function () {
                     uni.switchTab({
                       url: "/pages/index/index",
@@ -540,26 +540,13 @@ export default {
                   icon: "none",
                 });
               } else if (res.data.code == 410) {
-                uni.showModal({
-                  title: "温馨提示：",
-                  content: "当前登录身份已过期，点击“重新登录”继续吧~",
-                  confirmText: "重新登录",
-                  confirmColor: "#f89f12",
-                  showCancel: false,
-                  success: function (res) {
-                    if (res.confirm) {
-                      let __that = that;
-                      // 异步转同步，
-                      (async function () {
-                        // 登录
-                        await __that.$store.dispatch("toLogon", {});
+                (async function () {
+                  // 登录
+                  await that.$store.dispatch("toLogon", {});
 
-                        // 重新发布
-                        __that.toPush();
-                      })();
-                    }
-                  },
-                });
+                  // 重新发布
+                  that.toPush();
+                })();
               } else {
                 uni.showToast({
                   title: res.data.msg,
@@ -689,26 +676,15 @@ export default {
                 icon: "none",
               });
             } else if (res.data.code == 410) {
-              uni.showModal({
-                title: "温馨提示：",
-                content: "当前登录身份已过期，点击“重新登录”继续吧~",
-                confirmText: "重新登录",
-                confirmColor: "#f89f12",
-                showCancel: false,
-                success: function (res) {
-                  if (res.confirm) {
-                    let __that = that;
-                    // 异步转同步，
-                    (async function () {
-                      // 登录
-                      await __that.$store.dispatch("toLogon", {});
+              let __that = that;
+              // 异步转同步，
+              (async function () {
+                // 登录
+                await __that.$store.dispatch("toLogon", {});
 
-                      // 重新获取
-                      __that.openPopup_huati();
-                    })();
-                  }
-                },
-              });
+                // 重新获取
+                __that.openPopup_huati();
+              })();
             } else {
               uni.showToast({
                 title: res.data.msg,

@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/Middle/index",
     "pages/index/address",
     "pages/index/school",
     "pages/index/detail",
@@ -12,6 +13,9 @@
     "pages/message/message",
     "pages/message/regard",
     "pages/mine/mine",
+    "pages/mine/personal",
+    "pages/mine/edit_avatar",
+    "pages/mine/edit_other",
     "pages/mine/register",
     "pages/mine/mine_push"
   ],

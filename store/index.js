@@ -4,7 +4,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		isOnload:false,
+		isOnload: false,
+		sceneId: 0,
 		// 接口前缀
 		// theUrl: 'https://school.izekai.cn',
 		theUrl: 'https://api2.allinnb.com',
@@ -18,11 +19,11 @@ export default new Vuex.Store({
 			// }
 		],
 		// 个人主页数据（临时存储）
-		homePageData:{
-			
+		homePageData: {
+
 		},
 
-		
+
 		// 点赞是否成功
 		is_thumb_true: false,
 		// 关注是否成功
@@ -31,14 +32,14 @@ export default new Vuex.Store({
 		is_entry_true: false,
 		// 收藏是否成功
 		is_collection_true: false,
-		
+
 		// 发布管理页面调用发布是否成功
-		isOn_true:false,
+		isOn_true: false,
 		// 消息的红点提示
 		isRedTip: false,
-		
+
 		// 是否发送了验证码  0表示没发送，发送的话，重置为59
-		codeSecond:0,
+		codeSecond: 0,
 
 		// 登录token
 		theToken: '',
@@ -84,10 +85,10 @@ export default new Vuex.Store({
 			updated_at: "2023-03-16 14:18:26",
 			deleted_at: null
 		},
-		
+
 		// 当前打开的帖子详情页内容（全局方法中似乎return 和 resove（）冲突）
-		theDetailData:{},
-		
+		theDetailData: {},
+
 		// 为了达到二次点击发布 回到上一个tab页面
 		previousPage: 0, // 表示首页 一次类推
 		isPage_2: false, //当前是不是发布页面，配合上面的字段用的
@@ -105,14 +106,14 @@ export default new Vuex.Store({
 			status: 0,
 			code: ""
 		},
-		
+
 		// 当前发布组队活动的地址，用于register认证页面
 		store_addressRegister: {
 			title: "",
 			status: 0,
 			code: ""
 		},
-		
+
 		// 当前发布组队活动的地址，用于push发布页面
 		store_addressPush: {
 			title: "",
@@ -134,68 +135,71 @@ export default new Vuex.Store({
 
 		// 选中的地址区域,发布的时候，选择公开范围的字段
 		theSelectedranges: [],
-		
+
 		// 用于修改昵称的全局传参
-		theNickName:''
+		theNickName: ''
 	},
 	mutations: {
-		changeTheLogonUser: function(state, payload) {
+		changeTheLogonUser: function (state, payload) {
 			state.theLogonUser = payload.theLogonUser;
 			state.theToken = payload.theToken;
 		},
-		changeOnload: function(state, payload) {
+		setScene: function (state, payload) {
+			state.sceneId = payload;
+		},
+		changeOnload: function (state, payload) {
 			state.isOnload = payload;
 		},
-		changeTheLogonUser_register: function(state, payload) {
+		changeTheLogonUser_register: function (state, payload) {
 			state.theLogonUser.level = payload.level;
 			state.theToken = payload.theToken;
 			state.theLogonUser.avatar_url = payload.avatar_url;
 			state.theLogonUser.nick_name = payload.nick_name;
 		},
-		
+
 		// 认证的验证码发送后，重置为59
-		changecodeSecond: function(state, payload) {
+		changecodeSecond: function (state, payload) {
 			state.codeSecond = payload.codeSecond;
 		},
 
 		// 设置状态栏和标题栏高度
-		changePreviousPage: function(state, payload) {
+		changePreviousPage: function (state, payload) {
 			state.previousPage = payload.previousPage;
 			state.isPage_2 = payload.isPage_2;
 		},
 
 		// 消除红点提示
-		changeRedTip: function(state, payload) {
+		changeRedTip: function (state, payload) {
 			state.isRedTip = payload.isRedTip;
 		},
 
 
 		// 设置状态栏和标题栏高度
-		changeNavBarHeight: function(state, payload) {
+		changeNavBarHeight: function (state, payload) {
 			state.statusBarHeight = payload.statusBarHeight;
 			state.navBarHeight = payload.navBarHeight;
 			state.tabBarHeight = payload.tabBarHeight;
 		},
 		// 改变当前选择的地址
-		changeStore_addressNow: function(state, payload) {
+		changeStore_addressNow: function (state, payload) {
 			state.store_addressNow.title = payload.tempSelectedAddress.title;
 			state.store_addressNow.status = payload.tempSelectedAddress.status;
 			state.store_addressNow.code = payload.tempSelectedAddress.code;
 		},
 		// 改变当前选择的地址（认证页面）
-		changeStore_addressRegister: function(state, payload) {
+		changeStore_addressRegister: function (state, payload) {
 			state.store_addressRegister.title = payload.tempSelectedAddress.title;
 			state.store_addressRegister.status = payload.tempSelectedAddress.status;
 			state.store_addressRegister.code = payload.tempSelectedAddress.code;
 		},
 		// 改变当前选择的地址（发布页面）
-		changeStore_addressPush: function(state, payload) {
+		changeStore_addressPush: function (state, payload) {
 			state.store_addressPush.title = payload.tempSelectedAddress.title;
 			state.store_addressPush.status = payload.tempSelectedAddress.status;
 			state.store_addressPush.code = payload.tempSelectedAddress.code;
 		},
 		// 改变当前选择的地址
-		changeStore_schoolNow: function(state, payload) {
+		changeStore_schoolNow: function (state, payload) {
 			state.store_schoolNow.id = payload.id;
 			// 注意 tempSelectedSchool 中的name改成了title
 			state.store_schoolNow.title = payload.title;
@@ -205,19 +209,19 @@ export default new Vuex.Store({
 			state.store_schoolNow.update_id = payload.update_id;
 		},
 		// 改变公开范围选择
-		changeTheSelectedranges: function(state, payload) {
+		changeTheSelectedranges: function (state, payload) {
 			state.theSelectedranges = payload.theSelectedranges;
 		},
 		//重置
-		changeTempImageUrl: function(state, payload) {
+		changeTempImageUrl: function (state, payload) {
 			state.tempImageUrl = [];
 		},
 		//
-		changeNickName:function(state, payload){
+		changeNickName: function (state, payload) {
 			state.theNickName = payload.nick_name
 		}
 	},
-	
+
 	// ----------------------------------------------注意：----------------------------------------------
 	// ----------------------------------------------注意：----------------------------------------------
 	// content 是专门指当前页面的上下文的，本页面的数据调用，使用content代替this.$store
@@ -225,13 +229,13 @@ export default new Vuex.Store({
 	// ----------------------------------------------注意：----------------------------------------------
 	actions: {
 		// 登录(含两层，第一层是登录微信获取code,第二层是调用服务端的正式登录接口)
-		toLogon: function(content, payload) {
+		toLogon: function (content, payload) {
 			let _this = this;
-			return new Promise(function(resolve, reject) {
+			return new Promise(function (resolve, reject) {
 				// 这是登录方法，uniapp整合过了的（微信小程序也适用）
 				uni.login({
 					provider: 'weixin', //使用微信登录
-					success: function(loginRes) { // loginRes拿到code
+					success: function (loginRes) { // loginRes拿到code
 						// console.log('loginRes', loginRes);
 						let that = _this;
 						let code = loginRes.code;
@@ -260,7 +264,7 @@ export default new Vuex.Store({
 									resolve();
 								} else if (res.data.code == 500) {
 									uni.showToast({
-										title: '服务器连接失败，请反馈官方客服哦~', 
+										title: '服务器连接失败，请反馈官方客服哦~',
 										duration: 2500,
 										icon: 'none'
 									})
@@ -291,11 +295,11 @@ export default new Vuex.Store({
 				});
 			})
 		},
-		
+
 		// 点赞
-		toThumb: function(content, payload) {
+		toThumb: function (content, payload) {
 			let _this = this;
-			return new Promise(function(resolve, reject) {
+			return new Promise(function (resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/moments/thumb',
@@ -312,7 +316,7 @@ export default new Vuex.Store({
 						if (res.data.code == 0) {
 							// 给上面的is_thumb_true赋值，表示操作成功了
 							content.state.is_thumb_true = true;
-							
+
 							resolve();
 						} else if (res.data.code == 500) {
 							uni.showToast({
@@ -322,26 +326,15 @@ export default new Vuex.Store({
 							})
 							content.state.is_thumb_true = false;
 						} else if (res.data.code == 410) {
-							uni.showModal({
-								title: '温馨提示：',
-								content: '当前登录身份已过期，点击“重新登录”继续吧~',
-								confirmText: '重新登录',
-								confirmColor: '#f89f12',
-								showCancel: false,
-								success: function(res) {
-									if (res.confirm) {
-										let __that = that;
-										// 异步转同步，
-										(async function() {
-											// 登录
-											await __that.$store.dispatch('toLogon', {});
+							let __that = that;
+							// 异步转同步，
+							(async function () {
+								// 登录
+								await __that.$store.dispatch('toLogon', {});
 
-											// 重新点赞
-											__that.toThumb();
-										})()
-									}
-								}
-							});
+								// 重新点赞
+								__that.toThumb();
+							})()
 						} else {
 							uni.showToast({
 								title: res.data.msg,
@@ -363,9 +356,9 @@ export default new Vuex.Store({
 			})
 		},
 		// 收藏帖子
-		toCollection: function(content, payload) {
+		toCollection: function (content, payload) {
 			let _this = this;
-			return new Promise(function(resolve, reject) {
+			return new Promise(function (resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/moments/collection',
@@ -382,7 +375,7 @@ export default new Vuex.Store({
 						if (res.data.code == 0) {
 							// 给上面的is_thumb_true赋值，表示操作成功了
 							content.state.is_collection_true = true;
-							
+
 							resolve();
 						} else if (res.data.code == 500) {
 							uni.showToast({
@@ -392,26 +385,15 @@ export default new Vuex.Store({
 							})
 							content.state.is_collection_true = false;
 						} else if (res.data.code == 410) {
-							uni.showModal({
-								title: '温馨提示：',
-								content: '当前登录身份已过期，点击“重新登录”继续吧~',
-								confirmText: '重新登录',
-								confirmColor: '#f89f12',
-								showCancel: false,
-								success: function(res) {
-									if (res.confirm) {
-										let __that = that;
-										// 异步转同步，
-										(async function() {
-											// 登录
-											await __that.$store.dispatch('toLogon', {});
-		
-											// 重新收藏
-											__that.toCollection();
-										})()
-									}
-								}
-							});
+							let __that = that;
+							// 异步转同步，
+							(async function () {
+								// 登录
+								await __that.$store.dispatch('toLogon', {});
+
+								// 重新收藏
+								__that.toCollection();
+							})()
 						} else {
 							uni.showToast({
 								title: res.data.msg,
@@ -433,9 +415,9 @@ export default new Vuex.Store({
 			})
 		},
 		// 关注（ta）
-		toRegard: function(content, payload) {
+		toRegard: function (content, payload) {
 			let _this = this;
-			return new Promise(function(resolve, reject) {
+			return new Promise(function (resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/wx/regard',
@@ -452,7 +434,7 @@ export default new Vuex.Store({
 						if (res.data.code == 0) {
 							// 给上面的is_thumb_true赋值，表示操作成功了
 							content.state.is_regard_true = true;
-							
+
 							resolve();
 						} else if (res.data.code == 500) {
 							uni.showToast({
@@ -462,26 +444,15 @@ export default new Vuex.Store({
 							})
 							content.state.is_thumb_true = false;
 						} else if (res.data.code == 410) {
-							uni.showModal({
-								title: '温馨提示：',
-								content: '当前登录身份已过期，点击“重新登录”继续吧~',
-								confirmText: '重新登录',
-								confirmColor: '#f89f12',
-								showCancel: false,
-								success: function(res) {
-									if (res.confirm) {
-										let __that = that;
-										// 异步转同步，
-										(async function() {
-											// 登录
-											await __that.$store.dispatch('toLogon', {});
-		
-											// 重新点赞
-											__that.toRegard();
-										})()
-									}
-								}
-							});
+							let __that = that;
+							// 异步转同步，
+							(async function () {
+								// 登录
+								await __that.$store.dispatch('toLogon', {});
+
+								// 重新点赞
+								__that.toRegard();
+							})()
 						} else {
 							uni.showToast({
 								title: res.data.msg,
@@ -503,9 +474,9 @@ export default new Vuex.Store({
 			})
 		},
 		// 加入组队
-		toEntry: function(content, payload) {
+		toEntry: function (content, payload) {
 			let _this = this;
-			return new Promise(function(resolve, reject) {
+			return new Promise(function (resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/moments/momentsEntry',
@@ -522,7 +493,7 @@ export default new Vuex.Store({
 						if (res.data.code == 0) {
 							// 给上面的is_entry_true赋值，表示操作成功了
 							content.state.is_entry_true = true;
-							
+
 							resolve();
 						} else if (res.data.code == 500) {
 							uni.showToast({
@@ -532,26 +503,15 @@ export default new Vuex.Store({
 							})
 							content.state.is_entry_true = false;
 						} else if (res.data.code == 410) {
-							uni.showModal({
-								title: '温馨提示：',
-								content: '当前登录身份已过期，点击“重新登录”继续吧~',
-								confirmText: '重新登录',
-								confirmColor: '#f89f12',
-								showCancel: false,
-								success: function(res) {
-									if (res.confirm) {
-										let __that = that;
-										// 异步转同步，
-										(async function() {
-											// 登录
-											await __that.$store.dispatch('toLogon', {});
+							let __that = that;
+							// 异步转同步，
+							(async function () {
+								// 登录
+								await __that.$store.dispatch('toLogon', {});
 
-											// 重新加入
-											__that.toEntry();
-										})()
-									}
-								}
-							});
+								// 重新加入
+								__that.toEntry();
+							})()
 						} else {
 							uni.showToast({
 								title: res.data.msg,
@@ -560,7 +520,7 @@ export default new Vuex.Store({
 							})
 							content.state.is_entry_true = false;
 						}
-		
+
 						resolve();
 					},
 					fail: (res) => {
@@ -570,16 +530,16 @@ export default new Vuex.Store({
 							icon: 'none'
 						})
 						content.state.is_entry_true = false;
-		
+
 						resolve();
 					}
 				})
 			})
 		},
 		// 上线/下线 帖子
-		upDownMyMoments: function(content, payload) {
+		upDownMyMoments: function (content, payload) {
 			let that = this;
-			return new Promise(function(resolve, reject) {
+			return new Promise(function (resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/moments/upDownMyMoments',
@@ -599,14 +559,14 @@ export default new Vuex.Store({
 								duration: 500,
 								icon: 'none'
 							})
-							if(payload.type == '发布管理'){
+							if (payload.type == '发布管理') {
 								// 注意发布管理点击上下线成功后，返回一个全部变量用于通知调用的页面
 								content.state.isOn_true = true;
-							}else{
+							} else {
 								content.commit("changeOnload", true);
 								setTimeout(function () {
 									uni.switchTab({
-									  url: "/pages/index/index",
+										url: "/pages/index/index",
 									});
 								}, 600);
 							}
@@ -618,26 +578,15 @@ export default new Vuex.Store({
 								icon: 'none'
 							})
 						} else if (res.data.code == 410) {
-							uni.showModal({
-								title: '温馨提示：',
-								content: '当前登录身份已过期，点击“重新登录”继续吧~',
-								confirmText: '重新登录',
-								confirmColor: '#f89f12',
-								showCancel: false,
-								success: function(res) {
-									if (res.confirm) {
-										let __that = that;
-										// 异步转同步，
-										(async function() {
-											// 登录
-											await __that.$store.dispatch('toLogon', {});
+							let __that = that;
+							// 异步转同步，
+							(async function () {
+								// 登录
+								await __that.$store.dispatch('toLogon', {});
 
-											// 重新上下线
-											__that.upDownMyMoments();
-										})()
-									}
-								}
-							});
+								// 重新上下线
+								__that.upDownMyMoments();
+							})()
 						} else {
 							uni.showToast({
 								title: res.data.msg,
@@ -660,9 +609,9 @@ export default new Vuex.Store({
 			})
 		},
 		// 获取帖子详情：用于列表查看（他人，通用）
-		getMomentInfo: function(content, payload) {
+		getMomentInfo: function (content, payload) {
 			let that = this;
-			return new Promise(function(resolve, reject) {
+			return new Promise(function (resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/moments/getMomentInfo',
@@ -686,27 +635,16 @@ export default new Vuex.Store({
 								icon: 'none'
 							})
 						} else if (res.data.code == 410) {
-							uni.showModal({
-								title: '温馨提示：',
-								content: '当前登录身份已过期，点击“重新登录”继续吧~',
-								confirmText: '重新登录',
-								confirmColor: '#f89f12',
-								showCancel: false,
-								success: function(res) {
-									if (res.confirm) {
-										let __that = that;
+							let __that = that;
 
-										// 异步转同步
-										(async function() {
-											// 登录
-											await __that.$store.dispatch('toLogon', {});
-											
-											// 重新请求接口
-											__that.getMomentInfo();
-										})()
-									}
-								}
-							});
+							// 异步转同步
+							(async function () {
+								// 登录
+								await __that.$store.dispatch('toLogon', {});
+
+								// 重新请求接口
+								__that.getMomentInfo();
+							})()
 						} else {
 							uni.showToast({
 								title: res.data.msg,
@@ -722,16 +660,16 @@ export default new Vuex.Store({
 							icon: 'none'
 						})
 						content.state.is_thumb_true = false;
-		
+
 						resolve();
 					}
 				})
 			})
 		},
 		// 获取个人主页
-		getHomePageTop: function(content, payload) {
+		getHomePageTop: function (content, payload) {
 			let that = this;
-			return new Promise(function(resolve, reject) {
+			return new Promise(function (resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/wx/getHomePageTop',
@@ -754,42 +692,31 @@ export default new Vuex.Store({
 								icon: 'none'
 							})
 						} else if (res.data.code == 410) {
-							uni.showModal({
-								title: '温馨提示：',
-								content: '当前登录身份已过期，点击“重新登录”继续吧~', 
-								confirmText: '重新登录',
-								confirmColor: '#f89f12',
-								showCancel: false,
-								success: function(res) {
-									if (res.confirm) {
-										let __that = that;
-		
-										// 异步转同步
-										(async function() {
-											// 登录
-											await content.dispatch('toLogon', {});
-											
-											// 重新请求接口  没用的，因为用户ID丢失了，这个时候直接跳回主页吧
-											// __that.getHomePageTop();
-  
-											uni.showModal({
-												title: '哦买嘎!',
-												content: '找不到这个"孩纸"了，返回首页找找吧~', 
-												confirmText: '前往首页',
-												confirmColor: '#f89f12',
-												showCancel: false, 
-												success: function(res) { 
-													if (res.confirm) {
-														uni.switchTab({
-															url: '/pages/index/index'
-														});
-													}
-												}
+							let __that = that;
+
+							// 异步转同步
+							(async function () {
+								// 登录
+								await content.dispatch('toLogon', {});
+
+								// 重新请求接口  没用的，因为用户ID丢失了，这个时候直接跳回主页吧
+								// __that.getHomePageTop();
+
+								uni.showModal({
+									title: '哦买嘎!',
+									content: '找不到这个"孩纸"了，返回首页找找吧~',
+									confirmText: '前往首页',
+									confirmColor: '#f89f12',
+									showCancel: false,
+									success: function (res) {
+										if (res.confirm) {
+											uni.switchTab({
+												url: '/pages/index/index'
 											});
-										})()
+										}
 									}
-								}
-							});
+								});
+							})()
 						} else {
 							uni.showToast({
 								title: res.data.msg,
@@ -805,16 +732,16 @@ export default new Vuex.Store({
 							icon: 'none'
 						})
 						content.state.is_thumb_true = false;
-		
+
 						resolve();
 					}
 				})
 			})
 		},
 		// 上传图片
-		upLoadImage: function(content, payload) {
+		upLoadImage: function (content, payload) {
 			let that = this;
-			return new Promise(function(resolve, reject) {
+			return new Promise(function (resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/sundry/getOssUploadSign',
@@ -839,18 +766,18 @@ export default new Vuex.Store({
 						// }
 						// console.log('content.state.theLogonUser.id',content.state.theLogonUser.id);
 						if (res.data.code == 0) {
-							
+
 							// 每次调用的时候清空一下，反正调用成功后，会回调回去加一次的
 							content.state.tempImageUrl = [];
 							// console.log('payload',payload);
-							for(let i= 0;i<payload.tempFilePaths.length;i++){
+							for (let i = 0; i < payload.tempFilePaths.length; i++) {
 								// console.log('i',i);
 								uni.uploadFile({
 									url: res.data.data.host,
 									filePath: payload.tempFilePaths[i],
 									name: 'file',
 									formData: {
-										key: res.data.data.dir + payload.name[i]+ '_' + content.state.theLogonUser.id + '.' + payload.tempFiles[i].extname, // 这里传过来的是时间，格式示例：2024-03-22_23:15:04
+										key: res.data.data.dir + payload.name[i] + '_' + content.state.theLogonUser.id + '.' + payload.tempFiles[i].extname, // 这里传过来的是时间，格式示例：2024-03-22_23:15:04
 										policy: res.data.data.policy,
 										OssAccessKeyId: res.data.data.accessid,
 										success_action_status: '200',
@@ -860,13 +787,13 @@ export default new Vuex.Store({
 										// console.log('uploadFileRes', uploadFileRes);
 										if (uploadFileRes.statusCode == 200) {
 											content.state.tempImageUrl.push({
-												url : res.data.data.host + '/' + res.data.data.dir + payload.name[i] + '_' + content.state.theLogonUser.id + '.' + payload.tempFiles[i].extname,
-												uuid : payload.tempFiles[i].uuid
+												url: res.data.data.host + '/' + res.data.data.dir + payload.name[i] + '_' + content.state.theLogonUser.id + '.' + payload.tempFiles[i].extname,
+												uuid: payload.tempFiles[i].uuid
 											})
-											
+
 											// console.log('content.state.tempImageUrl',content.state.tempImageUrl);
-								
-											if(i == payload.tempFilePaths.length - 1){
+
+											if (i == payload.tempFilePaths.length - 1) {
 												resolve();
 											}
 										} else {
@@ -901,35 +828,24 @@ export default new Vuex.Store({
 								icon: 'none'
 							})
 						} else if (res.data.code == 410) {
-							uni.showModal({
-								title: '温馨提示：',
-								content: '当前登录身份已过期，点击“重新登录”继续吧~',
-								confirmText: '重新登录',
-								confirmColor: '#f89f12',
-								showCancel: false,
-								success: function(res) {
-									if (res.confirm) {
-										let __that = that;
-										// 异步转同步，
-										(async function() {
-											// 登录
-											await content.dispatch('toLogon', {});
-											
-											
-											uni.redirectTo({
-												url: '/pages/push/push_zudui?type='+payload.type
-											})
-											// 重新调用没用，因为需要选择图片的操作，不然无法传参
-											// __that.upLoadImage();
-											uni.showToast({
-												title: '很抱歉(^■^*)，页面过期，已为您重新刷新~',  
-												duration: 2500,
-												icon: 'none'
-											})
-										})()
-									}
-								}
-							});
+							let __that = that;
+							// 异步转同步，
+							(async function () {
+								// 登录
+								await content.dispatch('toLogon', {});
+
+
+								uni.redirectTo({
+									url: '/pages/push/push_zudui?type=' + payload.type
+								})
+								// 重新调用没用，因为需要选择图片的操作，不然无法传参
+								// __that.upLoadImage();
+								uni.showToast({
+									title: '很抱歉(^■^*)，页面过期，已为您重新刷新~',
+									duration: 2500,
+									icon: 'none'
+								})
+							})()
 						} else {
 							uni.showToast({
 								title: res.data.msg,
@@ -952,17 +868,17 @@ export default new Vuex.Store({
 		},
 
 		// 消息动画
-		animtionAction:function(content, payload){
+		animtionAction: function (content, payload) {
 			let _payload = payload;
-			let animtionActionInter = setInterval(function(){
+			let animtionActionInter = setInterval(function () {
 				_payload.animtionAction
-			},1000)
+			}, 1000)
 			content.state.isRedTip = true;
 
-			
-			setTimeout(function(){
+
+			setTimeout(function () {
 				clearInterval(animtionActionInter)
-			},5000)
+			}, 5000)
 		},
 	}
 })

@@ -488,10 +488,17 @@ export default {
     this.$store.commit("changeStore_addressNow", {
       tempSelectedAddress: storage_addressNow,
     });
+    (async () => {
+      this.$store.commit("changeOnload", false);
+      this.theGetMomentsListPage = 1;
+      this.school_datas = [];
+
+      await this.getMomentsList();
+      this.tempAddressTitle = this.$store.state.store_addressNow.title;
+    })();
   },
   onShow() {
     this.theLevel = this.$store.state.theLogonUser.level;
-
     // 判断一下，防止重复登录
     // if(this.$store.state.theLogonUser.id == 0){
     // 	this.$store.dispatch('toLogon', {});
@@ -526,9 +533,9 @@ export default {
         },
       });
     }
-
     // 从地址选择页面返回过来的时候，需要判断一下有没有改变过地址，如果和之前保存的不一样了，证明选择了其他地址，那么需要重新获取接口
     if (
+      that.tempAddressTitle &&
       that.tempAddressTitle != that.theAddress.title &&
       that.theAddress.title != undefined
     ) {
@@ -558,9 +565,8 @@ export default {
         that.school_datas = [];
 
         // 接口调用
-        await that.getMomentsList();
+        await that.getMomentsList("area");
         // 变更页面信息（显示的地址）
-        that.tempAddressTitle = that.$store.state.store_addressNow.title;
       })();
     } else if (that.$store.state.isOnload) {
       (async function () {
@@ -569,10 +575,8 @@ export default {
         that.school_datas = [];
 
         await that.getMomentsList();
-        that.tempSchoolTitle = that.$store.state.store_schoolNow.title;
       })();
-    }
-    if (that.tempSchoolTitle != that.theSchool.title) {
+    } else if (that.tempSchoolTitle != that.theSchool.title) {
       // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
       // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
       // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
@@ -580,8 +584,7 @@ export default {
         that.theGetMomentsListPage = 1;
         that.school_datas = [];
 
-        await that.getMomentsList();
-        that.tempSchoolTitle = that.$store.state.store_schoolNow.title;
+        await that.getMomentsList("school");
       })();
     }
   },
@@ -754,7 +757,7 @@ export default {
     //------------------------------------------------  接口方法  -----------------------------------------------------
     //------------------------------------------------  接口方法  -----------------------------------------------------
     // 分页获取接口数据
-    getMomentsList: function () {
+    getMomentsList: function (getType = "") {
       let _this = this;
       return new Promise(function (resolve, reject) {
         let that = _this;
@@ -790,7 +793,12 @@ export default {
               if (_that.theGetMomentsListPage == 1) {
                 _that.school_datas = [];
               }
-
+              if (getType == "area") {
+                _that.tempAddressTitle = _that.theAddress.title;
+              } else if (getType == "school") {
+                _that.tempSchoolTitle =
+                  _that.$store.state.store_schoolNow.title;
+              }
               if (res.data.code == 0) {
                 if (res.data.data.length != 0) {
                   for (let i = 0; i < res.data.data.length; i++) {
@@ -801,6 +809,7 @@ export default {
                   // console.log('_that.addressData',_that.addressData);
                   // 页面+1
                   _that.theGetMomentsListPage += 1;
+                  _that.tempAddressTitle = _that.theAddress.title;
                   resolve();
                 } else {
                   _that.isLoading = "no-more"; // 取消加载动画
@@ -893,7 +902,7 @@ export default {
                   // 重置
                   __that.theGetMomentsListPage = 1;
                   // 获取省市数据
-                  __that.getMomentsList();
+                  __that.getMomentsList(getType);
                 })();
                 // uni.showModal({
                 // 	title: '温馨提示：',

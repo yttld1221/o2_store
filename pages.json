@@ -9,6 +9,14 @@
 			}
 		},
 		{
+			"path": "pages/Middle/index",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 50
+			}
+		},
+		{
 			"path": "pages/index/address",
 			"style": {
 				"navigationBarBackgroundColor": "#ffffff",

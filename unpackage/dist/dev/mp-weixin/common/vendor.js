@@ -200,7 +200,25 @@ module.exports = _isNativeReflectConstruct, module.exports.__esModule = true, mo
 
 /***/ }),
 
-/***/ 179:
+/***/ 18:
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/toConsumableArray.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayWithoutHoles = __webpack_require__(/*! ./arrayWithoutHoles.js */ 19);
+var iterableToArray = __webpack_require__(/*! ./iterableToArray.js */ 20);
+var unsupportedIterableToArray = __webpack_require__(/*! ./unsupportedIterableToArray.js */ 8);
+var nonIterableSpread = __webpack_require__(/*! ./nonIterableSpread.js */ 21);
+function _toConsumableArray(arr) {
+  return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
+}
+module.exports = _toConsumableArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ 185:
 /*!******************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-icons/components/uni-icons/uniicons_file_vue.js ***!
   \******************************************************************************************/
@@ -704,24 +722,6 @@ exports.fontData = fontData;
 
 /***/ }),
 
-/***/ 18:
-/*!******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/toConsumableArray.js ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayWithoutHoles = __webpack_require__(/*! ./arrayWithoutHoles.js */ 19);
-var iterableToArray = __webpack_require__(/*! ./iterableToArray.js */ 20);
-var unsupportedIterableToArray = __webpack_require__(/*! ./unsupportedIterableToArray.js */ 8);
-var nonIterableSpread = __webpack_require__(/*! ./nonIterableSpread.js */ 21);
-function _toConsumableArray(arr) {
-  return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
-}
-module.exports = _toConsumableArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
 /***/ 19:
 /*!******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js ***!
@@ -734,66 +734,6 @@ function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) return arrayLikeToArray(arr);
 }
 module.exports = _arrayWithoutHoles, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ 194:
-/*!*******************************************************************************************!*\
-  !*** D:/ouying/o2_store/uni_modules/uni-load-more/components/uni-load-more/i18n/index.js ***!
-  \*******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 195));
-var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 196));
-var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 197));
-var _default = {
-  en: _en.default,
-  'zh-Hans': _zhHans.default,
-  'zh-Hant': _zhHant.default
-};
-exports.default = _default;
-
-/***/ }),
-
-/***/ 195:
-/*!******************************************************************************************!*\
-  !*** D:/ouying/o2_store/uni_modules/uni-load-more/components/uni-load-more/i18n/en.json ***!
-  \******************************************************************************************/
-/*! exports provided: uni-load-more.contentdown, uni-load-more.contentrefresh, uni-load-more.contentnomore, default */
-/***/ (function(module) {
-
-module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"Pull up to show more\",\"uni-load-more.contentrefresh\":\"loading...\",\"uni-load-more.contentnomore\":\"No more data\"}");
-
-/***/ }),
-
-/***/ 196:
-/*!***********************************************************************************************!*\
-  !*** D:/ouying/o2_store/uni_modules/uni-load-more/components/uni-load-more/i18n/zh-Hans.json ***!
-  \***********************************************************************************************/
-/*! exports provided: uni-load-more.contentdown, uni-load-more.contentrefresh, uni-load-more.contentnomore, default */
-/***/ (function(module) {
-
-module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉显示更多\",\"uni-load-more.contentrefresh\":\"正在加载...\",\"uni-load-more.contentnomore\":\"没有更多数据了\"}");
-
-/***/ }),
-
-/***/ 197:
-/*!***********************************************************************************************!*\
-  !*** D:/ouying/o2_store/uni_modules/uni-load-more/components/uni-load-more/i18n/zh-Hant.json ***!
-  \***********************************************************************************************/
-/*! exports provided: uni-load-more.contentdown, uni-load-more.contentrefresh, uni-load-more.contentnomore, default */
-/***/ (function(module) {
-
-module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉顯示更多\",\"uni-load-more.contentrefresh\":\"正在加載...\",\"uni-load-more.contentnomore\":\"沒有更多數據了\"}");
 
 /***/ }),
 
@@ -2311,7 +2251,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -3219,6 +3159,66 @@ module.exports = _iterableToArray, module.exports.__esModule = true, module.expo
 
 /***/ }),
 
+/***/ 200:
+/*!*******************************************************************************************!*\
+  !*** D:/ouying/o2_store/uni_modules/uni-load-more/components/uni-load-more/i18n/index.js ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 201));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 202));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 203));
+var _default = {
+  en: _en.default,
+  'zh-Hans': _zhHans.default,
+  'zh-Hant': _zhHant.default
+};
+exports.default = _default;
+
+/***/ }),
+
+/***/ 201:
+/*!******************************************************************************************!*\
+  !*** D:/ouying/o2_store/uni_modules/uni-load-more/components/uni-load-more/i18n/en.json ***!
+  \******************************************************************************************/
+/*! exports provided: uni-load-more.contentdown, uni-load-more.contentrefresh, uni-load-more.contentnomore, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"Pull up to show more\",\"uni-load-more.contentrefresh\":\"loading...\",\"uni-load-more.contentnomore\":\"No more data\"}");
+
+/***/ }),
+
+/***/ 202:
+/*!***********************************************************************************************!*\
+  !*** D:/ouying/o2_store/uni_modules/uni-load-more/components/uni-load-more/i18n/zh-Hans.json ***!
+  \***********************************************************************************************/
+/*! exports provided: uni-load-more.contentdown, uni-load-more.contentrefresh, uni-load-more.contentnomore, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉显示更多\",\"uni-load-more.contentrefresh\":\"正在加载...\",\"uni-load-more.contentnomore\":\"没有更多数据了\"}");
+
+/***/ }),
+
+/***/ 203:
+/*!***********************************************************************************************!*\
+  !*** D:/ouying/o2_store/uni_modules/uni-load-more/components/uni-load-more/i18n/zh-Hant.json ***!
+  \***********************************************************************************************/
+/*! exports provided: uni-load-more.contentdown, uni-load-more.contentrefresh, uni-load-more.contentnomore, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉顯示更多\",\"uni-load-more.contentrefresh\":\"正在加載...\",\"uni-load-more.contentnomore\":\"沒有更多數據了\"}");
+
+/***/ }),
+
 /***/ 21:
 /*!******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/nonIterableSpread.js ***!
@@ -3233,7 +3233,7 @@ module.exports = _nonIterableSpread, module.exports.__esModule = true, module.ex
 
 /***/ }),
 
-/***/ 212:
+/***/ 218:
 /*!*********************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-search-bar/components/uni-search-bar/i18n/index.js ***!
   \*********************************************************************************************/
@@ -3248,9 +3248,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 213));
-var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 214));
-var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 215));
+var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 219));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 220));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 221));
 var _default = {
   en: _en.default,
   'zh-Hans': _zhHans.default,
@@ -3260,7 +3260,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 213:
+/***/ 219:
 /*!********************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-search-bar/components/uni-search-bar/i18n/en.json ***!
   \********************************************************************************************/
@@ -3268,28 +3268,6 @@ exports.default = _default;
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"cancel\",\"uni-search-bar.placeholder\":\"Search enter content\"}");
-
-/***/ }),
-
-/***/ 214:
-/*!*************************************************************************************************!*\
-  !*** D:/ouying/o2_store/uni_modules/uni-search-bar/components/uni-search-bar/i18n/zh-Hans.json ***!
-  \*************************************************************************************************/
-/*! exports provided: uni-search-bar.cancel, uni-search-bar.placeholder, default */
-/***/ (function(module) {
-
-module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"取消\",\"uni-search-bar.placeholder\":\"请输入搜索内容\"}");
-
-/***/ }),
-
-/***/ 215:
-/*!*************************************************************************************************!*\
-  !*** D:/ouying/o2_store/uni_modules/uni-search-bar/components/uni-search-bar/i18n/zh-Hant.json ***!
-  \*************************************************************************************************/
-/*! exports provided: uni-search-bar.cancel, uni-search-bar.placeholder, default */
-/***/ (function(module) {
-
-module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"取消\",\"uni-search-bar.placeholder\":\"請輸入搜索內容\"}");
 
 /***/ }),
 
@@ -3827,6 +3805,28 @@ function resolveLocaleChain(locale) {
   return chain;
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./../../../webpack/buildin/global.js */ 3)))
+
+/***/ }),
+
+/***/ 220:
+/*!*************************************************************************************************!*\
+  !*** D:/ouying/o2_store/uni_modules/uni-search-bar/components/uni-search-bar/i18n/zh-Hans.json ***!
+  \*************************************************************************************************/
+/*! exports provided: uni-search-bar.cancel, uni-search-bar.placeholder, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"取消\",\"uni-search-bar.placeholder\":\"请输入搜索内容\"}");
+
+/***/ }),
+
+/***/ 221:
+/*!*************************************************************************************************!*\
+  !*** D:/ouying/o2_store/uni_modules/uni-search-bar/components/uni-search-bar/i18n/zh-Hant.json ***!
+  \*************************************************************************************************/
+/*! exports provided: uni-search-bar.cancel, uni-search-bar.placeholder, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"取消\",\"uni-search-bar.placeholder\":\"請輸入搜索內容\"}");
 
 /***/ }),
 
@@ -9414,7 +9414,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -9435,14 +9435,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -9538,7 +9538,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -9957,7 +9957,7 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 251:
+/***/ 250:
 /*!************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js ***!
   \************************************************************************************/
@@ -9973,19 +9973,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 34));
-var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 252));
+var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 251));
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 253));
-var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 254));
-var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 255));
-var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 256));
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 252));
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 253));
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 254));
+var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 255));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
-var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 258));
+var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 257));
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e34) { throw _e34; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e35) { didErr = true; err = _e35; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
@@ -10438,7 +10438,7 @@ var S = "development" === "development",
   x = true;
 var O = "";
 try {
-  O = (__webpack_require__(/*! uni-stat-config */ 259).default || __webpack_require__(/*! uni-stat-config */ 259)).appid;
+  O = (__webpack_require__(/*! uni-stat-config */ 258).default || __webpack_require__(/*! uni-stat-config */ 258)).appid;
 } catch (e) {}
 var E = {};
 function L(e) {
@@ -17782,7 +17782,7 @@ exports.default = Bs;
 
 /***/ }),
 
-/***/ 252:
+/***/ 251:
 /*!**********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
   \**********************************************************************/
@@ -17799,7 +17799,7 @@ module.exports = _assertThisInitialized, module.exports.__esModule = true, modul
 
 /***/ }),
 
-/***/ 253:
+/***/ 252:
 /*!*********************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
   \*********************************************************/
@@ -17827,7 +17827,7 @@ module.exports = _inherits, module.exports.__esModule = true, module.exports["de
 
 /***/ }),
 
-/***/ 254:
+/***/ 253:
 /*!**************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
   \**************************************************************************/
@@ -17835,7 +17835,7 @@ module.exports = _inherits, module.exports.__esModule = true, module.exports["de
 /***/ (function(module, exports, __webpack_require__) {
 
 var _typeof = __webpack_require__(/*! ./typeof.js */ 13)["default"];
-var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 252);
+var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 251);
 function _possibleConstructorReturn(self, call) {
   if (call && (_typeof(call) === "object" || typeof call === "function")) {
     return call;
@@ -17848,7 +17848,7 @@ module.exports = _possibleConstructorReturn, module.exports.__esModule = true, m
 
 /***/ }),
 
-/***/ 255:
+/***/ 254:
 /*!***************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
   \***************************************************************/
@@ -17865,16 +17865,16 @@ module.exports = _getPrototypeOf, module.exports.__esModule = true, module.expor
 
 /***/ }),
 
-/***/ 256:
+/***/ 255:
 /*!****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/wrapNativeSuper.js ***!
   \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 255);
+var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 254);
 var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ 16);
-var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 257);
+var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 256);
 var construct = __webpack_require__(/*! ./construct.js */ 15);
 function _wrapNativeSuper(Class) {
   var _cache = typeof Map === "function" ? new Map() : undefined;
@@ -17906,7 +17906,7 @@ module.exports = _wrapNativeSuper, module.exports.__esModule = true, module.expo
 
 /***/ }),
 
-/***/ 257:
+/***/ 256:
 /*!*****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/isNativeFunction.js ***!
   \*****************************************************************/
@@ -17924,7 +17924,7 @@ module.exports = _isNativeFunction, module.exports.__esModule = true, module.exp
 
 /***/ }),
 
-/***/ 258:
+/***/ 257:
 /*!******************************************************************!*\
   !*** D:/ouying/o2_store/pages.json?{"type":"origin-pages-json"} ***!
   \******************************************************************/
@@ -17941,6 +17941,13 @@ exports.default = void 0;
 var _default = {
   "pages": [{
     "path": "pages/index/index",
+    "style": {
+      "navigationStyle": "custom",
+      "enablePullDownRefresh": true,
+      "onReachBottomDistance": 50
+    }
+  }, {
+    "path": "pages/Middle/index",
     "style": {
       "navigationStyle": "custom",
       "enablePullDownRefresh": true,
@@ -18097,7 +18104,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 259:
+/***/ 258:
 /*!*****************************************************!*\
   !*** D:/ouying/o2_store/pages.json?{"type":"stat"} ***!
   \*****************************************************/
@@ -18118,18 +18125,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 26:
-/*!*************************************!*\
-  !*** D:/ouying/o2_store/pages.json ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
-/***/ 260:
+/***/ 259:
 /*!***********************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-file-picker/components/uni-file-picker/choose-and-upload-file.js ***!
   \***********************************************************************************************************/
@@ -18349,11 +18345,22 @@ function chooseAndUploadFile() {
   }
   return uploadFiles(chooseAll(opts), opts);
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 251)["default"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 250)["default"]))
 
 /***/ }),
 
-/***/ 261:
+/***/ 26:
+/*!*************************************!*\
+  !*** D:/ouying/o2_store/pages.json ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ 260:
 /*!******************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-file-picker/components/uni-file-picker/utils.js ***!
   \******************************************************************************************/
@@ -18518,7 +18525,7 @@ exports.get_file_data = get_file_data;
 
 /***/ }),
 
-/***/ 269:
+/***/ 268:
 /*!*******************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/index.js ***!
   \*******************************************************************************************************/
@@ -18533,9 +18540,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 270));
-var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 271));
-var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 272));
+var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 269));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 270));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 271));
 var _default = {
   en: _en.default,
   'zh-Hans': _zhHans.default,
@@ -18545,7 +18552,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 270:
+/***/ 269:
 /*!******************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/en.json ***!
   \******************************************************************************************************/
@@ -18556,7 +18563,7 @@ module.exports = JSON.parse("{\"uni-datetime-picker.selectDate\":\"select date\"
 
 /***/ }),
 
-/***/ 271:
+/***/ 270:
 /*!***********************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/zh-Hans.json ***!
   \***********************************************************************************************************/
@@ -18567,7 +18574,7 @@ module.exports = JSON.parse("{\"uni-datetime-picker.selectDate\":\"选择日期\
 
 /***/ }),
 
-/***/ 272:
+/***/ 271:
 /*!***********************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/zh-Hant.json ***!
   \***********************************************************************************************************/
@@ -18578,7 +18585,7 @@ module.exports = JSON.parse("{\"uni-datetime-picker.selectDate\":\"選擇日期\
 
 /***/ }),
 
-/***/ 273:
+/***/ 272:
 /*!*************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-datetime-picker/components/uni-datetime-picker/util.js ***!
   \*************************************************************************************************/
@@ -19028,7 +19035,7 @@ function fixIosDateFormat(value) {
 
 /***/ }),
 
-/***/ 297:
+/***/ 296:
 /*!**************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-transition/components/uni-transition/createAnimation.js ***!
   \**************************************************************************************************/
@@ -19351,6 +19358,7 @@ _vue.default.use(_vuex.default);
 var _default = new _vuex.default.Store({
   state: {
     isOnload: false,
+    sceneId: 0,
     // 接口前缀
     // theUrl: 'https://school.izekai.cn',
     theUrl: 'https://api2.allinnb.com',
@@ -19463,6 +19471,9 @@ var _default = new _vuex.default.Store({
     changeTheLogonUser: function changeTheLogonUser(state, payload) {
       state.theLogonUser = payload.theLogonUser;
       state.theToken = payload.theToken;
+    },
+    setScene: function setScene(state, payload) {
+      state.sceneId = payload;
     },
     changeOnload: function changeOnload(state, payload) {
       state.isOnload = payload;
@@ -19638,36 +19649,25 @@ var _default = new _vuex.default.Store({
               });
               content.state.is_thumb_true = false;
             } else if (res.data.code == 410) {
-              uni.showModal({
-                title: '温馨提示：',
-                content: '当前登录身份已过期，点击“重新登录”继续吧~',
-                confirmText: '重新登录',
-                confirmColor: '#f89f12',
-                showCancel: false,
-                success: function success(res) {
-                  if (res.confirm) {
-                    var __that = that;
-                    // 异步转同步，
-                    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-                      return _regenerator.default.wrap(function _callee$(_context) {
-                        while (1) {
-                          switch (_context.prev = _context.next) {
-                            case 0:
-                              _context.next = 2;
-                              return __that.$store.dispatch('toLogon', {});
-                            case 2:
-                              // 重新点赞
-                              __that.toThumb();
-                            case 3:
-                            case "end":
-                              return _context.stop();
-                          }
-                        }
-                      }, _callee);
-                    }))();
+              var __that = that;
+              // 异步转同步，
+              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
+                return _regenerator.default.wrap(function _callee$(_context) {
+                  while (1) {
+                    switch (_context.prev = _context.next) {
+                      case 0:
+                        _context.next = 2;
+                        return __that.$store.dispatch('toLogon', {});
+                      case 2:
+                        // 重新点赞
+                        __that.toThumb();
+                      case 3:
+                      case "end":
+                        return _context.stop();
+                    }
                   }
-                }
-              });
+                }, _callee);
+              }))();
             } else {
               uni.showToast({
                 title: res.data.msg,
@@ -19717,36 +19717,25 @@ var _default = new _vuex.default.Store({
               });
               content.state.is_collection_true = false;
             } else if (res.data.code == 410) {
-              uni.showModal({
-                title: '温馨提示：',
-                content: '当前登录身份已过期，点击“重新登录”继续吧~',
-                confirmText: '重新登录',
-                confirmColor: '#f89f12',
-                showCancel: false,
-                success: function success(res) {
-                  if (res.confirm) {
-                    var __that = that;
-                    // 异步转同步，
-                    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-                      return _regenerator.default.wrap(function _callee2$(_context2) {
-                        while (1) {
-                          switch (_context2.prev = _context2.next) {
-                            case 0:
-                              _context2.next = 2;
-                              return __that.$store.dispatch('toLogon', {});
-                            case 2:
-                              // 重新收藏
-                              __that.toCollection();
-                            case 3:
-                            case "end":
-                              return _context2.stop();
-                          }
-                        }
-                      }, _callee2);
-                    }))();
+              var __that = that;
+              // 异步转同步，
+              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+                return _regenerator.default.wrap(function _callee2$(_context2) {
+                  while (1) {
+                    switch (_context2.prev = _context2.next) {
+                      case 0:
+                        _context2.next = 2;
+                        return __that.$store.dispatch('toLogon', {});
+                      case 2:
+                        // 重新收藏
+                        __that.toCollection();
+                      case 3:
+                      case "end":
+                        return _context2.stop();
+                    }
                   }
-                }
-              });
+                }, _callee2);
+              }))();
             } else {
               uni.showToast({
                 title: res.data.msg,
@@ -19796,36 +19785,25 @@ var _default = new _vuex.default.Store({
               });
               content.state.is_thumb_true = false;
             } else if (res.data.code == 410) {
-              uni.showModal({
-                title: '温馨提示：',
-                content: '当前登录身份已过期，点击“重新登录”继续吧~',
-                confirmText: '重新登录',
-                confirmColor: '#f89f12',
-                showCancel: false,
-                success: function success(res) {
-                  if (res.confirm) {
-                    var __that = that;
-                    // 异步转同步，
-                    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
-                      return _regenerator.default.wrap(function _callee3$(_context3) {
-                        while (1) {
-                          switch (_context3.prev = _context3.next) {
-                            case 0:
-                              _context3.next = 2;
-                              return __that.$store.dispatch('toLogon', {});
-                            case 2:
-                              // 重新点赞
-                              __that.toRegard();
-                            case 3:
-                            case "end":
-                              return _context3.stop();
-                          }
-                        }
-                      }, _callee3);
-                    }))();
+              var __that = that;
+              // 异步转同步，
+              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
+                return _regenerator.default.wrap(function _callee3$(_context3) {
+                  while (1) {
+                    switch (_context3.prev = _context3.next) {
+                      case 0:
+                        _context3.next = 2;
+                        return __that.$store.dispatch('toLogon', {});
+                      case 2:
+                        // 重新点赞
+                        __that.toRegard();
+                      case 3:
+                      case "end":
+                        return _context3.stop();
+                    }
                   }
-                }
-              });
+                }, _callee3);
+              }))();
             } else {
               uni.showToast({
                 title: res.data.msg,
@@ -19875,36 +19853,25 @@ var _default = new _vuex.default.Store({
               });
               content.state.is_entry_true = false;
             } else if (res.data.code == 410) {
-              uni.showModal({
-                title: '温馨提示：',
-                content: '当前登录身份已过期，点击“重新登录”继续吧~',
-                confirmText: '重新登录',
-                confirmColor: '#f89f12',
-                showCancel: false,
-                success: function success(res) {
-                  if (res.confirm) {
-                    var __that = that;
-                    // 异步转同步，
-                    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
-                      return _regenerator.default.wrap(function _callee4$(_context4) {
-                        while (1) {
-                          switch (_context4.prev = _context4.next) {
-                            case 0:
-                              _context4.next = 2;
-                              return __that.$store.dispatch('toLogon', {});
-                            case 2:
-                              // 重新加入
-                              __that.toEntry();
-                            case 3:
-                            case "end":
-                              return _context4.stop();
-                          }
-                        }
-                      }, _callee4);
-                    }))();
+              var __that = that;
+              // 异步转同步，
+              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
+                return _regenerator.default.wrap(function _callee4$(_context4) {
+                  while (1) {
+                    switch (_context4.prev = _context4.next) {
+                      case 0:
+                        _context4.next = 2;
+                        return __that.$store.dispatch('toLogon', {});
+                      case 2:
+                        // 重新加入
+                        __that.toEntry();
+                      case 3:
+                      case "end":
+                        return _context4.stop();
+                    }
                   }
-                }
-              });
+                }, _callee4);
+              }))();
             } else {
               uni.showToast({
                 title: res.data.msg,
@@ -19970,36 +19937,25 @@ var _default = new _vuex.default.Store({
                 icon: 'none'
               });
             } else if (res.data.code == 410) {
-              uni.showModal({
-                title: '温馨提示：',
-                content: '当前登录身份已过期，点击“重新登录”继续吧~',
-                confirmText: '重新登录',
-                confirmColor: '#f89f12',
-                showCancel: false,
-                success: function success(res) {
-                  if (res.confirm) {
-                    var __that = that;
-                    // 异步转同步，
-                    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
-                      return _regenerator.default.wrap(function _callee5$(_context5) {
-                        while (1) {
-                          switch (_context5.prev = _context5.next) {
-                            case 0:
-                              _context5.next = 2;
-                              return __that.$store.dispatch('toLogon', {});
-                            case 2:
-                              // 重新上下线
-                              __that.upDownMyMoments();
-                            case 3:
-                            case "end":
-                              return _context5.stop();
-                          }
-                        }
-                      }, _callee5);
-                    }))();
+              var __that = that;
+              // 异步转同步，
+              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
+                return _regenerator.default.wrap(function _callee5$(_context5) {
+                  while (1) {
+                    switch (_context5.prev = _context5.next) {
+                      case 0:
+                        _context5.next = 2;
+                        return __that.$store.dispatch('toLogon', {});
+                      case 2:
+                        // 重新上下线
+                        __that.upDownMyMoments();
+                      case 3:
+                      case "end":
+                        return _context5.stop();
+                    }
                   }
-                }
-              });
+                }, _callee5);
+              }))();
             } else {
               uni.showToast({
                 title: res.data.msg,
@@ -20047,37 +20003,26 @@ var _default = new _vuex.default.Store({
                 icon: 'none'
               });
             } else if (res.data.code == 410) {
-              uni.showModal({
-                title: '温馨提示：',
-                content: '当前登录身份已过期，点击“重新登录”继续吧~',
-                confirmText: '重新登录',
-                confirmColor: '#f89f12',
-                showCancel: false,
-                success: function success(res) {
-                  if (res.confirm) {
-                    var __that = that;
+              var __that = that;
 
-                    // 异步转同步
-                    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
-                      return _regenerator.default.wrap(function _callee6$(_context6) {
-                        while (1) {
-                          switch (_context6.prev = _context6.next) {
-                            case 0:
-                              _context6.next = 2;
-                              return __that.$store.dispatch('toLogon', {});
-                            case 2:
-                              // 重新请求接口
-                              __that.getMomentInfo();
-                            case 3:
-                            case "end":
-                              return _context6.stop();
-                          }
-                        }
-                      }, _callee6);
-                    }))();
+              // 异步转同步
+              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
+                return _regenerator.default.wrap(function _callee6$(_context6) {
+                  while (1) {
+                    switch (_context6.prev = _context6.next) {
+                      case 0:
+                        _context6.next = 2;
+                        return __that.$store.dispatch('toLogon', {});
+                      case 2:
+                        // 重新请求接口
+                        __that.getMomentInfo();
+                      case 3:
+                      case "end":
+                        return _context6.stop();
+                    }
                   }
-                }
-              });
+                }, _callee6);
+              }))();
             } else {
               uni.showToast({
                 title: res.data.msg,
@@ -20124,52 +20069,41 @@ var _default = new _vuex.default.Store({
                 icon: 'none'
               });
             } else if (res.data.code == 410) {
-              uni.showModal({
-                title: '温馨提示：',
-                content: '当前登录身份已过期，点击“重新登录”继续吧~',
-                confirmText: '重新登录',
-                confirmColor: '#f89f12',
-                showCancel: false,
-                success: function success(res) {
-                  if (res.confirm) {
-                    var __that = that;
+              var __that = that;
 
-                    // 异步转同步
-                    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
-                      return _regenerator.default.wrap(function _callee7$(_context7) {
-                        while (1) {
-                          switch (_context7.prev = _context7.next) {
-                            case 0:
-                              _context7.next = 2;
-                              return content.dispatch('toLogon', {});
-                            case 2:
-                              // 重新请求接口  没用的，因为用户ID丢失了，这个时候直接跳回主页吧
-                              // __that.getHomePageTop();
+              // 异步转同步
+              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
+                return _regenerator.default.wrap(function _callee7$(_context7) {
+                  while (1) {
+                    switch (_context7.prev = _context7.next) {
+                      case 0:
+                        _context7.next = 2;
+                        return content.dispatch('toLogon', {});
+                      case 2:
+                        // 重新请求接口  没用的，因为用户ID丢失了，这个时候直接跳回主页吧
+                        // __that.getHomePageTop();
 
-                              uni.showModal({
-                                title: '哦买嘎!',
-                                content: '找不到这个"孩纸"了，返回首页找找吧~',
-                                confirmText: '前往首页',
-                                confirmColor: '#f89f12',
-                                showCancel: false,
-                                success: function success(res) {
-                                  if (res.confirm) {
-                                    uni.switchTab({
-                                      url: '/pages/index/index'
-                                    });
-                                  }
-                                }
+                        uni.showModal({
+                          title: '哦买嘎!',
+                          content: '找不到这个"孩纸"了，返回首页找找吧~',
+                          confirmText: '前往首页',
+                          confirmColor: '#f89f12',
+                          showCancel: false,
+                          success: function success(res) {
+                            if (res.confirm) {
+                              uni.switchTab({
+                                url: '/pages/index/index'
                               });
-                            case 3:
-                            case "end":
-                              return _context7.stop();
+                            }
                           }
-                        }
-                      }, _callee7);
-                    }))();
+                        });
+                      case 3:
+                      case "end":
+                        return _context7.stop();
+                    }
                   }
-                }
-              });
+                }, _callee7);
+              }))();
             } else {
               uni.showToast({
                 title: res.data.msg,
@@ -20284,44 +20218,33 @@ var _default = new _vuex.default.Store({
                 icon: 'none'
               });
             } else if (res.data.code == 410) {
-              uni.showModal({
-                title: '温馨提示：',
-                content: '当前登录身份已过期，点击“重新登录”继续吧~',
-                confirmText: '重新登录',
-                confirmColor: '#f89f12',
-                showCancel: false,
-                success: function success(res) {
-                  if (res.confirm) {
-                    var __that = that;
-                    // 异步转同步，
-                    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8() {
-                      return _regenerator.default.wrap(function _callee8$(_context8) {
-                        while (1) {
-                          switch (_context8.prev = _context8.next) {
-                            case 0:
-                              _context8.next = 2;
-                              return content.dispatch('toLogon', {});
-                            case 2:
-                              uni.redirectTo({
-                                url: '/pages/push/push_zudui?type=' + payload.type
-                              });
-                              // 重新调用没用，因为需要选择图片的操作，不然无法传参
-                              // __that.upLoadImage();
-                              uni.showToast({
-                                title: '很抱歉(^■^*)，页面过期，已为您重新刷新~',
-                                duration: 2500,
-                                icon: 'none'
-                              });
-                            case 4:
-                            case "end":
-                              return _context8.stop();
-                          }
-                        }
-                      }, _callee8);
-                    }))();
+              var __that = that;
+              // 异步转同步，
+              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8() {
+                return _regenerator.default.wrap(function _callee8$(_context8) {
+                  while (1) {
+                    switch (_context8.prev = _context8.next) {
+                      case 0:
+                        _context8.next = 2;
+                        return content.dispatch('toLogon', {});
+                      case 2:
+                        uni.redirectTo({
+                          url: '/pages/push/push_zudui?type=' + payload.type
+                        });
+                        // 重新调用没用，因为需要选择图片的操作，不然无法传参
+                        // __that.upLoadImage();
+                        uni.showToast({
+                          title: '很抱歉(^■^*)，页面过期，已为您重新刷新~',
+                          duration: 2500,
+                          icon: 'none'
+                        });
+                      case 4:
+                      case "end":
+                        return _context8.stop();
+                    }
                   }
-                }
-              });
+                }, _callee8);
+              }))();
             } else {
               uni.showToast({
                 title: res.data.msg,

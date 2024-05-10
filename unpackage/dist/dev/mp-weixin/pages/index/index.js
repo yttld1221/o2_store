@@ -101,16 +101,16 @@ var components
 try {
   components = {
     uniIcons: function () {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 174))
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 180))
     },
     postTypeZudui: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui */ "uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui").then(__webpack_require__.bind(null, /*! @/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui.vue */ 182))
+      return __webpack_require__.e(/*! import() | uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui */ "uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui").then(__webpack_require__.bind(null, /*! @/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui.vue */ 188))
     },
     uniLoadMore: function () {
-      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 189))
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 195))
     },
     tabBar: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */ "uni_modules/tab-Bar/components/tab-Bar/tab-Bar").then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 200))
+      return __webpack_require__.e(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */ "uni_modules/tab-Bar/components/tab-Bar/tab-Bar").then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 206))
     },
   }
 } catch (e) {
@@ -663,6 +663,7 @@ var _default = {
     };
   },
   onLoad: function onLoad() {
+    var _this2 = this;
     // --------------------------------------------------------------处理初始状态--------------------------------------------------------------
     // --------------------------------------------------------------处理初始状态--------------------------------------------------------------
     // --------------------------------------------------------------处理初始状态--------------------------------------------------------------
@@ -678,10 +679,28 @@ var _default = {
     this.$store.commit("changeStore_addressNow", {
       tempSelectedAddress: storage_addressNow
     });
+    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
+      return _regenerator.default.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _this2.$store.commit("changeOnload", false);
+              _this2.theGetMomentsListPage = 1;
+              _this2.school_datas = [];
+              _context.next = 5;
+              return _this2.getMomentsList();
+            case 5:
+              _this2.tempAddressTitle = _this2.$store.state.store_addressNow.title;
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   onShow: function onShow() {
     this.theLevel = this.$store.state.theLogonUser.level;
-
     // 判断一下，防止重复登录
     // if(this.$store.state.theLogonUser.id == 0){
     // 	this.$store.dispatch('toLogon', {});
@@ -716,16 +735,15 @@ var _default = {
         }
       });
     }
-
     // 从地址选择页面返回过来的时候，需要判断一下有没有改变过地址，如果和之前保存的不一样了，证明选择了其他地址，那么需要重新获取接口
-    if (that.tempAddressTitle != that.theAddress.title && that.theAddress.title != undefined) {
+    if (that.tempAddressTitle && that.tempAddressTitle != that.theAddress.title && that.theAddress.title != undefined) {
       // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
       // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
       // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-        return _regenerator.default.wrap(function _callee$(_context) {
+      (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+        return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 // 重置一下  地区改变了，学校肯定要重置为空的
                 that.theSchool = {
@@ -749,31 +767,8 @@ var _default = {
                 that.school_datas = [];
 
                 // 接口调用
-                _context.next = 6;
-                return that.getMomentsList();
-              case 6:
-                // 变更页面信息（显示的地址）
-                that.tempAddressTitle = that.$store.state.store_addressNow.title;
-              case 7:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    } else if (that.$store.state.isOnload) {
-      (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-        return _regenerator.default.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                that.$store.commit("changeOnload", false);
-                that.theGetMomentsListPage = 1;
-                that.school_datas = [];
-                _context2.next = 5;
-                return that.getMomentsList();
-              case 5:
-                that.tempSchoolTitle = that.$store.state.store_schoolNow.title;
+                _context2.next = 6;
+                return that.getMomentsList("area");
               case 6:
               case "end":
                 return _context2.stop();
@@ -781,28 +776,43 @@ var _default = {
           }
         }, _callee2);
       }))();
-    }
-    if (that.tempSchoolTitle != that.theSchool.title) {
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
+    } else if (that.$store.state.isOnload) {
       (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
         return _regenerator.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                that.$store.commit("changeOnload", false);
                 that.theGetMomentsListPage = 1;
                 that.school_datas = [];
-                _context3.next = 4;
+                _context3.next = 5;
                 return that.getMomentsList();
-              case 4:
-                that.tempSchoolTitle = that.$store.state.store_schoolNow.title;
               case 5:
               case "end":
                 return _context3.stop();
             }
           }
         }, _callee3);
+      }))();
+    } else if (that.tempSchoolTitle != that.theSchool.title) {
+      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
+      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
+      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
+      (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
+        return _regenerator.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                that.theGetMomentsListPage = 1;
+                that.school_datas = [];
+                _context4.next = 4;
+                return that.getMomentsList("school");
+              case 4:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
       }))();
     }
   },
@@ -816,22 +826,22 @@ var _default = {
     // 重置数组
     that.school_datas = [];
     // 异步转同步调用
-    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
-      return _regenerator.default.wrap(function _callee4$(_context4) {
+    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
+      return _regenerator.default.wrap(function _callee5$(_context5) {
         while (1) {
-          switch (_context4.prev = _context4.next) {
+          switch (_context5.prev = _context5.next) {
             case 0:
-              _context4.next = 2;
+              _context5.next = 2;
               return that.getMomentsList();
             case 2:
               // 等待接口返回后，取消下拉刷新动画
               uni.stopPullDownRefresh();
             case 3:
             case "end":
-              return _context4.stop();
+              return _context5.stop();
           }
         }
-      }, _callee4);
+      }, _callee5);
     }))();
   },
   // 页面触底的监听事件，配合pages.json中的"onReachBottomDistance": 0，0的位置写距离底部的距离
@@ -885,22 +895,22 @@ var _default = {
     // ---------------------------------------------------页面方法---------------------------------------------------
     // 获取状态栏高度
     getTopIconDistance: function getTopIconDistance() {
-      var _this2 = this;
+      var _this3 = this;
       uni.getSystemInfo({
         success: function success(res) {
           // 获取手机顶部状态栏的高度
-          _this2.statusBarHeight = res.statusBarHeight || 0;
+          _this3.statusBarHeight = res.statusBarHeight || 0;
 
           // 获取导航栏的高度（手机状态栏高度 + 胶囊高度 + 胶囊的上下间距）
           var menuButtonInfo = uni.getMenuButtonBoundingClientRect();
-          _this2.navBarHeight = menuButtonInfo.height + (menuButtonInfo.top - _this2.statusBarHeight) * 2;
-          _this2.tabBarHeight = res.screenHeight - res.safeArea.bottom;
+          _this3.navBarHeight = menuButtonInfo.height + (menuButtonInfo.top - _this3.statusBarHeight) * 2;
+          _this3.tabBarHeight = res.screenHeight - res.safeArea.bottom;
 
           // 设置全局变量
-          _this2.$store.commit("changeNavBarHeight", {
-            statusBarHeight: _this2.statusBarHeight,
-            navBarHeight: _this2.navBarHeight,
-            tabBarHeight: _this2.tabBarHeight
+          _this3.$store.commit("changeNavBarHeight", {
+            statusBarHeight: _this3.statusBarHeight,
+            navBarHeight: _this3.navBarHeight,
+            tabBarHeight: _this3.tabBarHeight
           });
         },
         fail: function fail(err) {}
@@ -981,6 +991,7 @@ var _default = {
     //------------------------------------------------  接口方法  -----------------------------------------------------
     // 分页获取接口数据
     getMomentsList: function getMomentsList() {
+      var getType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
       var _this = this;
       return new Promise(function (resolve, reject) {
         var that = _this;
@@ -1015,6 +1026,11 @@ var _default = {
               if (_that.theGetMomentsListPage == 1) {
                 _that.school_datas = [];
               }
+              if (getType == "area") {
+                _that.tempAddressTitle = _that.theAddress.title;
+              } else if (getType == "school") {
+                _that.tempSchoolTitle = _that.$store.state.store_schoolNow.title;
+              }
               if (res.data.code == 0) {
                 if (res.data.data.length != 0) {
                   for (var i = 0; i < res.data.data.length; i++) {
@@ -1024,6 +1040,7 @@ var _default = {
                   // console.log('_that.addressData',_that.addressData);
                   // 页面+1
                   _that.theGetMomentsListPage += 1;
+                  _that.tempAddressTitle = _that.theAddress.title;
                   resolve();
                 } else {
                   _that.isLoading = "no-more"; // 取消加载动画
@@ -1042,12 +1059,12 @@ var _default = {
                 });
               } else if (res.data.code == 410) {
                 var __that = _that;
-                (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
-                  return _regenerator.default.wrap(function _callee5$(_context5) {
+                (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
+                  return _regenerator.default.wrap(function _callee6$(_context6) {
                     while (1) {
-                      switch (_context5.prev = _context5.next) {
+                      switch (_context6.prev = _context6.next) {
                         case 0:
-                          _context5.next = 2;
+                          _context6.next = 2;
                           return __that.$store.dispatch("toLogon", {});
                         case 2:
                           /*
@@ -1117,13 +1134,13 @@ var _default = {
                           // 重置
                           __that.theGetMomentsListPage = 1;
                           // 获取省市数据
-                          __that.getMomentsList();
+                          __that.getMomentsList(getType);
                         case 4:
                         case "end":
-                          return _context5.stop();
+                          return _context6.stop();
                       }
                     }
-                  }, _callee5);
+                  }, _callee6);
                 }))();
                 // uni.showModal({
                 // 	title: '温馨提示：',
@@ -1178,16 +1195,16 @@ var _default = {
     // 点赞
     // 说明：点赞的接口放在index.js公共store中
     toThumb: function () {
-      var _toThumb = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6(option) {
+      var _toThumb = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7(option) {
         var temp_is_thumb, i;
-        return _regenerator.default.wrap(function _callee6$(_context6) {
+        return _regenerator.default.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 // 这里之所以又加了一层，是为了拿到子组件传过来的option
                 // 这是保存一下当前本人的点赞状态，用于判断最后本地是增加还是减少点赞数的
                 temp_is_thumb = option.is_thumb;
-                _context6.next = 3;
+                _context7.next = 3;
                 return this.$store.dispatch("toThumb", {
                   id: option.id,
                   is_thumb: option.is_thumb
@@ -1220,10 +1237,10 @@ var _default = {
                 }
               case 4:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
       function toThumb(_x) {
         return _toThumb.apply(this, arguments);
@@ -1241,13 +1258,13 @@ var _default = {
           // console.log(res.tapIndex);
           if (res.tapIndex == 0) {
             var _that = that;
-            (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
+            (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8() {
               var i;
-              return _regenerator.default.wrap(function _callee7$(_context7) {
+              return _regenerator.default.wrap(function _callee8$(_context8) {
                 while (1) {
-                  switch (_context7.prev = _context7.next) {
+                  switch (_context8.prev = _context8.next) {
                     case 0:
-                      _context7.next = 2;
+                      _context8.next = 2;
                       return _that.$store.dispatch("toCollection", {
                         id: option.id
                       });
@@ -1277,10 +1294,10 @@ var _default = {
                       }
                     case 3:
                     case "end":
-                      return _context7.stop();
+                      return _context8.stop();
                   }
                 }
-              }, _callee7);
+              }, _callee8);
             }))();
           } else {
             uni.showToast({
@@ -1297,20 +1314,20 @@ var _default = {
     },
     // 邀请/组队按钮
     zuduiButtons: function () {
-      var _zuduiButtons = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8(option) {
+      var _zuduiButtons = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee9(option) {
         var temp_is_entry, i;
-        return _regenerator.default.wrap(function _callee8$(_context8) {
+        return _regenerator.default.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
                 if (!(option.type == 1)) {
-                  _context8.next = 5;
+                  _context9.next = 5;
                   break;
                 }
                 // 1表示是组队的按钮
                 // 这是保存一下当前本人的加入状态，用于判断最后本地是显示加入还是退出
                 temp_is_entry = option.is_entry;
-                _context8.next = 4;
+                _context9.next = 4;
                 return this.$store.dispatch("toEntry", {
                   id: option.id,
                   is_entry: option.is_entry
@@ -1343,10 +1360,10 @@ var _default = {
                 }
               case 5:
               case "end":
-                return _context8.stop();
+                return _context9.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee9, this);
       }));
       function zuduiButtons(_x2) {
         return _zuduiButtons.apply(this, arguments);
