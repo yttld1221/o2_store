@@ -4,9 +4,15 @@ import thePublic from './store/public.js'
 Vue.prototype.$store = store
 Vue.prototype.$public = thePublic
 
+import uView from '@/uni_modules/uview-ui'
+Vue.use(uView)
+
+
 // #ifndef VUE3
 import Vue from 'vue'
 import './uni.promisify.adaptor'
+
+
 Vue.config.productionTip = false
 App.mpType = 'app'
 const app = new Vue({

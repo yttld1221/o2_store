@@ -24,8 +24,9 @@
     >
       <view class="titles-box">
         <view
+          class="titles-item"
           @click="toTitleOne(index)"
-          :class="{ 'title-selected': index == theTitleIndex, title: true }"
+          :class="{ 'title-selected': index == theTitleIndex }"
           v-for="(item, index) in titleName"
           >{{ item }}</view
         >
@@ -37,123 +38,150 @@
       class="location"
       :style="'top:' + statusBarHeight + 'px;height:' + navBarHeight + 'px;'"
     >
-      <uni-icons
-        class="margin-left-10"
-        type="map-pin-ellipse"
-        size="20"
-      ></uni-icons>
-      <text class="font-15-blod margin-left-5">{{
+      <u-icon name="map-fill" color="#000000" size="16"></u-icon>
+      <text class="city-text">{{
         theAddress.title != undefined
           ? theAddress.title.length < 4
             ? theAddress.title
             : theAddress.title.substring(0, 3) + "..."
           : "选择地区"
       }}</text>
-      <uni-icons class="margin-left-5" type="down" size="12"></uni-icons>
+      <u-icon name="arrow-down-fill" color="#000000" size="12"></u-icon>
     </view>
 
-    <!-- 校园墙 -->
-    <view
-      class="school"
-      :style="'top:' + (statusBarHeight + navBarHeight) + 'px;'"
-    >
-      <!-- 搜索 -->
-      <view class="searchs-2">
-        <view class="search-box-2">
-          <view class="search-picker" @click="toSchool()">
-            <text v-if="theSchool.title != ''">{{
-              theSchool.title.length < 5
-                ? theSchool.title
-                : theSchool.title.substring(0, 4) + "..."
-            }}</text>
-            <text v-if="theSchool.title == ''">全部校区</text>
-            <uni-icons class="margin-left-5" type="down" size="12"></uni-icons>
-          </view>
-          <view class="search-input">
-            <input
-              type="text"
-              v-model="searchInputText"
-              :adjust-position="fasle"
-              cursor-spacing="20"
-              @focus="inputBindFocus"
-              @blur="inputBindBlur"
-              @confirm="searchPost"
-              confirm-type="search"
-              placeholder="请输入搜索内容"
-            />
-          </view>
-          <uni-icons
-            @click="emptyInput('searchInputText')"
-            v-if="searchInputText != ''"
-            type="clear"
-            size="20"
-            color="#bbbbbb"
-          ></uni-icons>
-          <view @click="searchPost" class="search-button">
-            <image
-              class="image-width-20"
-              src="/static/1_search_2@3x.png"
-              mode="widthFix"
-            ></image>
-          </view>
-        </view>
-      </view>
-      <!-- 标题 -->
-      <view class="posts">
-        <view class="posts-titles">
-          <view class="flex-row" :style="'width:' + titles.length * 20 + 'vw;'">
-            <view
-              :class="{
-                'posts-titles-one': true,
-                'posts-titles-one-choised': schoolOneTitleIndex == index,
-              }"
-              @click="choiseOneTitle(index)"
-              v-for="(item, index) in theLevel == 2 ? titles : tempTitles"
-            >
-              <view class="flex-column">
-                <view>{{ item }}</view>
-                <view
-                  :class="{ 'short-line': schoolOneTitleIndex == index }"
-                ></view>
-              </view>
+    <template v-if="theTitleIndex == 1">
+      <!-- 校园墙 -->
+      <view
+        class="school"
+        :style="'top:' + (statusBarHeight + navBarHeight) + 'px;'"
+      >
+        <!-- 搜索 -->
+        <view class="searchs-2">
+          <view class="search-box-2">
+            <view class="search-picker" @click="toSchool()">
+              <text v-if="theSchool.title != ''">{{
+                theSchool.title.length < 5
+                  ? theSchool.title
+                  : theSchool.title.substring(0, 4) + "..."
+              }}</text>
+              <text v-if="theSchool.title == ''">全部校区</text>
+              <uni-icons
+                class="margin-left-5"
+                type="down"
+                size="12"
+              ></uni-icons>
+            </view>
+            <view class="search-input">
+              <input
+                type="text"
+                v-model="searchInputText"
+                :adjust-position="fasle"
+                cursor-spacing="20"
+                @focus="inputBindFocus"
+                @blur="inputBindBlur"
+                @confirm="searchPost"
+                confirm-type="search"
+                placeholder="请输入搜索内容"
+              />
+            </view>
+            <uni-icons
+              @click="emptyInput('searchInputText')"
+              v-if="searchInputText != ''"
+              type="clear"
+              size="20"
+              color="#bbbbbb"
+            ></uni-icons>
+            <view @click="searchPost" class="search-button">
+              <image
+                class="image-width-20"
+                src="/static/1_search_2@3x.png"
+                mode="widthFix"
+              ></image>
             </view>
           </view>
         </view>
-        <!-- 筛选 -->
-        <image
-          @click="$public.disabled_tip('高级筛选')"
-          class="image-width-20"
-          src="/static/1_shaixuan.png"
-          mode="widthFix"
-        ></image>
+        <!-- 标题 -->
+        <view class="posts">
+          <view class="posts-titles">
+            <view
+              class="flex-row"
+              :style="'width:' + titles.length * 20 + 'vw;'"
+            >
+              <view
+                :class="{
+                  'posts-titles-one': true,
+                  'posts-titles-one-choised': schoolOneTitleIndex == index,
+                }"
+                @click="choiseOneTitle(index)"
+                v-for="(item, index) in theLevel == 2 ? titles : tempTitles"
+              >
+                <view class="flex-column">
+                  <view>{{ item }}</view>
+                  <view
+                    :class="{ 'short-line': schoolOneTitleIndex == index }"
+                  ></view>
+                </view>
+              </view>
+            </view>
+          </view>
+          <!-- 筛选 -->
+          <image
+            @click="$public.disabled_tip('高级筛选')"
+            class="image-width-20"
+            src="/static/1_shaixuan.png"
+            mode="widthFix"
+          ></image>
+        </view>
       </view>
-    </view>
-    <!-- 内容 -->
-    <view>
-      <view
-        class="posts-data"
-        :style="
-          index == 0
-            ? 'margin-top:' + (statusBarHeight + navBarHeight + 125) + 'px;'
-            : ''
-        "
-        v-for="(item, index) in school_datas"
-      >
-        <post-type-zudui
-          @toDetail="toDetail"
-          @topPerSonalhome="topPerSonalhome"
-          @toThumb="toThumb"
-          @actionMore="actionMore"
-          @zuduiButtons="zuduiButtons"
-          v-if="
-            titles[schoolOneTitleIndex] == item.type ||
-            titles[schoolOneTitleIndex] == '综合'
+      <!-- 内容 -->
+      <view>
+        <view
+          class="posts-data"
+          :style="
+            index == 0
+              ? 'margin-top:' + (statusBarHeight + navBarHeight + 125) + 'px;'
+              : ''
           "
-          :postsDataOneIndex="index"
-          :theData="item"
-        ></post-type-zudui>
+          v-for="(item, index) in school_datas"
+        >
+          <post-type-zudui
+            @toDetail="toDetail"
+            @topPerSonalhome="topPerSonalhome"
+            @toThumb="toThumb"
+            @actionMore="actionMore"
+            @zuduiButtons="zuduiButtons"
+            v-if="
+              titles[schoolOneTitleIndex] == item.type ||
+              titles[schoolOneTitleIndex] == '综合'
+            "
+            :postsDataOneIndex="index"
+            :theData="item"
+          ></post-type-zudui>
+        </view>
       </view>
-    </view>
+    </template>
+    <template v-else>
+      <view
+        class="school home-search"
+        :style="'top:' + (statusBarHeight + navBarHeight) + 'px;'"
+      >
+        <view class="search-box">
+          <u-search
+            disabled
+            placeholder="请输入搜索关键词"
+            v-model="searchInputText"
+            :showAction="false"
+          ></u-search
+        ></view>
+        <view class="home-type">
+          <image
+            class="the-line-3-bottom"
+            src="https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240511/admin/0ea97dedc8c1adfd15d2f17197fdd882.png"
+          ></image>
+          <types :list="tabArr"></types>
+        </view>
+      </view>
+    </template>
 
     <!-- 底部垫层 -->
     <view @click="getMomentsList()" class="space-line-bottom">
@@ -168,9 +196,52 @@
 </template>
 
 <script>
+import types from "./components/types.vue";
 export default {
+  components: {
+    types,
+  },
   data() {
     return {
+      tabArr: [
+        {
+          name: "关注关注注",
+          id: "1",
+        },
+        {
+          name: "推荐",
+          id: "2",
+        },
+        {
+          name: "体育",
+          id: "3",
+        },
+        {
+          name: "热点",
+          id: "4",
+        },
+        {
+          name: "财经",
+          id: "5",
+        },
+        {
+          name: "娱乐",
+          id: "6",
+        },
+        {
+          name: "军事",
+          id: "7",
+        },
+        {
+          name: "历史",
+          id: "8",
+        },
+        {
+          name: "本地",
+          id: "9",
+        },
+      ],
+
       theLevel: 0,
 
       contentText: {
@@ -186,7 +257,7 @@ export default {
       theGetMomentsListPagesize: 10,
 
       titleName: ["首页", "校园墙"],
-      theTitleIndex: 1,
+      theTitleIndex: 0,
       schoolOneTitleIndex: 0,
 
       // 顶部状态栏
@@ -613,6 +684,12 @@ export default {
     this.getMomentsList();
   },
   methods: {
+    tabChange(currentIndex) {
+      // uni.showModal({
+      //   title: "当前选择序列",
+      //   content: "当前选择序列 = " + currentIndex,
+      // });
+    },
     // 消息动画
     animtionAction: function () {
       let that = this;
@@ -692,15 +769,17 @@ export default {
     // 选择首页或校园墙的界面
     toTitleOne: function (index) {
       // this.animtionAction();
+      this.theTitleIndex = index;
       if (index == 0) {
-        // 点击首页
-        uni.showToast({
-          title: "当前功能区暂未开放哦，敬请期待~",
-          duration: 2500,
-          icon: "none",
-        });
       } else {
-        this.theTitleIndex = index;
+        let that = this;
+        // 重置获取的页码
+        that.theGetMomentsListPage = 1;
+        // 重置搜索文本
+        this.searchInputText = "";
+        // 重置数组
+        that.school_datas = [];
+        that.getMomentsList();
       }
     },
     // 选择标签（校园墙）
@@ -1108,7 +1187,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang='scss'>
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
@@ -1204,12 +1283,24 @@ export default {
 }
 
 .titles-box {
+  width: 263rpx;
+  height: 55rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-image: linear-gradient(to bottom, #fdbf5c, #fca649);
-  /* padding: 0px 5px; */
-  border-radius: 100px;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 4rpx;
+  border-radius: 28rpx;
+  .titles-item {
+    line-height: 47rpx;
+    text-align: center;
+    font-family: PingFang SC;
+    font-weight: 400;
+    font-size: 26rpx;
+    color: #333333;
+    height: 47rpx;
+    flex: 1;
+  }
 }
 
 .title {
@@ -1219,13 +1310,13 @@ export default {
 }
 
 .title-selected {
-  font-size: 15px !important;
-  font-weight: bold;
-  margin: 0 !important;
-  background-image: linear-gradient(to top, #ffdc72, #ffffff) !important;
+  background: linear-gradient(0deg, #ffffff 0%, #fff4e3 51%, #ffffff 99%);
+  border-radius: 24rpx;
+  opacity: 0.9;
+  font-family: PingFang SC;
+  font-weight: 600;
+  font-size: 26rpx;
   color: #f89f12 !important;
-  padding: 5px 10px !important;
-  border-radius: 100px !important;
 }
 
 .location {
@@ -1236,6 +1327,7 @@ export default {
   position: fixed;
   left: 0;
   z-index: 9;
+  padding-left: 30rpx;
 }
 
 .school {
@@ -1252,7 +1344,7 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2vw;
+  padding: 0 30rpx;
   margin-top: 15px;
   z-index: 9;
 }
@@ -1344,5 +1436,28 @@ export default {
 
 .space-line-bottom {
   height: 180px;
+}
+.city-text {
+  margin: 0 19rpx 0 16rpx;
+  font-family: PingFang SC;
+  font-weight: 600;
+  font-size: 32rpx;
+  color: #000000;
+}
+.home-search {
+  .search-box {
+    padding: 40rpx 30rpx 32rpx;
+  }
+  .home-type {
+    background: #ffffff;
+    box-shadow: 0rpx -9rpx 5rpx 1rpx rgba(0, 0, 0, 0.02);
+    border-radius: 20rpx 20rpx 0 0;
+    border-top: 2px solid #ffffff;
+    padding: 26rpx 26rpx 0;
+    image {
+      width: 100%;
+      height: 187rpx;
+    }
+  }
 }
 </style>
