@@ -10,7 +10,7 @@
         class="scroll-item"
         v-for="(item, index) in list"
         :key="index"
-        @click="changeMenu(index)"
+        @click="changeMenu(item, index)"
       >
         <view class="item-box">
           <transition name="myname">
@@ -42,6 +42,14 @@ export default {
       },
     },
   },
+  watch: {
+    list: {
+      handler(newVal, oldVal) {
+        this.getScrollW();
+      },
+      deep: true,
+    },
+  },
   mounted() {
     // 获取标题区域宽度，和每个子元素节点的宽度
     this.getScrollW();
@@ -67,15 +75,13 @@ export default {
             this.list[i].left = data[i].left;
             //  scroll-view 子元素组件宽度
             this.list[i].width = data[i].width;
-            console.log(this.list[i].left, "left");
-            console.log(this.list[i].width, "width");
           }
         })
         .exec();
     },
 
     // 选择标题
-    changeMenu(index) {
+    changeMenu(item, index) {
       this.curIndex = index;
 
       // 效果一(当前点击子元素靠左展示)  局限性：子元素宽度相同
@@ -101,6 +107,7 @@ export default {
         this.list[index].left -
         this.contentScrollW / 2 +
         this.list[index].width / 2;
+      this.$emit("changeTab", item);
     },
   },
 };

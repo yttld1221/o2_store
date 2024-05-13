@@ -3,5 +3,25 @@
   "projectname": "o2_store",
   "setting": {
     "compileHotReLoad": true
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "page_product/pages/product/pay",
+          "pathName": "page_product/pages/product/pay",
+          "query": "product=%5B%7B%22id%22%3A%22161%22%2C%22num%22%3A1%2C%22pid%22%3A0%2C%22url%22%3A%22https%3A%2F%2Fschoolwx.oss-cn-hangzhou.aliyuncs.com%2Fschool%2Fimg%2F20230708%2Fadmin%2F6d65a0619432baa2da877907f3d5922b.png%22%2C%22title%22%3A%22%E3%80%90%E6%97%A5%E6%9C%AC%E5%B0%B1%E8%81%8C%E3%80%91%E6%97%A5%E6%9C%AC%E7%95%99%E5%AD%A6%2B%E5%AE%9E%E4%B9%A0%2B%E5%B0%B1%E8%81%8C%22%2C%22price%22%3A%220.01%22%7D%5D",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "page_product/pages/product/detail",
+          "pathName": "page_product/pages/product/detail",
+          "query": "id=161",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
   }
 }

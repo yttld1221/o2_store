@@ -19,7 +19,15 @@
     "pages/mine/register",
     "pages/mine/mine_push"
   ],
-  "subPackages": [],
+  "subPackages": [
+    {
+      "root": "page_product",
+      "pages": [
+        "pages/product/detail",
+        "pages/product/pay"
+      ]
+    }
+  ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#F8F8F8",
@@ -56,6 +64,14 @@
         "text": "我的"
       }
     ]
+  },
+  "preloadRule": {
+    "pages/index/index": {
+      "network": "all",
+      "packages": [
+        "page_product"
+      ]
+    }
   },
   "lazyCodeLoading": "requiredComponents",
   "usingComponents": {}

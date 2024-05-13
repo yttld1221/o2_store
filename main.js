@@ -1,8 +1,10 @@
 import App from './App'
 import store from './store/index.js'
 import thePublic from './store/public.js'
+import API from 'API/apiList.js';
 Vue.prototype.$store = store
 Vue.prototype.$public = thePublic
+Vue.prototype.API = API;
 
 import uView from '@/uni_modules/uview-ui'
 Vue.use(uView)

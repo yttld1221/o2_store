@@ -38,7 +38,7 @@
       class="location"
       :style="'top:' + statusBarHeight + 'px;height:' + navBarHeight + 'px;'"
     >
-      <u-icon name="map-fill" color="#000000" size="16"></u-icon>
+      <u-icon top="1" name="map-fill" color="#000000" size="16"></u-icon>
       <text class="city-text">{{
         theAddress.title != undefined
           ? theAddress.title.length < 4
@@ -178,13 +178,46 @@
             class="the-line-3-bottom"
             src="https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240511/admin/0ea97dedc8c1adfd15d2f17197fdd882.png"
           ></image>
-          <types :list="tabArr"></types>
+          <types @changeTab="changeTab" :list="tabArr"></types>
+        </view>
+      </view>
+      <!-- :style="{ 'margin-top': `${statusBarHeight + navBarHeight + 230}px` }" -->
+      <view
+        class="list-container"
+        :style="
+          'margin-top:' +
+          (statusBarHeight + navBarHeight + contentHeight) +
+          'px;'
+        "
+      >
+        <view
+          @click="goDetail(item)"
+          class="list-item"
+          v-for="(item, index) in school_datas"
+          :key="index"
+        >
+          <view class="image-box">
+            <image mode="aspectFill" :src="item.img_url" />
+          </view>
+          <view class="list-item-info">
+            <view class="list-item-title">{{ item.title }}</view>
+            <view class="list-item-price flex-algin">
+              <view class="list-item-price-left"
+                >¥<text style="font-size: 34rpx">{{
+                  item.sale_price
+                }}</text></view
+              >
+              <view class="list-item-price-right"
+                >已售：{{ item.sale_num }}</view
+              >
+            </view>
+          </view>
         </view>
       </view>
     </template>
 
     <!-- 底部垫层 -->
-    <view @click="getMomentsList()" class="space-line-bottom">
+    <view @click="loadMore()" class="space-line-bottom">
       <uni-load-more
         :status="isLoading"
         :content-text="contentText"
@@ -203,45 +236,9 @@ export default {
   },
   data() {
     return {
-      tabArr: [
-        {
-          name: "关注关注注",
-          id: "1",
-        },
-        {
-          name: "推荐",
-          id: "2",
-        },
-        {
-          name: "体育",
-          id: "3",
-        },
-        {
-          name: "热点",
-          id: "4",
-        },
-        {
-          name: "财经",
-          id: "5",
-        },
-        {
-          name: "娱乐",
-          id: "6",
-        },
-        {
-          name: "军事",
-          id: "7",
-        },
-        {
-          name: "历史",
-          id: "8",
-        },
-        {
-          name: "本地",
-          id: "9",
-        },
-      ],
-
+      contentHeight: 0,
+      tabArr: [],
+      momentType: "",
       theLevel: 0,
 
       contentText: {
@@ -559,14 +556,7 @@ export default {
     this.$store.commit("changeStore_addressNow", {
       tempSelectedAddress: storage_addressNow,
     });
-    (async () => {
-      this.$store.commit("changeOnload", false);
-      this.theGetMomentsListPage = 1;
-      this.school_datas = [];
-
-      await this.getMomentsList();
-      this.tempAddressTitle = this.$store.state.store_addressNow.title;
-    })();
+    this.getShopType();
   },
   onShow() {
     this.theLevel = this.$store.state.theLogonUser.level;
@@ -665,12 +655,16 @@ export default {
     // 重置获取的页码
     that.theGetMomentsListPage = 1;
     // 重置搜索文本
-    this.searchInputText = "";
+    that.searchInputText = "";
     // 重置数组
     that.school_datas = [];
     // 异步转同步调用
     (async function () {
-      await that.getMomentsList();
+      if (that.theTitleIndex == 1) {
+        await that.getMomentsList();
+      } else {
+        await that.initShop();
+      }
       // 等待接口返回后，取消下拉刷新动画
       uni.stopPullDownRefresh();
     })();
@@ -679,16 +673,118 @@ export default {
   onReachBottom() {
     // 触底后动画效果开启
     this.isLoading = "loading";
-
+    if (this.theTitleIndex == 1) {
+      this.getMomentsList();
+    } else {
+      this.initShop();
+    }
     // 调用接口
-    this.getMomentsList();
   },
   methods: {
-    tabChange(currentIndex) {
-      // uni.showModal({
-      //   title: "当前选择序列",
-      //   content: "当前选择序列 = " + currentIndex,
-      // });
+    // 跳转详情
+    goDetail(item) {
+      uni.navigateTo({
+        url: "/page_product/pages/product/detail?id=" + item.id,
+      });
+    },
+    // 加载更多
+    loadMore() {
+      if (this.theTitleIndex == 1) {
+        this.getMomentsList();
+      } else {
+        this.initShop();
+      }
+    },
+    // 初始化数据
+    initData() {
+      (async () => {
+        this.$store.commit("changeOnload", false);
+        this.theGetMomentsListPage = 1;
+        this.school_datas = [];
+
+        await this.getMomentsList();
+        this.tempAddressTitle = this.$store.state.store_addressNow.title;
+      })();
+    },
+    initShop() {
+      this.isLoading = "loading"; // 加载中
+      let param = {
+        page: this.theGetMomentsListPage,
+        pagesize: this.theGetMomentsListPagesize,
+        category_id: this.momentType,
+        is_product: 0,
+      };
+      this.API.home
+        .getTaskList(param)
+        .then((res) => {
+          console.log(res);
+          // 如果是请求第一页，证明是首次请求，就重置一下
+          if (this.theGetMomentsListPage == 1) {
+            this.school_datas = [];
+          }
+          if (res.data.length != 0) {
+            for (let i = 0; i < res.data.length; i++) {
+              this.school_datas.push(res.data[i]);
+            }
+
+            this.isLoading = "no-more"; // 取消加载动画
+            // 页面+1
+            this.theGetMomentsListPage += 1;
+          } else {
+            this.isLoading = "no-more"; // 取消加载动画
+          }
+          console.log(this.school_datas);
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.initShop();
+          }
+        });
+    },
+    getShopType() {
+      if (this.theTitleIndex == 1) {
+        this.initData();
+      } else {
+        let query = uni.createSelectorQuery().in(this);
+        query
+          .select(".home-search")
+          .boundingClientRect((data) => {
+            this.contentHeight = data.height;
+          })
+          .exec();
+        this.API.home
+          .getAllMenu({})
+          .then((res) => {
+            console.log(res);
+            this.tabArr = [];
+            res.data.forEach((el) => {
+              if (el.category_id > 0) {
+                this.tabArr.push({ name: el.title, id: el.category_id });
+              }
+            });
+            if (this.tabArr.length) {
+              this.theGetMomentsListPage = 1;
+              this.school_datas = [];
+              this.momentType = this.tabArr[0].id;
+              this.initShop();
+            }
+          })
+          .catch(async (err) => {
+            console.log(err);
+            if (err.code == 410) {
+              await this.$store.dispatch("toLogon", {});
+              this.getShopType();
+            }
+          });
+      }
+    },
+    changeTab(item) {
+      console.log(item);
+      this.theGetMomentsListPage = 1;
+      this.school_datas = [];
+      this.momentType = item.id;
+      this.initShop();
     },
     // 消息动画
     animtionAction: function () {
@@ -770,15 +866,19 @@ export default {
     toTitleOne: function (index) {
       // this.animtionAction();
       this.theTitleIndex = index;
+      let that = this;
+      // 重置获取的页码
+      that.theGetMomentsListPage = 1;
+      // 重置搜索文本
+      that.searchInputText = "";
+      // 重置数组
+      that.school_datas = [];
       if (index == 0) {
+        if (that.tabArr.length) {
+          that.momentType = that.tabArr[0].id;
+          that.initShop();
+        }
       } else {
-        let that = this;
-        // 重置获取的页码
-        that.theGetMomentsListPage = 1;
-        // 重置搜索文本
-        this.searchInputText = "";
-        // 重置数组
-        that.school_datas = [];
         that.getMomentsList();
       }
     },
@@ -1457,6 +1557,70 @@ export default {
     image {
       width: 100%;
       height: 187rpx;
+    }
+  }
+}
+.list-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 29rpx 30rpx 0;
+  box-sizing: border-box;
+  .list-item {
+    margin-bottom: 20rpx;
+    width: 335rpx;
+    border-radius: 10rpx 10rpx 0rpx 0rpx;
+    .image-box {
+      background: #ffffff;
+      border-radius: 10rpx 10rpx 0rpx 0rpx;
+      width: 335rpx;
+      height: 335rpx;
+      z-index: 1;
+      position: relative;
+      image {
+        border-radius: 10rpx 10rpx 0rpx 0rpx;
+        width: 335rpx;
+        height: 335rpx;
+      }
+    }
+    .list-item-info {
+      margin-top: -15rpx;
+      padding: 30rpx 21rpx 32rpx;
+      background: #ffffff;
+      box-shadow: 0rpx 0rpx 7rpx 1rpx rgba(0, 0, 0, 0.04);
+      border-radius: 0 0 10rpx 10rpx;
+      border: 1px solid #f4f4f4;
+      border-top: none;
+      .list-item-title {
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-family: PingFang SC;
+        font-weight: 500;
+        font-size: 24rpx;
+        color: #393a3e;
+        margin-bottom: 24rpx;
+      }
+      .list-item-price {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        .list-item-price-left {
+          font-family: PingFang SC;
+          font-weight: 300;
+          font-size: 22rpx;
+          color: #f23333;
+          line-height: 24rpx;
+        }
+        .list-item-price-right {
+          font-family: PingFang SC;
+          font-weight: 400;
+          font-size: 22rpx;
+          color: #999999;
+        }
+      }
     }
   }
 }

@@ -21,7 +21,24 @@
   "libVersion": "2.25.4",
   "appid": "wxf2f79ccf1a034ce7",
   "projectname": "o2_store",
-  "condition": {},
+  "condition": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
+      "list": []
+    },
+    "game": {
+      "current": -1,
+      "list": []
+    },
+    "miniprogram": {
+      "current": -1,
+      "list": []
+    }
+  },
   "editorSetting": {
     "tabIndent": "auto",
     "tabSize": 2

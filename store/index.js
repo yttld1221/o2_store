@@ -143,6 +143,7 @@ export default new Vuex.Store({
 		changeTheLogonUser: function (state, payload) {
 			state.theLogonUser = payload.theLogonUser;
 			state.theToken = payload.theToken;
+			uni.setStorageSync('token', payload.theToken);
 		},
 		setScene: function (state, payload) {
 			state.sceneId = payload;

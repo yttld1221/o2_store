@@ -145,10 +145,45 @@
 				"onReachBottomDistance": 50
 			}
 		}
-		
 	],
+	"subPackages": [
+		{
+			"root": "page_product",
+			"pages": [
+				{
+					"path": "pages/product/detail",
+					"style": {
+						"navigationBarBackgroundColor": "#ffffff",
+						"navigationBarTextStyle": "black",
+						"navigationBarTitleText": "商品详情",
+						"enablePullDownRefresh": false,
+						"onReachBottomDistance": 50
+					}
+				},
+				{
+					"path": "pages/product/pay",
+					"style": {
+						"navigationBarBackgroundColor": "#ffffff",
+						"navigationBarTextStyle": "black",
+						"navigationBarTitleText": "支付",
+						"enablePullDownRefresh": false,
+						"onReachBottomDistance": 50
+					}
+				}
+			]
+		}
+	],
+	"preloadRule": {
+		"pages/index/index": {
+			"network": "all",
+			"packages": [
+				"page_product"
+			]
+		}
+	},
 	"tabBar": {
-		"list": [{
+		"list": [
+			{
 				"pagePath": "pages/index/index",
 				"iconPath": "/static/1_tabbar_index@3x.png",
 				"selectedIconPath": "/static/1_tabbar_index_selected@3x.png",
@@ -162,7 +197,6 @@
 			},
 			{
 				"pagePath": "pages/push/push",
-				
 				"text": "发布"
 			},
 			{
@@ -179,8 +213,6 @@
 			}
 		]
 	},
-
-
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarBackgroundColor": "#F8F8F8",
