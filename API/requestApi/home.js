@@ -43,6 +43,36 @@ const home = {
 			}
 		})
 	},
+	// v2活动-收藏取消收藏
+	collection(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/task/collection`,
+			data: {
+				...data
+			}
+		})
+	},
+	// v2收货地址-删除本人的收货地址
+	delMyReceiveAddr(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/wx/delMyReceiveAddr`,
+			data: {
+				...data
+			}
+		})
+	},
+	// v2收货地址-收货地址新增或编辑
+	saveReceiveAddr(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/wx/saveReceiveAddr`,
+			data: {
+				...data
+			}
+		})
+	},
 }
 
 export default home;

@@ -121,4 +121,10 @@
 .detail .safe-bottom.data-v-8f054364 {
   padding-bottom: env(safe-area-inset-bottom);
 }
+.detail.data-v-8f054364 .isSc .uni-tab__cart-sub-left .uni-tab__cart-button-left:nth-child(3) {
+  display: none;
+}
+.detail.data-v-8f054364 .noSc .uni-tab__cart-sub-left .uni-tab__cart-button-left:nth-child(4) {
+  display: none;
+}
 

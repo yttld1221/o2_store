@@ -101,22 +101,22 @@ var components
 try {
   components = {
     uIcon: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 310))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 342))
     },
     uniIcons: function () {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 319))
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 351))
     },
     postTypeZudui: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui */ "uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui").then(__webpack_require__.bind(null, /*! @/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui.vue */ 327))
+      return __webpack_require__.e(/*! import() | uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui */ "uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui").then(__webpack_require__.bind(null, /*! @/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui.vue */ 359))
     },
     uSearch: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-search/u-search */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-search/u-search")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-search/u-search.vue */ 334))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-search/u-search */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-search/u-search")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-search/u-search.vue */ 366))
     },
     uniLoadMore: function () {
-      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 342))
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 374))
     },
     tabBar: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */ "uni_modules/tab-Bar/components/tab-Bar/tab-Bar").then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 353))
+      return __webpack_require__.e(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */ "uni_modules/tab-Bar/components/tab-Bar/tab-Bar").then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 385))
     },
   }
 } catch (e) {
@@ -216,7 +216,7 @@ var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
 var types = function types() {
   __webpack_require__.e(/*! require.ensure | pages/index/components/types */ "pages/index/components/types").then((function () {
-    return resolve(__webpack_require__(/*! ./components/types.vue */ 360));
+    return resolve(__webpack_require__(/*! ./components/types.vue */ 392));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -699,6 +699,12 @@ var _default = {
   },
 
   methods: {
+    // 跳转搜索
+    toSearch: function toSearch() {
+      uni.navigateTo({
+        url: "/page_product/pages/search/index"
+      });
+    },
     // 跳转详情
     goDetail: function goDetail(item) {
       uni.navigateTo({
@@ -743,7 +749,9 @@ var _default = {
         page: this.theGetMomentsListPage,
         pagesize: this.theGetMomentsListPagesize,
         category_id: this.momentType,
-        is_product: 0
+        is_product: 0,
+        // // 行政区划编码，选定的最低一级区域的编码，空字符串是全部
+        area_code: this.$store.state.store_addressNow.code
       };
       this.API.home.getTaskList(param).then(function (res) {
         console.log(res);

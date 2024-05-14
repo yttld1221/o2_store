@@ -24,7 +24,9 @@
       "root": "page_product",
       "pages": [
         "pages/product/detail",
-        "pages/product/pay"
+        "pages/product/pay",
+        "pages/address/index",
+        "pages/address/setAddress"
       ]
     }
   ],

@@ -1,0 +1,1 @@
+<view class="search-result data-v-3b74e442"><view data-event-opts="{{[['tap',[['searchReasult']]]]}}" class="space-line-bottom data-v-3b74e442" bindtap="__e"><uni-load-more vue-id="666caf07-1" status="{{isLoading}}" content-text="{{contentText}}" class="data-v-3b74e442" bind:__l="__l"></uni-load-more></view></view>

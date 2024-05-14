@@ -1,20 +1,31 @@
 <template>
   <view class="pay">
     <view class="address-container">
-      <!-- v-if="addressInfo && addressInfo.id" -->
-      <view class="have-address">
+      <view class="have-address" v-if="addressInfo && addressInfo.id">
         <view class="address-area">
-          <view class="address-tip">默认</view>
-          河南省郑州市郑东新区
+          <view class="address-tip" v-if="addressInfo.is_default == 1"
+            >默认</view
+          >
+          {{ getArea() }}
         </view>
         <view class="address-detail">
-          黄河南路商都路财信大厦4楼瑞之雪网络
-          <u-icon name="arrow-right" color="#000000" size="12"></u-icon>
+          {{ addressInfo.addr }}
+          <u-icon
+            @click="toAddress()"
+            name="arrow-right"
+            color="#000000"
+            size="12"
+          ></u-icon>
         </view>
-        <view class="address-people"><text>魏男神魏男神</text>136****2024</view>
+        <view class="address-people"
+          ><text>{{ addressInfo.name }}</text
+          >{{ addressInfo.phone }}</view
+        >
       </view>
-      <!-- v-else -->
-      <view class="no-address"></view>
+      <view class="no-address" v-else @click="toAddress()">
+        <u-icon size="22" color="#000000" name="plus-circle"></u-icon>
+        <text class="add-new">新增收货地址</text>
+      </view>
       <image class="address-img" src="../../../static/address.png" />
     </view>
     <view class="product-list">
@@ -100,10 +111,15 @@ export default {
     };
   },
   onLoad(options) {
+    console.log(options);
     if (options.product) {
       this.list = JSON.parse(decodeURIComponent(options.product));
       this.getAddress();
     }
+    uni.$on("getAddress", (data) => {
+      console.log(data);
+      this.addressInfo = data.addressInfo;
+    });
   },
   computed: {
     // 计算总价
@@ -116,12 +132,24 @@ export default {
     },
   },
   methods: {
+    // 获取地址
+    getArea() {
+      let str = this.addressInfo.complete_addr.split(this.addressInfo.addr);
+      return str[0];
+    },
+    // 跳转地址管理
+    toAddress() {
+      uni.navigateTo({
+        url: "/page_product/pages/address/index?from=pay",
+      });
+    },
+    // 获取默认地址
     getAddress() {
       this.API.home
         .getMyReceiveAddrs({ is_default: 1 })
         .then((res) => {
           console.log(res);
-          if (res.data.length) {
+          if (res.data.length && res.data[0].is_default == 1) {
             this.addressInfo = res.data[0];
           }
         })
@@ -188,6 +216,17 @@ export default {
       }
     }
     .no-address {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      padding: 40rpx 0;
+      .add-new {
+        font-size: 30rpx;
+        font-weight: 400;
+        color: #000000;
+        margin-left: 24rpx;
+      }
     }
   }
   .address-img {

@@ -34,7 +34,7 @@
         </view>
         <view class="info-price-right">
           <image src="../../../static/sc.png" />
-          <text>234人</text>
+          <text>{{ info.collection_num }}人</text>
         </view>
       </view>
       <view class="info-title">
@@ -57,7 +57,7 @@
     ></view>
     <view class="safe-bottom"></view>
     <uni-goods-nav
-      :class="[Goodsinfo.isCollect ? 'isSc' : 'noSc']"
+      :class="[info.is_collection == 1 ? 'isSc' : 'noSc']"
       :fill="true"
       :options="options"
       :buttonGroup="buttonGroup"
@@ -108,6 +108,31 @@ export default {
     this.getDetail();
   },
   methods: {
+    // icon点击
+    onClick(e) {
+      if (e.index == 0) {
+      } else if (e.index == 1) {
+      } else {
+        this.API.home
+          .collection({ task_id: this.id })
+          .then((res) => {
+            console.log(res);
+            uni.showToast({
+              title: this.info.is_collection == 1 ? "取消收藏成功" : "收藏成功",
+              duration: 2500,
+              icon: "none",
+            });
+            this.getDetail();
+          })
+          .catch(async (err) => {
+            if (err.code == 410) {
+              await this.$store.dispatch("toLogon", {});
+              this.onClick(e);
+            }
+          });
+      }
+    },
+    // 按钮点击
     buttonClick(e) {
       console.log(e);
       if (e.content.text == "立即购买") {
@@ -249,6 +274,21 @@ export default {
   }
   .safe-bottom {
     padding-bottom: env(safe-area-inset-bottom);
+  }
+  /deep/ .isSc {
+    .uni-tab__cart-sub-left {
+      .uni-tab__cart-button-left:nth-child(3) {
+        display: none;
+      }
+    }
+  }
+
+  /deep/ .noSc {
+    .uni-tab__cart-sub-left {
+      .uni-tab__cart-button-left:nth-child(4) {
+        display: none;
+      }
+    }
   }
 }
 </style>

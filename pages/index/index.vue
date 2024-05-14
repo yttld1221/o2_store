@@ -167,6 +167,7 @@
       >
         <view class="search-box">
           <u-search
+            @click="toSearch()"
             disabled
             placeholder="请输入搜索关键词"
             v-model="searchInputText"
@@ -681,6 +682,12 @@ export default {
     // 调用接口
   },
   methods: {
+    // 跳转搜索
+    toSearch() {
+      uni.navigateTo({
+        url: "/page_product/pages/search/index",
+      });
+    },
     // 跳转详情
     goDetail(item) {
       uni.navigateTo({
@@ -713,6 +720,8 @@ export default {
         pagesize: this.theGetMomentsListPagesize,
         category_id: this.momentType,
         is_product: 0,
+        // // 行政区划编码，选定的最低一级区域的编码，空字符串是全部
+        area_code: this.$store.state.store_addressNow.code,
       };
       this.API.home
         .getTaskList(param)
