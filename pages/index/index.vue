@@ -767,6 +767,12 @@ export default {
           .then((res) => {
             console.log(res);
             this.tabArr = [];
+			//所有分类
+			// res.data.forEach((el) => {
+			// 	el.children.forEach(item=>{
+			// 		this.tabArr.push({ name:item.title=='全部'?el.title:item.title, id: item.id });
+			// 	})
+			// });
             res.data.forEach((el) => {
               if (el.category_id > 0) {
                 this.tabArr.push({ name: el.title, id: el.category_id });

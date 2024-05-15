@@ -27,4 +27,33 @@
 .search.data-v-4f2a82c8 {
   padding: 30rpx;
 }
+.search .list-container.data-v-4f2a82c8 {
+  margin-top: 44rpx;
+}
+.search .list-container .list-title.data-v-4f2a82c8 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  font-size: 28rpx;
+  color: #333333;
+}
+.search .list-container .list-box.data-v-4f2a82c8 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.search .list-container .list-box .list-item.data-v-4f2a82c8 {
+  margin-right: 30rpx;
+  padding: 8rpx 26rpx;
+  background: #f6f6f6;
+  border-radius: 19rpx;
+  margin-top: 21rpx;
+  font-family: PingFang SC;
+  font-weight: 300;
+  font-size: 22rpx;
+  color: #898989;
+}
 

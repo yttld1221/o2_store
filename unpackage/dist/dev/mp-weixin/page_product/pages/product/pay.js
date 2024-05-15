@@ -101,13 +101,13 @@ var components
 try {
   components = {
     uIcon: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 342))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 358))
     },
     uNumberBox: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-number-box/u-number-box */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-number-box/u-number-box")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-number-box/u-number-box.vue */ 512))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-number-box/u-number-box */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-number-box/u-number-box")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-number-box/u-number-box.vue */ 528))
     },
     "u-Textarea": function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u--textarea/u--textarea */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u--textarea/u--textarea")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u--textarea/u--textarea.vue */ 520))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u--textarea/u--textarea */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u--textarea/u--textarea")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u--textarea/u--textarea.vue */ 536))
     },
   }
 } catch (e) {
@@ -290,7 +290,8 @@ var _default = {
     return {
       list: [],
       addressInfo: {},
-      remark: ""
+      remark: "",
+      clickAble: true
     };
   },
   onLoad: function onLoad(options) {
@@ -316,6 +317,123 @@ var _default = {
     }
   },
   methods: {
+    // 支付
+    toPay: function toPay() {
+      var _this2 = this;
+      if (this.clickAble) {
+        this.clickAble = false;
+        var products = this.list.map(function (el) {
+          return {
+            task_id: el.id,
+            num: el.num,
+            is_read: 2
+          };
+        });
+        var params = {
+          products: products,
+          pid: 0,
+          address_id: this.addressInfo.id,
+          remark: this.remark
+        };
+        this.API.home.orderForPrePayId(params).then(function (result) {
+          _this2.clickAble = true;
+          var newData = result.data;
+          uni.requestPayment({
+            provider: "wxpay",
+            timeStamp: newData.timeStamp,
+            nonceStr: newData.nonceStr,
+            package: newData.package,
+            signType: newData.signType,
+            paySign: newData.paySign,
+            success: function success(res1) {
+              _this2.getDetail(newData.orderId);
+            },
+            fail: function fail(err) {
+              uni.showToast({
+                title: "支付取消",
+                duration: 2500,
+                icon: "none"
+              });
+              // uni.redirectTo({
+              //   url: "/pages/user/myOrder/allOrder?current1=1&type=1",
+              // });
+            }
+          });
+        }).finally(function () {
+          _this2.clickAble = true;
+        }).catch( /*#__PURE__*/function () {
+          var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(err) {
+            return _regenerator.default.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    if (!(err.code == 410)) {
+                      _context.next = 4;
+                      break;
+                    }
+                    _context.next = 3;
+                    return _this2.$store.dispatch("toLogon", {});
+                  case 3:
+                    _this2.toPay();
+                  case 4:
+                  case "end":
+                    return _context.stop();
+                }
+              }
+            }, _callee);
+          }));
+          return function (_x) {
+            return _ref.apply(this, arguments);
+          };
+        }());
+      }
+    },
+    getDetail: function getDetail(id) {
+      var _this3 = this;
+      var dsq = setInterval(function () {
+        _this3.API.home.getMyOrderInfo({
+          id: id
+        }).then(function (res) {
+          clearInterval(dsq);
+          console.log(res);
+          if (res.data.status == 2) {
+            // uni.redirectTo({
+            //   url: "/pages/user/myOrder/allOrder?current1=2&type=1",
+            // });
+            uni.showToast({
+              title: "支付成功",
+              duration: 2500,
+              icon: "none"
+            });
+          }
+        }).catch( /*#__PURE__*/function () {
+          var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(err) {
+            return _regenerator.default.wrap(function _callee2$(_context2) {
+              while (1) {
+                switch (_context2.prev = _context2.next) {
+                  case 0:
+                    if (!(err.code == 410)) {
+                      _context2.next = 5;
+                      break;
+                    }
+                    clearInterval(dsq);
+                    _context2.next = 4;
+                    return _this3.$store.dispatch("toLogon", {});
+                  case 4:
+                    _this3.getDetail(id);
+                  case 5:
+                  case "end":
+                    return _context2.stop();
+                }
+              }
+            }, _callee2);
+          }));
+          return function (_x2) {
+            return _ref2.apply(this, arguments);
+          };
+        }());
+      }, 1000);
+    },
     // 获取地址
     getArea: function getArea() {
       var str = this.addressInfo.complete_addr.split(this.addressInfo.addr);
@@ -329,37 +447,37 @@ var _default = {
     },
     // 获取默认地址
     getAddress: function getAddress() {
-      var _this2 = this;
+      var _this4 = this;
       this.API.home.getMyReceiveAddrs({
         is_default: 1
       }).then(function (res) {
         console.log(res);
         if (res.data.length && res.data[0].is_default == 1) {
-          _this2.addressInfo = res.data[0];
+          _this4.addressInfo = res.data[0];
         }
       }).catch( /*#__PURE__*/function () {
-        var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(err) {
-          return _regenerator.default.wrap(function _callee$(_context) {
+        var _ref3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(err) {
+          return _regenerator.default.wrap(function _callee3$(_context3) {
             while (1) {
-              switch (_context.prev = _context.next) {
+              switch (_context3.prev = _context3.next) {
                 case 0:
                   if (!(err.code == 410)) {
-                    _context.next = 4;
+                    _context3.next = 4;
                     break;
                   }
-                  _context.next = 3;
-                  return _this2.$store.dispatch("toLogon", {});
+                  _context3.next = 3;
+                  return _this4.$store.dispatch("toLogon", {});
                 case 3:
-                  _this2.getAddress();
+                  _this4.getAddress();
                 case 4:
                 case "end":
-                  return _context.stop();
+                  return _context3.stop();
               }
             }
-          }, _callee);
+          }, _callee3);
         }));
-        return function (_x) {
-          return _ref.apply(this, arguments);
+        return function (_x3) {
+          return _ref3.apply(this, arguments);
         };
       }());
     }

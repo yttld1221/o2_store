@@ -101,13 +101,16 @@ var components
 try {
   components = {
     uSwipeAction: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swipe-action/u-swipe-action */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swipe-action/u-swipe-action")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swipe-action/u-swipe-action.vue */ 526))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swipe-action/u-swipe-action */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swipe-action/u-swipe-action")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swipe-action/u-swipe-action.vue */ 542))
     },
     uSwipeActionItem: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swipe-action-item/u-swipe-action-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swipe-action-item/u-swipe-action-item")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swipe-action-item/u-swipe-action-item.vue */ 532))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swipe-action-item/u-swipe-action-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swipe-action-item/u-swipe-action-item")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swipe-action-item/u-swipe-action-item.vue */ 548))
     },
     uIcon: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 342))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 358))
+    },
+    uModal: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-modal/u-modal */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-modal/u-modal")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-modal/u-modal.vue */ 560))
     },
   }
 } catch (e) {
@@ -234,10 +237,20 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   components: {},
   data: function data() {
     return {
+      delId: "",
+      show: false,
       list: [],
       options: [{
         text: "删除",
@@ -325,23 +338,14 @@ var _default = {
         };
       }());
     },
-    // 如果打开一个的时候，不需要关闭其他，则无需实现本方法
-    open: function open(index) {
+    // 确认删除
+    confirmDel: function confirmDel() {
       var _this2 = this;
-      // 先将正在被操作的swipeAction标记为打开状态，否则由于props的特性限制，
-      // 原本为'false'，再次设置为'false'会无效
-      this.list[index].show = true;
-      this.list.map(function (val, idx) {
-        if (index != idx) _this2.list[idx].show = false;
-      });
-    },
-    submit: function submit(e) {
-      var _this3 = this;
-      console.log(e);
-      this.API.user.delMyReceiveAddr({
-        id: e.id
+      this.API.home.delMyReceiveAddr({
+        id: this.delId
       }).then(function (res) {
-        _this3.getList();
+        _this2.cancelDel();
+        _this2.getList();
       }).catch( /*#__PURE__*/function () {
         var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(err) {
           return _regenerator.default.wrap(function _callee2$(_context2) {
@@ -353,9 +357,9 @@ var _default = {
                     break;
                   }
                   _context2.next = 3;
-                  return _this3.$store.dispatch("toLogon", {});
+                  return _this2.$store.dispatch("toLogon", {});
                 case 3:
-                  _this3.submit(e);
+                  _this2.confirmDel();
                 case 4:
                 case "end":
                   return _context2.stop();
@@ -367,6 +371,15 @@ var _default = {
           return _ref2.apply(this, arguments);
         };
       }());
+    },
+    // 取消删除
+    cancelDel: function cancelDel() {
+      this.show = false;
+    },
+    submit: function submit(e) {
+      console.log(e);
+      this.show = true;
+      this.delId = e.id;
     }
   }
 };

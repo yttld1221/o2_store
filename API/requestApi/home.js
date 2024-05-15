@@ -73,6 +73,36 @@ const home = {
 			}
 		})
 	},
+	// 获取热门搜索词汇
+	getHotWord(data) {
+		return api.get({
+			token: true,
+			url: `${path}/wechat/sundry/getHotWord`,
+			data: {
+				...data
+			}
+		})
+	},
+	// v2订单-获取我的指定订单的订单详情
+	getMyOrderInfo(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/goods/getMyOrderInfo`,
+			data: {
+				...data
+			}
+		})
+	},
+	// v2下单-下单获取微信预支付票据
+	orderForPrePayId(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/goods/orderForPrePayId`,
+			data: {
+				...data
+			}
+		})
+	},
 }
 
 export default home;

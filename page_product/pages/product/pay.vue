@@ -94,7 +94,7 @@
             >¥<text class="price-text">{{ priceall }}</text></text
           ></view
         >
-        <view class="pay-btn">立即支付</view>
+        <view class="pay-btn" @click="toPay()">立即支付</view>
       </view>
     </view>
   </view>
@@ -108,6 +108,7 @@ export default {
       list: [],
       addressInfo: {},
       remark: "",
+      clickAble: true,
     };
   },
   onLoad(options) {
@@ -132,6 +133,88 @@ export default {
     },
   },
   methods: {
+    // 支付
+    toPay() {
+      if (this.clickAble) {
+        this.clickAble = false;
+        let products = this.list.map((el) => {
+          return {
+            task_id: el.id,
+            num: el.num,
+            is_read: 2,
+          };
+        });
+        let params = {
+          products,
+          pid: 0,
+          address_id: this.addressInfo.id,
+          remark: this.remark,
+        };
+        this.API.home
+          .orderForPrePayId(params)
+          .then((result) => {
+            this.clickAble = true;
+            let newData = result.data;
+            uni.requestPayment({
+              provider: "wxpay",
+              timeStamp: newData.timeStamp,
+              nonceStr: newData.nonceStr,
+              package: newData.package,
+              signType: newData.signType,
+              paySign: newData.paySign,
+              success: (res1) => {
+                this.getDetail(newData.orderId);
+              },
+              fail: function (err) {
+                uni.showToast({
+                  title: "支付取消",
+                  duration: 2500,
+                  icon: "none",
+                });
+                // uni.redirectTo({
+                //   url: "/pages/user/myOrder/allOrder?current1=1&type=1",
+                // });
+              },
+            });
+          })
+          .finally(() => {
+            this.clickAble = true;
+          })
+          .catch(async (err) => {
+            if (err.code == 410) {
+              await this.$store.dispatch("toLogon", {});
+              this.toPay();
+            }
+          });
+      }
+    },
+    getDetail(id) {
+      let dsq = setInterval(() => {
+        this.API.home
+          .getMyOrderInfo({ id })
+          .then((res) => {
+            clearInterval(dsq);
+            console.log(res);
+            if (res.data.status == 2) {
+              // uni.redirectTo({
+              //   url: "/pages/user/myOrder/allOrder?current1=2&type=1",
+              // });
+              uni.showToast({
+                title: "支付成功",
+                duration: 2500,
+                icon: "none",
+              });
+            }
+          })
+          .catch(async (err) => {
+            if (err.code == 410) {
+              clearInterval(dsq);
+              await this.$store.dispatch("toLogon", {});
+              this.getDetail(id);
+            }
+          });
+      }, 1000);
+    },
     // 获取地址
     getArea() {
       let str = this.addressInfo.complete_addr.split(this.addressInfo.addr);

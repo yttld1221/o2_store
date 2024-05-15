@@ -157,7 +157,6 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "商品详情",
 						"enablePullDownRefresh": false,
-						"disableScroll": true,
 						"onReachBottomDistance": 50
 					}
 				},
@@ -168,7 +167,6 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "支付",
 						"enablePullDownRefresh": false,
-						"disableScroll": true,
 						"onReachBottomDistance": 50
 					}
 				},
@@ -179,7 +177,6 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "地址管理",
 						"enablePullDownRefresh": false,
-						"disableScroll": true,
 						"onReachBottomDistance": 50
 					}
 				},
@@ -190,7 +187,6 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "添加收货地址",
 						"enablePullDownRefresh": false,
-						"disableScroll": true,
 						"onReachBottomDistance": 50
 					}
 				},
@@ -201,7 +197,6 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "搜索",
 						"enablePullDownRefresh": false,
-						"disableScroll": true,
 						"onReachBottomDistance": 50
 					}
 				},
@@ -212,7 +207,6 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "搜索结果",
 						"enablePullDownRefresh": false,
-						"disableScroll": true,
 						"onReachBottomDistance": 50
 					}
 				}

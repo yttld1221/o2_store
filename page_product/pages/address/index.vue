@@ -45,6 +45,14 @@
         </view>
       </view>
     </view>
+    <u-modal
+      :show="show"
+      :show-cancel-button="true"
+      @confirm="confirmDel"
+      @cancel="cancelDel"
+      confirm-color="#FF812F"
+      content="确认要删除该地址吗?"
+    ></u-modal>
   </view>
 </template>
 
@@ -53,6 +61,8 @@ export default {
   components: {},
   data() {
     return {
+      delId: "",
+      show: false,
       list: [],
       options: [
         {
@@ -121,30 +131,31 @@ export default {
           }
         });
     },
-    // 如果打开一个的时候，不需要关闭其他，则无需实现本方法
-    open(index) {
-      // 先将正在被操作的swipeAction标记为打开状态，否则由于props的特性限制，
-      // 原本为'false'，再次设置为'false'会无效
-      this.list[index].show = true;
-      this.list.map((val, idx) => {
-        if (index != idx) this.list[idx].show = false;
-      });
-    },
-    submit(e) {
-      console.log(e);
-      this.API.user
+    // 确认删除
+    confirmDel() {
+      this.API.home
         .delMyReceiveAddr({
-          id: e.id,
+          id: this.delId,
         })
         .then((res) => {
+          this.cancelDel();
           this.getList();
         })
         .catch(async (err) => {
           if (err.code == 410) {
             await this.$store.dispatch("toLogon", {});
-            this.submit(e);
+            this.confirmDel();
           }
         });
+    },
+    // 取消删除
+    cancelDel() {
+      this.show = false;
+    },
+    submit(e) {
+      console.log(e);
+      this.show = true;
+      this.delId = e.id;
     },
   },
 };
