@@ -48,7 +48,7 @@
     <u-divider text="商品详情"></u-divider>
     <view class="image-detail"
       ><image
-        v-for="(imgUrl, imgIdx) in srcList"
+        v-for="(imgUrl, imgIdx) in detailSrc"
         :key="imgIdx"
         style="width: 100%"
         :src="imgUrl"
@@ -75,6 +75,7 @@ export default {
       id: "",
       info: {},
       srcList: [],
+      detailSrc: [],
       currentNum: 0,
       buttonGroup: [
         {
@@ -141,7 +142,7 @@ export default {
             id: this.id,
             num: 1,
             pid: 0,
-            url: this.info.img_url,
+            url: this.info.img_url ? this.info.img_url.split(",")[0] : "",
             title: this.info.title,
             price: this.info.sale_price,
           },
@@ -167,6 +168,9 @@ export default {
           console.log(res);
           this.info = res.data;
           this.srcList = this.info.img_url ? this.info.img_url.split(",") : [];
+          this.detailSrc = this.info.content_html
+            ? this.info.content_html.split(",")
+            : [];
         })
         .catch(async (err) => {
           if (err.code == 410) {

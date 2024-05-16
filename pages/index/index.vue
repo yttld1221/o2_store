@@ -733,7 +733,12 @@ export default {
           }
           if (res.data.length != 0) {
             for (let i = 0; i < res.data.length; i++) {
-              this.school_datas.push(res.data[i]);
+              this.school_datas.push({
+                ...res.data[i],
+                img_url: res.data[i].img_url
+                  ? res.data[i].img_url.split(",")[0]
+                  : "",
+              });
             }
 
             this.isLoading = "no-more"; // 取消加载动画
@@ -767,12 +772,12 @@ export default {
           .then((res) => {
             console.log(res);
             this.tabArr = [];
-			//所有分类
-			// res.data.forEach((el) => {
-			// 	el.children.forEach(item=>{
-			// 		this.tabArr.push({ name:item.title=='全部'?el.title:item.title, id: item.id });
-			// 	})
-			// });
+            //所有分类
+            // res.data.forEach((el) => {
+            // 	el.children.forEach(item=>{
+            // 		this.tabArr.push({ name:item.title=='全部'?el.title:item.title, id: item.id });
+            // 	})
+            // });
             res.data.forEach((el) => {
               if (el.category_id > 0) {
                 this.tabArr.push({ name: el.title, id: el.category_id });

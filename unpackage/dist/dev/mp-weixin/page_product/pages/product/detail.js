@@ -266,6 +266,7 @@ var _default = {
       id: "",
       info: {},
       srcList: [],
+      detailSrc: [],
       currentNum: 0,
       buttonGroup: [{
         text: "立即购买",
@@ -341,7 +342,7 @@ var _default = {
           id: this.id,
           num: 1,
           pid: 0,
-          url: this.info.img_url,
+          url: this.info.img_url ? this.info.img_url.split(",")[0] : "",
           title: this.info.title,
           price: this.info.sale_price
         }];
@@ -365,6 +366,7 @@ var _default = {
         console.log(res);
         _this2.info = res.data;
         _this2.srcList = _this2.info.img_url ? _this2.info.img_url.split(",") : [];
+        _this2.detailSrc = _this2.info.content_html ? _this2.info.content_html.split(",") : [];
       }).catch( /*#__PURE__*/function () {
         var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(err) {
           return _regenerator.default.wrap(function _callee2$(_context2) {

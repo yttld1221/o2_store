@@ -178,7 +178,12 @@ export default {
         }
         if (res.data.length != 0) {
           for (let i = 0; i < res.data.length; i++) {
-            this.list.push(res.data[i]);
+            this.list.push({
+              ...res.data[i],
+              img_url: res.data[i].img_url
+                ? res.data[i].img_url.split(",")[0]
+                : "",
+            });
           }
 
           this.isLoading = "no-more"; // 取消加载动画
