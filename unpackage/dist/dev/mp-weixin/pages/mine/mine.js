@@ -429,7 +429,7 @@ var _default = {
       line_3_items: [{
         src: "/static/5_line_3_1@3x.png",
         name: "订单管理",
-        enable: false
+        enable: true
       }, {
         src: "/static/5_line_3_2@3x.png",
         name: "发布管理",
@@ -691,6 +691,10 @@ var _default = {
         this.$public.disabled_tip("工作室");
       } else if (index == 3) {
         this.$public.disabled_tip("更多");
+      } else {
+        uni.navigateTo({
+          url: "/page_product/pages/order/index"
+        });
       }
     },
     //------------------------------------------------  接口请求  -----------------------------------------------------

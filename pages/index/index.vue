@@ -561,6 +561,9 @@ export default {
   },
   onShow() {
     this.theLevel = this.$store.state.theLogonUser.level;
+    if (this.$store.state.isOnload) {
+      this.theTitleIndex = 1;
+    }
     // 判断一下，防止重复登录
     // if(this.$store.state.theLogonUser.id == 0){
     // 	this.$store.dispatch('toLogon', {});

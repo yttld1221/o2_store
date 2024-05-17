@@ -28,7 +28,8 @@
         "pages/address/index",
         "pages/address/setAddress",
         "pages/search/index",
-        "pages/search/searchResult"
+        "pages/search/searchResult",
+        "pages/order/index"
       ]
     }
   ],

@@ -336,6 +336,14 @@ var _default = {
     },
     // 按钮点击
     buttonClick: function buttonClick(e) {
+      if (this.$store.state.theLogonUser.level < this.info.buy_level) {
+        uni.showToast({
+          title: "当前操作权限不足，请尽快完成会员升级！",
+          duration: 2500,
+          icon: "none"
+        });
+        return false;
+      }
       console.log(e);
       if (e.content.text == "立即购买") {
         var param = [{

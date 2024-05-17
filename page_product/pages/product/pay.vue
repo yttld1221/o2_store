@@ -122,6 +122,8 @@ export default {
       this.addressInfo = data.addressInfo;
     });
   },
+  onShow() {
+  },
   computed: {
     // 计算总价
     priceall: function () {
@@ -153,7 +155,9 @@ export default {
         this.API.home
           .orderForPrePayId(params)
           .then((result) => {
-            this.clickAble = true;
+            setTimeout(() => {
+              this.clickAble = true;
+            }, 1000);
             let newData = result.data;
             uni.requestPayment({
               provider: "wxpay",
@@ -165,15 +169,15 @@ export default {
               success: (res1) => {
                 this.getDetail(newData.orderId);
               },
-              fail: function (err) {
+              fail: (err) => {
                 uni.showToast({
                   title: "支付取消",
                   duration: 2500,
                   icon: "none",
                 });
-                // uni.redirectTo({
-                //   url: "/pages/user/myOrder/allOrder?current1=1&type=1",
-                // });
+                uni.reLaunch({
+                  url: "/page_product/pages/order/index?current=1",
+                });
               },
             });
           })
@@ -195,15 +199,15 @@ export default {
           .then((res) => {
             clearInterval(dsq);
             console.log(res);
-            if (res.data.status == 2) {
-              // uni.redirectTo({
-              //   url: "/pages/user/myOrder/allOrder?current1=2&type=1",
-              // });
+            if ([2, 3].includes(res.data.status)) {
               uni.showToast({
                 title: "支付成功",
                 duration: 2500,
                 icon: "none",
               });
+              // uni.redirectTo({
+              //   url: "/pages/user/myOrder/allOrder?current1=2&type=1",
+              // });
             }
           })
           .catch(async (err) => {

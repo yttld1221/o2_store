@@ -3,7 +3,7 @@ function getToken(token) {
 	if (token) {
 		if (token !== '') {
 			// store.state.theToken
-			api.header['token'] = uni.getStorageSync('token') || store.state.theToken
+			api.header['token'] = store.state.theToken
 			return false;
 		} else {
 			return true;

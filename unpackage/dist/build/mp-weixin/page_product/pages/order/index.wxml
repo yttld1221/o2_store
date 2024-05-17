@@ -1,0 +1,1 @@
+<view class="order data-v-6f86979c"><view class="tab-box data-v-6f86979c"><u-tabs vue-id="a1f5bd7c-1" current="{{current}}" list="{{list}}" data-event-opts="{{[['^change',[['changeTab']]]]}}" bind:change="__e" class="data-v-6f86979c" bind:__l="__l"></u-tabs></view></view>

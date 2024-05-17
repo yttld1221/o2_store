@@ -3,7 +3,6 @@
   "navigationBarTextStyle": "black",
   "navigationBarTitleText": "添加收货地址",
   "enablePullDownRefresh": false,
-  "disableScroll": true,
   "onReachBottomDistance": 50,
   "usingComponents": {
     "u-form": "/uni_modules/uview-ui/components/u-form/u-form",

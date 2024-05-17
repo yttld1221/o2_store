@@ -3,7 +3,6 @@
   "navigationBarTextStyle": "black",
   "navigationBarTitleText": "支付",
   "enablePullDownRefresh": false,
-  "disableScroll": true,
   "onReachBottomDistance": 50,
   "usingComponents": {
     "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",

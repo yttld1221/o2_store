@@ -306,6 +306,7 @@ var _default = {
       _this.addressInfo = data.addressInfo;
     });
   },
+  onShow: function onShow() {},
   computed: {
     // 计算总价
     priceall: function priceall() {
@@ -336,7 +337,9 @@ var _default = {
           remark: this.remark
         };
         this.API.home.orderForPrePayId(params).then(function (result) {
-          _this2.clickAble = true;
+          setTimeout(function () {
+            _this2.clickAble = true;
+          }, 1000);
           var newData = result.data;
           uni.requestPayment({
             provider: "wxpay",
@@ -354,9 +357,9 @@ var _default = {
                 duration: 2500,
                 icon: "none"
               });
-              // uni.redirectTo({
-              //   url: "/pages/user/myOrder/allOrder?current1=1&type=1",
-              // });
+              uni.reLaunch({
+                url: "/page_product/pages/order/index?current=1"
+              });
             }
           });
         }).finally(function () {
@@ -396,15 +399,15 @@ var _default = {
         }).then(function (res) {
           clearInterval(dsq);
           console.log(res);
-          if (res.data.status == 2) {
-            // uni.redirectTo({
-            //   url: "/pages/user/myOrder/allOrder?current1=2&type=1",
-            // });
+          if ([2, 3].includes(res.data.status)) {
             uni.showToast({
               title: "支付成功",
               duration: 2500,
               icon: "none"
             });
+            // uni.redirectTo({
+            //   url: "/pages/user/myOrder/allOrder?current1=2&type=1",
+            // });
           }
         }).catch( /*#__PURE__*/function () {
           var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(err) {

@@ -12385,7 +12385,7 @@ function getToken(token) {
   if (token) {
     if (token !== '') {
       // store.state.theToken
-      api.header['token'] = uni.getStorageSync('token') || _index.default.state.theToken;
+      api.header['token'] = _index.default.state.theToken;
       return false;
     } else {
       return true;
@@ -12811,64 +12811,16 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _api = _interopRequireDefault(__webpack_require__(/*! ../api.js */ 40));
-var _config = _interopRequireDefault(__webpack_require__(/*! ../config */ 41));
+var _index = _interopRequireDefault(__webpack_require__(/*! ../../store/index */ 33));
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-var path = _config.default.dev;
+var path = _index.default.state.theUrl;
 var order = {
-  // 我的预约列表
-  recordList: function recordList(data) {
+  // v2购买记录-获取本人购买的商品列表数据
+  getMyOrderList: function getMyOrderList(data) {
     return _api.default.get({
       token: true,
-      url: "".concat(path, "/xsxcx/client/api/v1/myReservation/recordList"),
-      data: _objectSpread({}, data)
-    });
-  },
-  // 我的预约>历史待评价
-  myRecordHistoryList: function myRecordHistoryList(data) {
-    return _api.default.get({
-      token: true,
-      url: "".concat(path, "/xsxcx/client/api/v1/myReservation/myRecordHistoryList"),
-      data: _objectSpread({}, data)
-    });
-  },
-  // 我的预约>预约详情
-  reservationDetails: function reservationDetails(data) {
-    return _api.default.get({
-      token: true,
-      url: "".concat(path, "/xsxcx/client/api/v1/myReservation/reservationDetails"),
-      data: _objectSpread({}, data)
-    });
-  },
-  // 我的预约>预约方取消预约
-  cancelTheReservationByAppointment: function cancelTheReservationByAppointment(data) {
-    return _api.default.post({
-      token: true,
-      url: "".concat(path, "/xsxcx/client/api/v1/myReservation/cancelTheReservationByAppointment"),
-      data: _objectSpread({}, data)
-    });
-  },
-  // 我的预约>授课方取消预约
-  cancelTheReservationByTeaching: function cancelTheReservationByTeaching(data) {
-    return _api.default.post({
-      token: true,
-      url: "".concat(path, "/xsxcx/client/api/v1/myReservation/cancelTheReservationByTeaching"),
-      data: _objectSpread({}, data)
-    });
-  },
-  // 我的预约>授课签到
-  teachingCheckIn: function teachingCheckIn(data) {
-    return _api.default.post({
-      token: true,
-      url: "".concat(path, "/xsxcx/client/api/v1/myReservation/teachingCheckIn"),
-      data: _objectSpread({}, data)
-    });
-  },
-  // 我的预约>提交评价
-  submitEvaluation: function submitEvaluation(data) {
-    return _api.default.post({
-      token: true,
-      url: "".concat(path, "/xsxcx/client/api/v1/myReservation/submitEvaluation"),
+      url: "".concat(path, "/wechat/wx/getMyOrderList"),
       data: _objectSpread({}, data)
     });
   }
@@ -31747,6 +31699,15 @@ var _default = {
         "navigationBarBackgroundColor": "#ffffff",
         "navigationBarTextStyle": "black",
         "navigationBarTitleText": "搜索结果",
+        "enablePullDownRefresh": false,
+        "onReachBottomDistance": 50
+      }
+    }, {
+      "path": "pages/order/index",
+      "style": {
+        "navigationBarBackgroundColor": "#ffffff",
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "我的订单",
         "enablePullDownRefresh": false,
         "onReachBottomDistance": 50
       }
