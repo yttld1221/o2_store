@@ -122,8 +122,7 @@ export default {
       this.addressInfo = data.addressInfo;
     });
   },
-  onShow() {
-  },
+  onShow() {},
   computed: {
     // 计算总价
     priceall: function () {
@@ -170,13 +169,14 @@ export default {
                 this.getDetail(newData.orderId);
               },
               fail: (err) => {
-                uni.showToast({
-                  title: "支付取消",
-                  duration: 2500,
-                  icon: "none",
-                });
-                uni.reLaunch({
+                uni.redirectTo({
                   url: "/page_product/pages/order/index?current=1",
+                  success: () => {
+                    uni.showToast({
+                      title: "支付取消",
+                      icon: "none",
+                    });
+                  },
                 });
               },
             });
@@ -200,14 +200,15 @@ export default {
             clearInterval(dsq);
             console.log(res);
             if ([2, 3].includes(res.data.status)) {
-              uni.showToast({
-                title: "支付成功",
-                duration: 2500,
-                icon: "none",
+              uni.redirectTo({
+                url: "/page_product/pages/order/index?current=2",
+                success: () => {
+                  uni.showToast({
+                    title: "支付成功",
+                    icon: "none",
+                  });
+                },
               });
-              // uni.redirectTo({
-              //   url: "/pages/user/myOrder/allOrder?current1=2&type=1",
-              // });
             }
           })
           .catch(async (err) => {
@@ -342,15 +343,21 @@ export default {
         box-sizing: border-box;
         height: 160rpx;
         width: calc(100% - 190rpx);
-        padding: 32rpx 0;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
         .product-title {
           font-family: PingFang SC;
           font-weight: 500;
           font-size: 24rpx;
           color: #393a3e;
+          margin-bottom: 32rpx;
+          width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
         }
         .product-price {
           display: flex;

@@ -557,6 +557,7 @@ export default {
     this.$store.commit("changeStore_addressNow", {
       tempSelectedAddress: storage_addressNow,
     });
+
     this.getShopType();
   },
   onShow() {
@@ -598,9 +599,10 @@ export default {
         },
       });
     }
+    console.log(that.tempAddressTitle, that.theAddress.title);
     // 从地址选择页面返回过来的时候，需要判断一下有没有改变过地址，如果和之前保存的不一样了，证明选择了其他地址，那么需要重新获取接口
     if (
-      that.tempAddressTitle &&
+      (that.tempAddressTitle == undefined || that.tempAddressTitle != "") &&
       that.tempAddressTitle != that.theAddress.title &&
       that.theAddress.title != undefined
     ) {
@@ -630,7 +632,12 @@ export default {
         that.school_datas = [];
 
         // 接口调用
-        await that.getMomentsList("area");
+        if (that.theTitleIndex == 1) {
+          await that.getMomentsList("area");
+        } else {
+          await that.initShop();
+          that.tempAddressTitle = that.theAddress.title;
+        }
         // 变更页面信息（显示的地址）
       })();
     } else if (that.$store.state.isOnload) {
@@ -722,7 +729,7 @@ export default {
         page: this.theGetMomentsListPage,
         pagesize: this.theGetMomentsListPagesize,
         category_id: this.momentType,
-        is_product: 0,
+        is_product: 1,
         // // 行政区划编码，选定的最低一级区域的编码，空字符串是全部
         area_code: this.$store.state.store_addressNow.code,
       };
@@ -790,14 +797,18 @@ export default {
               this.theGetMomentsListPage = 1;
               this.school_datas = [];
               this.momentType = this.tabArr[0].id;
-              this.initShop();
+              if (this.theAddress.title) {
+                this.initShop();
+              }
             }
           })
           .catch(async (err) => {
             console.log(err);
             if (err.code == 410) {
               await this.$store.dispatch("toLogon", {});
-              this.getShopType();
+              await this.getShopType();
+              this.tempAddressTitle = this.$store.state.store_addressNow.title;
+              this.tempSchoolTitle = this.$store.state.store_schoolNow.title;
             }
           });
       }
@@ -1105,6 +1116,10 @@ export default {
                   __that.theGetMomentsListPage = 1;
                   // 获取省市数据
                   __that.getMomentsList(getType);
+                  __that.tempAddressTitle =
+                    __that.$store.state.store_addressNow.title;
+                  __that.tempSchoolTitle =
+                    __that.$store.state.store_schoolNow.title;
                 })();
                 // uni.showModal({
                 // 	title: '温馨提示：',

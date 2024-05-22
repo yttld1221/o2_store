@@ -118,16 +118,22 @@
   box-sizing: border-box;
   height: 160rpx;
   width: calc(100% - 190rpx);
-  padding: 32rpx 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
 }
 .pay .product-list .list-item .product-info .product-title.data-v-780e850a {
   font-family: PingFang SC;
   font-weight: 500;
   font-size: 24rpx;
   color: #393a3e;
+  margin-bottom: 32rpx;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 .pay .product-list .list-item .product-info .product-price.data-v-780e850a {
   display: flex;

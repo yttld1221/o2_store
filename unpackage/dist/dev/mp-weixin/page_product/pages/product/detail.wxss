@@ -29,19 +29,6 @@
   min-height: 100vh;
   background: #fafafa;
 }
-.detail .indicator-num.data-v-8f054364 {
-  padding: 2px 0;
-  background-color: rgba(0, 0, 0, 0.35);
-  border-radius: 100px;
-  width: 35px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-.detail .indicator-num__text.data-v-8f054364 {
-  color: #ffffff;
-  font-size: 12px;
-}
 .detail.data-v-8f054364 .uni-goods-nav {
   position: fixed;
   width: 100%;
@@ -126,5 +113,19 @@
 }
 .detail.data-v-8f054364 .noSc .uni-tab__cart-sub-left .uni-tab__cart-button-left:nth-child(4) {
   display: none;
+}
+.detail.data-v-8f054364 .u-swiper__indicator {
+  bottom: 54rpx !important;
+}
+.detail.data-v-8f054364 .u-swiper__indicator .indicator-num {
+  width: 90rpx;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 20rpx 0rpx 0rpx 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #ffffff;
 }
 

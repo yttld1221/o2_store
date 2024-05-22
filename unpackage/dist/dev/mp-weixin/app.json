@@ -29,7 +29,11 @@
         "pages/address/setAddress",
         "pages/search/index",
         "pages/search/searchResult",
-        "pages/order/index"
+        "pages/order/index",
+        "pages/order/detail",
+        "pages/order/refund",
+        "pages/order/evaluate",
+        "pages/mall/index"
       ]
     }
   ],

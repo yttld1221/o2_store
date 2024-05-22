@@ -101,13 +101,13 @@ var components
 try {
   components = {
     uIcon: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 358))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 396))
     },
     uNumberBox: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-number-box/u-number-box */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-number-box/u-number-box")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-number-box/u-number-box.vue */ 528))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-number-box/u-number-box */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-number-box/u-number-box")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-number-box/u-number-box.vue */ 566))
     },
     "u-Textarea": function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u--textarea/u--textarea */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u--textarea/u--textarea")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u--textarea/u--textarea.vue */ 536))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u--textarea/u--textarea */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u--textarea/u--textarea")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u--textarea/u--textarea.vue */ 574))
     },
   }
 } catch (e) {
@@ -352,13 +352,14 @@ var _default = {
               _this2.getDetail(newData.orderId);
             },
             fail: function fail(err) {
-              uni.showToast({
-                title: "支付取消",
-                duration: 2500,
-                icon: "none"
-              });
-              uni.reLaunch({
-                url: "/page_product/pages/order/index?current=1"
+              uni.redirectTo({
+                url: "/page_product/pages/order/index?current=1",
+                success: function success() {
+                  uni.showToast({
+                    title: "支付取消",
+                    icon: "none"
+                  });
+                }
               });
             }
           });
@@ -400,14 +401,15 @@ var _default = {
           clearInterval(dsq);
           console.log(res);
           if ([2, 3].includes(res.data.status)) {
-            uni.showToast({
-              title: "支付成功",
-              duration: 2500,
-              icon: "none"
+            uni.redirectTo({
+              url: "/page_product/pages/order/index?current=2",
+              success: function success() {
+                uni.showToast({
+                  title: "支付成功",
+                  icon: "none"
+                });
+              }
             });
-            // uni.redirectTo({
-            //   url: "/pages/user/myOrder/allOrder?current1=2&type=1",
-            // });
           }
         }).catch( /*#__PURE__*/function () {
           var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(err) {

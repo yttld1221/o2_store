@@ -101,22 +101,22 @@ var components
 try {
   components = {
     uIcon: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 358))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 396))
     },
     uniIcons: function () {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 367))
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 405))
     },
     postTypeZudui: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui */ "uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui").then(__webpack_require__.bind(null, /*! @/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui.vue */ 375))
+      return __webpack_require__.e(/*! import() | uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui */ "uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui").then(__webpack_require__.bind(null, /*! @/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui.vue */ 413))
     },
     uSearch: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-search/u-search */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-search/u-search")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-search/u-search.vue */ 382))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-search/u-search */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-search/u-search")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-search/u-search.vue */ 420))
     },
     uniLoadMore: function () {
-      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 390))
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 428))
     },
     tabBar: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */ "uni_modules/tab-Bar/components/tab-Bar/tab-Bar").then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 401))
+      return __webpack_require__.e(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */ "uni_modules/tab-Bar/components/tab-Bar/tab-Bar").then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 439))
     },
   }
 } catch (e) {
@@ -219,7 +219,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var types = function types() {
   __webpack_require__.e(/*! require.ensure | pages/index/components/types */ "pages/index/components/types").then((function () {
-    return resolve(__webpack_require__(/*! ./components/types.vue */ 408));
+    return resolve(__webpack_require__(/*! ./components/types.vue */ 446));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -573,8 +573,9 @@ var _default = {
         }
       });
     }
+    console.log(that.tempAddressTitle, that.theAddress.title);
     // 从地址选择页面返回过来的时候，需要判断一下有没有改变过地址，如果和之前保存的不一样了，证明选择了其他地址，那么需要重新获取接口
-    if (that.tempAddressTitle && that.tempAddressTitle != that.theAddress.title && that.theAddress.title != undefined) {
+    if ((that.tempAddressTitle == undefined || that.tempAddressTitle != "") && that.tempAddressTitle != that.theAddress.title && that.theAddress.title != undefined) {
       // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
       // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
       // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
@@ -605,9 +606,21 @@ var _default = {
                 that.school_datas = [];
 
                 // 接口调用
-                _context.next = 6;
+                if (!(that.theTitleIndex == 1)) {
+                  _context.next = 9;
+                  break;
+                }
+                _context.next = 7;
                 return that.getMomentsList("area");
-              case 6:
+              case 7:
+                _context.next = 12;
+                break;
+              case 9:
+                _context.next = 11;
+                return that.initShop();
+              case 11:
+                that.tempAddressTitle = that.theAddress.title;
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -755,7 +768,7 @@ var _default = {
         page: this.theGetMomentsListPage,
         pagesize: this.theGetMomentsListPagesize,
         category_id: this.momentType,
-        is_product: 0,
+        is_product: 1,
         // // 行政区划编码，选定的最低一级区域的编码，空字符串是全部
         area_code: this.$store.state.store_addressNow.code
       };
@@ -835,7 +848,9 @@ var _default = {
             _this4.theGetMomentsListPage = 1;
             _this4.school_datas = [];
             _this4.momentType = _this4.tabArr[0].id;
-            _this4.initShop();
+            if (_this4.theAddress.title) {
+              _this4.initShop();
+            }
           }
         }).catch( /*#__PURE__*/function () {
           var _ref7 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7(err) {
@@ -845,14 +860,18 @@ var _default = {
                   case 0:
                     console.log(err);
                     if (!(err.code == 410)) {
-                      _context7.next = 5;
+                      _context7.next = 8;
                       break;
                     }
                     _context7.next = 4;
                     return _this4.$store.dispatch("toLogon", {});
                   case 4:
-                    _this4.getShopType();
-                  case 5:
+                    _context7.next = 6;
+                    return _this4.getShopType();
+                  case 6:
+                    _this4.tempAddressTitle = _this4.$store.state.store_addressNow.title;
+                    _this4.tempSchoolTitle = _this4.$store.state.store_schoolNow.title;
+                  case 8:
                   case "end":
                     return _context7.stop();
                 }
@@ -1160,7 +1179,9 @@ var _default = {
                           __that.theGetMomentsListPage = 1;
                           // 获取省市数据
                           __that.getMomentsList(getType);
-                        case 4:
+                          __that.tempAddressTitle = __that.$store.state.store_addressNow.title;
+                          __that.tempSchoolTitle = __that.$store.state.store_schoolNow.title;
+                        case 6:
                         case "end":
                           return _context8.stop();
                       }

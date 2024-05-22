@@ -99,7 +99,7 @@ var components
 try {
   components = {
     qfImageCropper: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/qf-image-cropper/components/qf-image-cropper/qf-image-cropper */ "uni_modules/qf-image-cropper/components/qf-image-cropper/qf-image-cropper").then(__webpack_require__.bind(null, /*! @/uni_modules/qf-image-cropper/components/qf-image-cropper/qf-image-cropper.vue */ 484))
+      return __webpack_require__.e(/*! import() | uni_modules/qf-image-cropper/components/qf-image-cropper/qf-image-cropper */ "uni_modules/qf-image-cropper/components/qf-image-cropper/qf-image-cropper").then(__webpack_require__.bind(null, /*! @/uni_modules/qf-image-cropper/components/qf-image-cropper/qf-image-cropper.vue */ 522))
     },
   }
 } catch (e) {

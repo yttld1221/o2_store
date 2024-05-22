@@ -7,7 +7,7 @@
       :list="srcList"
       @change="(e) => (currentNum = e.current)"
       :autoplay="false"
-      indicatorStyle="right: 20px"
+      indicatorStyle="right: 0px"
     >
       <u-swiper-item slot="item" v-for="(item, index) in srcList" :key="index">
         <u-image
@@ -20,7 +20,7 @@
       <view slot="indicator" class="indicator-num">
         <text class="indicator-num__text"
           ><text style="font-size: 28rpx">{{ currentNum + 1 }}</text
-          >/<text style="font-size: 18rpx">{{ srcList.length }}</text></text
+          ><text style="font-size: 18rpx">/{{ srcList.length }}</text></text
         >
       </view>
     </u-swiper>
@@ -112,7 +112,16 @@ export default {
     // icon点击
     onClick(e) {
       if (e.index == 0) {
+        // uni.navigateTo({
+        //   url:
+        //     "/page_product/pages/product/pay?product=" +,
+        // });
       } else if (e.index == 1) {
+        uni.showToast({
+          title: "功能暂未开放",
+          duration: 2500,
+          icon: "none",
+        });
       } else {
         this.API.home
           .collection({ task_id: this.id })
@@ -135,6 +144,7 @@ export default {
     },
     // 按钮点击
     buttonClick(e) {
+      console.log(e);
       if (this.$store.state.theLogonUser.level < this.info.buy_level) {
         uni.showToast({
           title: "当前操作权限不足，请尽快完成会员升级！",
@@ -143,7 +153,6 @@ export default {
         });
         return false;
       }
-      console.log(e);
       if (e.content.text == "立即购买") {
         let param = [
           {
@@ -195,19 +204,6 @@ export default {
   padding-bottom: 80px;
   min-height: 100vh;
   background: #fafafa;
-  .indicator-num {
-    padding: 2px 0;
-    background-color: rgba(0, 0, 0, 0.35);
-    border-radius: 100px;
-    width: 35px;
-    @include flex;
-    justify-content: center;
-
-    &__text {
-      color: #ffffff;
-      font-size: 12px;
-    }
-  }
   /deep/ .uni-goods-nav {
     position: fixed;
     width: 100%;
@@ -300,6 +296,20 @@ export default {
       .uni-tab__cart-button-left:nth-child(4) {
         display: none;
       }
+    }
+  }
+  /deep/ .u-swiper__indicator {
+    bottom: 54rpx !important;
+    .indicator-num {
+      width: 90rpx;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20rpx 0rpx 0rpx 20rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: PingFang SC;
+      font-weight: 400;
+      color: #ffffff;
     }
   }
 }

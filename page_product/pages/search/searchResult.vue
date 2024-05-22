@@ -167,8 +167,8 @@ export default {
         title: this.searchText,
         order_type: this.orderType,
         order_field: this.order_field,
-        // is_product: 1,
-        // area_code: this.$store.state.store_addressNow.code,
+        is_product: 1,
+        area_code: this.$store.state.store_addressNow.code,
       };
       this.API.home.getTaskList(params).then((res) => {
         console.log(res);
