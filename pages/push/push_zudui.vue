@@ -520,7 +520,7 @@ export default {
                     duration: 500,
                     icon: "none",
                   });
-                  that.$store.commit("changeOnload", true);
+                  uni.$emit("publishSchool", {});
                   setTimeout(function () {
                     uni.switchTab({
                       url: "/pages/index/index",

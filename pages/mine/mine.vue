@@ -469,7 +469,10 @@ export default {
           url: "/pages/mine/mine_push",
         });
       } else if (index == 2) {
-        this.$public.disabled_tip("工作室");
+        // this.$public.disabled_tip("工作室");
+        uni.navigateTo({
+          url: "/page_product/pages/mall/addMall",
+        });
       } else if (index == 3) {
         this.$public.disabled_tip("更多");
       } else {

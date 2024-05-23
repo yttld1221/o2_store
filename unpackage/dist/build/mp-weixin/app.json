@@ -33,7 +33,8 @@
         "pages/order/detail",
         "pages/order/refund",
         "pages/order/evaluate",
-        "pages/mall/index"
+        "pages/mall/index",
+        "pages/mall/addMall"
       ]
     }
   ],

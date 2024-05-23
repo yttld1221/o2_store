@@ -4,7 +4,7 @@
     <view class="top">
       <uni-search-bar @input="toInput" v-model="searchValue"></uni-search-bar>
       <!-- 25px -->
-      <view class="selected">
+      <view v-if="type !== 'mall'" class="selected">
         <view class="selected-tip">已选择</view>
         <view class="selected-content">
           <uni-icons
@@ -200,6 +200,9 @@ export default {
     },
     // 选中地址
     selectingAddress: function (item) {
+      if (this.type == "mall" && item[1] == "省") {
+        return;
+      }
       this.tempSelectedAddress = item[0];
     },
     // 确认选中的地址
@@ -213,7 +216,9 @@ export default {
 
           // 存本地
           this.setStorageSync("storage_addressNow", this.tempSelectedAddress);
-
+          if (this.addressNow != this.tempSelectedAddress.title) {
+            uni.$emit("changeIndexArea", this.tempSelectedAddress);
+          }
           uni.navigateBack();
         } else if (this.type == "register") {
           this.$store.commit("changeStore_addressRegister", {
@@ -222,6 +227,12 @@ export default {
           // 选择完地区后，跳转选择学校
           uni.navigateTo({
             url: "/pages/index/school?type=register",
+          });
+        } else if (this.type == "mall") {
+          uni.$emit("changeArea", this.tempSelectedAddress);
+          uni.navigateBack({
+            delta: 1,
+            success: () => {},
           });
         } else {
           // 目前只有发布页面用到，就用else  不做判断了
@@ -232,7 +243,7 @@ export default {
         }
       } else {
         uni.showToast({
-          title: "选择一个地区(*^_^*)吧~",
+          title: "选择一个地区吧~",
           duration: 2500,
           icon: "none",
         });

@@ -259,6 +259,16 @@
 						"enablePullDownRefresh": true,
 						"onReachBottomDistance": 50
 					}
+				},
+				{
+					"path": "pages/mall/addMall",
+					"style": {
+						"navigationBarBackgroundColor": "#ffffff",
+						"navigationBarTextStyle": "black",
+						"navigationBarTitleText": "申请工作室",
+						"enablePullDownRefresh": false,
+						"onReachBottomDistance": 50
+					}
 				}
 			]
 		}

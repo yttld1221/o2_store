@@ -158,6 +158,9 @@ export default {
     };
   },
   onLoad(options) {
+    if (options.current) {
+      this.current = options.current;
+    }
     let query = uni.createSelectorQuery().in(this);
     query
       .select(".the-line-4")

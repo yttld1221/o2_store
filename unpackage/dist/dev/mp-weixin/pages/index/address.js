@@ -101,16 +101,16 @@ var components
 try {
   components = {
     uniSearchBar: function () {
-      return Promise.all(/*! import() | uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar.vue */ 453))
+      return Promise.all(/*! import() | uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar.vue */ 462))
     },
     uniIcons: function () {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 405))
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 414))
     },
     addressRecursion: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/address-recursion/components/address-recursion/address-recursion */ "uni_modules/address-recursion/components/address-recursion/address-recursion").then(__webpack_require__.bind(null, /*! @/uni_modules/address-recursion/components/address-recursion/address-recursion.vue */ 464))
+      return __webpack_require__.e(/*! import() | uni_modules/address-recursion/components/address-recursion/address-recursion */ "uni_modules/address-recursion/components/address-recursion/address-recursion").then(__webpack_require__.bind(null, /*! @/uni_modules/address-recursion/components/address-recursion/address-recursion.vue */ 473))
     },
     uniLoadMore: function () {
-      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 428))
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 437))
     },
   }
 } catch (e) {
@@ -135,10 +135,13 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 =
-    _vm.addressNow != undefined && _vm.addressNow != ""
+    _vm.type !== "mall" && _vm.addressNow != undefined && _vm.addressNow != ""
       ? _vm.addressNow.substring(0, 9)
       : null
-  var g1 = _vm.addressNow != undefined ? _vm.addressNow.length : null
+  var g1 =
+    _vm.type !== "mall" && _vm.addressNow != undefined
+      ? _vm.addressNow.length
+      : null
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -386,6 +389,9 @@ var _default = {
     },
     // 选中地址
     selectingAddress: function selectingAddress(item) {
+      if (this.type == "mall" && item[1] == "省") {
+        return;
+      }
       this.tempSelectedAddress = item[0];
     },
     // 确认选中的地址
@@ -399,6 +405,9 @@ var _default = {
 
           // 存本地
           this.setStorageSync("storage_addressNow", this.tempSelectedAddress);
+          if (this.addressNow != this.tempSelectedAddress.title) {
+            uni.$emit("changeIndexArea", this.tempSelectedAddress);
+          }
           uni.navigateBack();
         } else if (this.type == "register") {
           this.$store.commit("changeStore_addressRegister", {
@@ -407,6 +416,12 @@ var _default = {
           // 选择完地区后，跳转选择学校
           uni.navigateTo({
             url: "/pages/index/school?type=register"
+          });
+        } else if (this.type == "mall") {
+          uni.$emit("changeArea", this.tempSelectedAddress);
+          uni.navigateBack({
+            delta: 1,
+            success: function success() {}
           });
         } else {
           // 目前只有发布页面用到，就用else  不做判断了
@@ -417,7 +432,7 @@ var _default = {
         }
       } else {
         uni.showToast({
-          title: "选择一个地区(*^_^*)吧~",
+          title: "选择一个地区吧~",
           duration: 2500,
           icon: "none"
         });

@@ -559,12 +559,48 @@ export default {
     });
 
     this.getShopType();
+    uni.$on("changeIndexArea", async (data) => {
+      this.theSchool = {
+        id: 0,
+        title: "",
+        status: 1,
+        addr: "",
+        create_id: 1,
+        update_id: 1,
+      };
+      this.$store.commit("changeStore_schoolNow", {
+        id: 0,
+        title: "",
+        status: 1,
+        addr: "",
+        create_id: 1,
+        update_id: 1,
+      });
+      // 重置一下，需要重新获取数据，那么页码和容器都要重置
+      this.theGetMomentsListPage = 1;
+      this.school_datas = [];
+      // 接口调用
+      if (this.theTitleIndex == 1) {
+        await this.getMomentsList("area");
+      } else {
+        await this.initShop();
+        this.tempAddressTitle = this.theAddress.title;
+      }
+    });
+    uni.$on("changeIndexSchool", async (data) => {
+      this.theGetMomentsListPage = 1;
+      this.school_datas = [];
+      await this.getMomentsList("school");
+    });
+    uni.$on("publishSchool", async (data) => {
+      this.theTitleIndex = 1;
+      this.theGetMomentsListPage = 1;
+      this.school_datas = [];
+      await this.getMomentsList();
+    });
   },
   onShow() {
     this.theLevel = this.$store.state.theLogonUser.level;
-    if (this.$store.state.isOnload) {
-      this.theTitleIndex = 1;
-    }
     // 判断一下，防止重复登录
     // if(this.$store.state.theLogonUser.id == 0){
     // 	this.$store.dispatch('toLogon', {});
@@ -598,66 +634,6 @@ export default {
           }
         },
       });
-    }
-    console.log(that.tempAddressTitle, that.theAddress.title);
-    // 从地址选择页面返回过来的时候，需要判断一下有没有改变过地址，如果和之前保存的不一样了，证明选择了其他地址，那么需要重新获取接口
-    if (
-      (that.tempAddressTitle == undefined || that.tempAddressTitle != "") &&
-      that.tempAddressTitle != that.theAddress.title &&
-      that.theAddress.title != undefined
-    ) {
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      (async function () {
-        // 重置一下  地区改变了，学校肯定要重置为空的
-        that.theSchool = {
-          id: 0,
-          title: "",
-          status: 1,
-          addr: "",
-          create_id: 1,
-          update_id: 1,
-        };
-        that.$store.commit("changeStore_schoolNow", {
-          id: 0,
-          title: "",
-          status: 1,
-          addr: "",
-          create_id: 1,
-          update_id: 1,
-        });
-        // 重置一下，需要重新获取数据，那么页码和容器都要重置
-        that.theGetMomentsListPage = 1;
-        that.school_datas = [];
-
-        // 接口调用
-        if (that.theTitleIndex == 1) {
-          await that.getMomentsList("area");
-        } else {
-          await that.initShop();
-          that.tempAddressTitle = that.theAddress.title;
-        }
-        // 变更页面信息（显示的地址）
-      })();
-    } else if (that.$store.state.isOnload) {
-      (async function () {
-        that.$store.commit("changeOnload", false);
-        that.theGetMomentsListPage = 1;
-        that.school_datas = [];
-
-        await that.getMomentsList();
-      })();
-    } else if (that.tempSchoolTitle != that.theSchool.title) {
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      (async function () {
-        that.theGetMomentsListPage = 1;
-        that.school_datas = [];
-
-        await that.getMomentsList("school");
-      })();
     }
   },
   // 监听下拉动作
@@ -715,7 +691,6 @@ export default {
     // 初始化数据
     initData() {
       (async () => {
-        this.$store.commit("changeOnload", false);
         this.theGetMomentsListPage = 1;
         this.school_datas = [];
 

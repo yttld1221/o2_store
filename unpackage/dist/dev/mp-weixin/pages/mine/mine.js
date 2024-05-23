@@ -101,19 +101,19 @@ var components
 try {
   components = {
     uniPopup: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */ "uni_modules/uni-popup/components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 478))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */ "uni_modules/uni-popup/components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 487))
     },
     uniIcons: function () {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 405))
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 414))
     },
     postTypeZudui: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui */ "uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui").then(__webpack_require__.bind(null, /*! @/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui.vue */ 413))
+      return __webpack_require__.e(/*! import() | uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui */ "uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui").then(__webpack_require__.bind(null, /*! @/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui.vue */ 422))
     },
     uniLoadMore: function () {
-      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 428))
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 437))
     },
     tabBar: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */ "uni_modules/tab-Bar/components/tab-Bar/tab-Bar").then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 439))
+      return __webpack_require__.e(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */ "uni_modules/tab-Bar/components/tab-Bar/tab-Bar").then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 448))
     },
   }
 } catch (e) {
@@ -688,7 +688,10 @@ var _default = {
           url: "/pages/mine/mine_push"
         });
       } else if (index == 2) {
-        this.$public.disabled_tip("工作室");
+        // this.$public.disabled_tip("工作室");
+        uni.navigateTo({
+          url: "/page_product/pages/mall/addMall"
+        });
       } else if (index == 3) {
         this.$public.disabled_tip("更多");
       } else {

@@ -101,22 +101,22 @@ var components
 try {
   components = {
     uIcon: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 396))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 405))
     },
     uniIcons: function () {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 405))
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 414))
     },
     postTypeZudui: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui */ "uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui").then(__webpack_require__.bind(null, /*! @/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui.vue */ 413))
+      return __webpack_require__.e(/*! import() | uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui */ "uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui").then(__webpack_require__.bind(null, /*! @/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui.vue */ 422))
     },
     uSearch: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-search/u-search */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-search/u-search")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-search/u-search.vue */ 420))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-search/u-search */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-search/u-search")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-search/u-search.vue */ 429))
     },
     uniLoadMore: function () {
-      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 428))
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 437))
     },
     tabBar: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */ "uni_modules/tab-Bar/components/tab-Bar/tab-Bar").then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 439))
+      return __webpack_require__.e(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */ "uni_modules/tab-Bar/components/tab-Bar/tab-Bar").then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 448))
     },
   }
 } catch (e) {
@@ -219,7 +219,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var types = function types() {
   __webpack_require__.e(/*! require.ensure | pages/index/components/types */ "pages/index/components/types").then((function () {
-    return resolve(__webpack_require__(/*! ./components/types.vue */ 446));
+    return resolve(__webpack_require__(/*! ./components/types.vue */ 455));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -517,6 +517,7 @@ var _default = {
     };
   },
   onLoad: function onLoad() {
+    var _this2 = this;
     // --------------------------------------------------------------处理初始状态--------------------------------------------------------------
     // --------------------------------------------------------------处理初始状态--------------------------------------------------------------
     // --------------------------------------------------------------处理初始状态--------------------------------------------------------------
@@ -533,12 +534,103 @@ var _default = {
       tempSelectedAddress: storage_addressNow
     });
     this.getShopType();
+    uni.$on("changeIndexArea", /*#__PURE__*/function () {
+      var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(data) {
+        return _regenerator.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this2.theSchool = {
+                  id: 0,
+                  title: "",
+                  status: 1,
+                  addr: "",
+                  create_id: 1,
+                  update_id: 1
+                };
+                _this2.$store.commit("changeStore_schoolNow", {
+                  id: 0,
+                  title: "",
+                  status: 1,
+                  addr: "",
+                  create_id: 1,
+                  update_id: 1
+                });
+                // 重置一下，需要重新获取数据，那么页码和容器都要重置
+                _this2.theGetMomentsListPage = 1;
+                _this2.school_datas = [];
+                // 接口调用
+                if (!(_this2.theTitleIndex == 1)) {
+                  _context.next = 9;
+                  break;
+                }
+                _context.next = 7;
+                return _this2.getMomentsList("area");
+              case 7:
+                _context.next = 12;
+                break;
+              case 9:
+                _context.next = 11;
+                return _this2.initShop();
+              case 11:
+                _this2.tempAddressTitle = _this2.theAddress.title;
+              case 12:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }());
+    uni.$on("changeIndexSchool", /*#__PURE__*/function () {
+      var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(data) {
+        return _regenerator.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this2.theGetMomentsListPage = 1;
+                _this2.school_datas = [];
+                _context2.next = 4;
+                return _this2.getMomentsList("school");
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+      return function (_x2) {
+        return _ref2.apply(this, arguments);
+      };
+    }());
+    uni.$on("publishSchool", /*#__PURE__*/function () {
+      var _ref3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(data) {
+        return _regenerator.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _this2.theTitleIndex = 1;
+                _this2.theGetMomentsListPage = 1;
+                _this2.school_datas = [];
+                _context3.next = 5;
+                return _this2.getMomentsList();
+              case 5:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+      return function (_x3) {
+        return _ref3.apply(this, arguments);
+      };
+    }());
   },
   onShow: function onShow() {
     this.theLevel = this.$store.state.theLogonUser.level;
-    if (this.$store.state.isOnload) {
-      this.theTitleIndex = 1;
-    }
     // 判断一下，防止重复登录
     // if(this.$store.state.theLogonUser.id == 0){
     // 	this.$store.dispatch('toLogon', {});
@@ -572,99 +664,6 @@ var _default = {
           }
         }
       });
-    }
-    console.log(that.tempAddressTitle, that.theAddress.title);
-    // 从地址选择页面返回过来的时候，需要判断一下有没有改变过地址，如果和之前保存的不一样了，证明选择了其他地址，那么需要重新获取接口
-    if ((that.tempAddressTitle == undefined || that.tempAddressTitle != "") && that.tempAddressTitle != that.theAddress.title && that.theAddress.title != undefined) {
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-        return _regenerator.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                // 重置一下  地区改变了，学校肯定要重置为空的
-                that.theSchool = {
-                  id: 0,
-                  title: "",
-                  status: 1,
-                  addr: "",
-                  create_id: 1,
-                  update_id: 1
-                };
-                that.$store.commit("changeStore_schoolNow", {
-                  id: 0,
-                  title: "",
-                  status: 1,
-                  addr: "",
-                  create_id: 1,
-                  update_id: 1
-                });
-                // 重置一下，需要重新获取数据，那么页码和容器都要重置
-                that.theGetMomentsListPage = 1;
-                that.school_datas = [];
-
-                // 接口调用
-                if (!(that.theTitleIndex == 1)) {
-                  _context.next = 9;
-                  break;
-                }
-                _context.next = 7;
-                return that.getMomentsList("area");
-              case 7:
-                _context.next = 12;
-                break;
-              case 9:
-                _context.next = 11;
-                return that.initShop();
-              case 11:
-                that.tempAddressTitle = that.theAddress.title;
-              case 12:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    } else if (that.$store.state.isOnload) {
-      (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-        return _regenerator.default.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                that.$store.commit("changeOnload", false);
-                that.theGetMomentsListPage = 1;
-                that.school_datas = [];
-                _context2.next = 5;
-                return that.getMomentsList();
-              case 5:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    } else if (that.tempSchoolTitle != that.theSchool.title) {
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-      (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
-        return _regenerator.default.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                that.theGetMomentsListPage = 1;
-                that.school_datas = [];
-                _context3.next = 4;
-                return that.getMomentsList("school");
-              case 4:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
     }
   },
   // 监听下拉动作
@@ -740,20 +739,19 @@ var _default = {
     },
     // 初始化数据
     initData: function initData() {
-      var _this2 = this;
+      var _this3 = this;
       (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
         return _regenerator.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _this2.$store.commit("changeOnload", false);
-                _this2.theGetMomentsListPage = 1;
-                _this2.school_datas = [];
-                _context5.next = 5;
-                return _this2.getMomentsList();
+                _this3.theGetMomentsListPage = 1;
+                _this3.school_datas = [];
+                _context5.next = 4;
+                return _this3.getMomentsList();
+              case 4:
+                _this3.tempAddressTitle = _this3.$store.state.store_addressNow.title;
               case 5:
-                _this2.tempAddressTitle = _this2.$store.state.store_addressNow.title;
-              case 6:
               case "end":
                 return _context5.stop();
             }
@@ -762,7 +760,7 @@ var _default = {
       }))();
     },
     initShop: function initShop() {
-      var _this3 = this;
+      var _this4 = this;
       this.isLoading = "loading"; // 加载中
       var param = {
         page: this.theGetMomentsListPage,
@@ -775,23 +773,23 @@ var _default = {
       this.API.home.getTaskList(param).then(function (res) {
         console.log(res);
         // 如果是请求第一页，证明是首次请求，就重置一下
-        if (_this3.theGetMomentsListPage == 1) {
-          _this3.school_datas = [];
+        if (_this4.theGetMomentsListPage == 1) {
+          _this4.school_datas = [];
         }
         if (res.data.length != 0) {
           for (var i = 0; i < res.data.length; i++) {
-            _this3.school_datas.push(_objectSpread(_objectSpread({}, res.data[i]), {}, {
+            _this4.school_datas.push(_objectSpread(_objectSpread({}, res.data[i]), {}, {
               img_url: res.data[i].img_url ? res.data[i].img_url.split(",")[0] : ""
             }));
           }
-          _this3.isLoading = "no-more"; // 取消加载动画
+          _this4.isLoading = "no-more"; // 取消加载动画
           // 页面+1
-          _this3.theGetMomentsListPage += 1;
+          _this4.theGetMomentsListPage += 1;
         } else {
-          _this3.isLoading = "no-more"; // 取消加载动画
+          _this4.isLoading = "no-more"; // 取消加载动画
         }
 
-        console.log(_this3.school_datas);
+        console.log(_this4.school_datas);
       }).catch( /*#__PURE__*/function () {
         var _ref6 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6(err) {
           return _regenerator.default.wrap(function _callee6$(_context6) {
@@ -803,9 +801,9 @@ var _default = {
                     break;
                   }
                   _context6.next = 3;
-                  return _this3.$store.dispatch("toLogon", {});
+                  return _this4.$store.dispatch("toLogon", {});
                 case 3:
-                  _this3.initShop();
+                  _this4.initShop();
                 case 4:
                 case "end":
                   return _context6.stop();
@@ -813,23 +811,23 @@ var _default = {
             }
           }, _callee6);
         }));
-        return function (_x) {
+        return function (_x4) {
           return _ref6.apply(this, arguments);
         };
       }());
     },
     getShopType: function getShopType() {
-      var _this4 = this;
+      var _this5 = this;
       if (this.theTitleIndex == 1) {
         this.initData();
       } else {
         var query = uni.createSelectorQuery().in(this);
         query.select(".home-search").boundingClientRect(function (data) {
-          _this4.contentHeight = data.height;
+          _this5.contentHeight = data.height;
         }).exec();
         this.API.home.getAllMenu({}).then(function (res) {
           console.log(res);
-          _this4.tabArr = [];
+          _this5.tabArr = [];
           //所有分类
           // res.data.forEach((el) => {
           // 	el.children.forEach(item=>{
@@ -838,18 +836,18 @@ var _default = {
           // });
           res.data.forEach(function (el) {
             if (el.category_id > 0) {
-              _this4.tabArr.push({
+              _this5.tabArr.push({
                 name: el.title,
                 id: el.category_id
               });
             }
           });
-          if (_this4.tabArr.length) {
-            _this4.theGetMomentsListPage = 1;
-            _this4.school_datas = [];
-            _this4.momentType = _this4.tabArr[0].id;
-            if (_this4.theAddress.title) {
-              _this4.initShop();
+          if (_this5.tabArr.length) {
+            _this5.theGetMomentsListPage = 1;
+            _this5.school_datas = [];
+            _this5.momentType = _this5.tabArr[0].id;
+            if (_this5.theAddress.title) {
+              _this5.initShop();
             }
           }
         }).catch( /*#__PURE__*/function () {
@@ -864,13 +862,13 @@ var _default = {
                       break;
                     }
                     _context7.next = 4;
-                    return _this4.$store.dispatch("toLogon", {});
+                    return _this5.$store.dispatch("toLogon", {});
                   case 4:
                     _context7.next = 6;
-                    return _this4.getShopType();
+                    return _this5.getShopType();
                   case 6:
-                    _this4.tempAddressTitle = _this4.$store.state.store_addressNow.title;
-                    _this4.tempSchoolTitle = _this4.$store.state.store_schoolNow.title;
+                    _this5.tempAddressTitle = _this5.$store.state.store_addressNow.title;
+                    _this5.tempSchoolTitle = _this5.$store.state.store_schoolNow.title;
                   case 8:
                   case "end":
                     return _context7.stop();
@@ -878,7 +876,7 @@ var _default = {
               }
             }, _callee7);
           }));
-          return function (_x2) {
+          return function (_x5) {
             return _ref7.apply(this, arguments);
           };
         }());
@@ -933,22 +931,22 @@ var _default = {
     // ---------------------------------------------------页面方法---------------------------------------------------
     // 获取状态栏高度
     getTopIconDistance: function getTopIconDistance() {
-      var _this5 = this;
+      var _this6 = this;
       uni.getSystemInfo({
         success: function success(res) {
           // 获取手机顶部状态栏的高度
-          _this5.statusBarHeight = res.statusBarHeight || 0;
+          _this6.statusBarHeight = res.statusBarHeight || 0;
 
           // 获取导航栏的高度（手机状态栏高度 + 胶囊高度 + 胶囊的上下间距）
           var menuButtonInfo = uni.getMenuButtonBoundingClientRect();
-          _this5.navBarHeight = menuButtonInfo.height + (menuButtonInfo.top - _this5.statusBarHeight) * 2;
-          _this5.tabBarHeight = res.screenHeight - res.safeArea.bottom;
+          _this6.navBarHeight = menuButtonInfo.height + (menuButtonInfo.top - _this6.statusBarHeight) * 2;
+          _this6.tabBarHeight = res.screenHeight - res.safeArea.bottom;
 
           // 设置全局变量
-          _this5.$store.commit("changeNavBarHeight", {
-            statusBarHeight: _this5.statusBarHeight,
-            navBarHeight: _this5.navBarHeight,
-            tabBarHeight: _this5.tabBarHeight
+          _this6.$store.commit("changeNavBarHeight", {
+            statusBarHeight: _this6.statusBarHeight,
+            navBarHeight: _this6.navBarHeight,
+            tabBarHeight: _this6.tabBarHeight
           });
         },
         fail: function fail(err) {}
@@ -1288,7 +1286,7 @@ var _default = {
           }
         }, _callee9, this);
       }));
-      function toThumb(_x3) {
+      function toThumb(_x6) {
         return _toThumb.apply(this, arguments);
       }
       return toThumb;
@@ -1411,7 +1409,7 @@ var _default = {
           }
         }, _callee11, this);
       }));
-      function zuduiButtons(_x4) {
+      function zuduiButtons(_x7) {
         return _zuduiButtons.apply(this, arguments);
       }
       return zuduiButtons;

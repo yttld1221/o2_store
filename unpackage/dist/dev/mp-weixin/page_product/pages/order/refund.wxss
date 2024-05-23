@@ -123,6 +123,7 @@
   margin-right: 30rpx;
 }
 .refund .content-box .filelist-box .filelist-item > .del-icon.data-v-1f1f8b76 {
+  cursor: pointer;
   padding: 8rpx;
   border-radius: 50%;
   background: #969696;

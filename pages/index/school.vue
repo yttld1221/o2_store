@@ -126,6 +126,7 @@ export default {
     // 获取全局中保存的当前学校
     getStore_schoolNow: function () {
       this.schoolNow = this.$store.state.store_schoolNow.title;
+      console.log(this.schoolNow);
     },
     // 选中学校
     selectingSchool: function (item) {
@@ -157,6 +158,9 @@ export default {
           delta: 2, // 返回最外层
         });
       } else {
+        if (this.tempSelectedSchool.title != this.schoolNow) {
+          uni.$emit("changeIndexSchool", {});
+        }
         uni.navigateBack(); // 返回上层
       }
     },

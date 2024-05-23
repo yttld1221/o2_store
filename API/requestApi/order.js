@@ -103,6 +103,16 @@ const order = {
 			}
 		})
 	},
+	//v2工作室-申请或变更工作室
+	applyShop(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/wx/applyShop`,
+			data: {
+				...data
+			}
+		})
+	},
 }
 
 export default order;

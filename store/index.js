@@ -564,7 +564,7 @@ export default new Vuex.Store({
 								// 注意发布管理点击上下线成功后，返回一个全部变量用于通知调用的页面
 								content.state.isOn_true = true;
 							} else {
-								content.commit("changeOnload", true);
+								uni.$emit("publishSchool", {});
 								setTimeout(function () {
 									uni.switchTab({
 										url: "/pages/index/index",

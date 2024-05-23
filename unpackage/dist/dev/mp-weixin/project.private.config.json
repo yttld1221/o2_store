@@ -8,16 +8,9 @@
     "miniprogram": {
       "list": [
         {
-          "name": "page_product/pages/order/detail",
-          "pathName": "page_product/pages/order/detail",
-          "query": "id=22",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "page_product/pages/product/detail",
-          "pathName": "page_product/pages/product/detail",
-          "query": "id=248",
+          "name": "page_product/pages/mall/addMall",
+          "pathName": "page_product/pages/mall/addMall",
+          "query": "",
           "launchMode": "default",
           "scene": null
         }

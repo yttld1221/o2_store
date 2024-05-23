@@ -322,6 +322,7 @@ export default {
         position: relative;
         margin-right: 30rpx;
         & > .del-icon {
+          cursor: pointer;
           padding: 8rpx;
           border-radius: 50%;
           background: #969696;

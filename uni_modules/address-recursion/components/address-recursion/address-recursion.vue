@@ -113,7 +113,6 @@ export default {
     },
   },
   mounted() {
-    console.log(1111111);
   },
   methods: {
     // 选择其中一个地址

@@ -101,16 +101,16 @@ var components
 try {
   components = {
     uniSearchBar: function () {
-      return Promise.all(/*! import() | uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar.vue */ 453))
+      return Promise.all(/*! import() | uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar.vue */ 462))
     },
     uniIcons: function () {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 405))
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 414))
     },
     addressRecursion: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/address-recursion/components/address-recursion/address-recursion */ "uni_modules/address-recursion/components/address-recursion/address-recursion").then(__webpack_require__.bind(null, /*! @/uni_modules/address-recursion/components/address-recursion/address-recursion.vue */ 464))
+      return __webpack_require__.e(/*! import() | uni_modules/address-recursion/components/address-recursion/address-recursion */ "uni_modules/address-recursion/components/address-recursion/address-recursion").then(__webpack_require__.bind(null, /*! @/uni_modules/address-recursion/components/address-recursion/address-recursion.vue */ 473))
     },
     uniLoadMore: function () {
-      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 428))
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 437))
     },
   }
 } catch (e) {
@@ -316,6 +316,7 @@ var _default = {
     // 获取全局中保存的当前学校
     getStore_schoolNow: function getStore_schoolNow() {
       this.schoolNow = this.$store.state.store_schoolNow.title;
+      console.log(this.schoolNow);
     },
     // 选中学校
     selectingSchool: function selectingSchool(item) {
@@ -347,6 +348,9 @@ var _default = {
           delta: 2 // 返回最外层
         });
       } else {
+        if (this.tempSelectedSchool.title != this.schoolNow) {
+          uni.$emit("changeIndexSchool", {});
+        }
         uni.navigateBack(); // 返回上层
       }
     },

@@ -436,6 +436,7 @@ export default {
     padding: 39rpx 29rpx 29rpx 36rpx;
   }
   .fix-bottom-box {
+    z-index: 5;
     background: #ffffff;
     box-shadow: 0rpx 0rpx 7rpx 1rpx rgba(0, 0, 0, 0.04);
     box-sizing: border-box;
