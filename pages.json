@@ -255,7 +255,7 @@
 					"style": {
 						"navigationBarBackgroundColor": "#ffffff",
 						"navigationBarTextStyle": "black",
-						"navigationBarTitleText": "店铺",
+						"navigationBarTitleText": "店铺主页",
 						"enablePullDownRefresh": true,
 						"onReachBottomDistance": 50
 					}
@@ -266,7 +266,7 @@
 						"navigationBarBackgroundColor": "#ffffff",
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "申请工作室",
-						"enablePullDownRefresh": false,
+						"enablePullDownRefresh": true,
 						"onReachBottomDistance": 50
 					}
 				}

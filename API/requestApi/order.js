@@ -113,6 +113,56 @@ const order = {
 			}
 		})
 	},
+	//v2短信-发送手机验证码
+	sendSmsCheckCode(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/wx/sendSmsCheckCode`,
+			data: {
+				...data
+			}
+		})
+	},
+	//v2工作室-获取本人申请的工作室申请资料
+	getMyApplyShopInfo(data) {
+		return api.get({
+			token: true,
+			url: `${path}/wechat/wx/getMyApplyShopInfo`,
+			data: {
+				...data
+			}
+		})
+	},
+	//v2校园墙-分页获取校园墙列表
+	getMomentsList(data) {
+		return api.get({
+			token: true,
+			url: `${path}/wechat/moments/getMomentsList`,
+			data: {
+				...data
+			}
+		})
+	},
+	//v2主页-获取主页或店铺主页头部信息
+	getHomePageTop(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/wx/getHomePageTop`,
+			data: {
+				...data
+			}
+		})
+	},
+	//v2人员-关注|取消关注
+	regard(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/wx/regard`,
+			data: {
+				...data
+			}
+		})
+	},
 }
 
 export default order;

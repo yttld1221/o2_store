@@ -112,10 +112,16 @@ export default {
     // icon点击
     onClick(e) {
       if (e.index == 0) {
-        // uni.navigateTo({
-        //   url:
-        //     "/page_product/pages/product/pay?product=" +,
-        // });
+        if (!this.info.apply_id) {
+          return;
+        }
+        uni.navigateTo({
+          url:
+            "/page_product/pages/mall/index?id=" +
+            this.info.shop_id +
+            "&userId=" +
+            this.info.apply_id,
+        });
       } else if (e.index == 1) {
         uni.showToast({
           title: "功能暂未开放",

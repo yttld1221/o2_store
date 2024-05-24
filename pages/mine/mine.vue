@@ -469,10 +469,35 @@ export default {
           url: "/pages/mine/mine_push",
         });
       } else if (index == 2) {
-        // this.$public.disabled_tip("工作室");
-        uni.navigateTo({
-          url: "/page_product/pages/mall/addMall",
-        });
+        // this.$store.state.theLogonUser.level == 2
+        if (this.$store.state.theLogonUser.level > 0) {
+          if (this.$store.state.theLogonUser.shop_id == 0) {
+            uni.navigateTo({
+              url: "/page_product/pages/mall/addMall",
+            });
+          } else if (this.$store.state.theLogonUser.shop_status == 1) {
+            uni.navigateTo({
+              url:
+                "/page_product/pages/mall/index?id=" +
+                this.$store.state.theLogonUser.shop_id +
+                "&userId=" +
+                this.$store.state.theLogonUser.id,
+            });
+          } else if (this.$store.state.theLogonUser.shop_status == 2) {
+            uni.navigateTo({
+              url:
+                "/page_product/pages/mall/addMall?id=" +
+                this.$store.state.theLogonUser.shop_id,
+            });
+          } else {
+            uni.showToast({
+              title: "工作室待审核",
+              icon: "none",
+            });
+          }
+        } else {
+          this.$public.disabled_tip("工作室");
+        }
       } else if (index == 3) {
         this.$public.disabled_tip("更多");
       } else {

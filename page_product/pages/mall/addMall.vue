@@ -11,9 +11,28 @@
       </view>
       <view class="info-phone">
         <view class="left-label">手机号：</view>
+        <view class="code-box flex-algin">
+          <u--input
+            placeholder="请输入您的手机号码"
+            v-model="ruleForm.phone"
+            border="none"
+          ></u--input>
+          <u-code
+            changeText="X秒"
+            :seconds="seconds"
+            ref="uCode"
+            @change="codeChange"
+          ></u-code>
+          <u-button color="#ff812f" type="primary" @tap="getCode">{{
+            tips
+          }}</u-button>
+        </view>
+      </view>
+      <view class="info-merchant">
+        <view class="left-label">短信验证码：</view>
         <u--input
-          placeholder="请输入您的手机号码"
-          v-model="ruleForm.phone"
+          placeholder="请输入短信验证码"
+          v-model="ruleForm.check_code"
           border="none"
         ></u--input>
       </view>
@@ -131,10 +150,13 @@ export default {
   components: {},
   data() {
     return {
+      tips: "",
+      seconds: 60,
       addressArr: [],
       ruleForm: {
         person: "",
         phone: "",
+        check_code: "",
         merchant: "",
         area_code: "",
         apply_id_card1: "",
@@ -143,24 +165,99 @@ export default {
         remark: "",
         area_text: "",
       },
+      id: "",
     };
   },
   onLoad(options) {
     this.getArea();
+    if (options.id) {
+      this.id = options.id;
+      this.getDetail();
+    }
     uni.$on("changeArea", (data) => {
       console.log(data);
       this.ruleForm.area_code = data.code;
       console.log(this.addressArr);
-      this.addressArr.forEach((el) => {
-        el.children.forEach((item) => {
-          if (item.value == data.code) {
-            this.ruleForm.area_text = el.label + item.label;
-          }
-        });
-      });
+      this.getAddText(data.code);
     });
   },
   methods: {
+    getAddText(code) {
+      this.addressArr.forEach((el) => {
+        el.children.forEach((item) => {
+          if (item.value == code) {
+            this.$set(this.ruleForm, "area_text", el.label + item.label);
+          }
+        });
+      });
+    },
+    // 获取详情
+    getDetail() {
+      this.API.order
+        .getMyApplyShopInfo({})
+        .then(async (res) => {
+          console.log(res.data);
+          this.ruleForm = { ...res.data, check_code: "" };
+          this.getAddText(res.data.area_code);
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.getDetail();
+          }
+        });
+    },
+    codeChange(text) {
+      this.tips = text;
+    },
+    async getCode() {
+      if (!this.ruleForm.phone) {
+        uni.showToast({
+          title: "请输入您的手机号码",
+          icon: "none",
+        });
+        return;
+      }
+      let tag = uni.$u.test.mobile(this.ruleForm.phone);
+      if (!tag) {
+        uni.showToast({
+          title: "手机号码不合法",
+          icon: "none",
+        });
+        return;
+      }
+      if (this.$refs.uCode.canGetCode) {
+        // 模拟向后端请求验证码
+        await this.postCode();
+        // 通知验证码组件内部开始倒计时
+        this.$refs.uCode.start();
+      } else {
+        uni.showToast({
+          title: "倒计时结束后再发送",
+          icon: "none",
+        });
+      }
+    },
+    postCode() {
+      let param = {
+        phone: this.ruleForm.phone,
+        type: 2,
+      };
+      this.API.order
+        .sendSmsCheckCode(param)
+        .then((res) => {
+          uni.showToast({
+            title: "验证码已发送",
+            icon: "none",
+          });
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.postCode();
+          }
+        });
+    },
     // 删除上传图片
     delFile(key) {
       this.$set(this.ruleForm, key, "");
@@ -170,6 +267,7 @@ export default {
       let errorObj = {
         person: "请输入名字",
         phone: "请输入您的手机号码",
+        check_code: "请输入短信验证码",
         merchant: "请输入工作室名称",
         area_code: "请选择开放区域",
         apply_id_card1: "请上传头像面",
@@ -190,9 +288,16 @@ export default {
         }
       }
       if (tag) {
+        let param = {
+          ...this.ruleForm,
+        };
+        if (this.id) {
+          delete param.id;
+        }
         this.API.order
-          .applyShop({ ...this.ruleForm })
-          .then((res) => {
+          .applyShop(param)
+          .then(async (res) => {
+            await this.$store.dispatch("toLogon", {});
             uni.navigateBack({
               delta: 1,
               success: () => {
@@ -348,6 +453,13 @@ export default {
         font-size: 24rpx;
         color: #666666;
       }
+      /deep/ .code-box {
+        .u-button {
+          margin-left: 16rpx;
+          width: 200rpx !important;
+          height: 50rpx !important;
+        }
+      }
     }
     & > view:last-child {
       border: none;
@@ -447,7 +559,7 @@ export default {
     width: 100%;
     padding: 25rpx 75rpx;
     box-sizing: border-box;
-    z-index: 5;
+    z-index: 10;
     .fix-bottom {
       display: flex;
       align-items: center;

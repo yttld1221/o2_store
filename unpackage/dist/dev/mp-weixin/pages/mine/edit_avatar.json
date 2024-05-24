@@ -1,8 +1,0 @@
-{
-  "navigationBarBackgroundColor": "#ffffff",
-  "navigationBarTextStyle": "black",
-  "navigationBarTitleText": "修改头像",
-  "usingComponents": {
-    "qf-image-cropper": "/uni_modules/qf-image-cropper/components/qf-image-cropper/qf-image-cropper"
-  }
-}

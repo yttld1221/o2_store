@@ -4,10 +4,10 @@ function strToArr(str, char) { // str为字符串，char为间隔的字符
 }
 
 //方法：点击图片打开图片查看器
-function previewImage(urls,index=0) {
+function previewImage(urls, index = 0) {
 	let theUrls = [];
-	for(let i =0;i<urls.length;i++){
-		theUrls.push(urls[i]+'?x-oss-process=image/resize,m_lfit,h_750,w_750')
+	for (let i = 0; i < urls.length; i++) {
+		theUrls.push(urls[i] + '?x-oss-process=image/resize,m_lfit,h_750,w_750')
 	}
 	uni.previewImage({
 		current: index,
@@ -48,7 +48,7 @@ function getTopIconDistance() {
 function setClipboardData(data) {
 	uni.setClipboardData({
 		data: data,
-		success: function() {
+		success: function () {
 			uni.showToast({
 				title: '已复制' + data,
 				duration: 1500,
@@ -71,7 +71,7 @@ function showDateTime(dateTime) {
 	// console.log(difference+'分钟前1');
 	if (difference < 5) { // 小于1个小时，就显示时间
 		return '刚刚';
-	} else if(difference >= 5 && difference < 60){
+	} else if (difference >= 5 && difference < 60) {
 		// console.log(difference+'分钟前2');
 		return Math.floor(difference) + '分钟前'
 	} else {
@@ -107,20 +107,67 @@ function getNowDateTime() {
 	let nowHours = now.getHours() < 10 ? '0' + now.getHours() : now.getHours() + '';
 	let nowMinutes = now.getMinutes() < 10 ? '0' + now.getMinutes() : now.getMinutes() + '';
 	let nowSeconds = now.getSeconds() < 10 ? '0' + now.getSeconds() : now.getSeconds() + '';
-	return nowYear+'-'+nowMonth+'-'+nowDay+'_'+nowHours+'_'+nowMinutes+'_'+nowSeconds
+	return nowYear + '-' + nowMonth + '-' + nowDay + '_' + nowHours + '_' + nowMinutes + '_' + nowSeconds
 }
 
 // 功能暂未开放提示
-function disabled_tip(type){
+function disabled_tip(type) {
 	uni.showToast({
-		title: '认证并提升等级，以解锁【'+type+'】功能哦~',
+		title: '认证并提升等级，以解锁【' + type + '】功能哦~',
 		duration: 1500,
 		icon: 'none'
 	})
 }
 
+function getDateDiff(dateTimeStamp) {
+	var result = '';
+	var date = (new Date());
+	var theDate = new Date(dateTimeStamp).getTime();
+	console.log(theDate)
+	var today = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime(); //今天凌晨
+	var yestday = new Date(today - 24 * 3600 * 1000).getTime();
+	var minute = 1000 * 60;
+	var hour = minute * 60;
+	var day = hour * 24;
+	var halfamonth = day * 15;
+	var month = day * 30;
+	var now = new Date().getTime();
+	var diffValue = now - theDate;
+	if (diffValue < 0) { return; }
+	var monthC = diffValue / month;
+	var weekC = diffValue / (7 * day);
+	var dayC = diffValue / day;
+	var hourC = diffValue / hour;
+	var minC = diffValue / minute;
+	if (monthC >= 1) {
+		result = "" + parseInt(monthC) + "月前";
+	}
+	else if (weekC >= 1) {
+		result = "" + parseInt(weekC) + "周前";
+	}
+	else if (dayC >= 1) {
+		result = "" + parseInt(dayC) + "天前";
+	}
+	else if (hourC >= 1) {
+		if (theDate < today && yestday <= theDate) {
+			result = "昨天";
+		} else {
+			result = "" + parseInt(hourC) + "小时前";
+		}
+
+	}
+	else if (minC >= 1) {
+		result = "" + parseInt(minC) + "分钟前";
+	} else {
+		result = "刚刚";
+	}
+
+	return result;
+}
+
 // 暴露出去的方法
 module.exports = {
+	getDateDiff,
 	strToArr,
 	previewImage,
 	getTopIconDistance,

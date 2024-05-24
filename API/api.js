@@ -24,7 +24,6 @@ let api = {
 		});
 	},
 	errCode(res) {
-		console.log(res, 'res')
 		if (res.statusCode > 200) {
 		} else {
 			if (res.data.code == 0) {

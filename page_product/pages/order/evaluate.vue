@@ -429,7 +429,7 @@ export default {
     padding-bottom: env(safe-area-inset-bottom);
   }
   .fix-bottom-box {
-    z-index: 5;
+    z-index: 10;
     background: #ffffff;
     box-shadow: 0rpx 0rpx 7rpx 1rpx rgba(0, 0, 0, 0.04);
     box-sizing: border-box;

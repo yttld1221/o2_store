@@ -161,6 +161,7 @@ export default {
       }
     },
     getList() {
+      this.isLoading = "loading"; // 加载中
       let params = {
         page: this.theGetMomentsListPage,
         pagesize: this.theGetMomentsListPagesize,

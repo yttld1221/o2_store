@@ -3,18 +3,5 @@
   "projectname": "o2_store",
   "setting": {
     "compileHotReLoad": true
-  },
-  "condition": {
-    "miniprogram": {
-      "list": [
-        {
-          "name": "page_product/pages/mall/addMall",
-          "pathName": "page_product/pages/mall/addMall",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        }
-      ]
-    }
   }
 }

@@ -212,28 +212,33 @@ export default {
       } else {
         res = await this.API.order.cancelOrder({ id: this.delId });
       }
-      if (res.code == 0) {
-        if (this.content == "del") {
-          this.orderList.splice(this.handleIndex, 1);
-        } else if (this.content == "send") {
-          this.line_4_itemsSelected(4);
-        } else {
-          this.$set(this.orderList[this.handleIndex], "status", 4);
+      console.log(res);
+      try {
+        if (res.code == 0) {
+          if (this.content == "del") {
+            this.orderList.splice(this.handleIndex, 1);
+          } else if (this.content == "send") {
+            this.line_4_itemsSelected(4);
+          } else {
+            this.$set(this.orderList[this.handleIndex], "status", 4);
+          }
+          uni.showToast({
+            title:
+              this.content == "del"
+                ? "订单删除成功"
+                : this.content == "send"
+                ? "确认收货成功"
+                : "订单取消成功",
+            duration: 2500,
+            icon: "none",
+          });
+          this.cancelDel();
         }
-        uni.showToast({
-          title:
-            this.content == "del"
-              ? "订单删除成功"
-              : this.content == "send"
-              ? "确认收货成功"
-              : "订单取消成功",
-          duration: 2500,
-          icon: "none",
-        });
-        this.cancelDel();
-      } else if (res.code == 410) {
-        await this.$store.dispatch("toLogon", {});
-        this.confirmDel();
+      } catch (error) {
+        if (error.code == 410) {
+          await this.$store.dispatch("toLogon", {});
+          this.confirmDel();
+        }
       }
     },
     // 订单操作
