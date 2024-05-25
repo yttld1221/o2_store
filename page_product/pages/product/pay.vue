@@ -147,7 +147,7 @@ export default {
         });
         let params = {
           products,
-          pid: 0,
+          pid: this.$store.state.sceneId ? this.$store.state.sceneId : 0,
           address_id: this.addressInfo.id,
           remark: this.remark,
         };

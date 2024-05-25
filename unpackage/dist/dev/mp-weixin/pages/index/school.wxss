@@ -1,0 +1,74 @@
+
+.margin-left-5 {
+  margin-left: 3.5vw;
+}
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.top {
+  background-color: #ffffff;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+}
+.selected {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.selected-tip {
+  margin-left: 3.5vw;
+  height: 25px;
+  line-height: 25px;
+  font-size: 13px;
+  color: #bbbbbb;
+}
+.selected-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 15px;
+  font-size: 13px;
+  height: 25px;
+  line-height: 25px;
+}
+.the-selected {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 0 15px;
+  background-color: #f6f6f6;
+  margin-top: 15px;
+}
+.the-selected-title {
+  width: 45vw;
+  overflow: scroll;
+}
+.the-selected-title text {
+  white-space: nowrap;
+}
+.the-button {
+  background-color: #f89f12;
+  color: #ffffff;
+  padding: 0 15px;
+  height: 35px !important;
+  line-height: 35px !important;
+  border-radius: 15px;
+}
+.the-selected view {
+  margin-right: 3.5vw;
+  height: 50px;
+  line-height: 50px;
+}
+.space-line-bottom {
+  height: 100px;
+}
+

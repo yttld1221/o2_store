@@ -94,6 +94,7 @@ export default {
       },
       list: [],
       contentHeight: 0,
+      shopId: "",
     };
   },
   onLoad(options) {
@@ -104,6 +105,9 @@ export default {
         this.contentHeight = data.height;
       })
       .exec();
+    if (options.shopId) {
+      this.shopId = options.shopId;
+    }
     if (options.text) {
       this.searchText = options.text;
       this.searchReasult();
@@ -149,8 +153,12 @@ export default {
     },
     // 获取历史纪录
     getSearchRecord() {
-      this.searchRecord = uni.getStorageSync("searchRecord")
-        ? JSON.parse(uni.getStorageSync("searchRecord"))
+      let key = "searchRecord";
+      if (this.shopId) {
+        key = "searchShopRecord";
+      }
+      this.searchRecord = uni.getStorageSync(key)
+        ? JSON.parse(uni.getStorageSync(key))
         : [] || [];
       if (this.searchRecord.length > 0) {
         for (let i in this.searchRecord) {
@@ -169,31 +177,49 @@ export default {
         order_type: this.orderType,
         order_field: this.order_field,
         is_product: 1,
-        area_code: this.$store.state.store_addressNow.code,
       };
-      this.API.home.getTaskList(params).then((res) => {
-        console.log(res);
-        // 如果是请求第一页，证明是首次请求，就重置一下
-        if (this.theGetMomentsListPage == 1) {
-          this.list = [];
-        }
-        if (res.data.length != 0) {
-          for (let i = 0; i < res.data.length; i++) {
-            this.list.push({
-              ...res.data[i],
-              img_url: res.data[i].img_url
-                ? res.data[i].img_url.split(",")[0]
-                : "",
-            });
+      if (this.shopId) {
+        params = {
+          ...params,
+          shop_id: this.shopId,
+        };
+      } else {
+        params = {
+          ...params,
+          area_code: this.$store.state.store_addressNow.code,
+        };
+      }
+      this.API.home
+        .getTaskList(params)
+        .then((res) => {
+          console.log(res);
+          // 如果是请求第一页，证明是首次请求，就重置一下
+          if (this.theGetMomentsListPage == 1) {
+            this.list = [];
           }
+          if (res.data.length != 0) {
+            for (let i = 0; i < res.data.length; i++) {
+              this.list.push({
+                ...res.data[i],
+                img_url: res.data[i].img_url
+                  ? res.data[i].img_url.split(",")[0]
+                  : "",
+              });
+            }
 
-          this.isLoading = "no-more"; // 取消加载动画
-          // 页面+1
-          this.theGetMomentsListPage += 1;
-        } else {
-          this.isLoading = "no-more"; // 取消加载动画
-        }
-      });
+            this.isLoading = "no-more"; // 取消加载动画
+            // 页面+1
+            this.theGetMomentsListPage += 1;
+          } else {
+            this.isLoading = "no-more"; // 取消加载动画
+          }
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.getList();
+          }
+        });
     },
     searchReasult() {
       if (this.searchText) {
@@ -206,7 +232,11 @@ export default {
         this.searchRecord.unshift({
           value: this.searchText,
         });
-        uni.setStorageSync("searchRecord", JSON.stringify(this.searchRecord));
+        let key = "searchRecord";
+        if (this.shopId) {
+          key = "searchShopRecord";
+        }
+        uni.setStorageSync(key, JSON.stringify(this.searchRecord));
         this.getList();
       }
     },

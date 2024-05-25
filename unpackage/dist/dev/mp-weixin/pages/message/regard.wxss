@@ -1,0 +1,77 @@
+
+.followed-users {
+  width: 100vw;
+  z-index: 1;
+  overflow: scroll;
+}
+.followed-users-one {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 3.5vw;
+  width: 93vw;
+  padding: 5.5vw 3.5vw;
+}
+.followed-users-one-left-avatar {
+  border-radius: 100%;
+  width: 17vw;
+  height: 17vw;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-color: #e5feed !important;
+}
+.red-tip {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 100%;
+  background-color: #ff0000;
+  margin-left: 5px;
+}
+.followed-users-one-right {
+  padding-left: 3.5vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 73.5vw;
+}
+.followed-users-one-right-left {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  width: 45vw;
+}
+.followed-users-one-right-left-name {
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+}
+.followed-users-one-right-left-intro {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #bbbbbb;
+}
+.followed-users-one-right-right {
+  height: 35px;
+  line-height: 35px;
+  background: #ff812f;
+  padding: 0 10px;
+  border-radius: 100px;
+  font-size: 13px;
+  color: #ffffff;
+}
+.img_url {
+  width: 20vw;
+  height: 20vw;
+
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-color: #e5e5e5 !important;
+
+  background-position: center !important;
+}
+.space-line-bottom {
+  height: 80px;
+}
+

@@ -1,0 +1,245 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.mall.data-v-321ac974 {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.mall .mall-top.data-v-321ac974 {
+  top: 0;
+  background-image: url("https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240524/2024-05-24_15_28_09_refund_0_22.png");
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: fixed;
+  z-index: 10;
+}
+.mall .mall-top .info-container.data-v-321ac974 {
+  padding: 30rpx 30rpx 0;
+}
+.mall .mall-top .info-container .info-name.data-v-321ac974 {
+  justify-content: space-between;
+}
+.mall .mall-top .info-container .info-name .info-name-left image.data-v-321ac974 {
+  border-radius: 100%;
+  width: 130rpx;
+  height: 130rpx;
+}
+.mall .mall-top .info-container .info-name .info-name-left .name-box.data-v-321ac974 {
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: 30rpx;
+  flex-direction: column;
+}
+.mall .mall-top .info-container .info-name .info-name-left .name-box .name-text.data-v-321ac974 {
+  font-family: PingFang SC;
+  font-weight: 600;
+  font-size: 38rpx;
+  color: #333333;
+  margin-bottom: 25rpx;
+}
+.mall .mall-top .info-container .info-name .info-name-left .name-box .time-text.data-v-321ac974 {
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #666666;
+}
+.mall .mall-top .info-container .info-desc.data-v-321ac974 {
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
+  color: #333333;
+  margin-top: 37rpx;
+}
+.mall .mall-top .info-container .info-school.data-v-321ac974 {
+  margin-top: 33rpx;
+}
+.mall .mall-top .info-container .info-school .info-school-box.data-v-321ac974 {
+  background: #edf4ee;
+  border-radius: 20rpx;
+  padding: 9rpx 21rpx;
+  justify-content: center;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #666666;
+}
+.mall .mall-top .info-container .info-school .info-school-name.data-v-321ac974 {
+  margin-right: 20rpx;
+}
+.mall .mall-top .info-container .info-school .info-school-name image.data-v-321ac974 {
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 9rpx;
+}
+.mall .mall-top .info-container .other-info.data-v-321ac974 {
+  justify-content: space-between;
+  margin-top: 19rpx;
+}
+.mall .mall-top .info-container .other-info .other-info-left.data-v-321ac974 {
+  line-height: 20rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 24rpx;
+  color: #000000;
+}
+.mall .mall-top .info-container .other-info .other-info-left text.data-v-321ac974 {
+  font-family: Myriad Pro;
+  font-weight: 400;
+  font-size: 34rpx;
+  color: #000000;
+  margin-right: 15rpx;
+}
+.mall .mall-top .info-container .other-info .other-info-left .mar-l-50.data-v-321ac974 {
+  margin-left: 50rpx;
+}
+.mall .mall-top .info-container .other-info .other-info-right.data-v-321ac974 {
+  text-align: center;
+  padding: 0 30rpx;
+  height: 56rpx;
+  background: #f89f12;
+  border-radius: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
+  color: #ffffff;
+  line-height: 56rpx;
+}
+.mall .mall-top .tab-container.data-v-321ac974 {
+  justify-content: space-between;
+  margin-top: 30rpx;
+  background: #ffffff;
+  border-radius: 40rpx 40rpx 0 0;
+  padding: 30rpx 30rpx 0;
+}
+.mall .mall-top .tab-container .tab-box .tab-item.data-v-321ac974 {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-right: 45rpx;
+}
+.mall .mall-top .tab-container .tab-box .tab-item text.data-v-321ac974 {
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 32rpx;
+  color: #333333;
+  line-height: 37rpx;
+  z-index: 1;
+  position: relative;
+}
+.mall .mall-top .tab-container .tab-box .tab-item .heng.data-v-321ac974 {
+  bottom: 0;
+  position: absolute;
+  width: 64rpx;
+  height: 10rpx;
+  background: #ff812f;
+}
+.mall .mall-top .tab-container .tab-box .tab-item.data-v-321ac974:last-child {
+  margin-right: 0;
+}
+.mall .mall-top .tab-container .tab-box .choose text.data-v-321ac974 {
+  font-family: PingFang SC;
+  font-weight: 600;
+  font-size: 32rpx;
+  color: #333333;
+}
+.mall .list-box.data-v-321ac974 {
+  padding: 36rpx 30rpx 0;
+}
+.mall .list-box .shop-list-box.data-v-321ac974 {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+.mall .list-box .shop-list-box .list-item.data-v-321ac974 {
+  margin-bottom: 20rpx;
+  width: 335rpx;
+  border-radius: 10rpx 10rpx 0rpx 0rpx;
+}
+.mall .list-box .shop-list-box .list-item .image-box.data-v-321ac974 {
+  background: #ffffff;
+  border-radius: 10rpx 10rpx 0rpx 0rpx;
+  width: 335rpx;
+  height: 335rpx;
+  z-index: 1;
+  position: relative;
+}
+.mall .list-box .shop-list-box .list-item .image-box image.data-v-321ac974 {
+  border-radius: 10rpx 10rpx 0rpx 0rpx;
+  width: 335rpx;
+  height: 335rpx;
+}
+.mall .list-box .shop-list-box .list-item .list-item-info.data-v-321ac974 {
+  margin-top: -15rpx;
+  padding: 30rpx 21rpx 32rpx;
+  background: #ffffff;
+  box-shadow: 0rpx 0rpx 7rpx 1rpx rgba(0, 0, 0, 0.04);
+  border-radius: 0 0 10rpx 10rpx;
+  border: 1px solid #f4f4f4;
+  border-top: none;
+}
+.mall .list-box .shop-list-box .list-item .list-item-info .list-item-title.data-v-321ac974 {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: PingFang SC;
+  font-weight: 500;
+  font-size: 24rpx;
+  color: #393a3e;
+  margin-bottom: 24rpx;
+}
+.mall .list-box .shop-list-box .list-item .list-item-info .list-item-price.data-v-321ac974 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.mall .list-box .shop-list-box .list-item .list-item-info .list-item-price .list-item-price-left.data-v-321ac974 {
+  font-family: PingFang SC;
+  font-weight: 300;
+  font-size: 22rpx;
+  color: #f23333;
+  line-height: 24rpx;
+}
+.mall .list-box .shop-list-box .list-item .list-item-info .list-item-price .list-item-price-right.data-v-321ac974 {
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #999999;
+}
+.mall .list-box .posts-data.data-v-321ac974 {
+  position: relative;
+  z-index: 1;
+}
+.mall .flex-algin.data-v-321ac974 {
+  display: flex;
+  align-items: center;
+}
+.mall .safe-bottom.data-v-321ac974 {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+

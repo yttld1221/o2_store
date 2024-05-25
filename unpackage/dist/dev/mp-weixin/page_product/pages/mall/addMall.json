@@ -1,0 +1,14 @@
+{
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "申请工作室",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
+  "usingComponents": {
+    "u--input": "/uni_modules/uview-ui/components/u--input/u--input",
+    "u-code": "/uni_modules/uview-ui/components/u-code/u-code",
+    "u-button": "/uni_modules/uview-ui/components/u-button/u-button",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "u--textarea": "/uni_modules/uview-ui/components/u--textarea/u--textarea"
+  }
+}

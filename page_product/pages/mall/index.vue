@@ -55,7 +55,12 @@
             <text>{{ item.label }}</text>
           </view>
         </view>
-        <u-icon name="search" color="#333333" size="23"></u-icon>
+        <u-icon
+          @click="toSearch()"
+          name="search"
+          color="#333333"
+          size="23"
+        ></u-icon>
       </view>
     </view>
     <view :style="'margin-top:' + contentHeight + 'px;'" class="list-box">
@@ -191,6 +196,11 @@ export default {
     }
   },
   methods: {
+    toSearch() {
+      uni.navigateTo({
+        url: "/page_product/pages/search/index?shopId=" + this.id,
+      });
+    },
     // 转换时间
     getTime() {
       return this.$public.getDateDiff(this.userInfo.last_login_at);

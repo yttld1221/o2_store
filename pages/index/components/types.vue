@@ -107,6 +107,7 @@ export default {
         this.list[index].left -
         this.contentScrollW / 2 +
         this.list[index].width / 2;
+      item.currentIndex = index;
       this.$emit("changeTab", item);
     },
   },

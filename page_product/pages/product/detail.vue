@@ -41,7 +41,7 @@
         {{ info.title }}
       </view>
       <view class="info-sale">
-        <text>品牌商品 · 送货尚门 · 假一赔十</text>
+        <text>品牌商品 · 送货上门 · 假一赔十</text>
         <text>已售{{ info.sale_num }}件</text>
       </view>
     </view>
@@ -105,6 +105,15 @@ export default {
     };
   },
   onLoad(options) {
+    uni.showShareMenu({
+      menus: ["shareAppMessage"], // 需要显示的转发按钮名称列表.合法值包含 "shareAppMessage"、"shareTimeline"
+      success(res) {
+        console.log(res);
+      },
+      fail(e) {
+        console.log(e);
+      },
+    });
     this.id = options.id;
     this.getDetail();
   },
@@ -164,7 +173,6 @@ export default {
           {
             id: this.id,
             num: 1,
-            pid: 0,
             url: this.info.img_url ? this.info.img_url.split(",")[0] : "",
             title: this.info.title,
             price: this.info.sale_price,

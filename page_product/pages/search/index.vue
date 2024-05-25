@@ -61,10 +61,18 @@ export default {
       searchText: "",
       hotList: [],
       searchRecord: [],
+      shopId: "",
     };
   },
+  onLoad(options) {
+    if (options.shopId) {
+      this.shopId = options.shopId;
+    }
+  },
   onShow() {
-    this.getHot();
+    if (!this.shopId) {
+      this.getHot();
+    }
     this.getSearchRecord();
     this.searchText = "";
   },
@@ -99,8 +107,12 @@ export default {
     },
     searchVal(val) {
       if (val) {
+        let url = "/page_product/pages/search/searchResult?text=" + val;
+        if (this.shopId) {
+          url += "&shopId=" + this.shopId;
+        }
         uni.navigateTo({
-          url: "/page_product/pages/search/searchResult?text=" + val,
+          url,
         });
       }
     },
@@ -109,8 +121,12 @@ export default {
     },
     // 获取历史纪录
     getSearchRecord() {
-      this.searchRecord = uni.getStorageSync("searchRecord")
-        ? JSON.parse(uni.getStorageSync("searchRecord"))
+      let key = "searchRecord";
+      if (this.shopId) {
+        key = "searchShopRecord";
+      }
+      this.searchRecord = uni.getStorageSync(key)
+        ? JSON.parse(uni.getStorageSync(key))
         : [] || [];
       if (this.searchRecord.length > 0) {
         for (let i in this.searchRecord) {

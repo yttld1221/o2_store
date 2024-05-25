@@ -301,6 +301,7 @@ export default {
         create_id: 1,
         update_id: 1,
       },
+      currentIndex: 0,
       //
       school_datas: [
         // {
@@ -704,6 +705,7 @@ export default {
         page: this.theGetMomentsListPage,
         pagesize: this.theGetMomentsListPagesize,
         category_id: this.momentType,
+        is_hot: this.momentType == 0 ? 1 : 0,
         is_product: 1,
         // // 行政区划编码，选定的最低一级区域的编码，空字符串是全部
         area_code: this.$store.state.store_addressNow.code,
@@ -756,7 +758,7 @@ export default {
           .getAllMenu({})
           .then((res) => {
             console.log(res);
-            this.tabArr = [];
+            this.tabArr = [{ name: "精选", id: 0 }];
             //所有分类
             // res.data.forEach((el) => {
             // 	el.children.forEach(item=>{
@@ -790,6 +792,7 @@ export default {
     },
     changeTab(item) {
       console.log(item);
+      this.currentIndex = item.currentIndex;
       this.theGetMomentsListPage = 1;
       this.school_datas = [];
       this.momentType = item.id;

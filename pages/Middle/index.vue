@@ -9,7 +9,9 @@ export default {
   },
   onLoad(options) {
     if (options.scene) {
-      this.$store.commit("setScene", options.scene);
+      let str = decodeURIComponent(options.scene);
+      let id = str.split("=")[1];
+      this.$store.commit("setScene", id);
       uni.switchTab({
         url: "/pages/index/index",
       });

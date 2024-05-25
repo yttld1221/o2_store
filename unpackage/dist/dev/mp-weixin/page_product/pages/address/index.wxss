@@ -1,0 +1,146 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.address.data-v-540dfaaa {
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: #fafafa;
+}
+.address .no-list.data-v-540dfaaa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
+.address .no-list .no-list-title.data-v-540dfaaa {
+  font-family: PingFang SC;
+  font-weight: 500;
+  font-size: 30rpx;
+  color: #000000;
+}
+.address .no-list .no-list-tip.data-v-540dfaaa {
+  font-family: PingFang;
+  font-weight: 500;
+  font-size: 28rpx;
+  color: #979797;
+  margin: 16rpx 0 26rpx;
+}
+.address .no-list .no-list-btn.data-v-540dfaaa {
+  width: 600rpx;
+  height: 76rpx;
+  background: linear-gradient(-55deg, #ff9b5a, #ff812f);
+  border-radius: 38rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
+  color: #ffffff;
+  line-height: 76rpx;
+  text-align: center;
+}
+.address .list-box.data-v-540dfaaa {
+  padding: 25rpx 42rpx 42rpx 0rpx;
+  margin-left: 38rpx;
+  border-bottom: 1rpx solid #d6d6d6;
+  display: flex;
+  justify-content: space-between;
+}
+.address .list-box .list-container .list-info-box.data-v-540dfaaa {
+  display: flex;
+  align-items: center;
+}
+.address .list-box .list-container .list-info-box .list-info-name.data-v-540dfaaa {
+  font-family: PingFang;
+  font-weight: 600;
+  font-size: 32rpx;
+  color: #363636;
+}
+.address .list-box .list-container .list-info-box .list-info-phone.data-v-540dfaaa {
+  font-family: PingFang;
+  font-weight: 500;
+  font-size: 28rpx;
+  color: #363636;
+  margin-left: 20rpx;
+}
+.address .list-box .list-container .list-info-detail.data-v-540dfaaa {
+  margin-top: 28rpx;
+  font-family: PingFang;
+  font-weight: 500;
+  font-size: 28rpx;
+  color: #b8b8b8;
+}
+.address .list-box .list-container .list-info-default.data-v-540dfaaa {
+  margin-left: 20rpx;
+  width: 50rpx;
+  height: 28rpx;
+  background: #ff812f;
+  border-radius: 4rpx;
+  font-family: PingFang SC;
+  font-weight: 300;
+  font-size: 18rpx;
+  color: #ffffff;
+  line-height: 28rpx;
+  text-align: center;
+}
+.address .list-box .list-container .edit-icon.data-v-540dfaaa {
+  margin-left: 28rpx;
+}
+.address.data-v-540dfaaa .u-swipe-action-item__content {
+  background: #fafafa;
+}
+.address .safe-bottom.data-v-540dfaaa {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.address .fix-bottom-box.data-v-540dfaaa {
+  z-index: 10;
+  background: #ffffff;
+  box-shadow: 0rpx 0rpx 7rpx 1rpx rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 25rpx 75rpx;
+  box-sizing: border-box;
+}
+.address .fix-bottom-box .fix-bottom.data-v-540dfaaa {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.address .fix-bottom-box .pay-btn.data-v-540dfaaa {
+  width: 100%;
+  height: 76rpx;
+  background: linear-gradient(-55deg, #ff9b5a, #ff812f);
+  border-radius: 38rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
+  color: #ffffff;
+  line-height: 76rpx;
+  text-align: center;
+}
+

@@ -123,7 +123,6 @@ function getDateDiff(dateTimeStamp) {
 	var result = '';
 	var date = (new Date());
 	var theDate = new Date(dateTimeStamp).getTime();
-	console.log(theDate)
 	var today = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime(); //今天凌晨
 	var yestday = new Date(today - 24 * 3600 * 1000).getTime();
 	var minute = 1000 * 60;
@@ -133,7 +132,7 @@ function getDateDiff(dateTimeStamp) {
 	var month = day * 30;
 	var now = new Date().getTime();
 	var diffValue = now - theDate;
-	if (diffValue < 0) { return; }
+	if (diffValue < 0) { return '刚刚'; }
 	var monthC = diffValue / month;
 	var weekC = diffValue / (7 * day);
 	var dayC = diffValue / day;
@@ -161,7 +160,6 @@ function getDateDiff(dateTimeStamp) {
 	} else {
 		result = "刚刚";
 	}
-
 	return result;
 }
 

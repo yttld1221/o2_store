@@ -1,2 +1,1 @@
-<!--pages/mine/edit_other.wxml-->
-<text>pages/mine/edit_other.wxml</text>
+<view class="content"><view class="line-name"><view class="line-name-title">我的昵称：</view><view class="line-name-content"><uni-easyinput bind:input="__e" vue-id="1de74dd8-1" focus="{{true}}" placeholder="请输入一个不超过7个字符的昵称吧~" inputBorder="{{false}}" value="{{nick_name}}" data-event-opts="{{[['^input',[['__set_model',['','nick_name','$event',[]]]]]]}}" bind:__l="__l"></uni-easyinput></view></view><view class="space-line-bottom"><view data-event-opts="{{[['tap',[['navigateBack']]]]}}" class="to-push-2" bindtap="__e">确认修改</view></view></view>

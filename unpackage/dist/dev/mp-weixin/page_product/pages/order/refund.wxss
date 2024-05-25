@@ -1,0 +1,164 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.refund.data-v-1f1f8b76 {
+  min-height: 100vh;
+  background: #fafafa;
+  box-sizing: border-box;
+}
+.refund .product-list.data-v-1f1f8b76 {
+  padding: 29rpx 40rpx;
+  background: #ffffff;
+}
+.refund .product-list .list-item.data-v-1f1f8b76 {
+  display: flex;
+  align-items: center;
+}
+.refund .product-list .list-item image.data-v-1f1f8b76 {
+  width: 132rpx;
+  height: 132rpx;
+  background: #ffffff;
+  border-radius: 6rpx;
+  border: 1px solid #eeeeee;
+  margin-right: 26rpx;
+}
+.refund .product-list .list-item .product-info.data-v-1f1f8b76 {
+  box-sizing: border-box;
+  height: 132rpx;
+  width: calc(100% - 158rpx);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.refund .product-list .list-item .product-info .product-title.data-v-1f1f8b76 {
+  font-family: PingFang SC;
+  font-weight: 500;
+  font-size: 24rpx;
+  margin-bottom: 34rpx;
+  color: #393a3e;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.refund .product-list .list-item .product-info .product-price.data-v-1f1f8b76 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: PingFang SC;
+  font-weight: 300;
+  font-size: 22rpx;
+  color: #f23333;
+  display: flex;
+  align-items: flex-end;
+  line-height: 23rpx;
+}
+.refund .product-list .list-item .product-info .product-price .price-text.data-v-1f1f8b76 {
+  font-size: 34rpx;
+}
+.refund .product-list .list-item .product-info .product-price .product-num.data-v-1f1f8b76 {
+  font-family: DIN Alternate;
+  font-weight: bold;
+  font-size: 26rpx;
+  color: #111111;
+}
+.refund .content-box.data-v-1f1f8b76 {
+  margin-top: 14rpx;
+  background: #ffffff;
+  padding: 40rpx;
+}
+.refund .content-box.data-v-1f1f8b76 .u-textarea {
+  padding: 0 !important;
+}
+.refund .content-box .img-upload.data-v-1f1f8b76 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #ffffff;
+  box-shadow: 0rpx 0rpx 9rpx 1rpx rgba(0, 0, 0, 0.06);
+  border-radius: 20rpx;
+  padding: 30rpx 0;
+  margin-top: 30rpx;
+}
+.refund .content-box .img-upload > text.data-v-1f1f8b76 {
+  font-family: PingFang SC;
+  font-weight: 300;
+  font-size: 22rpx;
+  color: #969696;
+  margin-top: 20rpx;
+}
+.refund .content-box .filelist-box.data-v-1f1f8b76 {
+  display: flex;
+  align-items: flex-start;
+  background: white;
+}
+.refund .content-box .filelist-box .filelist-item.data-v-1f1f8b76 {
+  position: relative;
+  margin-right: 30rpx;
+}
+.refund .content-box .filelist-box .filelist-item > .del-icon.data-v-1f1f8b76 {
+  cursor: pointer;
+  padding: 8rpx;
+  border-radius: 50%;
+  background: #969696;
+  margin-top: -17rpx;
+  position: absolute;
+  right: 0rpx;
+  margin-right: -10rpx;
+  z-index: 6;
+}
+.refund .content-box .filelist-box .filelist-item > image.data-v-1f1f8b76 {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 20rpx;
+}
+.refund .content-box .filelist-box .filelist-item .video-box.data-v-1f1f8b76 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 20rpx;
+  background: rgba(0, 0, 0, 0.5);
+}
+.refund .refund-btn.data-v-1f1f8b76 {
+  margin: 0 auto;
+  width: 590rpx;
+  height: 98rpx;
+  background: #ff812f;
+  border-radius: 49rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  font-size: 28rpx;
+  color: #ffffff;
+  line-height: 98rpx;
+  text-align: center;
+  margin-top: 76rpx;
+}
+

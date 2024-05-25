@@ -569,8 +569,6 @@ export default {
   display: flex;
   flex-direction: row;
   padding-left: 83.1rpx;
-  width: 81.5vw;
-
   flex-wrap: wrap;
 }
 .line-2-one {
@@ -613,16 +611,13 @@ export default {
   /* justify-content: space-between; */
   flex-wrap: wrap;
   padding-left: 83.1rpx;
-  width: 55vw;
   /* 只显示一行两个，右侧部分留空便于点击详情 */
-  padding-right: 29.5vw;
-  margin-top: 10px;
+  margin-top: 25rpx;
 }
 .pic-tip {
   background-color: #fafafa;
   font-size: 12px;
-  padding: 0px 5px;
-  margin-left: 15vw;
+  margin-left: 83.1rpx;
   border-radius: 5px;
   color: #bbbbbb;
 }
