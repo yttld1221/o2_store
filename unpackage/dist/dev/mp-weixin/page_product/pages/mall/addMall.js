@@ -388,11 +388,10 @@ var _default = {
         area_code: "请选择开放区域",
         apply_id_card1: "请上传头像面",
         apply_id_card2: "请上传国徽面",
-        business_license: "请上传营业执照",
-        remark: "请填写申请说明"
+        business_license: "请上传营业执照"
       };
       var tag = true;
-      for (var i in this.ruleForm) {
+      for (var i in errorObj) {
         if (!this.ruleForm[i]) {
           tag = false;
           uni.showToast({

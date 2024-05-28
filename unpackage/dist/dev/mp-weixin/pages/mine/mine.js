@@ -307,52 +307,6 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default = {
   data: function data() {
     return {
@@ -688,8 +642,7 @@ var _default = {
           url: "/pages/mine/mine_push"
         });
       } else if (index == 2) {
-        // this.$store.state.theLogonUser.level == 2
-        if (this.$store.state.theLogonUser.level > 0) {
+        if (this.$store.state.theLogonUser.level != 0) {
           if (this.$store.state.theLogonUser.shop_id == 0) {
             uni.navigateTo({
               url: "/page_product/pages/mall/addMall"

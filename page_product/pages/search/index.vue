@@ -163,7 +163,7 @@ export default {
         margin-right: 30rpx;
         padding: 8rpx 26rpx;
         background: #f6f6f6;
-        border-radius: 19rpx;
+        border-radius: 30rpx;
         margin-top: 21rpx;
         font-family: PingFang SC;
         font-weight: 300;

@@ -273,10 +273,9 @@ export default {
         apply_id_card1: "请上传头像面",
         apply_id_card2: "请上传国徽面",
         business_license: "请上传营业执照",
-        remark: "请填写申请说明",
       };
       let tag = true;
-      for (let i in this.ruleForm) {
+      for (let i in errorObj) {
         if (!this.ruleForm[i]) {
           tag = false;
           uni.showToast({

@@ -586,7 +586,7 @@ export default {
         margin-top: 33rpx;
         .info-school-box {
           background: rgba(237, 244, 238, 1);
-          border-radius: 20rpx;
+          border-radius: 30rpx;
           padding: 9rpx 21rpx;
           justify-content: center;
           font-family: PingFang SC;

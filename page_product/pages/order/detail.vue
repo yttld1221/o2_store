@@ -74,6 +74,29 @@
         <text>{{ info.pay_time }}</text>
       </view></view
     >
+    <view v-if="info.deliver_no" class="other-info kd-box">
+      <view class="other-info-item">
+        <text>物流公司</text>
+        <text>{{ getKdName(info.deliver_company) }}</text>
+      </view>
+      <view class="other-info-item kd-no">
+        <text>快递单号</text>
+        <view class="no-box">
+          <view
+            @click="copyText(item)"
+            class="no-item"
+            v-for="(item, index) in getKdNo(info.deliver_no)"
+          >
+            {{ item }}
+            <view class="copy-btn">复制</view>
+          </view></view
+        >
+      </view>
+      <view class="other-info-item">
+        <text>发货时间</text>
+        <text>{{ info.deliver_at }}</text>
+      </view></view
+    >
     <view class="remark-box" v-if="info.remark">{{ info.remark }}</view>
     <view v-if="info.refund_id" class="other-info refund-info">
       <view class="other-info-item">
@@ -162,6 +185,29 @@ export default {
     }
   },
   methods: {
+    copyText(text) {
+      uni.setClipboardData({
+        data: text,
+        success: function () {
+          uni.showToast({
+            title: "复制成功",
+            icon: "none",
+            duration: 2000,
+          });
+        },
+      });
+    },
+    getKdName(name) {
+      if (name) {
+        return name.split("-")[0];
+      }
+    },
+    getKdNo(no) {
+      if (no) {
+        let arr = no.split(",");
+        return arr;
+      }
+    },
     // 确认删除
     confirmDel() {
       this.API.order
@@ -481,6 +527,39 @@ export default {
     }
     .other-info-item:last-child {
       margin-bottom: 0 !important;
+    }
+  }
+  .kd-box {
+    .kd-no {
+      display: flex;
+      align-items: flex-start;
+
+      .no-box {
+        width: calc(100% - 200rpx);
+
+        .no-item {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          margin-bottom: 20rpx;
+
+          .copy-btn {
+            font-family: PingFang SC;
+            font-weight: 400;
+            font-size: 22rpx;
+            color: #333333;
+            padding: 5rpx 0;
+            width: 70rpx;
+            text-align: center;
+            border: 1rpx solid #333333;
+            margin-left: 30rpx;
+            border-radius: 10rpx;
+          }
+        }
+        .no-item:last-child {
+          margin-bottom: 0;
+        }
+      }
     }
   }
   .remark-box {

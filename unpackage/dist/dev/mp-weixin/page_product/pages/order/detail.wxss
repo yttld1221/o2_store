@@ -165,6 +165,34 @@
 .order-detail .other-info .other-info-item.data-v-4757afcf:last-child {
   margin-bottom: 0 !important;
 }
+.order-detail .kd-box .kd-no.data-v-4757afcf {
+  display: flex;
+  align-items: flex-start;
+}
+.order-detail .kd-box .kd-no .no-box.data-v-4757afcf {
+  width: calc(100% - 200rpx);
+}
+.order-detail .kd-box .kd-no .no-box .no-item.data-v-4757afcf {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20rpx;
+}
+.order-detail .kd-box .kd-no .no-box .no-item .copy-btn.data-v-4757afcf {
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #333333;
+  padding: 5rpx 0;
+  width: 70rpx;
+  text-align: center;
+  border: 1rpx solid #333333;
+  margin-left: 30rpx;
+  border-radius: 10rpx;
+}
+.order-detail .kd-box .kd-no .no-box .no-item.data-v-4757afcf:last-child {
+  margin-bottom: 0;
+}
 .order-detail .remark-box.data-v-4757afcf {
   background: #ffffff;
   border-radius: 20rpx;

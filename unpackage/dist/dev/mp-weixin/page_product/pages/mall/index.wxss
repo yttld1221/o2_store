@@ -79,7 +79,7 @@
 }
 .mall .mall-top .info-container .info-school .info-school-box.data-v-321ac974 {
   background: #edf4ee;
-  border-radius: 20rpx;
+  border-radius: 30rpx;
   padding: 9rpx 21rpx;
   justify-content: center;
   font-family: PingFang SC;

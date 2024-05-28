@@ -133,17 +133,30 @@ var render = function () {
     (!_vm.info.refund_id ||
       (_vm.info.refund_id > 0 && _vm.info.refund_check_status == 3))
   var m0 = _vm.info.is_delivery == 1 ? _vm.getArea() : null
+  var m1 = _vm.info.deliver_no ? _vm.getKdName(_vm.info.deliver_company) : null
+  var l0 = _vm.info.deliver_no ? _vm.getKdNo(_vm.info.deliver_no) : null
   var g1 = _vm.info.refund_id ? _vm.fileList.length : null
   var g2 =
     [1, 2, 3, 5].includes(_vm.info.status) &&
     (!_vm.info.refund_id ||
       (_vm.info.refund_id > 0 && _vm.info.refund_check_status == 3))
+  if (!_vm._isMounted) {
+    _vm.e0 = function ($event, item) {
+      var _temp = arguments[arguments.length - 1].currentTarget.dataset,
+        _temp2 = _temp.eventParams || _temp["event-params"],
+        item = _temp2.item
+      var _temp, _temp2
+      return _vm.copyText(item)
+    }
+  }
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         g0: g0,
         m0: m0,
+        m1: m1,
+        l0: l0,
         g1: g1,
         g2: g2,
       },
@@ -226,6 +239,29 @@ var _default = {
     }
   },
   methods: {
+    copyText: function copyText(text) {
+      uni.setClipboardData({
+        data: text,
+        success: function success() {
+          uni.showToast({
+            title: "复制成功",
+            icon: "none",
+            duration: 2000
+          });
+        }
+      });
+    },
+    getKdName: function getKdName(name) {
+      if (name) {
+        return name.split("-")[0];
+      }
+    },
+    getKdNo: function getKdNo(no) {
+      if (no) {
+        var arr = no.split(",");
+        return arr;
+      }
+    },
     // 确认删除
     confirmDel: function confirmDel() {
       var _this = this;

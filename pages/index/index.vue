@@ -1400,13 +1400,12 @@ export default {
 
 .titles-box {
   width: 263rpx;
-  height: 55rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
   background: rgba(0, 0, 0, 0.04);
   padding: 4rpx;
-  border-radius: 28rpx;
+  border-radius: 40rpx;
   .titles-item {
     line-height: 47rpx;
     text-align: center;
@@ -1554,7 +1553,7 @@ export default {
   height: 180px;
 }
 .city-text {
-  margin: 0 19rpx 0 16rpx;
+  margin: 0 12rpx;
   font-family: PingFang SC;
   font-weight: 600;
   font-size: 32rpx;
