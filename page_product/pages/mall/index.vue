@@ -38,6 +38,7 @@
             :style="{ visibility: id != theLogonUser.shop_id ? '' : 'hidden' }"
             @click="followHandle()"
             class="other-info-right"
+            :class="{ 'is-regard': userInfo.is_regard == 1 }"
             >{{ userInfo.is_regard == 1 ? "取消关注" : "关注" }}</view
           >
         </view>
@@ -626,16 +627,16 @@ export default {
           }
         }
         .other-info-right {
-          text-align: center;
-          padding: 0 30rpx;
-          height: 56rpx;
+          padding: 15rpx 30rpx;
           background: #f89f12;
-          border-radius: 28rpx;
+          border-radius: 50rpx;
           font-family: PingFang SC;
           font-weight: 400;
           font-size: 26rpx;
           color: #ffffff;
-          line-height: 56rpx;
+        }
+        .is-regard {
+          background: #bbbbbb;
         }
       }
     }

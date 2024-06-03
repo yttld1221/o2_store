@@ -255,7 +255,7 @@ export default {
       theGetMomentsListPagesize: 10,
 
       titleName: ["首页", "校园墙"],
-      theTitleIndex: 0,
+      theTitleIndex: 1,
       schoolOneTitleIndex: 0,
 
       // 顶部状态栏
@@ -747,13 +747,15 @@ export default {
       if (this.theTitleIndex == 1) {
         this.initData();
       } else {
-        let query = uni.createSelectorQuery().in(this);
-        query
-          .select(".home-search")
-          .boundingClientRect((data) => {
-            this.contentHeight = data.height;
-          })
-          .exec();
+        this.$nextTick(() => {
+          let query = uni.createSelectorQuery().in(this);
+          query
+            .select(".home-search")
+            .boundingClientRect((data) => {
+              this.contentHeight = data.height;
+            })
+            .exec();
+        });
         this.API.home
           .getAllMenu({})
           .then((res) => {
@@ -889,6 +891,8 @@ export default {
         if (that.tabArr.length) {
           that.momentType = that.tabArr[0].id;
           that.initShop();
+        } else {
+          that.getShopType();
         }
       } else {
         that.getMomentsList();

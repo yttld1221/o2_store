@@ -34,7 +34,7 @@
         <view class="line-3-1-a">#活动时间：{{ activeDate }}#</view>
       </view>
       <!-- 图片 -->
-      <view class="line-4">
+      <view class="line-4" :class="{ 'pad-r-pic': getPictures.length == 4 }">
         <!-- <view @click.stop="$public.previewImage(pictures,index)" v-if="item != ''" class="picture" :style="'background: url('+item+'?x-oss-process=image/resize,m_lfit,h_160,w_160'+');'" v-for="(item,index) in getPictures"></view> -->
         <template v-if="item != ''">
           <image
@@ -614,6 +614,9 @@ export default {
   /* 只显示一行两个，右侧部分留空便于点击详情 */
   margin-top: 25rpx;
 }
+.pad-r-pic {
+  padding-right: 25vw;
+}
 .pic-tip {
   background-color: #fafafa;
   font-size: 12px;
@@ -629,14 +632,18 @@ export default {
   image-rendering: crisp-edges;
   -ms-interpolation-mode: nearest-neighbor;
   border-radius: 3px;
-  width: 26.5vw;
-  height: 26.5vw;
+  width: 196rpx;
+  height: 196rpx;
   margin-right: 1vw;
   margin-bottom: 1vw;
   /* background-repeat: no-repeat !important;
   background-size: cover !important;
   background-color: #e5e5e5 !important;
   background-position: center !important; */
+}
+
+.line-4 .picture:last-child {
+  margin-right: 0;
 }
 
 .line-5 {

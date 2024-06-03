@@ -19,7 +19,7 @@
       <view class="comment-one" v-for="(item, index) in theComments">
         <!-- 头像 -->
         <view
-          @click="topPerSonalhome(item.create_id)"
+          @click="topPerSonalhome({ id: item.create_id, is_anonymous: 2 })"
           class="comment-one-avatar"
           :style="'background: url(' + item.avatar_url + ');'"
         ></view>
@@ -471,10 +471,15 @@ export default {
       return new Promise(function (resolve, reject) {
         let that = _this;
         if (![1, 2].includes(that.$store.state.theLogonUser.level)) {
-          uni.showToast({
-            title: "请前往注册认证",
-            duration: 2500,
-            icon: "none",
+          // uni.showToast({
+          //   title: "请前往注册认证",
+          //   duration: 2500,
+          //   icon: "none",
+          // });
+          uni.navigateTo({
+            url:
+              "/pages/mine/register?level=" +
+              that.$store.state.theLogonUser.level,
           });
           return;
         }

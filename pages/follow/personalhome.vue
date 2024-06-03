@@ -37,7 +37,7 @@
             <view>{{
               thePersonalInfo.school_name != ""
                 ? thePersonalInfo.school_name
-                : '学校不详，遇强则"降"▼ω▼'
+                : "学校不详"
             }}</view>
           </view>
           <!-- <view class="the-line-1-right-bottom-school margin-left-10">

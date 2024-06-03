@@ -134,6 +134,9 @@
   /* 只显示一行两个，右侧部分留空便于点击详情 */
   margin-top: 25rpx;
 }
+.pad-r-pic {
+  padding-right: 25vw;
+}
 .pic-tip {
   background-color: #fafafa;
   font-size: 12px;
@@ -149,14 +152,17 @@
   image-rendering: crisp-edges;
   -ms-interpolation-mode: nearest-neighbor;
   border-radius: 3px;
-  width: 26.5vw;
-  height: 26.5vw;
+  width: 196rpx;
+  height: 196rpx;
   margin-right: 1vw;
   margin-bottom: 1vw;
   /* background-repeat: no-repeat !important;
   background-size: cover !important;
   background-color: #e5e5e5 !important;
   background-position: center !important; */
+}
+.line-4 .picture:last-child {
+  margin-right: 0;
 }
 .line-5 {
   display: flex;

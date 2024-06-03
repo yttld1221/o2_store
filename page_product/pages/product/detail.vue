@@ -161,10 +161,15 @@ export default {
     buttonClick(e) {
       console.log(e);
       if (this.$store.state.theLogonUser.level < this.info.buy_level) {
-        uni.showToast({
-          title: "当前操作权限不足，请尽快完成会员升级！",
-          duration: 2500,
-          icon: "none",
+        // uni.showToast({
+        //   title: "当前操作权限不足，请尽快完成会员升级！",
+        //   duration: 2500,
+        //   icon: "none",
+        // });
+        uni.navigateTo({
+          url:
+            "/pages/mine/register?level=" +
+            this.$store.state.theLogonUser.level,
         });
         return false;
       }

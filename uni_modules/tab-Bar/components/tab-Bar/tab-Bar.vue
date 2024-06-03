@@ -119,7 +119,7 @@ export default {
 
     changeTab(e) {
       if (e == 2) {
-        if ([1,2].includes(this.$store.state.theLogonUser.level)) {
+        if ([1, 2].includes(this.$store.state.theLogonUser.level)) {
           if (this.$store.state.isPage_2 == true) {
             // 表示已经在发布页，证明是第二次点击
             uni.switchTab({
@@ -131,10 +131,10 @@ export default {
             });
           }
         } else {
-          uni.showToast({
-            title: "请前往注册认证",
-            duration: 2500,
-            icon: "none",
+          uni.navigateTo({
+            url:
+              "/pages/mine/register?level=" +
+              this.$store.state.theLogonUser.level,
           });
         }
       } else {

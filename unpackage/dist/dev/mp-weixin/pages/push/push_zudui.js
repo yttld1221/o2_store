@@ -101,19 +101,19 @@ var components
 try {
   components = {
     uniPopup: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */ "uni_modules/uni-popup/components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 489))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */ "uni_modules/uni-popup/components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 497))
     },
     uniEasyinput: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput */ "uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue */ 482))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput */ "uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue */ 490))
     },
     uniFilePicker: function () {
-      return Promise.all(/*! import() | uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker.vue */ 496))
+      return Promise.all(/*! import() | uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker.vue */ 504))
     },
     uniIcons: function () {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 416))
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 424))
     },
     uniDatetimePicker: function () {
-      return Promise.all(/*! import() | uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker.vue */ 514))
+      return Promise.all(/*! import() | uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker.vue */ 522))
     },
   }
 } catch (e) {
@@ -708,6 +708,7 @@ var _default = {
     toPush: function toPush(state) {
       // '存草稿' '立即发布'
       var that = this;
+      console.log("imageSelect_tempImageValue", that.tempImageValue);
       var theDataUrl = [];
       return new Promise(function (resolve, reject) {
         if (that.pushChecking()) {
@@ -952,7 +953,7 @@ var _default = {
 
     // 选择上传图片
     imageSelect: function imageSelect(e) {
-      // console.log('e',e);
+      console.log("e", e);
       // 就是当前时间,给图片命名的
       var nowDateTime = this.$public.getNowDateTime();
       // console.log('nowDateTime',nowDateTime);
@@ -961,7 +962,7 @@ var _default = {
       var that = this;
       // 异步转同步
       (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
-        var theName, i, theStoreTempImageUrl, _i;
+        var theName, i;
         return _regenerator.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -970,33 +971,19 @@ var _default = {
                 for (i = 0; i < e.tempFiles.length; i++) {
                   theName.push(nowDateTime + "_" + i);
                 }
-
-                // 调用全局方法
                 _context3.next = 4;
-                return that.$store.dispatch("upLoadImage", {
+                return that.$public.upLoadImage({
                   type: "img",
                   tempFilePaths: e.tempFilePaths,
                   name: theName,
                   tempFiles: e.tempFiles
-                  // extname:e.tempFiles[0].extname,
-                  // uuid:e.tempFiles[0].uuid
+                }).then(function (res) {
+                  console.log(res);
+                  if (res.length) {
+                    that.tempImageValue = that.tempImageValue.concat(res);
+                  }
                 });
               case 4:
-                theStoreTempImageUrl = that.$store.state.tempImageUrl;
-                if (theStoreTempImageUrl.length != 0) {
-                  // 证明有图片添加进去了
-                  for (_i = 0; _i < theStoreTempImageUrl.length; _i++) {
-                    // 判断如果传成功了,那么push到这个tempImageValue数组中
-                    that.tempImageValue.push(theStoreTempImageUrl[_i]);
-                  }
-
-                  // console.log('imageSelect_tempImageValue',that.tempImageValue);
-
-                  // 重置全局文件的临时存储字段
-                  // 传完以后,把临时存储置空,否则下一个图就搞不清楚了
-                  that.$store.commit("changeTempImageUrl", {});
-                }
-              case 6:
               case "end":
                 return _context3.stop();
             }

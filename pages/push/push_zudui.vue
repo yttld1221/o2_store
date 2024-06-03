@@ -481,6 +481,7 @@ export default {
     toPush: function (state) {
       // '存草稿' '立即发布'
       let that = this;
+      console.log("imageSelect_tempImageValue", that.tempImageValue);
       let theDataUrl = [];
       return new Promise(function (resolve, reject) {
         if (that.pushChecking()) {
@@ -712,7 +713,7 @@ export default {
 
     // 选择上传图片
     imageSelect: function (e) {
-      // console.log('e',e);
+      console.log("e", e);
       // 就是当前时间,给图片命名的
       let nowDateTime = this.$public.getNowDateTime();
       // console.log('nowDateTime',nowDateTime);
@@ -726,30 +727,44 @@ export default {
           theName.push(nowDateTime + "_" + i);
         }
 
-        // 调用全局方法
-        await that.$store.dispatch("upLoadImage", {
-          type: "img",
-          tempFilePaths: e.tempFilePaths,
-          name: theName,
-          tempFiles: e.tempFiles,
-          // extname:e.tempFiles[0].extname,
-          // uuid:e.tempFiles[0].uuid
-        });
+        await that.$public
+          .upLoadImage({
+            type: "img",
+            tempFilePaths: e.tempFilePaths,
+            name: theName,
+            tempFiles: e.tempFiles,
+          })
+          .then((res) => {
+            console.log(res);
+            if (res.length) {
+              that.tempImageValue = that.tempImageValue.concat(res);
+            }
+          });
 
-        let theStoreTempImageUrl = that.$store.state.tempImageUrl;
-        if (theStoreTempImageUrl.length != 0) {
-          // 证明有图片添加进去了
-          for (let i = 0; i < theStoreTempImageUrl.length; i++) {
-            // 判断如果传成功了,那么push到这个tempImageValue数组中
-            that.tempImageValue.push(theStoreTempImageUrl[i]);
-          }
+        // // 调用全局方法
+        // await that.$store.dispatch("upLoadImage", {
+        //   type: "img",
+        //   tempFilePaths: e.tempFilePaths,
+        //   name: theName,
+        //   tempFiles: e.tempFiles,
+        //   // extname:e.tempFiles[0].extname,
+        //   // uuid:e.tempFiles[0].uuid
+        // });
 
-          // console.log('imageSelect_tempImageValue',that.tempImageValue);
+        // let theStoreTempImageUrl = that.$store.state.tempImageUrl;
+        // if (theStoreTempImageUrl.length != 0) {
+        //   // 证明有图片添加进去了
+        //   for (let i = 0; i < theStoreTempImageUrl.length; i++) {
+        //     // 判断如果传成功了,那么push到这个tempImageValue数组中
+        //     that.tempImageValue.push(theStoreTempImageUrl[i]);
+        //   }
 
-          // 重置全局文件的临时存储字段
-          // 传完以后,把临时存储置空,否则下一个图就搞不清楚了
-          that.$store.commit("changeTempImageUrl", {});
-        }
+        //   console.log("imageSelect_tempImageValue", that.tempImageValue);
+
+        //   // 重置全局文件的临时存储字段
+        //   // 传完以后,把临时存储置空,否则下一个图就搞不清楚了
+        //   that.$store.commit("changeTempImageUrl", {});
+        // }
       })();
     },
     //

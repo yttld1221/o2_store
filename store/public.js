@@ -1,3 +1,5 @@
+import store from '../store/index'
+
 // 字符串转数组
 function strToArr(str, char) { // str为字符串，char为间隔的字符
 	return str.split(char)
@@ -163,8 +165,115 @@ function getDateDiff(dateTimeStamp) {
 	return result;
 }
 
+// 上传图片
+function upLoadImage(payload) {
+	return new Promise((resolve, reject) => {
+		// 调用登录接口，服务端正真的登录接口
+		uni.request({
+			url: store.state.theUrl + '/wechat/sundry/getOssUploadSign',
+			method: 'POST',
+			header: {
+				token: store.state.theToken
+			},
+			data: {
+				// 类型：img(默认)，video-视频
+				type: payload.type
+			},
+			success: (res) => {
+				if (res.data.code == 0) {
+					// 每次调用的时候清空一下，反正调用成功后，会回调回去加一次的
+					let imgArr = [];
+					for (let i = 0; i < payload.tempFilePaths.length; i++) {
+						uni.uploadFile({
+							url: res.data.data.host,
+							filePath: payload.tempFilePaths[i],
+							name: 'file',
+							formData: {
+								key: res.data.data.dir + payload.name[i] + '_' + store.state.theLogonUser.id + '.' + payload.tempFiles[i].extname, // 这里传过来的是时间，格式示例：2024-03-22_23:15:04
+								policy: res.data.data.policy,
+								OssAccessKeyId: res.data.data.accessid,
+								success_action_status: '200',
+								signature: res.data.data.signature
+							},
+							success: (uploadFileRes) => {
+								// console.log('uploadFileRes', uploadFileRes);
+								if (uploadFileRes.statusCode == 200) {
+									imgArr.push({
+										url: res.data.data.host + '/' + res.data.data.dir + payload.name[i] + '_' + store.state.theLogonUser.id + '.' + payload.tempFiles[i].extname,
+										uuid: payload.tempFiles[i].uuid
+									})
+
+									if (imgArr.length == payload.tempFilePaths.length) {
+										resolve(imgArr);
+									}
+								} else {
+									uni.showToast({
+										title: '错误:' + uploadFileRes.statusCode + ':' + uploadFileRes.errMsg,
+										duration: 2500,
+										icon: 'none'
+									})
+									// 失败就重置下
+									resolve([]);
+								}
+							},
+							fail: (res) => {
+								uni.showToast({
+									title: '上传失败,方法错误!',
+									duration: 2500,
+									icon: 'none'
+								})
+								// 失败就重置下
+								resolve([]);
+							}
+						});
+					}
+				} else if (res.data.code == 500) {
+					uni.showToast({
+						title: '服务器连接失败，请反馈官方客服哦~',
+						duration: 2500,
+						icon: 'none'
+					})
+				} else if (res.data.code == 410) {
+					let __that = that;
+					// 异步转同步，
+					(async function () {
+						// 登录
+						await store.dispatch('toLogon', {});
+
+						uni.redirectTo({
+							url: '/pages/push/push_zudui?type=' + payload.type
+						})
+						// 重新调用没用，因为需要选择图片的操作，不然无法传参
+						// __that.upLoadImage();
+						uni.showToast({
+							title: '很抱歉(^■^*)，页面过期，已为您重新刷新~',
+							duration: 2500,
+							icon: 'none'
+						})
+					})()
+				} else {
+					uni.showToast({
+						title: res.data.msg,
+						duration: 2500,
+						icon: 'none'
+					})
+				}
+			},
+			fail: (res) => {
+				uni.showToast({
+					title: '网络失败，请重试！多次无效后，反馈官方客服哦！',
+					duration: 2500,
+					icon: 'none'
+				})
+				resolve([]);
+			}
+		})
+	})
+}
+
 // 暴露出去的方法
 module.exports = {
+	upLoadImage,
 	getDateDiff,
 	strToArr,
 	previewImage,

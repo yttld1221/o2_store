@@ -35,12 +35,12 @@
         <view class="line-3-1-a">#活动时间：{{ activeDate }}#</view>
       </view>
       <!-- 图片 -->
-      <view class="line-4">
+      <view class="line-4" :class="{ 'pad-r-pic': getPictures.length == 4 }">
         <!-- <view @click.stop="$public.previewImage(pictures,index)" v-if="item != ''" class="picture" :style="'background: url('+item+'?x-oss-process=image/resize,m_lfit,h_160,w_160'+');'" v-for="(item,index) in getPictures"></view> -->
         <template v-if="item != ''">
           <image
             mode="aspectFill"
-            :src="item + '?x-oss-process=image/resize,m_lfit,h_160,w_160'"
+            :src="item + '?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_100'"
             @click.stop="$public.previewImage(pictures, index)"
             class="picture"
             v-for="(item, index) in getPictures"
@@ -606,13 +606,13 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  /* justify-content: space-between; */
   flex-wrap: wrap;
   padding-left: 15vw;
-  width: 55vw;
-  /* 只显示一行两个，右侧部分留空便于点击详情 */
-  padding-right: 29.5vw;
+  padding-right: 3.5vw;
   margin-top: 10px;
+}
+.pad-r-pic {
+  padding-right: 29.5vw;
 }
 .pic-tip {
   background-color: #fafafa;
@@ -630,14 +630,18 @@ export default {
   image-rendering: crisp-edges;
   -ms-interpolation-mode: nearest-neighbor;
   border-radius: 3px;
-  width: 26.5vw;
-  height: 26.5vw;
+  width: 196rpx;
+  height: 196rpx;
   margin-right: 1vw;
   margin-bottom: 1vw;
   /* background-repeat: no-repeat !important;
   background-size: cover !important;
   background-color: #e5e5e5 !important;
   background-position: center !important; */
+}
+
+.line-4 .picture:last-child {
+  margin-right: 0;
 }
 
 .line-5 {
