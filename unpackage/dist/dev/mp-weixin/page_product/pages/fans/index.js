@@ -229,8 +229,8 @@ var _default = {
     };
   },
   onLoad: function onLoad(options) {
-    if (options.id) {
-      this.otherId = options.id;
+    if (options.userId) {
+      this.otherId = options.userId;
       uni.setNavigationBarTitle({
         title: options.name
       });
@@ -276,6 +276,14 @@ var _default = {
     },
     regardHandle: function regardHandle(item, index) {
       var _this2 = this;
+      if (item.id == this.$store.state.theLogonUser.id) {
+        uni.showToast({
+          title: "不能关注自己",
+          duration: 1000,
+          icon: "none"
+        });
+        return;
+      }
       this.API.order.regard({
         to_user_id: item.id
       }).then(function (res) {
@@ -313,8 +321,12 @@ var _default = {
       var params = {
         page: this.theGetListPage,
         pagesize: this.theGetListPagesize,
-        type: "粉丝"
+        type: "粉丝",
+        user_id: this.otherId
       };
+      if (!this.otherId) {
+        delete params.user_id;
+      }
       this.API.user.getMyPerson(params).then(function (res) {
         console.log(res);
         // 如果是请求第一页，证明是首次请求，就重置一下

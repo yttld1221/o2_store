@@ -1,5 +1,6 @@
 {
   "navigationStyle": "custom",
+  "enablePullDownRefresh": true,
   "onReachBottomDistance": 50,
   "usingComponents": {
     "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more",

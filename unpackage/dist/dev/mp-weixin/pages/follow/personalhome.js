@@ -411,6 +411,11 @@ var _default = {
     this.getMomentsList();
   },
   methods: {
+    toFans: function toFans() {
+      uni.navigateTo({
+        url: "/page_product/pages/fans/index?userId=" + this.thePersonalInfo.id + "&name=" + this.thePersonalInfo.nick_name
+      });
+    },
     // 是否是本人
     isMe: function isMe() {
       return this.thePersonalInfo.id != this.$store.state.theLogonUser.id;

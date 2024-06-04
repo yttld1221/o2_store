@@ -100,7 +100,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(uni) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -110,6 +110,7 @@ var _default = {
   onLaunch: function onLaunch() {
     console.log("App Launch");
     this.$store.commit("setScene", "");
+    uni.hideTabBar();
   },
   onShow: function onShow() {
     console.log("App Show");
@@ -119,6 +120,7 @@ var _default = {
   }
 };
 exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
 

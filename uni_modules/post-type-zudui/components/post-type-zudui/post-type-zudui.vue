@@ -47,12 +47,12 @@
           />
         </template>
       </view>
-      <text
+      <!-- <text
         @click.stop="$public.previewImage(pictures)"
         v-if="pictures.length"
         class="pic-tip"
         >共 {{ pictures.length }} 张，点击图片查看全部</text
-      >
+      > -->
       <!-- 描述内容，只有详情页面才展示 -->
       <view v-if="isDetail" class="line-3-2">{{ theData.content }}</view>
       <!-- 组队邀请 -->
@@ -378,19 +378,20 @@ export default {
   },
   computed: {
     getPictures: function () {
-      let thePictures = [];
-      console.log(this.pictures);
-      if (this.pictures.length > 4) {
-        for (let i = 0; i < this.pictures.length; i++) {
-          thePictures.push(this.pictures[i]);
-          if (i == 3) {
-            break;
-          }
-        }
-        return thePictures;
-      } else {
-        return this.pictures;
-      }
+      return this.pictures;
+      // let thePictures = [];
+      // console.log(this.pictures);
+      // if (this.pictures.length > 4) {
+      //   for (let i = 0; i < this.pictures.length; i++) {
+      //     thePictures.push(this.pictures[i]);
+      //     if (i == 3) {
+      //       break;
+      //     }
+      //   }
+      //   return thePictures;
+      // } else {
+      //   return this.pictures;
+      // }
     },
   },
   methods: {

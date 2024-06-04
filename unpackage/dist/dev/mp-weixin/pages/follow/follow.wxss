@@ -1,26 +1,94 @@
-
-.bg {
-  position: fixed;
-  top: 0;
-  width: 100vw;
-  height: 110vw;
-  background-image: linear-gradient(
-    to bottom,
-    #ffffff,
-    #f4fcf5,
-    #f4fcf5,
-    #ffffff
-  );
-  z-index: -1;
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.fans-list.data-v-2f62b6b4 {
+  padding: 0 30rpx 0 20rpx;
+  border-top: 20rpx solid #fafafa;
+  overflow: hidden;
 }
-.status-navBar {
+.fans-list .fans-list-item.data-v-2f62b6b4 {
+  margin: 20rpx 0;
+  justify-content: space-between;
+}
+.fans-list .fans-list-item .fans-list-item-left image.data-v-2f62b6b4 {
+  width: 100rpx;
+  height: 100rpx;
+  margin-right: 19rpx;
+  border-radius: 50%;
+}
+.fans-list .fans-list-item .fans-list-item-left .fans-info.data-v-2f62b6b4 {
+  height: 100rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.fans-list .fans-list-item .fans-list-item-left .fans-info .fans-name.data-v-2f62b6b4 {
+  font-family: PingFang SC;
+  font-weight: 500;
+  font-size: 28rpx;
+  color: #000000;
+  margin-bottom: 23rpx;
+}
+.fans-list .fans-list-item .fans-list-item-left .fans-info .fans-desc.data-v-2f62b6b4 {
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #b3b3b3;
+  width: 55vw;
+  overflow: hidden;
+  /* 确保内容超出容器时会被隐藏 */
+  white-space: nowrap;
+  /* 确保文本在一行内显示，避免换行 */
+  text-overflow: ellipsis;
+  /* 用省略号表示被截断的文本 */
+}
+.fans-list .fans-list-item .fans-btn.data-v-2f62b6b4 {
+  background: #ff812f;
+  color: #ffffff;
+  border-radius: 50rpx;
+  padding: 15rpx 30rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
+}
+.fans-list .fans-list-item .is-regard.data-v-2f62b6b4 {
+  background: #bbbbbb;
+}
+.flex-align.data-v-2f62b6b4 {
+  display: flex;
+  align-items: center;
+}
+.status-navBar.data-v-2f62b6b4 {
   width: 100vw;
   position: fixed;
   top: 0;
   background-color: #ffffff;
   z-index: 8;
 }
-.navBar {
+.navBar.data-v-2f62b6b4 {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -30,21 +98,21 @@
   align-items: center;
   justify-content: center;
 }
-.navBar view {
+.navBar view.data-v-2f62b6b4 {
   font-size: 15px;
   font-weight: bold;
 }
-.navBar image {
+.navBar image.data-v-2f62b6b4 {
   margin-left: 5px;
   width: 3.5vw;
   height: 3.5vw;
 }
-.followed-users {
+.followed-users.data-v-2f62b6b4 {
   width: 100vw;
   z-index: 1;
   overflow: scroll;
 }
-.followed-users-one {
+.followed-users-one.data-v-2f62b6b4 {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -52,7 +120,7 @@
   width: 93vw;
   padding: 5.5vw 3.5vw;
 }
-.followed-users-one-left-avatar {
+.followed-users-one-left-avatar.data-v-2f62b6b4 {
   border-radius: 100%;
   width: 17vw;
   height: 17vw;
@@ -60,7 +128,7 @@
   background-size: cover !important;
   background-color: #e5feed !important;
 }
-.followed-users-one-right {
+.followed-users-one-right.data-v-2f62b6b4 {
   padding-left: 3.5vw;
   display: flex;
   flex-direction: row;
@@ -68,21 +136,21 @@
   justify-content: space-between;
   width: 73.5vw;
 }
-.followed-users-one-right-left {
+.followed-users-one-right-left.data-v-2f62b6b4 {
   display: flex;
   flex-direction: column;
   align-content: flex-start;
 }
-.followed-users-one-right-left-name {
+.followed-users-one-right-left-name.data-v-2f62b6b4 {
   font-size: 15px;
   font-weight: bold;
 }
-.followed-users-one-right-left-intro {
+.followed-users-one-right-left-intro.data-v-2f62b6b4 {
   margin-top: 5px;
   font-size: 12px;
   color: #bbbbbb;
 }
-.followed-users-one-right-right {
+.followed-users-one-right-right.data-v-2f62b6b4 {
   height: 35px;
   line-height: 35px;
   background: #ff812f;
@@ -91,12 +159,12 @@
   font-size: 13px;
   color: #ffffff;
 }
-.followed-posts {
+.followed-posts.data-v-2f62b6b4 {
   display: flex;
   flex-direction: column;
   align-content: flex-start;
 }
-.space-line-bottom {
+.space-line-bottom.data-v-2f62b6b4 {
   height: 180px;
 }
 

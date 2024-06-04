@@ -51,6 +51,7 @@
               ></uni-icons>
             </view>
           </view>
+          <!-- <text class="hf-btn">回复</text> -->
           <view class="comment-one-content-line-2">{{ item.msg }}</view>
         </view>
       </view>
@@ -618,7 +619,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" >
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
@@ -744,5 +745,10 @@ export default {
   border-radius: 100px;
   text-align: center;
   margin-left: 10px;
+}
+.hf-btn {
+  color: #f89f12;
+  margin-left: 40rpx;
+  vertical-align: middle;
 }
 </style>

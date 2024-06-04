@@ -113,14 +113,6 @@ var render = function () {
       ? _vm.getPictures.length
       : null
   var g2 =
-    _vm.theData.type != "兼职" && _vm.type != "分享/安利"
-      ? _vm.pictures.length
-      : null
-  var g3 =
-    _vm.theData.type != "兼职" && _vm.type != "分享/安利" && g2
-      ? _vm.pictures.length
-      : null
-  var g4 =
     _vm.theData.type != "兼职" &&
     _vm.type != "分享/安利" &&
     _vm.isDetail == true &&
@@ -136,10 +128,6 @@ var render = function () {
       $event.stopPropagation()
       return _vm.$public.previewImage(_vm.pictures, index)
     }
-    _vm.e1 = function ($event) {
-      $event.stopPropagation()
-      return _vm.$public.previewImage(_vm.pictures)
-    }
   }
   _vm.$mp.data = Object.assign(
     {},
@@ -148,8 +136,6 @@ var render = function () {
         g0: g0,
         g1: g1,
         g2: g2,
-        g3: g3,
-        g4: g4,
       },
     }
   )
@@ -573,21 +559,23 @@ var _default = {
   },
   computed: {
     getPictures: function getPictures() {
-      var thePictures = [];
-      console.log(this.pictures);
-      if (this.pictures.length > 4) {
-        for (var i = 0; i < this.pictures.length; i++) {
-          thePictures.push(this.pictures[i]);
-          if (i == 3) {
-            break;
-          }
-        }
-        return thePictures;
-      } else {
-        return this.pictures;
-      }
+      return this.pictures;
+      // let thePictures = [];
+      // console.log(this.pictures);
+      // if (this.pictures.length > 4) {
+      //   for (let i = 0; i < this.pictures.length; i++) {
+      //     thePictures.push(this.pictures[i]);
+      //     if (i == 3) {
+      //       break;
+      //     }
+      //   }
+      //   return thePictures;
+      // } else {
+      //   return this.pictures;
+      // }
     }
   },
+
   methods: {
     //---------------------------------------------------- 绑定的方法 ----------------------------------------------------
     //---------------------------------------------------- 绑定的方法 ----------------------------------------------------

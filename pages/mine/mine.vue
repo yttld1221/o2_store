@@ -50,7 +50,7 @@
                   ? theLogonUser.phone.substring(0, 3) +
                     "****" +
                     theLogonUser.phone.substring(7, 11)
-                  : "还没绑哦（￣ー+￣）"
+                  : "还没绑哦"
               }}
             </view>
           </view>
@@ -84,7 +84,8 @@
             class="the-line-1-right-bottom-school"
           >
             <view v-if="theLogonUser.level == 0">未注册/认证，点击前往</view>
-            <view v-if="theLogonUser.level == 1">待认证</view>
+            <view v-else-if="theLogonUser.level == 1">普通会员</view>
+            <view v-else-if="theLogonUser.level == 2">vip会员</view>
           </view>
         </view>
       </view>

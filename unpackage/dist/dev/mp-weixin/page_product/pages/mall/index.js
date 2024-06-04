@@ -265,6 +265,11 @@ var _default = {
     }
   },
   methods: (_methods = {
+    toFans: function toFans() {
+      uni.navigateTo({
+        url: "/page_product/pages/fans/index?userId=" + this.userId + '&name=' + this.userInfo.nick_name
+      });
+    },
     toSearch: function toSearch() {
       uni.navigateTo({
         url: "/page_product/pages/search/index?shopId=" + this.id

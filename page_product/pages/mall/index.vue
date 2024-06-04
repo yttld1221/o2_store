@@ -29,7 +29,7 @@
               ><text>{{ userInfo.regard_num }}</text
               >关注</view
             >
-            <view class="mar-l-50 flex-algin"
+            <view @click="toFans()" class="mar-l-50 flex-algin"
               ><text>{{ userInfo.fans_num }}</text
               >粉丝</view
             >
@@ -197,6 +197,11 @@ export default {
     }
   },
   methods: {
+    toFans(){
+      uni.navigateTo({
+        url: "/page_product/pages/fans/index?userId=" + this.userId+'&name='+this.userInfo.nick_name,
+      });
+    },
     toSearch() {
       uni.navigateTo({
         url: "/page_product/pages/search/index?shopId=" + this.id,

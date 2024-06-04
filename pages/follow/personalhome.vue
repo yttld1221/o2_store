@@ -51,7 +51,7 @@
       {{
         thePersonalInfo.intro != ""
           ? thePersonalInfo.intro
-          : "这个家伙很懒(^■^*)，没有写个人介绍哦~"
+          : "这家伙很神秘，没有写个人简介。"
       }}
     </view>
     <!-- 第三行：关注和 粉丝数-->
@@ -60,7 +60,7 @@
         <view class="the-line-3-nums-regard_num"
           ><text>{{ thePersonalInfo.regard_num }}</text> 关注</view
         >
-        <view class="the-line-3-nums-regard_num"
+        <view @click="toFans()" class="the-line-3-nums-regard_num"
           ><text>{{ thePersonalInfo.fans_num }}</text> 粉丝</view
         >
       </view>
@@ -218,6 +218,15 @@ export default {
     this.getMomentsList();
   },
   methods: {
+    toFans() {
+      uni.navigateTo({
+        url:
+          "/page_product/pages/fans/index?userId=" +
+          this.thePersonalInfo.id +
+          "&name=" +
+          this.thePersonalInfo.nick_name,
+      });
+    },
     // 是否是本人
     isMe: function () {
       return this.thePersonalInfo.id != this.$store.state.theLogonUser.id;

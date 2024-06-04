@@ -77,9 +77,6 @@
 .fans .fans-list .fans-list-item .is-regard.data-v-26ae7420 {
   background: #bbbbbb;
 }
-.fans .space-line-bottom.data-v-26ae7420 {
-  margin-top: 20px;
-}
 .fans .flex-align.data-v-26ae7420 {
   display: flex;
   align-items: center;

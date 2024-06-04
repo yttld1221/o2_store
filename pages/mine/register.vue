@@ -128,7 +128,6 @@
       <view v-if="theLevel == 0" @click="toLogonRegister()" class="to-push-2"
         >提交认证</view
       >
-      <view v-if="theLevel == 1" class="to-push-3">审核中</view>
     </view>
 
     <!-- 上传证件 -->

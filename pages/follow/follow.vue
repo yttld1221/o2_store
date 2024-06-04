@@ -1,6 +1,5 @@
 <template>
   <view class="follow">
-    <view class="bg"></view>
     <!-- 导航栏 -->
     <view
       class="status-navBar"
@@ -23,10 +22,33 @@
     <!-- 内容：关注的人 -->
     <view
       v-if="navBarIndex == 0"
-      class="followed-users"
+      class="fans-list"
       :style="'margin-top:' + (statusBarHeight + navBarHeight) + 'px;'"
     >
-      <view class="followed-users-one" v-for="(item, index) in followedUsers">
+      <view
+        class="fans-list-item flex-align"
+        v-for="(item, index) in followedUsers"
+        :key="index"
+      >
+        <view class="fans-list-item-left flex-align">
+          <image
+            @click="topPerSonalhome(item.id)"
+            mode="aspectFill"
+            :src="item.avatar_url"
+          />
+          <view class="fans-info">
+            <view class="fans-name">{{ item.nick_name }}</view>
+            <view class="fans-desc">
+              {{ item.intro ? item.intro : "这家伙很神秘，没有写个人简介。" }}
+            </view>
+          </view>
+        </view>
+        <view @click="toRegard(item, index)" class="fans-btn">
+          <text>取关</text></view
+        >
+      </view>
+
+      <!-- <view class="followed-users-one" v-for="(item, index) in followedUsers">
         <view
           @click="topPerSonalhome(item.id)"
           class="followed-users-one-left-avatar"
@@ -47,7 +69,7 @@
             >取消关注</view
           >
         </view>
-      </view>
+      </view> -->
       <!-- 底部垫层 -->
       <view @click="getMyPerson()" class="space-line-bottom">
         <uni-load-more
@@ -107,18 +129,7 @@ export default {
       theGetListPagesize: 10,
 
       // 我关注的人
-      followedUsers: [
-        {
-          id: 2,
-          nick_name: "可爱女人",
-          intro: "我是一段描述",
-          avatar_url:
-            "https://ljkj-web-kb.oss-cn-hangzhou.aliyuncs.com/avatar.png",
-          sex: "女",
-          school_id: 1,
-          is_regard: 1,
-        },
-      ],
+      followedUsers: [],
       //
       school_datas: [
         // {
@@ -178,6 +189,21 @@ export default {
     } else {
       this.getMomentsList();
     }
+  },
+  // 监听下拉动作
+  onPullDownRefresh() {
+    // 重置获取的页码
+    this.theGetListPage = 1;
+    // 异步转同步调用
+    (async () => {
+      if (this.navBarIndex == 0) {
+        await this.getMyPerson();
+      } else {
+        await this.getMomentsList();
+      }
+      // 等待接口返回后，取消下拉刷新动画
+      uni.stopPullDownRefresh();
+    })();
   },
   // 页面触底的监听事件，配合pages.json中的"onReachBottomDistance": 0，0的位置写距离底部的距离
   onReachBottom() {
@@ -402,22 +428,63 @@ export default {
 };
 </script>
 
-<style>
-.bg {
-  position: fixed;
-  top: 0;
-  width: 100vw;
-  height: 110vw;
-  background-image: linear-gradient(
-    to bottom,
-    #ffffff,
-    #f4fcf5,
-    #f4fcf5,
-    #ffffff
-  );
-  z-index: -1;
+<style lang="scss" scoped>
+.fans-list {
+  padding: 0 30rpx 0 20rpx;
+  border-top: 20rpx solid #fafafa;
+  overflow: hidden;
+  .fans-list-item {
+    margin: 20rpx 0;
+    justify-content: space-between;
+    .fans-list-item-left {
+      image {
+        width: 100rpx;
+        height: 100rpx;
+        margin-right: 19rpx;
+        border-radius: 50%;
+      }
+      .fans-info {
+        height: 100rpx;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .fans-name {
+          font-family: PingFang SC;
+          font-weight: 500;
+          font-size: 28rpx;
+          color: #000000;
+          margin-bottom: 23rpx;
+        }
+        .fans-desc {
+          font-family: PingFang SC;
+          font-weight: 400;
+          font-size: 22rpx;
+          color: #b3b3b3;
+          width: 55vw;
+          overflow: hidden; /* 确保内容超出容器时会被隐藏 */
+          white-space: nowrap; /* 确保文本在一行内显示，避免换行 */
+          text-overflow: ellipsis; /* 用省略号表示被截断的文本 */
+        }
+      }
+    }
+    .fans-btn {
+      background: #ff812f;
+      color: #ffffff;
+      border-radius: 50rpx;
+      padding: 15rpx 30rpx;
+      font-family: PingFang SC;
+      font-weight: 400;
+      font-size: 26rpx;
+    }
+    .is-regard {
+      background: #bbbbbb;
+    }
+  }
 }
-
+.flex-align {
+  display: flex;
+  align-items: center;
+}
 .status-navBar {
   width: 100vw;
   position: fixed;

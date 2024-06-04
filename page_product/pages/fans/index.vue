@@ -60,8 +60,8 @@ export default {
     };
   },
   onLoad(options) {
-    if (options.id) {
-      this.otherId = options.id;
+    if (options.userId) {
+      this.otherId = options.userId;
       uni.setNavigationBarTitle({
         title: options.name,
       });
@@ -93,6 +93,14 @@ export default {
       });
     },
     regardHandle(item, index) {
+      if (item.id == this.$store.state.theLogonUser.id) {
+        uni.showToast({
+          title: "不能关注自己",
+          duration: 1000,
+          icon: "none",
+        });
+        return;
+      }
       this.API.order
         .regard({
           to_user_id: item.id,
@@ -114,7 +122,11 @@ export default {
         page: this.theGetListPage,
         pagesize: this.theGetListPagesize,
         type: "粉丝",
+        user_id: this.otherId,
       };
+      if (!this.otherId) {
+        delete params.user_id;
+      }
       this.API.user
         .getMyPerson(params)
         .then((res) => {
@@ -197,9 +209,6 @@ export default {
         background: #bbbbbb;
       }
     }
-  }
-  .space-line-bottom {
-    margin-top: 20px;
   }
   .flex-align {
     display: flex;
