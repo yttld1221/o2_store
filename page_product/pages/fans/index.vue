@@ -163,7 +163,7 @@ export default {
     border-top: 20rpx solid #fafafa;
     overflow: hidden;
     .fans-list-item {
-      margin: 20rpx 0;
+      padding: 20rpx 0;
       justify-content: space-between;
       .fans-list-item-left {
         image {
@@ -176,13 +176,12 @@ export default {
           height: 100rpx;
           display: flex;
           flex-direction: column;
-          justify-content: center;
+          justify-content: space-around;
           .fans-name {
             font-family: PingFang SC;
             font-weight: 500;
             font-size: 28rpx;
             color: #000000;
-            margin-bottom: 23rpx;
           }
           .fans-desc {
             font-family: PingFang SC;

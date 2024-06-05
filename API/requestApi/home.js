@@ -103,6 +103,16 @@ const home = {
 			}
 		})
 	},
+	// v2校园墙-获取详情
+	getMomentInfo(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/moments/getMomentInfo`,
+			data: {
+				...data
+			}
+		})
+	},
 }
 
 export default home;

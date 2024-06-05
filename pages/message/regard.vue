@@ -2,36 +2,45 @@
   <view class="content">
     <!-- 内容：关注的人 -->
     <view class="followed-users">
-      <view class="followed-users-one" v-for="(item, index) in pageData">
-        <view
-          @click="topPerSonalhome(item.from_user_id)"
-          class="followed-users-one-left-avatar"
-          :style="'background: url(' + item.from_avatar_url + ');'"
-        ></view>
-        <view class="followed-users-one-right">
-          <view class="followed-users-one-right-left">
-            <view class="followed-users-one-right-left-name"
-              >{{ item.from_nick_name
-              }}<view v-if="item.status == 2" class="red-tip"></view
-            ></view>
-            <view class="followed-users-one-right-left-intro">{{
-              item.msg
-            }}</view>
+      <view
+        class="followed-users-item flex-align"
+        :class="[{ 'no-read': item.status == 2 && type == '互动' }]"
+        v-for="(item, index) in pageData"
+        :key="index"
+      >
+        <view class="followed-users-item-left flex-align">
+          <view class="img-box">
+            <view class="dian" v-if="item.status == 2 && type == '互动'"></view>
+            <image
+              @click="topPerSonalhome(item.from_user_id)"
+              mode="aspectFill"
+              :src="item.from_avatar_url"
+            />
           </view>
-          <view
-            v-if="type == '关注'"
-            @click="topPerSonalhome(item.from_user_id)"
-            class="followed-users-one-right-right"
-            >TA的主页</view
-          >
-          <image
-            @click="toDetail(item.moments_id)"
-            v-if="type == '互动'"
-            class="img_url"
-            :src="$public.strToArr(item.img_url, ',')[0]"
-            mode="widthFix"
-          ></image>
+          <view @click="toDetail(item.moments_id)" class="message-info">
+            <view class="message-name">{{ item.from_nick_name }}</view>
+            <view
+              class="message-desc"
+              :class="type == '关注' ? 'gz-desc' : 'hd-desc'"
+            >
+              {{ item.msg }}
+            </view>
+          </view>
         </view>
+        <view
+          v-if="type == '关注'"
+          @click="topPerSonalhome(item.from_user_id)"
+          class="message-btn"
+          >TA的主页</view
+        >
+        <image
+          @click="toDetail(item.moments_id)"
+          v-if="type == '互动'"
+          class="img_url"
+          :class="{ 'bg-img': item.img_url }"
+          :src="$public.strToArr(item.img_url, ',')[0]"
+          mode="aspectFill"
+        ></image>
       </view>
       <!-- 底部垫层 -->
       <view @click="getMySystemMsgList()" class="space-line-bottom">
@@ -67,37 +76,15 @@ export default {
       theIds: "",
       tempIds: [], // 用于存id
       // 列表数据
-      pageData: [
-        {
-          id: 2,
-          msg: "评论了你：我觉得不错，能不能给一个联系方式啊！",
-          type: "互动", //消息类型：互动（收藏、评论、点赞）、关注
-          from_user_id: 15, //发送者用户id
-          to_user_id: 50,
-          status: 2, //已读状态：1-是，2-否
-          read_at: null,
-          moments_id: 4, // 帖子ID
-          comment_id: 0,
-          task_id: 0, //活动id，互动中有用
-          create_id: 15,
-          update_id: 15,
-          created_at: "2024-03-17 09:26:31",
-          updated_at: "2024-03-17 09:26:36",
-          deleted_at: null,
-          from_nick_name: "游客15",
-          from_avatar_url:
-            "https://ljkj-web-kb.oss-cn-hangzhou.aliyuncs.com/avatar.png",
-          //  注意 多个图，用，隔开，需要处理
-          img_url:
-            "https://api.allinnb.com/header.jpg,https://ljkj-web-kb.oss-cn-hangzhou.aliyuncs.com/avatar.png", // 朋友圈、活动配图，多个用逗号拼接，取第一张图
-        },
-      ],
+      pageData: [],
     };
   },
   onLoad(option) {
     // 判断是新的关注还是互动消息
     this.type = option.type;
-
+    uni.setNavigationBarTitle({
+      title: option.type == "关注" ? "新的关注" : "互动消息",
+    });
     let that = this;
     (async function () {
       await that.getMySystemMsgList();
@@ -129,9 +116,24 @@ export default {
     // 跳转详情页
     toDetail: function (id) {
       // console.log('id',id);
-      uni.navigateTo({
-        url: "/pages/index/detail?id=" + id,
-      });
+      if (this.type != "互动") {
+        return;
+      }
+      this.API.home
+        .getMomentInfo({
+          moments_id: id,
+        })
+        .then((res) => {
+          uni.navigateTo({
+            url: "/pages/index/detail?id=" + id,
+          });
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.toDetail();
+          }
+        });
     },
     //------------------------------------------------  接口调用  -----------------------------------------------------
     //------------------------------------------------  接口调用  -----------------------------------------------------
@@ -281,11 +283,89 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .followed-users {
-  width: 100vw;
-  z-index: 1;
-  overflow: scroll;
+  border-top: 20rpx solid #fafafa;
+  overflow: hidden;
+  .followed-users-item {
+    padding: 20rpx 30rpx;
+    justify-content: space-between;
+
+    .followed-users-item-left {
+      .img-box {
+        position: relative;
+        width: 100rpx;
+        height: 100rpx;
+        margin-right: 19rpx;
+        .dian {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 10rpx;
+          height: 10rpx;
+          background: #f23333;
+          border-radius: 50%;
+        }
+        image {
+          width: 100rpx;
+          height: 100rpx;
+          border-radius: 50%;
+        }
+      }
+      .message-info {
+        height: 100rpx;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        .message-name {
+          font-family: PingFang SC;
+          font-weight: 500;
+          font-size: 26rpx;
+          color: #000000;
+        }
+        .red-tip-box {
+          position: relative;
+          display: flex;
+          align-items: flex-start;
+        }
+        .message-desc {
+          font-family: PingFang SC;
+          font-weight: 400;
+          font-size: 24rpx;
+          color: #666666;
+        }
+        .gz-desc {
+          width: 50vw;
+          overflow: hidden; /* 确保内容超出容器时会被隐藏 */
+          white-space: nowrap; /* 确保文本在一行内显示，避免换行 */
+          text-overflow: ellipsis; /* 用省略号表示被截断的文本 */
+        }
+        .hd-desc {
+          width: 55vw;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+      }
+    }
+    .message-btn {
+      background: #ff812f;
+      color: #ffffff;
+      border-radius: 50rpx;
+      padding: 15rpx 30rpx;
+      font-family: PingFang SC;
+      font-weight: 400;
+      font-size: 26rpx;
+    }
+    .is-regard {
+      background: #bbbbbb;
+    }
+  }
+  .no-read {
+    background: rgba(248, 159, 18, 0.05);
+  }
 }
 
 .followed-users-one {
@@ -354,17 +434,24 @@ export default {
 }
 
 .img_url {
-  width: 20vw;
-  height: 20vw;
-
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 10rpx;
   background-repeat: no-repeat !important;
   background-size: cover !important;
   background-color: #e5e5e5 !important;
 
   background-position: center !important;
 }
+.bg-img {
+  background: transparent !important;
+}
 
 .space-line-bottom {
   height: 80px;
+}
+.flex-align {
+  display: flex;
+  align-items: center;
 }
 </style>

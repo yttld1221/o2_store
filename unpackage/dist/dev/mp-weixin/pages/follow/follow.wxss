@@ -30,7 +30,7 @@
   overflow: hidden;
 }
 .fans-list .fans-list-item.data-v-2f62b6b4 {
-  margin: 20rpx 0;
+  padding: 20rpx 0;
   justify-content: space-between;
 }
 .fans-list .fans-list-item .fans-list-item-left image.data-v-2f62b6b4 {
@@ -43,14 +43,13 @@
   height: 100rpx;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
 }
 .fans-list .fans-list-item .fans-list-item-left .fans-info .fans-name.data-v-2f62b6b4 {
   font-family: PingFang SC;
   font-weight: 500;
   font-size: 28rpx;
   color: #000000;
-  margin-bottom: 23rpx;
 }
 .fans-list .fans-list-item .fans-list-item-left .fans-info .fans-desc.data-v-2f62b6b4 {
   font-family: PingFang SC;

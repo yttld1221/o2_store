@@ -647,11 +647,23 @@ export default new Vuex.Store({
 								__that.getMomentInfo();
 							})()
 						} else {
-							uni.showToast({
-								title: res.data.msg,
-								duration: 2500,
-								icon: 'none'
-							})
+							if (res.data.msg == '校园墙内容不存在') {
+								uni.navigateBack({
+									delta: 1,
+									success: () => {
+										uni.showToast({
+											title: res.data.msg,
+											icon: "none",
+										});
+									},
+								});
+							} else {
+								uni.showToast({
+									title: res.data.msg,
+									duration: 2500,
+									icon: 'none'
+								})
+							}
 						}
 					},
 					fail: (res) => {
