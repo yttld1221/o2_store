@@ -106,14 +106,6 @@
 			}
 		},
 		{
-			"path": "pages/mine/personal",
-			"style": {
-				"navigationBarBackgroundColor": "#ffffff",
-				"navigationBarTextStyle": "black",
-				"navigationBarTitleText": "个人主页"
-			}
-		},
-		{
 			"path": "pages/mine/edit_avatar",
 			"style": {
 				"navigationBarBackgroundColor": "#ffffff",
@@ -279,6 +271,14 @@
 						"navigationBarTitleText": "我的粉丝",
 						"enablePullDownRefresh": true,
 						"onReachBottomDistance": 50
+					}
+				},
+				{
+					"path": "pages/info/personal",
+					"style": {
+						"navigationBarBackgroundColor": "#ffffff",
+						"navigationBarTextStyle": "black",
+						"navigationBarTitleText": "资料"
 					}
 				}
 			]

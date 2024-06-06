@@ -59,7 +59,7 @@ export default new Vuex.Store({
 			id: 0,
 			is_sale: 1,
 			name: "", //姓名
-			nick_name: "不愿意透露姓名的唐马儒先生~", // 昵称  
+			nick_name: "不愿意透露姓名的唐马儒先生", // 昵称  
 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png", //头像
 			openid: "",
 			unionid: "",
@@ -647,23 +647,11 @@ export default new Vuex.Store({
 								__that.getMomentInfo();
 							})()
 						} else {
-							if (res.data.msg == '校园墙内容不存在') {
-								uni.navigateBack({
-									delta: 1,
-									success: () => {
-										uni.showToast({
-											title: res.data.msg,
-											icon: "none",
-										});
-									},
-								});
-							} else {
-								uni.showToast({
-									title: res.data.msg,
-									duration: 2500,
-									icon: 'none'
-								})
-							}
+							uni.showToast({
+								title: res.data.msg,
+								duration: 2500,
+								icon: 'none'
+							})
 						}
 					},
 					fail: (res) => {
@@ -848,9 +836,7 @@ export default new Vuex.Store({
 								await content.dispatch('toLogon', {});
 
 
-								uni.redirectTo({
-									url: '/pages/push/push_zudui?type=' + payload.type
-								})
+								uni.navigateBack();
 								// 重新调用没用，因为需要选择图片的操作，不然无法传参
 								// __that.upLoadImage();
 								uni.showToast({

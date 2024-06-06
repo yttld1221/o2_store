@@ -19,9 +19,11 @@
             <image src="/static/1_school_icon@3x.png" mode="widthFix"></image>
             {{ userInfo.school_name }}</view
           >
-          <!-- <view class="info-school-major info-school-box flex-algin"
-            >21届视觉传达</view
-          > -->
+          <view
+            v-if="theLogonUser.specialty"
+            class="info-school-major info-school-box flex-algin"
+            >{{ theLogonUser.specialty }}</view
+          >
         </view>
         <view class="other-info flex-algin">
           <view class="other-info-left flex-algin">
@@ -197,9 +199,13 @@ export default {
     }
   },
   methods: {
-    toFans(){
+    toFans() {
       uni.navigateTo({
-        url: "/page_product/pages/fans/index?userId=" + this.userId+'&name='+this.userInfo.nick_name,
+        url:
+          "/page_product/pages/fans/index?userId=" +
+          this.userId +
+          "&name=" +
+          this.userInfo.nick_name,
       });
     },
     toSearch() {
@@ -209,7 +215,7 @@ export default {
     },
     // 转换时间
     getTime() {
-      return this.$public.getDateDiff(this.userInfo.last_login_at);
+      return this.$public.showDateTime(this.userInfo.last_login_at);
     },
     //打开三个点的操作
     actionMore: function (option) {
@@ -601,7 +607,6 @@ export default {
           color: #666666;
         }
         .info-school-name {
-          margin-right: 20rpx;
           image {
             width: 30rpx;
             height: 30rpx;
@@ -609,6 +614,7 @@ export default {
           }
         }
         .info-school-major {
+          margin-left: 20rpx;
         }
       }
       .other-info {

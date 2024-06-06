@@ -87,13 +87,13 @@
   font-size: 22rpx;
   color: #666666;
 }
-.mall .mall-top .info-container .info-school .info-school-name.data-v-321ac974 {
-  margin-right: 20rpx;
-}
 .mall .mall-top .info-container .info-school .info-school-name image.data-v-321ac974 {
   width: 30rpx;
   height: 30rpx;
   margin-right: 9rpx;
+}
+.mall .mall-top .info-container .info-school .info-school-major.data-v-321ac974 {
+  margin-left: 20rpx;
 }
 .mall .mall-top .info-container .other-info.data-v-321ac974 {
   justify-content: space-between;

@@ -37,10 +37,7 @@
         <view class="the-line-1-right-top">
           <!-- 昵称 账号 -->
           <!-- <view class="the-line-1-right-top-left"> -->
-          <view
-            @click="toPersonal(theLogonUser.level)"
-            class="the-line-1-right-top-left"
-          >
+          <view @click="toPersonal(theLogonUser.level)">
             <view class="the-line-1-right-top-left-name">{{
               theLogonUser.nick_name
             }}</view>
@@ -66,26 +63,25 @@
         <!-- 学校 专业 -->
         <view class="the-line-1-right-bottom">
           <view
-            v-if="theLogonUser.level == 2"
+            v-if="theLogonUser.level != 0"
             class="the-line-1-right-bottom-school"
           >
-            <image src="/static/1_school_icon@3x.png" mode="widthFix"></image>
-            <view>浙江理工大学</view>
+            <image src="/static/1_school_icon@3x.png"></image>
+            <view>{{ theLogonUser.school_name }}</view>
           </view>
+
           <view
-            v-if="theLogonUser.level == 2"
+            v-if="theLogonUser.level != 0 && theLogonUser.specialty"
             class="the-line-1-right-bottom-school margin-left-10"
           >
-            <view>21届视觉传达</view>
+            <view>{{ theLogonUser.specialty }}</view>
           </view>
           <view
             @click="toRegister(theLogonUser.level)"
-            v-if="theLogonUser.level != 2"
+            v-if="theLogonUser.level == 0"
             class="the-line-1-right-bottom-school"
           >
-            <view v-if="theLogonUser.level == 0">未注册/认证，点击前往</view>
-            <view v-else-if="theLogonUser.level == 1">普通会员</view>
-            <view v-else-if="theLogonUser.level == 2">vip会员</view>
+            <view>未注册/认证，点击前往</view>
           </view>
         </view>
       </view>
@@ -116,7 +112,7 @@
       </view>
       <image
         class="the-line-3-bottom"
-        src="https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/xiaochengxu_static/5_line_3_bg%403x%403x.png"
+        src="https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240511/admin/0ea97dedc8c1adfd15d2f17197fdd882.png"
         mode="widthFix"
       ></image>
     </view>
@@ -141,7 +137,30 @@
       </view>
     </view>
     <!-- 第五行：列表内容 -->
-    <view class="the-line-5">
+    <view v-if="line_4_items_index == 0" class="list-container">
+      <view
+        @click="goDetail(item)"
+        class="list-item"
+        v-for="(item, index) in school_datas"
+        :key="index"
+      >
+        <view class="image-box">
+          <image mode="aspectFill" :src="item.img_url" />
+        </view>
+        <view class="list-item-info">
+          <view class="list-item-title">{{ item.title }}</view>
+          <view class="list-item-price flex-algin">
+            <view class="list-item-price-left"
+              >¥<text style="font-size: 34rpx">{{
+                item.sale_price
+              }}</text></view
+            >
+            <view class="list-item-price-right">已售：{{ item.sale_num }}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="the-line-5" v-else>
       <view class="posts-data" v-for="(item, index) in school_datas">
         <post-type-zudui
           @topPerSonalhome="topPerSonalhome"
@@ -265,13 +284,13 @@ export default {
         },
       ],
       //
-      line_4_items: ["我加入的", "我点赞的"],
+      line_4_items: ["收藏", "点赞"],
       line_4_items_index: 0,
 
       // 用于分页加载传参
       // 当前获取的校园墙页码，每次需要+1
       theGetMomentsListPage: 1,
-      theGetMomentsListPagesize: 5,
+      theGetMomentsListPagesize: 4,
 
       //
       school_datas: [
@@ -327,14 +346,8 @@ export default {
       // 接口：获取当前几个统计数据（关注、粉丝、积分等）
       await that.getMyStatisticsNum();
 
-      // 接口，默认请求 我加入的组队
-      that.getMomentsList({
-        is_entry: 1, // 本人是否加入组队
-        // 传参不全，当前只用到onload时候需要的字段
-        page: that.theGetMomentsListPage,
-        pagesize: that.theGetMomentsListPagesize,
-        type: "组队/搭子",
-      });
+      // 接口，默认请求 收藏
+      that.getShopList();
     })();
 
     // 记录当前的previousPage，用于二次点击发布回到原来页面
@@ -361,13 +374,16 @@ export default {
   },
   // 页面触底的监听事件，配合pages.json中的"onReachBottomDistance": 0，0的位置写距离底部的距离
   onReachBottom() {
-    // 触底后动画效果开启
-    this.isLoading = "loading";
-
     // 调用接口 line_4_items_index=0 为第一个的列表  1表示第二列的列表
     this.line_4_itemsSelected(this.line_4_items_index, "其他");
   },
   methods: {
+    // 跳转详情
+    goDetail(item) {
+      uni.navigateTo({
+        url: "/page_product/pages/product/detail?id=" + item.id,
+      });
+    },
     toMoudle(index) {
       if (index == 1) {
         uni.navigateTo({
@@ -390,35 +406,89 @@ export default {
       }, 5000);
     },
 
-    // 收藏和点赞的切换按钮
-    line_4_itemsSelected: function (index, type) {
-      this.line_4_items_index = index;
+    // 获取收藏商品列表
+    getShopList(type = "") {
+      this.isLoading = "loading"; // 加载中
+      let param = {
+        page: this.theGetMomentsListPage,
+        pagesize: this.theGetMomentsListPagesize,
+        is_collection: 1,
+      };
+      this.API.home
+        .getTaskList(param)
+        .then((res) => {
+          console.log(res);
+          // 如果是请求第一页，证明是首次请求，就重置一下
+          if (this.theGetMomentsListPage == 1) {
+            this.school_datas = [];
+          }
+          this.totalCount = res.count;
+          if (res.data.length != 0) {
+            for (let i = 0; i < res.data.length; i++) {
+              this.school_datas.push({
+                ...res.data[i],
+                img_url: res.data[i].img_url
+                  ? res.data[i].img_url.split(",")[0]
+                  : "",
+              });
+            }
+            this.isLoading = "no-more"; // 取消加载动画
+            // 页面+1
+            this.theGetMomentsListPage += 1;
+          } else {
+            this.isLoading = "no-more"; // 取消加载动画
+          }
+          if (type) {
+            this.toScroll(type);
+          }
+          console.log(this.school_datas);
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.getShopList(type);
+          }
+        });
+    },
+    toScroll(type) {
+      console.log(type);
+      if (type == "状态切换") {
+        setTimeout(() => {
+          uni.pageScrollTo({
+            selector: ".content",
+            scrollTop: 200,
+          });
+        }, 100);
+      }
+    },
 
+    // 收藏和点赞的切换按钮
+    line_4_itemsSelected: async function (index, type) {
+      if (type == "状态切换" && this.line_4_items_index == index) {
+        return;
+      }
       if (type == "状态切换") {
         // 只有在点击切换栏的时候，才重置
         this.theGetMomentsListPage = 1;
         this.school_datas = [];
         this.totalCount = 10;
       }
+      this.line_4_items_index = index;
 
       if (index == 0) {
-        // 接口，默认请求 我加入的组队
-        this.getMomentsList({
-          is_entry: 1, // 本人是否加入组队
-          // 传参不全，当前只用到onload时候需要的字段
-          page: this.theGetMomentsListPage,
-          pagesize: this.theGetMomentsListPagesize,
-          type: "组队/搭子",
-        });
+        if (this.school_datas.length < this.totalCount) {
+          this.getShopList(type);
+        }
       } else {
         // 接口，默认请求 我加入的组队
-        this.getMomentsList({
+        await this.getMomentsList({
           is_thumb: 1, // 本人点赞过的
           // 传参不全，当前只用到onload时候需要的字段
           page: this.theGetMomentsListPage,
           pagesize: this.theGetMomentsListPagesize,
           type: "",
         });
+        this.toScroll(type);
       }
     },
     // 打开我的二维码
@@ -449,7 +519,7 @@ export default {
     toPersonal: function (level) {
       if (level != 0) {
         uni.navigateTo({
-          url: "/pages/mine/personal?level=" + level,
+          url: "/page_product/pages/info/personal?level=" + level,
         });
       } else {
         // 否则就让他先去注册
@@ -731,7 +801,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .erweima_popup-box {
   padding: 25px 0;
   width: 85vw;
@@ -780,43 +850,39 @@ export default {
   position: fixed;
   top: 0;
   width: 100vw;
-  height: 110vw;
-  background-image: linear-gradient(
-    to bottom,
-    #ffffff,
-    #f4fcf5,
-    #f4fcf5,
-    #ffffff
-  );
+  height: 778rpx;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url("https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240606/admin/93d40006fec76998aa820e7a274534ac.png");
   z-index: -1;
 }
 
 .margin-left-10 {
-  margin-left: 10px;
+  margin-left: 20rpx;
 }
 
 .the-line-1 {
   display: flex;
   flex-direction: row;
-  padding: 3.5vw;
-  width: 93vw;
+  padding: 24rpx 30rpx 0;
 }
 
 .the-line-1-left {
   border-radius: 100%;
-  width: 20vw;
-  height: 20vw;
+  width: 133rpx;
+  height: 133rpx;
   background-repeat: no-repeat !important;
   background-size: cover !important;
   background-color: #fafefb;
 }
 
 .the-line-1-right {
+  width: calc(100% - 161rpx);
+  margin-left: 28rpx;
 }
 
 .the-line-1-right-top {
-  width: 73vw;
-  margin-top: 10px;
+  margin-top: 12rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -828,14 +894,18 @@ export default {
 }
 
 .the-line-1-right-top-left-name {
-  font-size: 20px;
-  font-weight: bold;
+  font-family: PingFang SC;
+  font-weight: 600;
+  font-size: 38rpx;
+  color: #333333;
 }
 
 .the-line-1-right-top-left-num {
-  font-size: 12px;
-  margin-top: 10px;
-  color: #727272;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #666666;
+  margin-top: 20rpx;
 }
 
 .erweima {
@@ -847,9 +917,9 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 15px;
   flex-wrap: nowrap;
   overflow: scroll;
+  margin-top: 20rpx;
 }
 
 .the-line-1-right-bottom-school {
@@ -860,26 +930,30 @@ export default {
   padding: 3px 10px;
   background-color: #ecf3ee;
   border-radius: 100px;
-  margin-top: 15px;
 }
 
 .the-line-1-right-bottom-school image {
-  width: 4vw;
-  height: 4vw;
-  margin-right: 5px;
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 9rpx;
 }
 
 .the-line-1-right-bottom-school view {
-  font-size: 12px;
-  color: #727272;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #666666;
 }
 
 .the-line-2 {
-  margin-top: 15px;
+  margin-top: 61rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+  & > view {
+    flex: 1;
+  }
 }
 
 .the-line-2-item {
@@ -889,23 +963,27 @@ export default {
 }
 
 .the-line-2-item-num {
-  font-size: 18px;
+  font-family: DIN Alternate;
   font-weight: bold;
+  font-size: 38rpx;
+  color: #000000;
 }
 
 .the-line-2-item-name {
-  margin-top: 10px;
-  font-size: 12px;
-  color: #727272;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 24rpx;
+  color: #666666;
+  margin-top: 27rpx;
 }
 
 .the-line-3 {
+  padding: 0 26rpx;
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  margin-top: 5.5vw;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  margin-top: 49rpx;
+  border-top-left-radius: 40rpx;
+  border-top-right-radius: 40rpx;
   box-shadow: #e9f0ea 0 -5px 15px 0;
   background-color: #ffffff;
 }
@@ -914,8 +992,9 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
-  margin-top: 3.5vw;
+  justify-content: space-between;
+  padding: 0 23rpx;
+  margin-top: 42rpx;
 }
 
 .the-line-3-top-item {
@@ -936,9 +1015,9 @@ export default {
 }
 
 .the-line-3-bottom {
-  width: 93vw;
-  height: 25vw;
-  margin: 3.5vw 3.5vw 0vw 3.5vw;
+  margin-top: 21rpx;
+  width: 100%;
+  height: 187rpx;
 }
 
 .the-line-4 {
@@ -961,16 +1040,18 @@ export default {
 }
 
 .the-line-4-item-name {
+  font-size: 28rpx !important;
   color: #bbbbbb;
-  margin-top: 4.5vw;
+  margin-top: 30rpx;
 }
 
 .the-line-4-item-line {
-  width: 25%;
-  height: 3px;
+  width: 90rpx;
+  height: 6rpx;
   background-color: #f89f12;
   border-radius: 100px;
-  margin-top: 3.5vw;
+  margin-top: 30rpx;
+  margin-bottom: -4rpx;
 }
 
 .the-line-5 {
@@ -985,5 +1066,69 @@ export default {
 
 .space-line-bottom {
   height: 180px;
+}
+.list-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 29rpx 30rpx 0;
+  box-sizing: border-box;
+  .list-item {
+    margin-bottom: 20rpx;
+    width: 335rpx;
+    border-radius: 10rpx 10rpx 0rpx 0rpx;
+    .image-box {
+      background: #ffffff;
+      border-radius: 10rpx 10rpx 0rpx 0rpx;
+      width: 335rpx;
+      height: 335rpx;
+      z-index: 1;
+      position: relative;
+      image {
+        border-radius: 10rpx 10rpx 0rpx 0rpx;
+        width: 335rpx;
+        height: 335rpx;
+      }
+    }
+    .list-item-info {
+      margin-top: -15rpx;
+      padding: 30rpx 21rpx 32rpx;
+      background: #ffffff;
+      box-shadow: 0rpx 0rpx 7rpx 1rpx rgba(0, 0, 0, 0.04);
+      border-radius: 0 0 10rpx 10rpx;
+      border: 1px solid #f4f4f4;
+      border-top: none;
+      .list-item-title {
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-family: PingFang SC;
+        font-weight: 500;
+        font-size: 24rpx;
+        color: #393a3e;
+        margin-bottom: 24rpx;
+      }
+      .list-item-price {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        .list-item-price-left {
+          font-family: PingFang SC;
+          font-weight: 300;
+          font-size: 22rpx;
+          color: #f23333;
+          line-height: 24rpx;
+        }
+        .list-item-price-right {
+          font-family: PingFang SC;
+          font-weight: 400;
+          font-size: 22rpx;
+          color: #999999;
+        }
+      }
+    }
+  }
 }
 </style>

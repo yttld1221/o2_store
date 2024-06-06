@@ -112,6 +112,16 @@ function getNowDateTime() {
 	return nowYear + '-' + nowMonth + '-' + nowDay + '_' + nowHours + '_' + nowMinutes + '_' + nowSeconds
 }
 
+// 返回年月日时分秒的时间，格式如 XXXX-XX-XX
+function getNowDate(time) {
+	let now = new Date(time);
+	let nowYear = now.getFullYear() + '';
+	let nowMonth = (now.getMonth() + 1) < 10 ? '0' + (now.getMonth() + 1) : (now.getMonth() + 1) + '';
+	let nowDay = now.getDate() < 10 ? '0' + now.getDate() : now.getDate() + '';
+	console.log(nowYear + '-' + nowMonth + '-' + nowDay)
+	return nowYear + '-' + nowMonth + '-' + nowDay
+}
+
 // 功能暂未开放提示
 function disabled_tip(type) {
 	uni.showToast({
@@ -234,7 +244,6 @@ function upLoadImage(payload) {
 						icon: 'none'
 					})
 				} else if (res.data.code == 410) {
-					let __that = that;
 					// 异步转同步，
 					(async function () {
 						// 登录
@@ -273,6 +282,7 @@ function upLoadImage(payload) {
 
 // 暴露出去的方法
 module.exports = {
+	getNowDate,
 	upLoadImage,
 	getDateDiff,
 	strToArr,

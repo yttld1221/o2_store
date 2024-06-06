@@ -1,158 +1,119 @@
 <template>
   <view class="content">
-    <!-- 头像 -->
-    <view @click="toEditAvatar" class="line-name margin-bottom-avatar">
-      <view class="line-name-title">我的头像：</view>
-      <view
-        class="line-name-avatar"
-        :style="'background: url(' + theUser.avatar_url + ');'"
-      ></view>
-    </view>
-    <!-- 我的昵称 -->
-    <view
-      class="the-school margin-bottom"
-      @click="toEditOther('昵称', theUser.nick_name)"
-    >
-      <view class="the-school-title">我的昵称：</view>
-      <view class="the-school-selected">
-        <view class="the-school-selected-one"> {{ theUser.nick_name }} </view>
-      </view>
-      <view class="the-school-icon">
-        <uni-icons type="right"></uni-icons>
-      </view>
-    </view>
-
-    <!-- 手机 -->
-    <view class="line-name margin-bottom">
-      <view class="line-name-title">手机号码：</view>
-      <view class="line-name-content phone">
-        <uni-easyinput
-          v-model="parameters.phone"
-          placeholder="请输入手机号码"
-          :inputBorder="false"
-        />
-      </view>
-      <view class="line-name-other">
+    <view class="info-box">
+      <view class="info-name info-avatar" @click="toEditAvatar">
+        <view class="left-label">头像：</view>
         <view
-          class="code-button"
-          @click="sendCode"
-          v-if="storePhone != parameters.phone && storeCodeSecond == 0"
-          >发送验证码
-        </view>
-        <view class="gray" v-if="storePhone == parameters.phone">已验证</view>
-        <view v-if="storeCodeSecond != 0">{{ storeCodeSecond }}s</view>
+          class="line-name-avatar"
+          :style="'background: url(' + theUser.avatar_url + ');'"
+        ></view>
       </view>
-    </view>
-
-    <!-- 验证码 -->
-    <view v-if="storePhone != parameters.phone" class="line-name margin-bottom">
-      <view class="line-name-title">验证码：</view>
-      <view class="line-name-content phone">
-        <uni-easyinput
+      <view class="info-merchant">
+        <view class="left-label">昵称：</view>
+        <u--input
+          placeholder="请输入昵称"
+          v-model="parameters.nick_name"
+          border="none"
+        ></u--input>
+      </view>
+      <view class="info-phone">
+        <view class="left-label">手机号：</view>
+        <view class="code-box flex-algin">
+          <u--input
+            placeholder="请输入您的手机号码"
+            v-model="parameters.phone"
+            border="none"
+          ></u--input>
+          <u-code
+            changeText="X秒"
+            :seconds="seconds"
+            ref="uCode"
+            @change="codeChange"
+          ></u-code>
+          <u-button
+            v-if="storePhone != parameters.phone"
+            color="#ff812f"
+            type="primary"
+            @tap="getCode"
+            >{{ tips }}</u-button
+          >
+        </view>
+      </view>
+      <view class="info-merchant" v-if="storePhone != parameters.phone">
+        <view class="left-label">短信验证码：</view>
+        <u--input
+          placeholder="请输入短信验证码"
           v-model="parameters.check_code"
-          placeholder="请输入验证码"
-          :inputBorder="false"
-        />
+          border="none"
+        ></u--input>
       </view>
-      <view
-        :class="{
-          'code-button': true,
-          'code-button-gray':
-            parameters.phone == '' || parameters.check_code == '',
-        }"
-        @click="toLogonRegister()"
-        >确认并提交</view
-      >
-    </view>
-
-    <!-- 性别 -->
-    <view class="the-sex">
-      <view class="the-sex-title">性别：</view>
-      <view class="the-sex-selected">
-        <view
-          @click="selectedSexOne(index)"
-          class="the-range-selected-one"
-          v-for="(item, index) in sexs"
-        >
-          <uni-icons
-            v-if="theSexIndex == index"
-            type="circle-filled"
-            size="25"
-            color="#f89f12"
-          ></uni-icons>
-          <uni-icons
-            v-if="theSexIndex != index"
-            type="circle"
-            size="25"
-            color="#bbbbbb"
-          ></uni-icons>
-          <view>{{ item }}</view>
+      <view class="info-merchant">
+        <view class="left-label">性别：</view>
+        <u-radio-group v-model="parameters.sex" placement="row">
+          <u-radio activeColor="#f89f12" name="男" label="男"></u-radio>
+          <u-radio activeColor="#f89f12" name="女" label="女"></u-radio>
+        </u-radio-group>
+      </view>
+      <view class="info-area">
+        <view class="left-label">生日：</view>
+        <view class="flex-algin" @click="chooseBirth()">
+          <u--input
+            disabled
+            disabledColor="#ffffff"
+            placeholder="请选择生日"
+            v-model="parameters.birthday"
+            border="none"
+          ></u--input>
+          <u-icon slot="right" name="arrow-right"></u-icon>
         </view>
       </view>
     </view>
-
-    <!-- 间隔 -->
-    <view class="space-line"></view>
-    <!-- 姓名 -->
-    <view class="line-name margin-bottom">
-      <view class="line-name-title">真实姓名：</view>
-      <view class="line-name-content">
-        <uni-easyinput
-          focus
-          :disabled="theLevel != 0"
-          v-model="parameters.name"
-          placeholder="请输入真实姓名"
-          :inputBorder="false"
-        />
+    <view class="info-box">
+      <view class="info-merchant">
+        <view class="left-label">真实姓名：</view>
+        <text style="color: #999999">{{ parameters.name }}</text>
+      </view>
+      <view class="info-name">
+        <view class="left-label">简介：</view>
+        <u--input
+          placeholder="请输入简介"
+          v-model="parameters.intro"
+          border="none"
+        ></u--input>
+      </view>
+      <view class="info-merchant">
+        <view class="left-label">院校：</view>
+        <text style="color: #999999">{{ theschoolName }}</text>
+      </view>
+      <view class="info-merchant">
+        <view class="left-label">专业：</view>
+        <u--input
+          placeholder="请输入专业"
+          v-model="parameters.specialty"
+          border="none"
+        ></u--input>
+      </view>
+      <view class="info-merchant">
+        <view class="left-label">毕业日期：</view>
+        <text style="color: #999999">{{ parameters.grad_date }}</text>
       </view>
     </view>
-
-    <!-- 选择学校 -->
-    <view class="the-school margin-bottom">
-      <view class="the-school-title">所在学校：</view>
-      <view class="the-school-selected">
-        <view
-          v-if="parameters.school_id == 0"
-          class="the-school-selected-one gray"
-          >（选择所在学校）</view
-        >
-        <view
-          v-if="parameters.school_id != 0"
-          style="width: 500px"
-          class="the-school-selected-one gray"
-        >
-          {{
-            theschoolName.length < 9
-              ? theschoolName
-              : theschoolName.substring(0, 9) + "..."
-          }}
-        </view>
+    <u-datetime-picker
+      ref="datetimePicker"
+      :show="show"
+      v-model="birthText"
+      :maxDate="maxDate"
+      :minDate="minDate"
+      @confirm="submitDate"
+      @cancel="cancelDate"
+      mode="date"
+    ></u-datetime-picker>
+    <view class="safe-bottom"></view>
+    <view class="fix-bottom-box">
+      <view class="fix-bottom">
+        <view class="pay-btn" @click="toLogonRegister()">保存</view>
       </view>
     </view>
-
-    <!-- 毕业日期： -->
-    <view class="the-school">
-      <view class="the-school-title">毕业日期：</view>
-      <view class="the-school-selected">
-        <uni-datetime-picker
-          :border="false"
-          :disabled="theLevel != 0"
-          v-model="parameters.grad_date"
-          type="date"
-          @change="dateMaskClick"
-        />
-      </view>
-    </view>
-
-    <!-- 上传证件 -->
-    <!-- <view class="line-pic">
-			<view class="line-pic-title"><text class="pic-icon"></text>上传证件：</view>
-			<view class="line-pic-tip">上传学生证或学信网截图，获得真实认证资质~</view>
-
-			<view class="the-pic">
-				<uni-file-picker limit="1" @select="imageSelect" @delete="imageDelete" file-mediatype="image" v-model="imageValue" title="最多选择1张图片"></uni-file-picker>
-			</view>
-		</view> -->
   </view>
 </template>
 
@@ -160,6 +121,12 @@
 export default {
   data() {
     return {
+      minDate: Number(new Date("1980-01-01")),
+      maxDate: Number(new Date()),
+      birthText: "",
+      show: false,
+      tips: "",
+      seconds: 60,
       parameters: {
         name: "", //-------（必传）---------姓名
         phone: null, //-------（必传）---------手机号，新增或更换手机号必须同时推送验证码
@@ -173,7 +140,6 @@ export default {
         avatar_url: "", //	头像地址
         birthday: "", //生日，格式2010-05-20
         specialty: "", //专业
-
         pic: "", // 认证图片
       },
 
@@ -199,53 +165,16 @@ export default {
     // 重置一下 用于下面onshow时候判断不出错
     this.$store.commit("changeTempImageUrl", {});
 
-    // 回写一下注册的传参,主要就一个昵称
-    this.parameters.nick_name = this.theUser.nick_name;
-
     if (this.theLevel == 1) {
-      // 审核中的话，回写一下
-      let theUser = this.$store.state.theLogonUser;
-      // console.log('theUser',theUser);
-      // 由于这个接口是修改个人信息和注册统一的，所以这里都要传，这里把个人信息赋值一下
-      this.parameters.name =
-        theUser.name == "" || theUser.name == null ? "" : theUser.name;
-      this.parameters.phone =
-        theUser.phone == "" || theUser.phone == null ? "" : theUser.phone;
-      let theSex = theUser.sex == "" || theUser.sex == null ? "" : theUser.sex;
-      if (theSex != "") {
-        this.theSexIndex = this.sexs.indexOf(theSex);
-      }
-      this.parameters.sex = this.sexs[this.theSexIndex];
-      this.parameters.school_id = theUser.school_id;
-      // console.log('this.parameters.school_id',this.parameters.school_id);
-      // console.log('this.parameters.school_id',this.parameters.school_id);
-      this.theschoolName =
-        theUser.school_name == "" || theUser.school_name == null
-          ? ""
-          : theUser.school_name;
-      this.parameters.grad_date =
-        theUser.grad_date == "" || theUser.grad_date == null
-          ? ""
-          : theUser.grad_date;
+      this.changeData();
     }
   },
   onShow() {
-    // 专门处理从修改头像界面返回过来的情况
-    if (this.$store.state.tempImageUrl.length != 0) {
-      // 证明是通过修改头像界面跳过来的
-      this.parameters.avatar_url = this.$store.state.tempImageUrl[0].url;
-      // console.log(this.parameters);
-      this.toLogonRegister();
-    }
-    // 专门处理从编辑昵称界面返回
-    if (
-      this.$store.state.theNickName != "" &&
-      this.$store.state.theNickName != this.theUser.nick_name
-    ) {
-      this.parameters.avatar_url = this.theUser.avatar_url;
-      this.parameters.nick_name = this.$store.state.theNickName;
-      this.toLogonRegister();
-    }
+    uni.$on("changeAvatar", (url) => {
+      console.log(url);
+      this.parameters.avatar_url = url;
+      this.theUser.avatar_url = url;
+    });
   },
   computed: {
     storePhone: function () {
@@ -255,7 +184,118 @@ export default {
       return this.$store.state.codeSecond;
     },
   },
+  onReady() {
+    // 微信小程序需要用此写法
+    this.$refs.datetimePicker.setFormatter(this.formatter);
+  },
   methods: {
+    formatter(type, value) {
+      if (type === "year") {
+        return `${value}年`;
+      }
+      if (type === "month") {
+        return `${value}月`;
+      }
+      if (type === "day") {
+        return `${value}日`;
+      }
+      return value;
+    },
+    cancelDate() {
+      this.show = false;
+    },
+    submitDate(time) {
+      this.$set(
+        this.parameters,
+        "birthday",
+        this.$public.getNowDate(time.value)
+      );
+      this.show = false;
+    },
+    chooseBirth() {
+      this.show = true;
+      this.$refs.datetimePicker.innerValue = Number(
+        new Date(this.parameters.birthday)
+      );
+    },
+    codeChange(text) {
+      this.tips = text;
+    },
+    async getCode() {
+      if (!this.parameters.phone) {
+        uni.showToast({
+          title: "请输入您的手机号码",
+          icon: "none",
+        });
+        return;
+      }
+      let tag = uni.$u.test.mobile(this.parameters.phone);
+      if (!tag) {
+        uni.showToast({
+          title: "手机号码不合法",
+          icon: "none",
+        });
+        return;
+      }
+      if (this.$refs.uCode.canGetCode) {
+        // 模拟向后端请求验证码
+        await this.postCode();
+        // 通知验证码组件内部开始倒计时
+        this.$refs.uCode.start();
+      } else {
+        uni.showToast({
+          title: "倒计时结束后再发送",
+          icon: "none",
+        });
+      }
+    },
+    postCode() {
+      let param = {
+        phone: this.parameters.phone,
+        type: 1,
+      };
+      this.API.order
+        .sendSmsCheckCode(param)
+        .then((res) => {
+          uni.showToast({
+            title: "验证码已发送",
+            icon: "none",
+          });
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.postCode();
+          }
+        });
+    },
+    // 保存
+    save() {
+      (async () => {
+        await this.$store.dispatch("toLogon", {});
+        uni.navigateBack();
+      })();
+    },
+    // 回显数据
+    changeData() {
+      // 审核中的话，回写一下
+      let theUser = this.$store.state.theLogonUser;
+      this.parameters = {
+        ...theUser,
+        nick_name: this.showVal(theUser.nick_name),
+        name: this.showVal(theUser.name),
+        phone: this.showVal(theUser.phone),
+        sex: theUser.sex ? theUser.sex : "男",
+        grad_date: this.showVal(theUser.grad_date),
+        birthday: this.showVal(theUser.birthday),
+        intro: this.showVal(theUser.intro),
+        specialty: this.showVal(theUser.specialty),
+      };
+      this.theschoolName = this.showVal(theUser.school_name);
+    },
+    showVal(val) {
+      return val ? val : "";
+    },
     // 选择性别
     selectedSexOne: function (index) {
       this.theSexIndex = index;
@@ -377,18 +417,11 @@ export default {
             },
             data: that.parameters,
             success: (res) => {
-              // console.log('that.parameters',that.parameters);
-              // console.log('toLogonRegister_res', res);
               let _that = that;
               // 如果是请求第一页，证明是首次请求，就重置一下
               if (res.data.code == 0) {
                 // 注册后，主要变更的是这几个
-                _that.$store.commit("changeTheLogonUser_register", {
-                  level: res.data.data.user.level, // 主要是这个
-                  theToken: res.data.data.token,
-                  avatar_url: res.data.data.user.avatar_url,
-                  nick_name: res.data.data.user.nick_name,
-                });
+                _that.save();
 
                 resolve();
               } else if (res.data.code == 500) {
@@ -427,32 +460,16 @@ export default {
     },
     // 检查提交认证接口的传参
     inspect: function () {
-      // 由于这个接口是修改个人信息和注册统一的，所以这里都要传，这里把个人信息赋值一下
-      this.parameters.school_ids =
-        this.theUser.school_ids == "" || this.theUser.school_ids == null
-          ? ""
-          : this.theUser.school_ids;
-      this.parameters.intro =
-        this.theUser.intro == "" || this.theUser.intro == null
-          ? ""
-          : this.theUser.intro;
-      // this.parameters.nick_name = (this.theUser.nick_name == '' || this.theUser.nick_name == null ? '' : this.theUser.nick_name);
-      this.parameters.birthday =
-        this.theUser.birthday == "" || this.theUser.birthday == null
-          ? ""
-          : this.theUser.birthday;
-      this.parameters.specialty =
-        this.theUser.specialty == "" || this.theUser.specialty == null
-          ? ""
-          : this.theUser.specialty;
-
       // 开始检验
-      if (
+      if (!this.parameters.avatar_url) {
+        this.noPass("请上传头像");
+        return false;
+      } else if (
         this.parameters.nick_name.length > 7 ||
         this.parameters.nick_name.length < 1
       ) {
         uni.showToast({
-          title: "昵称至少1个字符，最多不超过7个字符哦~",
+          title: "昵称至少1个字符，最多不超过7个字符",
           duration: 2500,
           icon: "none",
         });
@@ -462,7 +479,7 @@ export default {
         this.parameters.phone.length != 11
       ) {
         uni.showToast({
-          title: "请正确填写手机号码哦~",
+          title: "请正确填写手机号码",
           duration: 2500,
           icon: "none",
         });
@@ -475,16 +492,34 @@ export default {
         this.parameters.check_code == ""
       ) {
         uni.showToast({
-          title: "请获取并正确输入验证码~",
+          title: "请获取并正确输入验证码",
           duration: 2500,
           icon: "none",
         });
+        return false;
+      } else if (!this.parameters.sex) {
+        this.noPass("请选择性别");
+        return false;
+      } else if (!this.parameters.birthday) {
+        this.noPass("请选择生日");
+        return false;
+      } else if (!this.parameters.intro) {
+        this.noPass("请输入简介");
+        return false;
+      } else if (!this.parameters.specialty) {
+        this.noPass("请输入专业");
         return false;
       } else {
         return true;
       }
     },
-
+    noPass(title) {
+      uni.showToast({
+        title,
+        duration: 2500,
+        icon: "none",
+      });
+    },
     //------------------------------------------------  页面跳转  -----------------------------------------------------
     //------------------------------------------------  页面跳转  -----------------------------------------------------
     //------------------------------------------------  页面跳转  -----------------------------------------------------
@@ -519,12 +554,10 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .content {
-  display: flex;
-  flex-direction: column;
+  padding-bottom: 135rpx;
 }
-
 .red {
   color: #ff0000;
   margin-right: 5px;
@@ -572,8 +605,8 @@ export default {
 
 .line-name-avatar {
   border-radius: 100%;
-  width: 20vw;
-  height: 20vw;
+  width: 110rpx;
+  height: 110rpx;
   background-repeat: no-repeat !important;
   background-size: cover !important;
   background-color: #fafefb;
@@ -723,10 +756,94 @@ export default {
   padding: 10px 0 10px 0;
 }
 
-.space-line-bottom {
-  padding: 25px 0 65px 0;
+.info-box {
+  border-top: 20rpx solid #fafafa;
+  background: #ffffff;
+  padding: 0 30rpx;
+  & > view {
+    padding: 39rpx 0;
+    border-bottom: 1rpx solid #e2e2e2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .left-label {
+      font-family: PingFang SC;
+      font-weight: 600;
+      font-size: 28rpx;
+      color: #333333;
+      width: 250rpx;
+    }
+    /deep/.uicon-arrow-right {
+      margin: 2rpx 0 0 10rpx;
+    }
+
+    /deep/ .u-input__content__field-wrapper__field {
+      text-align: right !important;
+      // 重要是这个属性，设置光标的位置，ltr时是鼠标光标在右侧，rtl时是鼠标光标在左侧
+      direction: ltr;
+    }
+    /deep/ .input-placeholder {
+      text-align: right;
+      font-family: PingFang SC;
+      font-weight: 500;
+      font-size: 24rpx;
+      color: #666666;
+    }
+    /deep/ .code-box {
+      .u-button {
+        margin-left: 16rpx;
+        width: 200rpx !important;
+        height: 50rpx !important;
+      }
+    }
+    /deep/ .u-radio-group {
+      justify-content: flex-end;
+      .u-radio {
+        margin-left: 40rpx;
+      }
+    }
+  }
+  & > view:last-child {
+    border: none;
+  }
+  .info-avatar {
+    padding: 22rpx 0;
+  }
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.fix-bottom-box {
+  z-index: 10;
+  background: #ffffff;
+  box-shadow: 0rpx 0rpx 7rpx 1rpx rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 25rpx 75rpx;
+  box-sizing: border-box;
+  .fix-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pay-btn {
+    width: 100%;
+    height: 76rpx;
+    background: linear-gradient(-55deg, #ff9b5a, #ff812f);
+    border-radius: 38rpx;
+    font-family: PingFang SC;
+    font-weight: 400;
+    font-size: 26rpx;
+    color: #ffffff;
+    line-height: 76rpx;
+    text-align: center;
+  }
+}
+.flex-algin {
   display: flex;
-  flex-direction: row;
   align-items: center;
 }
 </style>

@@ -8,23 +8,16 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/message/regard",
-          "pathName": "pages/message/regard",
-          "query": "type=互动",
+          "name": "pages/follow/personalhome",
+          "pathName": "pages/follow/personalhome",
+          "query": "id=3",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "pages/message/message",
-          "pathName": "pages/message/message",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "pages/message/message",
-          "pathName": "pages/message/message",
-          "query": "",
+          "name": "page_product/pages/info/personal",
+          "pathName": "page_product/pages/info/personal",
+          "query": "level=1",
           "launchMode": "default",
           "scene": null
         }

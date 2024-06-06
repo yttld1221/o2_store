@@ -40,9 +40,12 @@
                 : "学校不详"
             }}</view>
           </view>
-          <!-- <view class="the-line-1-right-bottom-school margin-left-10">
-						<view>{{}}</view>
-					</view> -->
+          <view
+            v-if="thePersonalInfo.specialty"
+            class="the-line-1-right-bottom-school margin-left-10"
+          >
+            <view>{{ thePersonalInfo.specialty }}</view>
+          </view>
         </view>
       </view>
     </view>
@@ -424,7 +427,7 @@ export default {
   z-index: -1;
 }
 .margin-left-10 {
-  margin-left: 10px;
+  margin-left: 20rpx;
 }
 
 .the-line-1 {
@@ -488,21 +491,24 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 3px 5px;
+  text-align: center;
+  padding: 3px 10px;
   background-color: #ecf3ee;
   border-radius: 100px;
   margin-top: 15px;
 }
 
 .the-line-1-right-bottom-school image {
-  width: 4vw;
-  height: 4vw;
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 9rpx;
 }
 
 .the-line-1-right-bottom-school view {
-  font-size: 12px;
-  color: #727272;
-  margin-left: 5px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #666666;
 }
 
 .the-line-2 {
