@@ -776,9 +776,7 @@ export default {
               this.theGetMomentsListPage = 1;
               this.school_datas = [];
               this.momentType = this.tabArr[0].id;
-              if (this.theAddress.title) {
-                this.initShop();
-              }
+              this.initShop();
             }
           })
           .catch(async (err) => {

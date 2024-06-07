@@ -168,7 +168,7 @@ export default {
         // });
         uni.navigateTo({
           url:
-            "/pages/mine/register?level=" +
+            "/page_product/pages/info/register?level=" +
             this.$store.state.theLogonUser.level,
         });
         return false;

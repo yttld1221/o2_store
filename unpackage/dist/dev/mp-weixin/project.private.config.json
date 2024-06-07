@@ -8,16 +8,9 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/follow/personalhome",
-          "pathName": "pages/follow/personalhome",
-          "query": "id=3",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "page_product/pages/info/personal",
-          "pathName": "page_product/pages/info/personal",
-          "query": "level=1",
+          "name": "page_product/pages/info/register",
+          "pathName": "page_product/pages/info/register",
+          "query": "level=0",
           "launchMode": "default",
           "scene": null
         }

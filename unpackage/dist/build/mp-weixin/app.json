@@ -13,10 +13,8 @@
     "pages/message/message",
     "pages/message/regard",
     "pages/mine/mine",
-    "pages/mine/personal",
     "pages/mine/edit_avatar",
     "pages/mine/edit_other",
-    "pages/mine/register",
     "pages/mine/mine_push"
   ],
   "subPackages": [
@@ -35,7 +33,10 @@
         "pages/order/evaluate",
         "pages/mall/index",
         "pages/mall/addMall",
-        "pages/fans/index"
+        "pages/fans/index",
+        "pages/info/personal",
+        "pages/info/register",
+        "pages/info/protocol"
       ]
     }
   ],

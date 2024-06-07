@@ -465,7 +465,7 @@ export default {
     // 收藏和点赞的切换按钮
     line_4_itemsSelected: async function (index, type) {
       if (type == "状态切换" && this.line_4_items_index == index) {
-        return;
+        return false;
       }
       if (type == "状态切换") {
         // 只有在点击切换栏的时候，才重置
@@ -542,7 +542,7 @@ export default {
     // 跳转注册界面
     toRegister: function (level) {
       uni.navigateTo({
-        url: "/pages/mine/register?level=" + level,
+        url: "/page_product/pages/info/register?level=" + level,
       });
     },
     // 跳转发布管理页面
@@ -924,12 +924,15 @@ export default {
 
 .the-line-1-right-bottom-school {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  text-align: center;
-  padding: 3px 10px;
-  background-color: #ecf3ee;
-  border-radius: 100px;
+  background: rgba(237, 244, 238, 1);
+  border-radius: 30rpx;
+  padding: 9rpx 21rpx;
+  justify-content: center;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #666666;
 }
 
 .the-line-1-right-bottom-school image {
@@ -1001,17 +1004,19 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3vw;
 }
 
 .the-line-3-top-item image {
-  width: 6.5vw;
-  height: 6.5vw;
+  width: 48rpx;
+  height: 48rpx;
 }
 
 .the-line-3-top-item view {
-  font-size: 12px;
-  margin-top: 5px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #333333;
+  margin-top: 20rpx;
 }
 
 .the-line-3-bottom {
@@ -1065,7 +1070,7 @@ export default {
 }
 
 .space-line-bottom {
-  height: 180px;
+  height: 280rpx;
 }
 .list-container {
   width: 100%;

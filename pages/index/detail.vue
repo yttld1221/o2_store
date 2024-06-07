@@ -479,7 +479,7 @@ export default {
           // });
           uni.navigateTo({
             url:
-              "/pages/mine/register?level=" +
+              "/page_product/pages/info/register?level=" +
               that.$store.state.theLogonUser.level,
           });
           return;

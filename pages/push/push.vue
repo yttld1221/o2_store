@@ -101,7 +101,7 @@
 						success: function(res) {
 							if (res.confirm) {
 								uni.navigateTo({
-									url: '/pages/mine/register?level=0'
+									url: '/page_product/pages/info/register?level=0'
 								});
 							} else if (res.cancel) {
 							

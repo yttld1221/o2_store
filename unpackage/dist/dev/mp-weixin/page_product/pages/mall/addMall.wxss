@@ -64,8 +64,9 @@
 }
 .add-mall .info-box > view.data-v-60437212 .code-box .u-button {
   margin-left: 16rpx;
-  width: 200rpx !important;
+  width: 160rpx !important;
   height: 50rpx !important;
+  padding: 0 !important;
 }
 .add-mall .info-box > view.data-v-60437212:last-child {
   border: none;
@@ -125,7 +126,7 @@
   width: 327rpx;
   height: 203rpx;
 }
-.add-mall .card-box .card-container .card-img text.data-v-60437212 {
+.add-mall .card-box .card-container .card-img > text.data-v-60437212 {
   margin-top: 30rpx;
   font-family: PingFang SC;
   font-weight: 500;

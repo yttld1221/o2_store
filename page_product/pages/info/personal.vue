@@ -296,111 +296,6 @@ export default {
     showVal(val) {
       return val ? val : "";
     },
-    // 选择性别
-    selectedSexOne: function (index) {
-      this.theSexIndex = index;
-      this.parameters.sex = this.sexs[index];
-    },
-    // 选择时间
-    dateMaskClick: function (e) {
-      // console.log('dateMaskClick',e);
-      this.parameters.grad_date = e;
-    },
-    //------------------------------------------------  接口调用  -----------------------------------------------------
-    //------------------------------------------------  接口调用  -----------------------------------------------------
-    //------------------------------------------------  接口调用  -----------------------------------------------------
-    // 发送验证码
-    sendCode: function () {
-      if (true) {
-        let _this = this;
-        return new Promise(function (resolve, reject) {
-          let that = _this;
-          that.isLoading = "loading"; // 加载中
-          // 判断如果是空字符串，不应该调用接口
-          if (
-            that.parameters.phone != "" &&
-            that.parameters.phone != null &&
-            that.parameters.phone.length == 11
-          ) {
-            uni.request({
-              url: that.$store.state.theUrl + "/wechat/wx/sendSmsCheckCode",
-              method: "POST",
-              header: {
-                token: that.$store.state.theToken,
-              },
-              data: {
-                phone: that.parameters.phone,
-                type: 1, //验证码类型，1-账号注册验证码，2-店铺申请验证码
-              },
-              success: (res) => {
-                // console.log('sendCode_res', res);
-                let _that = that;
-                // 如果是请求第一页，证明是首次请求，就重置一下
-                if (res.data.code == 0) {
-                  // 倒计时重置为59
-                  let num = 59;
-                  let myInterval = setInterval(function () {
-                    num = num - 1;
-                    _that.$store.commit("changecodeSecond", {
-                      codeSecond: num,
-                    });
-                    if (num == 0) {
-                      clearInterval(myInterval);
-                    }
-                  }, 1000);
-                  uni.showToast({
-                    title: "验证码已发送，请及时查收！",
-                    duration: 2500,
-                    icon: "none",
-                  });
-                  resolve();
-                } else if (res.data.code == 500) {
-                  uni.showToast({
-                    title: "服务器连接失败，请反馈官方客服哦~",
-                    duration: 2500,
-                    icon: "none",
-                  });
-                } else if (res.data.code == 410) {
-                  let __that = _that;
-                  // 异步转同步，
-                  (async function () {
-                    // 登录
-                    await __that.$store.dispatch("toLogon", {});
-                    __that.theUser = __that.$store.state.theLogonUser;
-                    __that.sendCode();
-                  })();
-                } else {
-                  uni.showToast({
-                    title: res.data.msg,
-                    duration: 2500,
-                    icon: "none",
-                  });
-                }
-              },
-              fail: (res) => {
-                uni.showToast({
-                  title: "网络失败，请重试！多次无效后，反馈官方客服哦！",
-                  duration: 2500,
-                  icon: "none",
-                });
-              },
-            });
-          } else {
-            uni.showToast({
-              title: "请填写正确的手机号码！",
-              duration: 2500,
-              icon: "none",
-            });
-          }
-        });
-      } else {
-        uni.showToast({
-          title: "",
-          duration: 2500,
-          icon: "none",
-        });
-      }
-    },
     // 提交认证/修改个人信息
     toLogonRegister: function () {
       let _this = this;
@@ -462,7 +357,7 @@ export default {
     inspect: function () {
       // 开始检验
       if (!this.parameters.avatar_url) {
-        this.noPass("请上传头像");
+        this.noPass("请上传您的头像");
         return false;
       } else if (
         this.parameters.nick_name.length > 7 ||
@@ -498,16 +393,16 @@ export default {
         });
         return false;
       } else if (!this.parameters.sex) {
-        this.noPass("请选择性别");
+        this.noPass("请选择您的性别");
         return false;
       } else if (!this.parameters.birthday) {
-        this.noPass("请选择生日");
+        this.noPass("请选择您的生日");
         return false;
       } else if (!this.parameters.intro) {
-        this.noPass("请输入简介");
+        this.noPass("请输入您的简介");
         return false;
       } else if (!this.parameters.specialty) {
-        this.noPass("请输入专业");
+        this.noPass("请输入您的专业");
         return false;
       } else {
         return true;
@@ -520,34 +415,10 @@ export default {
         icon: "none",
       });
     },
-    //------------------------------------------------  页面跳转  -----------------------------------------------------
-    //------------------------------------------------  页面跳转  -----------------------------------------------------
-    //------------------------------------------------  页面跳转  -----------------------------------------------------
-    // 跳转地址选择
-    toAddress: function () {
-      if (this.theLevel == 0) {
-        uni.navigateTo({
-          // type=index 表示是index页面过来的
-          url: "/pages/index/address?type=register",
-        });
-      } else {
-        uni.showToast({
-          title: "提交后不可修改哦~",
-          duration: 2500,
-          icon: "none",
-        });
-      }
-    },
     // 跳转头像编辑界面
     toEditAvatar: function () {
       uni.navigateTo({
         url: "/pages/mine/edit_avatar",
-      });
-    },
-    // 其他编辑页，目前是昵称编辑
-    toEditOther: function (type, value) {
-      uni.navigateTo({
-        url: "/pages/mine/edit_other?=type=" + type + "&value=" + value,
       });
     },
   },
@@ -792,8 +663,9 @@ export default {
     /deep/ .code-box {
       .u-button {
         margin-left: 16rpx;
-        width: 200rpx !important;
+        width: 160rpx !important;
         height: 50rpx !important;
+        padding: 0 !important;
       }
     }
     /deep/ .u-radio-group {

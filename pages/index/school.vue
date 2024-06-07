@@ -145,19 +145,20 @@ export default {
     },
     // 确认选中的学校
     confirmSchool: function () {
-      this.$store.commit("changeStore_schoolNow", {
-        id: this.tempSelectedSchool.id,
-        title: this.tempSelectedSchool.title,
-        status: this.tempSelectedSchool.status,
-        addr: this.tempSelectedSchool.addr,
-        create_id: this.tempSelectedSchool.create_id,
-        update_id: this.tempSelectedSchool.update_id,
-      });
       if (this.type == "register") {
+        uni.$emit("changeResSchool", this.tempSelectedSchool);
         uni.navigateBack({
           delta: 2, // 返回最外层
         });
       } else {
+        this.$store.commit("changeStore_schoolNow", {
+          id: this.tempSelectedSchool.id,
+          title: this.tempSelectedSchool.title,
+          status: this.tempSelectedSchool.status,
+          addr: this.tempSelectedSchool.addr,
+          create_id: this.tempSelectedSchool.create_id,
+          update_id: this.tempSelectedSchool.update_id,
+        });
         if (this.tempSelectedSchool.title != this.schoolNow) {
           uni.$emit("changeIndexSchool", {});
         }

@@ -101,19 +101,19 @@ var components
 try {
   components = {
     uniPopup: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */ "uni_modules/uni-popup/components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 497))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */ "uni_modules/uni-popup/components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 506))
     },
     uniIcons: function () {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 424))
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 433))
     },
     postTypeZudui: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui */ "uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui").then(__webpack_require__.bind(null, /*! @/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui.vue */ 432))
+      return __webpack_require__.e(/*! import() | uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui */ "uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui").then(__webpack_require__.bind(null, /*! @/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui.vue */ 441))
     },
     uniLoadMore: function () {
-      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 447))
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 456))
     },
     tabBar: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */ "uni_modules/tab-Bar/components/tab-Bar/tab-Bar").then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 458))
+      return __webpack_require__.e(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */ "uni_modules/tab-Bar/components/tab-Bar/tab-Bar").then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 467))
     },
   }
 } catch (e) {
@@ -692,7 +692,7 @@ var _default = {
                   _context4.next = 2;
                   break;
                 }
-                return _context4.abrupt("return");
+                return _context4.abrupt("return", false);
               case 2:
                 if (type == "状态切换") {
                   // 只有在点击切换栏的时候，才重置
@@ -802,7 +802,7 @@ var _default = {
     // 跳转注册界面
     toRegister: function toRegister(level) {
       uni.navigateTo({
-        url: "/pages/mine/register?level=" + level
+        url: "/page_product/pages/info/register?level=" + level
       });
     },
     // 跳转发布管理页面

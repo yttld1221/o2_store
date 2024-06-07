@@ -455,8 +455,9 @@ export default {
       /deep/ .code-box {
         .u-button {
           margin-left: 16rpx;
-          width: 200rpx !important;
+          width: 160rpx !important;
           height: 50rpx !important;
+          padding: 0 !important;
         }
       }
     }
@@ -518,7 +519,7 @@ export default {
           width: 327rpx;
           height: 203rpx;
         }
-        text {
+        & > text {
           margin-top: 30rpx;
           font-family: PingFang SC;
           font-weight: 500;

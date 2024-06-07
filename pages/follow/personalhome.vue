@@ -489,12 +489,15 @@ export default {
 
 .the-line-1-right-bottom-school {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  text-align: center;
-  padding: 3px 10px;
-  background-color: #ecf3ee;
-  border-radius: 100px;
+  background: rgba(237, 244, 238, 1);
+  border-radius: 30rpx;
+  padding: 9rpx 21rpx;
+  justify-content: center;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #666666;
   margin-top: 15px;
 }
 

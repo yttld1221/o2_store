@@ -122,14 +122,6 @@
 			}
 		},
 		{
-			"path": "pages/mine/register",
-			"style": {
-				"navigationBarBackgroundColor": "#ffffff",
-				"navigationBarTextStyle": "black",
-				"navigationBarTitleText": "学生认证"
-			}
-		},
-		{
 			"path": "pages/mine/mine_push",
 			"style": {
 				"navigationBarBackgroundColor": "#ffffff",
@@ -279,6 +271,23 @@
 						"navigationBarBackgroundColor": "#ffffff",
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "资料"
+					}
+				},
+				{
+					"path": "pages/info/register",
+					"style": {
+						"navigationBarBackgroundColor": "#ffffff",
+						"navigationBarTextStyle": "black",
+						"navigationBarTitleText": "学生认证"
+					}
+				},
+				{
+					"path": "pages/info/protocol",
+					"style": {
+						"navigationBarBackgroundColor": "#ffffff",
+						"navigationBarTextStyle": "black",
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
 					}
 				}
 			]
