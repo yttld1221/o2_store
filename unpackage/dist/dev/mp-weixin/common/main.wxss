@@ -254,4 +254,11 @@
   background: transparent;
 }
 /*每个页面公共css */
+.tabbar .u-transition {
+  bottom: 116rpx !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+.tabbar .u-slide-up-enter-active {
+  background: transparent !important;
+}
 

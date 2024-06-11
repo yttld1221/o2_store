@@ -36,7 +36,8 @@
         "pages/fans/index",
         "pages/info/personal",
         "pages/info/register",
-        "pages/info/protocol"
+        "pages/info/protocol",
+        "pages/push/index"
       ]
     }
   ],

@@ -1557,7 +1557,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -8923,7 +8923,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8944,14 +8944,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -9047,7 +9047,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -22669,7 +22669,13 @@ uni.addInterceptor({
 /* 426 */,
 /* 427 */,
 /* 428 */,
-/* 429 */
+/* 429 */,
+/* 430 */,
+/* 431 */,
+/* 432 */,
+/* 433 */,
+/* 434 */,
+/* 435 */
 /*!**************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-icon/icons.js ***!
   \**************************************************************************/
@@ -22900,7 +22906,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 430 */
+/* 436 */
 /*!**************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-icon/props.js ***!
   \**************************************************************************/
@@ -23007,14 +23013,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 431 */,
-/* 432 */,
-/* 433 */,
-/* 434 */,
-/* 435 */,
-/* 436 */,
 /* 437 */,
-/* 438 */
+/* 438 */,
+/* 439 */,
+/* 440 */,
+/* 441 */,
+/* 442 */,
+/* 443 */,
+/* 444 */
 /*!******************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-icons/components/uni-icons/uniicons_file_vue.js ***!
   \******************************************************************************************/
@@ -23517,12 +23523,6 @@ var fontData = [{
 exports.fontData = fontData;
 
 /***/ }),
-/* 439 */,
-/* 440 */,
-/* 441 */,
-/* 442 */,
-/* 443 */,
-/* 444 */,
 /* 445 */,
 /* 446 */,
 /* 447 */,
@@ -23531,7 +23531,13 @@ exports.fontData = fontData;
 /* 450 */,
 /* 451 */,
 /* 452 */,
-/* 453 */
+/* 453 */,
+/* 454 */,
+/* 455 */,
+/* 456 */,
+/* 457 */,
+/* 458 */,
+/* 459 */
 /*!****************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-search/props.js ***!
   \****************************************************************************/
@@ -23667,14 +23673,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 454 */,
-/* 455 */,
-/* 456 */,
-/* 457 */,
-/* 458 */,
-/* 459 */,
 /* 460 */,
-/* 461 */
+/* 461 */,
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */
 /*!*******************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-load-more/components/uni-load-more/i18n/index.js ***!
   \*******************************************************************************************/
@@ -23689,9 +23695,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 462));
-var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 463));
-var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 464));
+var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 468));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 469));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 470));
 var _default = {
   en: _en.default,
   'zh-Hans': _zhHans.default,
@@ -23700,7 +23706,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 462 */
+/* 468 */
 /*!******************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-load-more/components/uni-load-more/i18n/en.json ***!
   \******************************************************************************************/
@@ -23710,7 +23716,7 @@ exports.default = _default;
 module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"Pull up to show more\",\"uni-load-more.contentrefresh\":\"loading...\",\"uni-load-more.contentnomore\":\"No more data\"}");
 
 /***/ }),
-/* 463 */
+/* 469 */
 /*!***********************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-load-more/components/uni-load-more/i18n/zh-Hans.json ***!
   \***********************************************************************************************/
@@ -23720,7 +23726,7 @@ module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"Pull up to show mo
 module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉显示更多\",\"uni-load-more.contentrefresh\":\"正在加载...\",\"uni-load-more.contentnomore\":\"没有更多数据了\"}");
 
 /***/ }),
-/* 464 */
+/* 470 */
 /*!***********************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-load-more/components/uni-load-more/i18n/zh-Hant.json ***!
   \***********************************************************************************************/
@@ -23730,12 +23736,6 @@ module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉显示更多
 module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉顯示更多\",\"uni-load-more.contentrefresh\":\"正在加載...\",\"uni-load-more.contentnomore\":\"沒有更多數據了\"}");
 
 /***/ }),
-/* 465 */,
-/* 466 */,
-/* 467 */,
-/* 468 */,
-/* 469 */,
-/* 470 */,
 /* 471 */,
 /* 472 */,
 /* 473 */,
@@ -23743,15 +23743,101 @@ module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉顯示更多
 /* 475 */,
 /* 476 */,
 /* 477 */,
-/* 478 */,
-/* 479 */,
-/* 480 */,
-/* 481 */,
-/* 482 */,
-/* 483 */,
-/* 484 */,
-/* 485 */,
-/* 486 */
+/* 478 */
+/*!*********************************************!*\
+  !*** D:/ouying/o2_store/static/icon-ht.png ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGIAAABkCAMAAABKIhUhAAAAzFBMVEUAAAD/lBf/dBf/dBf/lBf/dBf/ghb/ghX/gxf/lRf/cxf/dBj/lBj/lBf/cxj/lBj/dBf/lBf/lBb/dBb/gBr/kBj/lxj/dRf/8uj/lBj/jBj9chb/exf/gRf/jxj/hxj7dxb6fBb6gBf/7+L+1rL/5Mz8sXn8mUr7gxb/6NT+27z+4Mf9rnD8n1j+0a78pGD7jTf7eBv+69r+kyr8iCH9zqb9uYn6gin9wJL8uoT+t3T7fST+x5L+wor9x53+q17+plH7lD36iSn+sGNiomuJAAAAF3RSTlMA7O6ymZk4Hhb65tW4rYqJenlbWQrW0/NsfREAAAR/SURBVGje3NDLCsIwFIThOVBygYSQYIvHRTZtn6Dr0vd/K0EExehGMi78lrMZ+PFzJsdJ9HteppgNPrJJtAtJFu+4wWs3fnBoFNGupODFoN0NeHYKShBOeAhKEXiV2lZFaQpunCiNOEqmNpX1SuQtgKRUCYAolQBGyQyykmXEShYxVrIRUskElQ71woZm+eeL7diXdT7fzeuyH1vXiysrdLebOAxEAZjHOEJYlv+W2LQNgkS7RLAF+v7v1LGTUKtTQ9L2GymaC9tHJ2/WgDH27dciOo8C3/1KxNnhDnf+ecQRDxx/GLEPeCjsH0XIO7N3mMBRhixPuYWUkiUUM+jw/BZkGTBRoPPlFrLsiMmOsuhexBncznq2JufvRCwdmJemqk5IWlqzmm45M0KQDoy5VsSltYlr1qMTZHKEiBoPJuioTX2qyOLGN6IQshBfkDSv4A46ciCdJtUOH177e9xCCj6RBbfWZIvooskFGSsSyabUojFgdlqRJxCvog4Z06SL01vU4FoVtSD/0/qCXD2vhTjhxttB3UdY8qyINjBhh9FpZguLUavVB60ya2yuqgkY2JktHEYXVXLAE32fMXDpJrdgBchKCIPRWpWEFFFjYMRgSgstBG7CtpBwBfxWXTcYiS99jlilIciY3l969rKJtIpqEGeQRej0AovgNA2YoMiffkv+ofe4xSqf9HwE5qCI7bfEswg9zCof9qPeOSm3HQVhIAz7Fm3SuRgXgah4wAthQ+L7P9bOQTNAK5T9xuCEUD7+DBQo5p6OsaKWL0E75u7nACG3WErBB3qIlKLgAdTvjmm+KaimKSBmT+XnXPfEUzvbSCbISvHAmJ2arPSiWFHpl0A0qngkU6hgcsN0CoTC9temZjokLox0+FMLzWOsQNir5XsKFTClbaC4yC1KAespkApsn77jIndToK6dI4oYfNoQcJFqrEBIsIvnwIUXW/mqiFaeuGJQW+Xl/51iKPyYMzK/3J6k7X0MApOj0BhXP6ZH5iTbh7S2v25N4ZwDmL4pwgWJQdqa284nQEJukaloj94oBiQu0rb2AJkKN4EuwDdNNIreRvFKKgQ3Z+dgUg7QSWFb2uIjMnKitIixQpbCrOIUfJlQe6OyWI18DCnEkJPCIf1cIHpvHJ6HT3ulNkmQGFkpUAYSQnvyeZgCXFYKnUYguvNGRWoUEKVgAgmQaqMjEM5lpOBiA4GhO21VwPoshHcKou2zDeWGFEEMH+oyU/EMQl4KFpikbY45huOg0VdSEPynKYz2di1WDfegLL5RBoY5f73QQQrCMBCF4UdC2tJACER4i1l3qctuev97aUQUdKKUTvwOMD/ztvN6WdqdZd2k0r/Q1Ellv1rQEpYNipqwbOgJYZPsRoXAsc0k4RD5hUUiwtOuQY1HplmDqoyBPxxNDMBMmwh1M4BEWkTYkACMQh6tsElG3ATuoF9vC6gmx27chLvCbgoeAjsJePLswuPl1KXhT6g6bhXwpjiacgUfpiA0I2GCZkwzTcxpRNOQfXQHvhEXfR7wb1ea78RfCu0PqwAAAABJRU5ErkJggg=="
+
+/***/ }),
+/* 479 */
+/*!*********************************************!*\
+  !*** D:/ouying/o2_store/static/icon-zd.png ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,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"
+
+/***/ }),
+/* 480 */
+/*!*********************************************!*\
+  !*** D:/ouying/o2_store/static/icon-fx.png ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,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"
+
+/***/ }),
+/* 481 */
+/*!*********************************************!*\
+  !*** D:/ouying/o2_store/static/icon-xz.png ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,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"
+
+/***/ }),
+/* 482 */
+/*!*********************************************!*\
+  !*** D:/ouying/o2_store/static/icon-jz.png ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,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"
+
+/***/ }),
+/* 483 */
+/*!*********************************************!*\
+  !*** D:/ouying/o2_store/static/icon-bb.png ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,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"
+
+/***/ }),
+/* 484 */
+/*!*********************************************!*\
+  !*** D:/ouying/o2_store/static/icon-qz.png ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,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"
+
+/***/ }),
+/* 485 */
+/*!*********************************************!*\
+  !*** D:/ouying/o2_store/static/icon-qt.png ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,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"
+
+/***/ }),
+/* 486 */,
+/* 487 */,
+/* 488 */,
+/* 489 */,
+/* 490 */,
+/* 491 */,
+/* 492 */,
+/* 493 */,
+/* 494 */,
+/* 495 */,
+/* 496 */,
+/* 497 */,
+/* 498 */,
+/* 499 */,
+/* 500 */
 /*!*********************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-search-bar/components/uni-search-bar/i18n/index.js ***!
   \*********************************************************************************************/
@@ -23766,9 +23852,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 487));
-var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 488));
-var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 489));
+var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 501));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 502));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 503));
 var _default = {
   en: _en.default,
   'zh-Hans': _zhHans.default,
@@ -23777,7 +23863,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 487 */
+/* 501 */
 /*!********************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-search-bar/components/uni-search-bar/i18n/en.json ***!
   \********************************************************************************************/
@@ -23787,7 +23873,7 @@ exports.default = _default;
 module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"cancel\",\"uni-search-bar.placeholder\":\"Search enter content\"}");
 
 /***/ }),
-/* 488 */
+/* 502 */
 /*!*************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-search-bar/components/uni-search-bar/i18n/zh-Hans.json ***!
   \*************************************************************************************************/
@@ -23797,7 +23883,7 @@ module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"cancel\",\"uni-search-
 module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"取消\",\"uni-search-bar.placeholder\":\"请输入搜索内容\"}");
 
 /***/ }),
-/* 489 */
+/* 503 */
 /*!*************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-search-bar/components/uni-search-bar/i18n/zh-Hant.json ***!
   \*************************************************************************************************/
@@ -23807,20 +23893,6 @@ module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"取消\",\"uni-search-
 module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"取消\",\"uni-search-bar.placeholder\":\"請輸入搜索內容\"}");
 
 /***/ }),
-/* 490 */,
-/* 491 */,
-/* 492 */,
-/* 493 */,
-/* 494 */,
-/* 495 */,
-/* 496 */,
-/* 497 */,
-/* 498 */,
-/* 499 */,
-/* 500 */,
-/* 501 */,
-/* 502 */,
-/* 503 */,
 /* 504 */,
 /* 505 */,
 /* 506 */,
@@ -23835,7 +23907,21 @@ module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"取消\",\"uni-search-
 /* 515 */,
 /* 516 */,
 /* 517 */,
-/* 518 */
+/* 518 */,
+/* 519 */,
+/* 520 */,
+/* 521 */,
+/* 522 */,
+/* 523 */,
+/* 524 */,
+/* 525 */,
+/* 526 */,
+/* 527 */,
+/* 528 */,
+/* 529 */,
+/* 530 */,
+/* 531 */,
+/* 532 */
 /*!************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js ***!
   \************************************************************************************/
@@ -23851,19 +23937,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 34));
-var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 519));
+var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 533));
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 520));
-var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 521));
-var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 522));
-var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 523));
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 534));
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 535));
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 536));
+var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 537));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
-var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 525));
+var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 539));
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e34) { throw _e34; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e35) { didErr = true; err = _e35; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
@@ -24316,7 +24402,7 @@ var S = "development" === "development",
   x = true;
 var O = "";
 try {
-  O = (__webpack_require__(/*! uni-stat-config */ 526).default || __webpack_require__(/*! uni-stat-config */ 526)).appid;
+  O = (__webpack_require__(/*! uni-stat-config */ 540).default || __webpack_require__(/*! uni-stat-config */ 540)).appid;
 } catch (e) {}
 var E = {};
 function L(e) {
@@ -31659,7 +31745,7 @@ exports.default = Bs;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3), __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
-/* 519 */
+/* 533 */
 /*!**********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
   \**********************************************************************/
@@ -31675,7 +31761,7 @@ function _assertThisInitialized(self) {
 module.exports = _assertThisInitialized, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 520 */
+/* 534 */
 /*!*********************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
   \*********************************************************/
@@ -31702,7 +31788,7 @@ function _inherits(subClass, superClass) {
 module.exports = _inherits, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 521 */
+/* 535 */
 /*!**************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
   \**************************************************************************/
@@ -31710,7 +31796,7 @@ module.exports = _inherits, module.exports.__esModule = true, module.exports["de
 /***/ (function(module, exports, __webpack_require__) {
 
 var _typeof = __webpack_require__(/*! ./typeof.js */ 13)["default"];
-var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 519);
+var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 533);
 function _possibleConstructorReturn(self, call) {
   if (call && (_typeof(call) === "object" || typeof call === "function")) {
     return call;
@@ -31722,7 +31808,7 @@ function _possibleConstructorReturn(self, call) {
 module.exports = _possibleConstructorReturn, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 522 */
+/* 536 */
 /*!***************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
   \***************************************************************/
@@ -31738,16 +31824,16 @@ function _getPrototypeOf(o) {
 module.exports = _getPrototypeOf, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 523 */
+/* 537 */
 /*!****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/wrapNativeSuper.js ***!
   \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 522);
+var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 536);
 var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ 16);
-var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 524);
+var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 538);
 var construct = __webpack_require__(/*! ./construct.js */ 15);
 function _wrapNativeSuper(Class) {
   var _cache = typeof Map === "function" ? new Map() : undefined;
@@ -31778,7 +31864,7 @@ function _wrapNativeSuper(Class) {
 module.exports = _wrapNativeSuper, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 524 */
+/* 538 */
 /*!*****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/isNativeFunction.js ***!
   \*****************************************************************/
@@ -31795,7 +31881,7 @@ function _isNativeFunction(fn) {
 module.exports = _isNativeFunction, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 525 */
+/* 539 */
 /*!******************************************************************!*\
   !*** D:/ouying/o2_store/pages.json?{"type":"origin-pages-json"} ***!
   \******************************************************************/
@@ -32066,6 +32152,14 @@ var _default = {
         "navigationBarTitleText": "",
         "enablePullDownRefresh": false
       }
+    }, {
+      "path": "pages/push/index",
+      "style": {
+        "navigationBarBackgroundColor": "#ffffff",
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
     }]
   }],
   "preloadRule": {
@@ -32110,7 +32204,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 526 */
+/* 540 */
 /*!*****************************************************!*\
   !*** D:/ouying/o2_store/pages.json?{"type":"stat"} ***!
   \*****************************************************/
@@ -32130,7 +32224,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 527 */
+/* 541 */
 /*!***********************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-file-picker/components/uni-file-picker/choose-and-upload-file.js ***!
   \***********************************************************************************************************/
@@ -32350,10 +32444,10 @@ function chooseAndUploadFile() {
   }
   return uploadFiles(chooseAll(opts), opts);
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 518)["default"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 532)["default"]))
 
 /***/ }),
-/* 528 */
+/* 542 */
 /*!******************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-file-picker/components/uni-file-picker/utils.js ***!
   \******************************************************************************************/
@@ -32517,14 +32611,14 @@ exports.get_file_data = get_file_data;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 529 */,
-/* 530 */,
-/* 531 */,
-/* 532 */,
-/* 533 */,
-/* 534 */,
-/* 535 */,
-/* 536 */
+/* 543 */,
+/* 544 */,
+/* 545 */,
+/* 546 */,
+/* 547 */,
+/* 548 */,
+/* 549 */,
+/* 550 */
 /*!*******************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/index.js ***!
   \*******************************************************************************************************/
@@ -32539,9 +32633,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 537));
-var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 538));
-var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 539));
+var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 551));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 552));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 553));
 var _default = {
   en: _en.default,
   'zh-Hans': _zhHans.default,
@@ -32550,7 +32644,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 537 */
+/* 551 */
 /*!******************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/en.json ***!
   \******************************************************************************************************/
@@ -32560,7 +32654,7 @@ exports.default = _default;
 module.exports = JSON.parse("{\"uni-datetime-picker.selectDate\":\"select date\",\"uni-datetime-picker.selectTime\":\"select time\",\"uni-datetime-picker.selectDateTime\":\"select date and time\",\"uni-datetime-picker.startDate\":\"start date\",\"uni-datetime-picker.endDate\":\"end date\",\"uni-datetime-picker.startTime\":\"start time\",\"uni-datetime-picker.endTime\":\"end time\",\"uni-datetime-picker.ok\":\"ok\",\"uni-datetime-picker.clear\":\"clear\",\"uni-datetime-picker.cancel\":\"cancel\",\"uni-datetime-picker.year\":\"-\",\"uni-datetime-picker.month\":\"\",\"uni-calender.MON\":\"MON\",\"uni-calender.TUE\":\"TUE\",\"uni-calender.WED\":\"WED\",\"uni-calender.THU\":\"THU\",\"uni-calender.FRI\":\"FRI\",\"uni-calender.SAT\":\"SAT\",\"uni-calender.SUN\":\"SUN\",\"uni-calender.confirm\":\"confirm\"}");
 
 /***/ }),
-/* 538 */
+/* 552 */
 /*!***********************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/zh-Hans.json ***!
   \***********************************************************************************************************/
@@ -32570,7 +32664,7 @@ module.exports = JSON.parse("{\"uni-datetime-picker.selectDate\":\"select date\"
 module.exports = JSON.parse("{\"uni-datetime-picker.selectDate\":\"选择日期\",\"uni-datetime-picker.selectTime\":\"选择时间\",\"uni-datetime-picker.selectDateTime\":\"选择日期时间\",\"uni-datetime-picker.startDate\":\"开始日期\",\"uni-datetime-picker.endDate\":\"结束日期\",\"uni-datetime-picker.startTime\":\"开始时间\",\"uni-datetime-picker.endTime\":\"结束时间\",\"uni-datetime-picker.ok\":\"确定\",\"uni-datetime-picker.clear\":\"清除\",\"uni-datetime-picker.cancel\":\"取消\",\"uni-datetime-picker.year\":\"年\",\"uni-datetime-picker.month\":\"月\",\"uni-calender.SUN\":\"日\",\"uni-calender.MON\":\"一\",\"uni-calender.TUE\":\"二\",\"uni-calender.WED\":\"三\",\"uni-calender.THU\":\"四\",\"uni-calender.FRI\":\"五\",\"uni-calender.SAT\":\"六\",\"uni-calender.confirm\":\"确认\"}");
 
 /***/ }),
-/* 539 */
+/* 553 */
 /*!***********************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-datetime-picker/components/uni-datetime-picker/i18n/zh-Hant.json ***!
   \***********************************************************************************************************/
@@ -32580,7 +32674,7 @@ module.exports = JSON.parse("{\"uni-datetime-picker.selectDate\":\"选择日期\
 module.exports = JSON.parse("{\"uni-datetime-picker.selectDate\":\"選擇日期\",\"uni-datetime-picker.selectTime\":\"選擇時間\",\"uni-datetime-picker.selectDateTime\":\"選擇日期時間\",\"uni-datetime-picker.startDate\":\"開始日期\",\"uni-datetime-picker.endDate\":\"結束日期\",\"uni-datetime-picker.startTime\":\"開始时间\",\"uni-datetime-picker.endTime\":\"結束时间\",\"uni-datetime-picker.ok\":\"確定\",\"uni-datetime-picker.clear\":\"清除\",\"uni-datetime-picker.cancel\":\"取消\",\"uni-datetime-picker.year\":\"年\",\"uni-datetime-picker.month\":\"月\",\"uni-calender.SUN\":\"日\",\"uni-calender.MON\":\"一\",\"uni-calender.TUE\":\"二\",\"uni-calender.WED\":\"三\",\"uni-calender.THU\":\"四\",\"uni-calender.FRI\":\"五\",\"uni-calender.SAT\":\"六\",\"uni-calender.confirm\":\"確認\"}");
 
 /***/ }),
-/* 540 */
+/* 554 */
 /*!*************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-datetime-picker/components/uni-datetime-picker/util.js ***!
   \*************************************************************************************************/
@@ -33029,23 +33123,23 @@ function fixIosDateFormat(value) {
 }
 
 /***/ }),
-/* 541 */,
-/* 542 */,
-/* 543 */,
-/* 544 */,
-/* 545 */,
-/* 546 */,
-/* 547 */,
-/* 548 */,
-/* 549 */,
-/* 550 */,
-/* 551 */,
-/* 552 */,
-/* 553 */,
-/* 554 */,
 /* 555 */,
 /* 556 */,
-/* 557 */
+/* 557 */,
+/* 558 */,
+/* 559 */,
+/* 560 */,
+/* 561 */,
+/* 562 */,
+/* 563 */,
+/* 564 */,
+/* 565 */,
+/* 566 */,
+/* 567 */,
+/* 568 */,
+/* 569 */,
+/* 570 */,
+/* 571 */
 /*!****************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-swiper/props.js ***!
   \****************************************************************************/
@@ -33188,14 +33282,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 558 */,
-/* 559 */,
-/* 560 */,
-/* 561 */,
-/* 562 */,
-/* 563 */,
-/* 564 */,
-/* 565 */
+/* 572 */,
+/* 573 */,
+/* 574 */,
+/* 575 */,
+/* 576 */,
+/* 577 */,
+/* 578 */,
+/* 579 */
 /*!***************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-image/props.js ***!
   \***************************************************************************/
@@ -33297,14 +33391,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 566 */,
-/* 567 */,
-/* 568 */,
-/* 569 */,
-/* 570 */,
-/* 571 */,
-/* 572 */,
-/* 573 */
+/* 580 */,
+/* 581 */,
+/* 582 */,
+/* 583 */,
+/* 584 */,
+/* 585 */,
+/* 586 */,
+/* 587 */
 /*!*****************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-divider/props.js ***!
   \*****************************************************************************/
@@ -33366,14 +33460,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 574 */,
-/* 575 */,
-/* 576 */,
-/* 577 */,
-/* 578 */,
-/* 579 */,
-/* 580 */,
-/* 581 */
+/* 588 */,
+/* 589 */,
+/* 590 */,
+/* 591 */,
+/* 592 */,
+/* 593 */,
+/* 594 */,
+/* 595 */
 /*!*******************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-goods-nav/components/uni-goods-nav/i18n/index.js ***!
   \*******************************************************************************************/
@@ -33388,9 +33482,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 582));
-var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 583));
-var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 584));
+var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 596));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 597));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 598));
 var _default = {
   en: _en.default,
   'zh-Hans': _zhHans.default,
@@ -33399,7 +33493,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 582 */
+/* 596 */
 /*!******************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-goods-nav/components/uni-goods-nav/i18n/en.json ***!
   \******************************************************************************************/
@@ -33409,7 +33503,7 @@ exports.default = _default;
 module.exports = JSON.parse("{\"uni-goods-nav.options.shop\":\"shop\",\"uni-goods-nav.options.cart\":\"cart\",\"uni-goods-nav.buttonGroup.addToCart\":\"add to cart\",\"uni-goods-nav.buttonGroup.buyNow\":\"buy now\"}");
 
 /***/ }),
-/* 583 */
+/* 597 */
 /*!***********************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-goods-nav/components/uni-goods-nav/i18n/zh-Hans.json ***!
   \***********************************************************************************************/
@@ -33419,7 +33513,7 @@ module.exports = JSON.parse("{\"uni-goods-nav.options.shop\":\"shop\",\"uni-good
 module.exports = JSON.parse("{\"uni-goods-nav.options.shop\":\"店铺\",\"uni-goods-nav.options.cart\":\"购物车\",\"uni-goods-nav.buttonGroup.addToCart\":\"加入购物车\",\"uni-goods-nav.buttonGroup.buyNow\":\"立即购买\"}");
 
 /***/ }),
-/* 584 */
+/* 598 */
 /*!***********************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-goods-nav/components/uni-goods-nav/i18n/zh-Hant.json ***!
   \***********************************************************************************************/
@@ -33429,14 +33523,14 @@ module.exports = JSON.parse("{\"uni-goods-nav.options.shop\":\"店铺\",\"uni-go
 module.exports = JSON.parse("{\"uni-goods-nav.options.shop\":\"店鋪\",\"uni-goods-nav.options.cart\":\"購物車\",\"uni-goods-nav.buttonGroup.addToCart\":\"加入購物車\",\"uni-goods-nav.buttonGroup.buyNow\":\"立即購買\"}");
 
 /***/ }),
-/* 585 */,
-/* 586 */,
-/* 587 */,
-/* 588 */,
-/* 589 */,
-/* 590 */,
-/* 591 */,
-/* 592 */
+/* 599 */,
+/* 600 */,
+/* 601 */,
+/* 602 */,
+/* 603 */,
+/* 604 */,
+/* 605 */,
+/* 606 */
 /*!********************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-number-box/props.js ***!
   \********************************************************************************/
@@ -33563,14 +33657,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 593 */,
-/* 594 */,
-/* 595 */,
-/* 596 */,
-/* 597 */,
-/* 598 */,
-/* 599 */,
-/* 600 */
+/* 607 */,
+/* 608 */,
+/* 609 */,
+/* 610 */,
+/* 611 */,
+/* 612 */,
+/* 613 */,
+/* 614 */
 /*!******************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-textarea/props.js ***!
   \******************************************************************************/
@@ -33707,12 +33801,12 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 601 */,
-/* 602 */,
-/* 603 */,
-/* 604 */,
-/* 605 */,
-/* 606 */
+/* 615 */,
+/* 616 */,
+/* 617 */,
+/* 618 */,
+/* 619 */,
+/* 620 */
 /*!**********************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-swipe-action/props.js ***!
   \**********************************************************************************/
@@ -33739,12 +33833,12 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 607 */,
-/* 608 */,
-/* 609 */,
-/* 610 */,
-/* 611 */,
-/* 612 */
+/* 621 */,
+/* 622 */,
+/* 623 */,
+/* 624 */,
+/* 625 */,
+/* 626 */
 /*!*******************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/libs/mixin/touch.js ***!
   \*******************************************************************/
@@ -33820,7 +33914,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 613 */
+/* 627 */
 /*!***************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-swipe-action-item/props.js ***!
   \***************************************************************************************/
@@ -33879,7 +33973,7 @@ exports.default = _default2;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 614 */
+/* 628 */
 /*!*************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-swipe-action-item/wxs.js ***!
   \*************************************************************************************/
@@ -33911,16 +34005,16 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 615 */,
-/* 616 */,
-/* 617 */,
-/* 618 */,
-/* 619 */,
-/* 620 */,
-/* 621 */,
-/* 622 */,
-/* 623 */,
-/* 624 */
+/* 629 */,
+/* 630 */,
+/* 631 */,
+/* 632 */,
+/* 633 */,
+/* 634 */,
+/* 635 */,
+/* 636 */,
+/* 637 */,
+/* 638 */
 /*!***************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-modal/props.js ***!
   \***************************************************************************/
@@ -34027,14 +34121,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 625 */,
-/* 626 */,
-/* 627 */,
-/* 628 */,
-/* 629 */,
-/* 630 */,
-/* 631 */,
-/* 632 */
+/* 639 */,
+/* 640 */,
+/* 641 */,
+/* 642 */,
+/* 643 */,
+/* 644 */,
+/* 645 */,
+/* 646 */
 /*!**************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-form/props.js ***!
   \**************************************************************************/
@@ -34097,7 +34191,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 633 */
+/* 647 */
 /*!****************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/libs/util/async-validator.js ***!
   \****************************************************************************/
@@ -34135,7 +34229,7 @@ function _extends() {
 var formatRegExp = /%[sdj%]/g;
 var warning = function warning() {}; // don't print warning message when in production env or node runtime
 
-if (typeof process !== 'undefined' && Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}) && "development" !== 'production' && typeof window !== 'undefined' && typeof document !== 'undefined') {
+if (typeof process !== 'undefined' && Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"o2_store","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}) && "development" !== 'production' && typeof window !== 'undefined' && typeof document !== 'undefined') {
   warning = function warning(type, errors) {
     if (typeof console !== 'undefined' && console.warn) {
       if (errors.every(function (e) {
@@ -35278,10 +35372,10 @@ Schema.warning = warning;
 Schema.messages = messages;
 var _default = Schema; // # sourceMappingURL=index.js.map
 exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 634)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 648)))
 
 /***/ }),
-/* 634 */
+/* 648 */
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -35312,7 +35406,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 635);
+        if (!path) path = __webpack_require__(/*! path */ 649);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -35325,7 +35419,7 @@ exports.features = {};
 
 
 /***/ }),
-/* 635 */
+/* 649 */
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -35635,15 +35729,15 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 634)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 648)))
 
 /***/ }),
-/* 636 */,
-/* 637 */,
-/* 638 */,
-/* 639 */,
-/* 640 */,
-/* 641 */
+/* 650 */,
+/* 651 */,
+/* 652 */,
+/* 653 */,
+/* 654 */,
+/* 655 */
 /*!*******************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-form-item/props.js ***!
   \*******************************************************************************/
@@ -35709,14 +35803,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 642 */,
-/* 643 */,
-/* 644 */,
-/* 645 */,
-/* 646 */,
-/* 647 */,
-/* 648 */,
-/* 649 */
+/* 656 */,
+/* 657 */,
+/* 658 */,
+/* 659 */,
+/* 660 */,
+/* 661 */,
+/* 662 */,
+/* 663 */
 /*!***************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-input/props.js ***!
   \***************************************************************************/
@@ -35921,14 +36015,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 650 */,
-/* 651 */,
-/* 652 */,
-/* 653 */,
-/* 654 */,
-/* 655 */,
-/* 656 */,
-/* 657 */
+/* 664 */,
+/* 665 */,
+/* 666 */,
+/* 667 */,
+/* 668 */,
+/* 669 */,
+/* 670 */,
+/* 671 */
 /*!****************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-switch/props.js ***!
   \****************************************************************************/
@@ -36000,20 +36094,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 658 */,
-/* 659 */,
-/* 660 */,
-/* 661 */,
-/* 662 */,
-/* 663 */,
-/* 664 */,
-/* 665 */,
-/* 666 */,
-/* 667 */,
-/* 668 */,
-/* 669 */,
-/* 670 */,
-/* 671 */,
 /* 672 */,
 /* 673 */,
 /* 674 */,
@@ -36021,7 +36101,21 @@ exports.default = _default;
 /* 676 */,
 /* 677 */,
 /* 678 */,
-/* 679 */
+/* 679 */,
+/* 680 */,
+/* 681 */,
+/* 682 */,
+/* 683 */,
+/* 684 */,
+/* 685 */,
+/* 686 */,
+/* 687 */,
+/* 688 */,
+/* 689 */,
+/* 690 */,
+/* 691 */,
+/* 692 */,
+/* 693 */
 /*!**************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-rate/props.js ***!
   \**************************************************************************/
@@ -36108,26 +36202,26 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 680 */,
-/* 681 */,
-/* 682 */,
-/* 683 */,
-/* 684 */,
-/* 685 */,
-/* 686 */,
-/* 687 */,
-/* 688 */,
-/* 689 */,
-/* 690 */,
-/* 691 */,
-/* 692 */,
-/* 693 */,
 /* 694 */,
 /* 695 */,
 /* 696 */,
 /* 697 */,
 /* 698 */,
-/* 699 */
+/* 699 */,
+/* 700 */,
+/* 701 */,
+/* 702 */,
+/* 703 */,
+/* 704 */,
+/* 705 */,
+/* 706 */,
+/* 707 */,
+/* 708 */,
+/* 709 */,
+/* 710 */,
+/* 711 */,
+/* 712 */,
+/* 713 */
 /*!**************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-code/props.js ***!
   \**************************************************************************/
@@ -36179,14 +36273,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 700 */,
-/* 701 */,
-/* 702 */,
-/* 703 */,
-/* 704 */,
-/* 705 */,
-/* 706 */,
-/* 707 */
+/* 714 */,
+/* 715 */,
+/* 716 */,
+/* 717 */,
+/* 718 */,
+/* 719 */,
+/* 720 */,
+/* 721 */
 /*!********************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/libs/mixin/button.js ***!
   \********************************************************************/
@@ -36216,7 +36310,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 708 */
+/* 722 */
 /*!**********************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/libs/mixin/openType.js ***!
   \**********************************************************************/
@@ -36258,7 +36352,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 709 */
+/* 723 */
 /*!****************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-button/props.js ***!
   \****************************************************************************/
@@ -36437,14 +36531,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 710 */,
-/* 711 */,
-/* 712 */,
-/* 713 */,
-/* 714 */,
-/* 715 */,
-/* 716 */,
-/* 717 */
+/* 724 */,
+/* 725 */,
+/* 726 */,
+/* 727 */,
+/* 728 */,
+/* 729 */,
+/* 730 */,
+/* 731 */
 /*!*********************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-radio-group/props.js ***!
   \*********************************************************************************/
@@ -36546,14 +36640,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 718 */,
-/* 719 */,
-/* 720 */,
-/* 721 */,
-/* 722 */,
-/* 723 */,
-/* 724 */,
-/* 725 */
+/* 732 */,
+/* 733 */,
+/* 734 */,
+/* 735 */,
+/* 736 */,
+/* 737 */,
+/* 738 */,
+/* 739 */
 /*!***************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-radio/props.js ***!
   \***************************************************************************/
@@ -36635,14 +36729,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 726 */,
-/* 727 */,
-/* 728 */,
-/* 729 */,
-/* 730 */,
-/* 731 */,
-/* 732 */,
-/* 733 */
+/* 740 */,
+/* 741 */,
+/* 742 */,
+/* 743 */,
+/* 744 */,
+/* 745 */,
+/* 746 */,
+/* 747 */
 /*!*************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-datetime-picker/props.js ***!
   \*************************************************************************************/
@@ -36776,7 +36870,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 734 */
+/* 748 */
 /*!******************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/libs/util/dayjs.js ***!
   \******************************************************************/
@@ -37088,14 +37182,118 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = 
 });
 
 /***/ }),
-/* 735 */,
-/* 736 */,
-/* 737 */,
-/* 738 */,
-/* 739 */,
-/* 740 */,
-/* 741 */,
-/* 742 */
+/* 749 */,
+/* 750 */,
+/* 751 */,
+/* 752 */,
+/* 753 */,
+/* 754 */,
+/* 755 */,
+/* 756 */
+/*!***************************************************************************!*\
+  !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-popup/props.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    // 是否展示弹窗
+    show: {
+      type: Boolean,
+      default: uni.$u.props.popup.show
+    },
+    // 是否显示遮罩
+    overlay: {
+      type: Boolean,
+      default: uni.$u.props.popup.overlay
+    },
+    // 弹出的方向，可选值为 top bottom right left center
+    mode: {
+      type: String,
+      default: uni.$u.props.popup.mode
+    },
+    // 动画时长，单位ms
+    duration: {
+      type: [String, Number],
+      default: uni.$u.props.popup.duration
+    },
+    // 是否显示关闭图标
+    closeable: {
+      type: Boolean,
+      default: uni.$u.props.popup.closeable
+    },
+    // 自定义遮罩的样式
+    overlayStyle: {
+      type: [Object, String],
+      default: uni.$u.props.popup.overlayStyle
+    },
+    // 点击遮罩是否关闭弹窗
+    closeOnClickOverlay: {
+      type: Boolean,
+      default: uni.$u.props.popup.closeOnClickOverlay
+    },
+    // 层级
+    zIndex: {
+      type: [String, Number],
+      default: uni.$u.props.popup.zIndex
+    },
+    // 是否为iPhoneX留出底部安全距离
+    safeAreaInsetBottom: {
+      type: Boolean,
+      default: uni.$u.props.popup.safeAreaInsetBottom
+    },
+    // 是否留出顶部安全距离（状态栏高度）
+    safeAreaInsetTop: {
+      type: Boolean,
+      default: uni.$u.props.popup.safeAreaInsetTop
+    },
+    // 自定义关闭图标位置，top-left为左上角，top-right为右上角，bottom-left为左下角，bottom-right为右下角
+    closeIconPos: {
+      type: String,
+      default: uni.$u.props.popup.closeIconPos
+    },
+    // 是否显示圆角
+    round: {
+      type: [Boolean, String, Number],
+      default: uni.$u.props.popup.round
+    },
+    // mode=center，也即中部弹出时，是否使用缩放模式
+    zoom: {
+      type: Boolean,
+      default: uni.$u.props.popup.zoom
+    },
+    // 弹窗背景色，设置为transparent可去除白色背景
+    bgColor: {
+      type: String,
+      default: uni.$u.props.popup.bgColor
+    },
+    // 遮罩的透明度，0-1之间
+    overlayOpacity: {
+      type: [Number, String],
+      default: uni.$u.props.popup.overlayOpacity
+    }
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 757 */,
+/* 758 */,
+/* 759 */,
+/* 760 */,
+/* 761 */,
+/* 762 */,
+/* 763 */,
+/* 764 */
 /*!**************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-transition/components/uni-transition/createAnimation.js ***!
   \**************************************************************************************************/
@@ -37229,28 +37427,6 @@ function createAnimation(option, _this) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 743 */,
-/* 744 */,
-/* 745 */,
-/* 746 */,
-/* 747 */,
-/* 748 */,
-/* 749 */,
-/* 750 */,
-/* 751 */,
-/* 752 */,
-/* 753 */,
-/* 754 */,
-/* 755 */,
-/* 756 */,
-/* 757 */,
-/* 758 */,
-/* 759 */,
-/* 760 */,
-/* 761 */,
-/* 762 */,
-/* 763 */,
-/* 764 */,
 /* 765 */,
 /* 766 */,
 /* 767 */,
@@ -37262,7 +37438,29 @@ function createAnimation(option, _this) {
 /* 773 */,
 /* 774 */,
 /* 775 */,
-/* 776 */
+/* 776 */,
+/* 777 */,
+/* 778 */,
+/* 779 */,
+/* 780 */,
+/* 781 */,
+/* 782 */,
+/* 783 */,
+/* 784 */,
+/* 785 */,
+/* 786 */,
+/* 787 */,
+/* 788 */,
+/* 789 */,
+/* 790 */,
+/* 791 */,
+/* 792 */,
+/* 793 */,
+/* 794 */,
+/* 795 */,
+/* 796 */,
+/* 797 */,
+/* 798 */
 /*!**********************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-loading-icon/props.js ***!
   \**********************************************************************************/
@@ -37339,14 +37537,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 777 */,
-/* 778 */,
-/* 779 */,
-/* 780 */,
-/* 781 */,
-/* 782 */,
-/* 783 */,
-/* 784 */
+/* 799 */,
+/* 800 */,
+/* 801 */,
+/* 802 */,
+/* 803 */,
+/* 804 */,
+/* 805 */,
+/* 806 */
 /*!**************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-swiper-indicator/props.js ***!
   \**************************************************************************************/
@@ -37393,14 +37591,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 785 */,
-/* 786 */,
-/* 787 */,
-/* 788 */,
-/* 789 */,
-/* 790 */,
-/* 791 */,
-/* 792 */
+/* 807 */,
+/* 808 */,
+/* 809 */,
+/* 810 */,
+/* 811 */,
+/* 812 */,
+/* 813 */,
+/* 814 */
 /*!********************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-transition/props.js ***!
   \********************************************************************************/
@@ -37442,7 +37640,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 793 */
+/* 815 */
 /*!*************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-transition/transition.js ***!
   \*************************************************************************************/
@@ -37459,7 +37657,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 34));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
-var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 794));
+var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 816));
 // 定义一个一定时间后自动成功的promise，让调用nextTick方法处，进入下一个then方法
 var nextTick = function nextTick() {
   return new Promise(function (resolve) {
@@ -37551,7 +37749,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 794 */
+/* 816 */
 /*!***************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-transition/nvue.ani-map.js ***!
   \***************************************************************************************/
@@ -37744,14 +37942,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 795 */,
-/* 796 */,
-/* 797 */,
-/* 798 */,
-/* 799 */,
-/* 800 */,
-/* 801 */,
-/* 802 */
+/* 817 */,
+/* 818 */,
+/* 819 */,
+/* 820 */,
+/* 821 */,
+/* 822 */,
+/* 823 */,
+/* 824 */
 /*!**************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-line/props.js ***!
   \**************************************************************************/
@@ -37802,125 +38000,21 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 803 */,
-/* 804 */,
-/* 805 */,
-/* 806 */,
-/* 807 */,
-/* 808 */,
-/* 809 */,
-/* 810 */,
-/* 811 */,
-/* 812 */,
-/* 813 */,
-/* 814 */,
-/* 815 */,
-/* 816 */,
-/* 817 */
-/*!***************************************************************************!*\
-  !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-popup/props.js ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
-  props: {
-    // 是否展示弹窗
-    show: {
-      type: Boolean,
-      default: uni.$u.props.popup.show
-    },
-    // 是否显示遮罩
-    overlay: {
-      type: Boolean,
-      default: uni.$u.props.popup.overlay
-    },
-    // 弹出的方向，可选值为 top bottom right left center
-    mode: {
-      type: String,
-      default: uni.$u.props.popup.mode
-    },
-    // 动画时长，单位ms
-    duration: {
-      type: [String, Number],
-      default: uni.$u.props.popup.duration
-    },
-    // 是否显示关闭图标
-    closeable: {
-      type: Boolean,
-      default: uni.$u.props.popup.closeable
-    },
-    // 自定义遮罩的样式
-    overlayStyle: {
-      type: [Object, String],
-      default: uni.$u.props.popup.overlayStyle
-    },
-    // 点击遮罩是否关闭弹窗
-    closeOnClickOverlay: {
-      type: Boolean,
-      default: uni.$u.props.popup.closeOnClickOverlay
-    },
-    // 层级
-    zIndex: {
-      type: [String, Number],
-      default: uni.$u.props.popup.zIndex
-    },
-    // 是否为iPhoneX留出底部安全距离
-    safeAreaInsetBottom: {
-      type: Boolean,
-      default: uni.$u.props.popup.safeAreaInsetBottom
-    },
-    // 是否留出顶部安全距离（状态栏高度）
-    safeAreaInsetTop: {
-      type: Boolean,
-      default: uni.$u.props.popup.safeAreaInsetTop
-    },
-    // 自定义关闭图标位置，top-left为左上角，top-right为右上角，bottom-left为左下角，bottom-right为右下角
-    closeIconPos: {
-      type: String,
-      default: uni.$u.props.popup.closeIconPos
-    },
-    // 是否显示圆角
-    round: {
-      type: [Boolean, String, Number],
-      default: uni.$u.props.popup.round
-    },
-    // mode=center，也即中部弹出时，是否使用缩放模式
-    zoom: {
-      type: Boolean,
-      default: uni.$u.props.popup.zoom
-    },
-    // 弹窗背景色，设置为transparent可去除白色背景
-    bgColor: {
-      type: String,
-      default: uni.$u.props.popup.bgColor
-    },
-    // 遮罩的透明度，0-1之间
-    overlayOpacity: {
-      type: [Number, String],
-      default: uni.$u.props.popup.overlayOpacity
-    }
-  }
-};
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 818 */,
-/* 819 */,
-/* 820 */,
-/* 821 */,
-/* 822 */,
-/* 823 */,
-/* 824 */,
-/* 825 */
+/* 825 */,
+/* 826 */,
+/* 827 */,
+/* 828 */,
+/* 829 */,
+/* 830 */,
+/* 831 */,
+/* 832 */,
+/* 833 */,
+/* 834 */,
+/* 835 */,
+/* 836 */,
+/* 837 */,
+/* 838 */,
+/* 839 */
 /*!****************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-picker/props.js ***!
   \****************************************************************************/
@@ -38017,21 +38111,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 826 */,
-/* 827 */,
-/* 828 */,
-/* 829 */,
-/* 830 */,
-/* 831 */,
-/* 832 */,
-/* 833 */,
-/* 834 */,
-/* 835 */,
-/* 836 */,
-/* 837 */,
-/* 838 */,
-/* 839 */,
-/* 840 */
+/* 840 */,
+/* 841 */,
+/* 842 */,
+/* 843 */,
+/* 844 */,
+/* 845 */,
+/* 846 */,
+/* 847 */
 /*!*****************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-overlay/props.js ***!
   \*****************************************************************************/
@@ -38073,14 +38160,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 841 */,
-/* 842 */,
-/* 843 */,
-/* 844 */,
-/* 845 */,
-/* 846 */,
-/* 847 */,
-/* 848 */
+/* 848 */,
+/* 849 */,
+/* 850 */,
+/* 851 */,
+/* 852 */,
+/* 853 */,
+/* 854 */,
+/* 855 */
 /*!********************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-status-bar/props.js ***!
   \********************************************************************************/
@@ -38106,14 +38193,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 849 */,
-/* 850 */,
-/* 851 */,
-/* 852 */,
-/* 853 */,
-/* 854 */,
-/* 855 */,
-/* 856 */
+/* 856 */,
+/* 857 */,
+/* 858 */,
+/* 859 */,
+/* 860 */,
+/* 861 */,
+/* 862 */,
+/* 863 */
 /*!*********************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-safe-bottom/props.js ***!
   \*********************************************************************************/
@@ -38133,14 +38220,21 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 857 */,
-/* 858 */,
-/* 859 */,
-/* 860 */,
-/* 861 */,
-/* 862 */,
-/* 863 */,
-/* 864 */
+/* 864 */,
+/* 865 */,
+/* 866 */,
+/* 867 */,
+/* 868 */,
+/* 869 */,
+/* 870 */,
+/* 871 */,
+/* 872 */,
+/* 873 */,
+/* 874 */,
+/* 875 */,
+/* 876 */,
+/* 877 */,
+/* 878 */
 /*!*****************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-toolbar/props.js ***!
   \*****************************************************************************/

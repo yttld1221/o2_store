@@ -7,35 +7,35 @@
 		<!-- 内容 -->
 		<view class="the-types" :style="'margin-top:'+(statusBarHeight+navBarHeight)+'px;'">
 			<view @click="toPush_Zudui('话题')" class="item">
-				<image src="/static/3_huati.png" mode="widthFix"></image>
+				<image src="/static/icon-ht.png" mode="widthFix"></image>
 				<view>话题</view>
 			</view>
 			<view v-if="theLevel == 2" @click="toPush_Zudui('组队/搭子')" class="item">
-				<image src="/static/3_zudui.png" mode="widthFix"></image>
+				<image src="/static/icon-zd.png" mode="widthFix"></image>
 				<view>组队/搭子</view>
 			</view>
 			<view v-if="theLevel == 2" @click="toPush_Zudui('分享/安利')" class="item">
-				<image src="/static/3_fenxiang.png" mode="widthFix"></image>
+				<image src="/static/icon-fx.png" mode="widthFix"></image>
 				<view>分享/安利</view>
 			</view>
 			<view v-if="theLevel == 2" @click="toPush_Zudui('二手闲置')" class="item">
-				<image src="/static/3_ershou.png" mode="widthFix"></image>
+				<image src="/static/icon-xz.png" mode="widthFix"></image>
 				<view>二手闲置</view>
 			</view>
 			<view v-if="theLevel == 2" @click="toPush_Zudui('兼职')" class="item">
-				<image src="/static/3_jianzhi.png" mode="widthFix"></image>
+				<image src="/static/icon-jz.png" mode="widthFix"></image>
 				<view>兼职</view>
 			</view>
 			<view v-if="theLevel == 2" @click="toPush_Zudui('表白')" class="item">
-				<image src="/static/3_biaobai.png" mode="widthFix"></image>
+				<image src="/static/icon-bb.png" mode="widthFix"></image>
 				<view>表白</view>
 			</view>
 			<view v-if="theLevel == 2" @click="toPush_Zudui('求助')" class="item">
-				<image src="/static/3_qiuzhu.png" mode="widthFix"></image>
+				<image src="/static/icon-qz.png" mode="widthFix"></image>
 				<view>求助</view>
 			</view>
 			<view v-if="theLevel == 2" @click="toPush_Zudui('其他')" class="item">
-				<image src="/static/3_qita.png" mode="widthFix"></image>
+				<image src="/static/icon-qt.png" mode="widthFix"></image>
 				<view>其他</view>
 			</view>
 		</view>

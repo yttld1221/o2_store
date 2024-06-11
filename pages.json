@@ -289,6 +289,15 @@
 						"navigationBarTitleText": "",
 						"enablePullDownRefresh": false
 					}
+				},
+				{
+					"path": "pages/push/index",
+					"style": {
+						"navigationBarBackgroundColor": "#ffffff",
+						"navigationBarTextStyle": "black",
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
 				}
 			]
 		}

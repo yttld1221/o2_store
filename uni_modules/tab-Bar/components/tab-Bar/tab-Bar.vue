@@ -10,13 +10,13 @@
       :key="index"
       @click="changeTab(index)"
     >
-      <view>
+      <view :class="{ 'img-box': index == 2 }">
         <image
           :animation="index == 3 ? animationData : ''"
           :class="{ img: true, push: index == 2 }"
           mode="widthFix"
           :src="item.selectedIconPath"
-          v-if="current == index"
+          v-if="momentIndex == index"
         ></image>
         <image
           :animation="index == 3 ? animationData : ''"
@@ -25,13 +25,56 @@
           :src="item.iconPath"
           v-else
         ></image>
-        <view class="text active" v-if="current == index">{{ item.text }}</view>
+        <image
+          class="push-hidden"
+          :class="{ img: true }"
+          mode="widthFix"
+          src="@/static/2_tabbar_follow@3x.png"
+          v-if="index == 2"
+        ></image>
+        <view class="text active" v-if="momentIndex == index">{{
+          item.text
+        }}</view>
         <view class="text" v-else
           >{{ item.text
           }}<text v-if="index == 3 && isRedTip" class="red-tip"></text
         ></view>
       </view>
     </view>
+    <u-popup
+      @close="closePop()"
+      :duration="50"
+      :safeAreaInsetBottom="false"
+      :round="10"
+      :show="show"
+      mode="bottom"
+    >
+      <view class="push-pop">
+        <view class="pop-title">选择分类</view>
+        <view class="push-container">
+          <view
+            @click="toPush(item)"
+            class="push-item"
+            v-for="(item, index) in pushListTop"
+            :key="index"
+          >
+            <image :src="item.url"></image>
+            {{ item.label }}
+          </view>
+        </view>
+        <view class="push-container">
+          <view
+            @click="toPush(item)"
+            class="push-item"
+            v-for="(item, index) in pushListBottom"
+            :key="index"
+          >
+            <image :src="item.url"></image>
+            {{ item.label }}
+          </view>
+        </view>
+      </view>
+    </u-popup>
   </view>
 </template>
 
@@ -39,12 +82,68 @@
 export default {
   name: "tabbar",
   props: ["current"],
+  watch: {
+    current: {
+      handler(newVal) {
+        this.momentIndex = newVal;
+      },
+      deep: true,
+    },
+  },
+  mounted() {
+    this.momentIndex = this.current;
+  },
   data() {
     return {
+      momentIndex: 0,
+      show: false,
       animation: null,
       // 动画
       animationData: {},
-
+      pushListTop: [
+        {
+          label: "话题",
+          url: require("@/static/icon-ht.png"),
+          show: true,
+        },
+        {
+          label: "组队/搭子",
+          url: require("@/static/icon-zd.png"),
+          show: true,
+        },
+        {
+          label: "分享/安利",
+          url: require("@/static/icon-fx.png"),
+          show: true,
+        },
+        {
+          label: "二手闲置",
+          url: require("@/static/icon-xz.png"),
+          show: true,
+        },
+      ],
+      pushListBottom: [
+        {
+          label: "兼职",
+          url: require("@/static/icon-jz.png"),
+          show: true,
+        },
+        {
+          label: "表白",
+          url: require("@/static/icon-bb.png"),
+          show: true,
+        },
+        {
+          label: "求助",
+          url: require("@/static/icon-qz.png"),
+          show: true,
+        },
+        {
+          label: "其他",
+          url: require("@/static/icon-qt.png"),
+          show: true,
+        },
+      ],
       list: [
         {
           pagePath: "pages/index/index",
@@ -88,6 +187,15 @@ export default {
     },
   },
   methods: {
+    closePop() {
+      this.show = false;
+      this.momentIndex = this.current;
+    },
+    toPush(item) {
+      uni.navigateTo({
+        url: "/page_product/pages/push/index?type=" + item.label,
+      });
+    },
     // 动画效果
     animtionAction: function () {
       this.animation = uni.createAnimation({
@@ -120,16 +228,8 @@ export default {
     changeTab(e) {
       if (e == 2) {
         if ([1, 2].includes(this.$store.state.theLogonUser.level)) {
-          if (this.$store.state.isPage_2 == true) {
-            // 表示已经在发布页，证明是第二次点击
-            uni.switchTab({
-              url: "/" + this.list[this.$store.state.previousPage].pagePath,
-            });
-          } else {
-            uni.switchTab({
-              url: "/" + this.list[e].pagePath,
-            });
-          }
+          this.show = !this.show;
+          this.momentIndex = this.show ? 2 : this.current;
         } else {
           uni.navigateTo({
             url:
@@ -150,20 +250,20 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .tabbar {
+  box-shadow: 0rpx -5rpx 6rpx 1rpx rgba(0, 0, 0, 0.04);
   font-size: 1.5vh;
   position: fixed;
   left: 0;
   bottom: 0;
-  z-index: 9;
+  z-index: 100;
   width: 100%;
-  height: 6vh;
+  height: 125rpx;
   display: flex;
   align-items: center;
   justify-content: space-around;
   background-color: #fff;
-  padding: 20rpx 0;
 }
 
 .message {
@@ -198,6 +298,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 10090;
+  background: white;
 }
 
 .tabbar-item-1 {
@@ -210,8 +312,8 @@ export default {
 
 .tabbar-item-push {
   position: relative;
-  bottom: 1.8vh;
-  margin-bottom: 2.2vh;
+  z-index: 10080;
+  background: transparent !important;
 }
 
 .img {
@@ -221,8 +323,13 @@ export default {
 }
 
 .push {
-  width: 23vw;
-  height: 18.1125vw;
+  width: 100%;
+  position: absolute;
+  margin-top: -55rpx;
+  top: 0;
+}
+.push-hidden {
+  visibility: hidden;
 }
 
 .text {
@@ -241,5 +348,38 @@ export default {
 
 .text.active {
   color: #ff812f;
+}
+.img-box {
+  width: 100%;
+}
+.push-pop {
+  padding: 45rpx 52rpx 125rpx;
+  .pop-title {
+    font-family: PingFang SC;
+    font-weight: 500;
+    font-size: 34rpx;
+    color: #000000;
+    margin-bottom: 6rpx;
+  }
+  .push-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    & > view {
+      margin-top: 40rpx;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: PingFang SC;
+      font-weight: 400;
+      font-size: 24rpx;
+      color: #000000;
+      image {
+        width: 98rpx;
+        height: 99rpx;
+        margin-bottom: 26rpx;
+      }
+    }
+  }
 }
 </style>
