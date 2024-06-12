@@ -536,9 +536,11 @@ var _default = {
               _context.next = 2;
               return that.getMyStatisticsNum();
             case 2:
-              // 接口，默认请求 收藏
-              that.getShopList();
-            case 3:
+              that.theGetMomentsListPage = 1;
+              that.school_datas = [];
+              that.totalCount = 10;
+              that.line_4_itemsSelected(that.line_4_items_index, "其他");
+            case 6:
             case "end":
               return _context.stop();
           }

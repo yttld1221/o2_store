@@ -187,11 +187,15 @@ export default {
     },
   },
   methods: {
+    pubLish() {
+      this.momentIndex = 0;
+    },
     closePop() {
       this.show = false;
       this.momentIndex = this.current;
     },
     toPush(item) {
+      this.closePop();
       uni.navigateTo({
         url: "/page_product/pages/push/index?type=" + item.label,
       });

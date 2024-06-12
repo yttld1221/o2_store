@@ -1,5 +1,150 @@
 <template>
-  <view class="push"> </view>
+  <view class="push">
+    <view class="push-form">
+      <view class="form-item">
+        <u--input
+          :placeholder="nameObj[type]"
+          v-model="theData.title"
+          placeholderStyle="color:#666666;"
+          border="none"
+        ></u--input>
+      </view>
+      <view class="form-item form-content">
+        <u--textarea
+          autoHeight
+          border="none"
+          placeholderStyle="color:#666666;"
+          v-model="theData.content"
+          :placeholder="contentObj[type]"
+        >
+        </u--textarea>
+      </view>
+      <view class="upload-box" v-if="type != '兼职'">
+        <view
+          @click="prewFile(item, index)"
+          class="filelist-item"
+          v-for="(item, index) in fileList"
+          :key="index"
+        >
+          <view class="del-icon" @click.native.stop="delFile(index)">
+            <u-icon name="close" color="#FFFFFF" size="12"></u-icon>
+          </view>
+          <image class="image-style" mode="aspectFill" :src="item.url" />
+        </view>
+        <view
+          class="upload-btn"
+          v-if="fileList.length < 9"
+          @click="chooseMedia()"
+        >
+          <u-icon name="camera" color="#FFFFFF" size="50"></u-icon>
+        </view>
+      </view>
+      <view class="the-buttons" v-if="type != '分享/安利'">
+        <view
+          @click="openPopup_huati"
+          :class="{
+            'the-button': true,
+            label_selected: theSelectedLabels.length,
+          }"
+          >#添加话题
+        </view>
+        <view
+          v-if="!['分享/安利', '兼职', '组队/搭子'].includes(type)"
+          @click="toAnonymous"
+          :class="{
+            'the-button': true,
+            'the-button-1': theData.is_anonymous == 1,
+          }"
+        >
+          <image
+            v-if="theData.is_anonymous == 2"
+            src="/static/3_niming_1.png"
+            mode="widthFix"
+          ></image>
+          <image
+            v-if="theData.is_anonymous == 1"
+            src="/static/3_niming_2.png"
+            mode="widthFix"
+          ></image>
+          <view :class="{ is_anonymous: theData.is_anonymous == 1 }"
+            >匿名发布</view
+          >
+        </view>
+      </view>
+    </view>
+    <view class="choose-box">
+      <view class="choose-item" @click="toRange()">
+        <view class="left-label">{{
+          type == "分享/安利" ? "选择范围" : "公开范围"
+        }}</view>
+        <view class="flex-algin">
+          <view class="right-text">{{
+            theSelectedranges.length
+              ? `当前已选（${theSelectedranges.length}）`
+              : "默认不限"
+          }}</view>
+          <u-icon slot="right" name="arrow-right"></u-icon>
+        </view>
+      </view>
+    </view>
+    <view class="safe-bottom"></view>
+    <view class="fix-bottom-box">
+      <view class="fix-bottom">
+        <view
+          class="cgx-box"
+          @click="save(2)"
+          v-if="!['组队/搭子', '分享/安利'].includes(type)"
+        >
+          <image src="@/static/icon-cgx.png"></image>
+          <text>存草稿</text>
+        </view>
+        <view class="pay-btn" @click="save(1)">立即发布</view>
+      </view>
+    </view>
+    <!-- 添加话题的弹窗 -->
+    <uni-popup ref="huati_popup" type="bottom">
+      <view class="huati_popup-box">
+        <!-- <view class="back" @click="closePopup_huati">
+					<uni-icons type="undo-filled" size="20" color="#727272"></uni-icons>
+					<text>确认返回</text>
+				</view> -->
+        <view class="the-selected-labels">
+          <view class="the-selected-labels-title">可添加多个话题哦~</view>
+          <view class="tips">(提示：轻击可删除哦~)</view>
+          <view class="the-selected-labels-label">
+            <view
+              @click="deletedOne(index)"
+              class="label-one"
+              v-for="(item, index) in theSelectedLabels"
+              >{{ item }}</view
+            >
+          </view>
+        </view>
+        <view class="the-tip-labels">
+          <view
+            @click="addLabel(item)"
+            class="label-one"
+            v-for="(item, index) in theLabels"
+            >#{{ item }}</view
+          >
+        </view>
+
+        <!-- 评论输入框 -->
+        <view class="comment-input" :style="'bottom:' + 0 + 'px;'">
+          <text>#</text>
+          <uni-easyinput
+            v-model="theHandAddLabel"
+            @confirm="handAddLabel()"
+            confirmType="next"
+            placeholder="想要说点什么..."
+            :inputBorder="false"
+          />
+          <view @click="handAddLabel()" class="comment-button">添加</view>
+          <!-- <view @click="handAddLabel()" class="comment-button">确认</view> -->
+        </view>
+      </view>
+    </uni-popup>
+  </view>
 </template>
 
 <script>
@@ -7,6 +152,16 @@ export default {
   components: {},
   data() {
     return {
+      theSelectedranges: [],
+      theHandAddLabel: "",
+      theLabels: [],
+      theSelectedLabels: [],
+      fileList: [],
+      theData: {
+        title: "",
+        content: "",
+        is_anonymous: 2,
+      },
       type: "",
       titleObj: {
         话题: "发布话题",
@@ -18,6 +173,26 @@ export default {
         求助: "发布求助",
         其他: "发布其他",
       },
+      nameObj: {
+        话题: "请输入推荐标题",
+        "组队/搭子": "请输入组队名称",
+        "分享/安利": "请输入推荐标题",
+        二手闲置: "请输入推荐标题",
+        兼职: "请输入职位名称",
+        表白: "请输入推荐标题",
+        求助: "请输入推荐标题",
+        其他: "请输入推荐标题",
+      },
+      contentObj: {
+        话题: "在这里输入内容...",
+        "组队/搭子": "请输入组队说明...",
+        "分享/安利": "正文介绍...",
+        二手闲置: "在这里输入内容...",
+        兼职: "介绍工作内容、职位要求、加分项",
+        表白: "在这里输入内容...",
+        求助: "在这里输入内容...",
+        其他: "在这里输入内容...",
+      },
     };
   },
   onLoad(options) {
@@ -27,9 +202,534 @@ export default {
         title: this.titleObj[options.type],
       });
     }
+    uni.$on("getRange", (data) => {
+      this.theSelectedranges = data;
+    });
   },
-  methods: {},
+  methods: {
+    // 发布
+    save(is_on) {
+      if (!this.theData.title) {
+        uni.showToast({
+          title: this.nameObj[this.type],
+          duration: 500,
+          icon: "none",
+        });
+        return false;
+      }
+      //图片
+      let url = this.fileList.length
+        ? this.fileList.map((el) => el.url).join(",")
+        : "";
+      let area_codes = this.theSelectedranges.length
+        ? this.theSelectedranges.map((el) => el.code).join(",")
+        : "";
+      // 标签
+      let label = this.theSelectedLabels.length
+        ? this.theSelectedLabels.join(",")
+        : "";
+      let param = {
+        ...this.theData,
+        id: 0,
+        is_on,
+        type: this.type,
+        url,
+        label,
+        area_codes,
+      };
+      if (["分享/安利", "兼职", "组队/搭子"].includes(this.type)) {
+        delete param.is_anonymous;
+      }
+      this.API.push
+        .publish(param)
+        .then((res) => {
+          uni.$emit("publishSchool", {});
+          uni.switchTab({
+            url: "/pages/index/index",
+            success: () => {
+              uni.showToast({
+                title: is_on == 1 ? "发布成功" : "保存成功",
+                icon: "none",
+              });
+            },
+          });
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.save(is_on);
+          }
+        });
+    },
+    // 跳转范围选择
+    toRange: function () {
+      let arr = encodeURIComponent(JSON.stringify(this.theSelectedranges));
+      uni.navigateTo({
+        url: "/page_product/pages/push/range?list=" + arr,
+      });
+    },
+    // 添加标签及校验
+    addLabel: function (item) {
+      let arr = this.theSelectedLabels.filter((el) => el == item);
+      if (arr.length) {
+        uni.showToast({
+          title: "已添加过这个话题了哦~",
+          duration: 1500,
+          icon: "none",
+        });
+      } else {
+        this.theSelectedLabels.push(item);
+      }
+    },
+    // 手动输入话题
+    handAddLabel: function () {
+      if (this.theHandAddLabel) {
+        this.addLabel(this.theHandAddLabel);
+        this.theHandAddLabel = "";
+      }
+    },
+    // 删除一个标签
+    deletedOne: function (index) {
+      this.theSelectedLabels.splice(index, 1);
+    },
+    // 打开话题选择弹窗
+    async openPopup_huati() {
+      await this.getLabels();
+      this.$refs.huati_popup.open();
+    },
+    // 关闭
+    closePopup_huati() {
+      this.$refs.huati_popup.close();
+    },
+    // 是否匿名发帖
+    toAnonymous: function () {
+      if (this.theData.is_anonymous == 1) {
+        this.theData.is_anonymous = 2;
+        uni.showToast({
+          title: "已取消匿名",
+          duration: 1500,
+          icon: "none",
+        });
+      } else {
+        this.theData.is_anonymous = 1;
+        uni.showToast({
+          title: "已匿名",
+          duration: 1500,
+          icon: "none",
+        });
+      }
+    },
+    // 根据类型获取所有校园墙标签
+    getLabels: function () {
+      let that = this;
+      return new Promise(function (resolve, reject) {
+        uni.request({
+          url: that.$store.state.theUrl + "/wechat/moments/getLabels",
+          method: "POST",
+          header: {
+            token: that.$store.state.theToken,
+          },
+          data: {
+            type: that.type, //校园墙类型：话题（默认）、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
+          },
+          success: (res) => {
+            console.log("getLabels_res", res);
+            if (res.data.code == 0) {
+              // 重置
+              that.theLabels = [];
+              for (let i = 0; i < res.data.data.length; i++) {
+                that.theLabels.push(res.data.data[i].title);
+              }
+
+              // 只有这里有resolve，也就是await这个方法的话，只有返回code  == 0 才能继续
+              resolve();
+            } else if (res.data.code == 500) {
+              uni.showToast({
+                title: "服务器连接失败，请反馈官方客服哦~",
+                duration: 2500,
+                icon: "none",
+              });
+            } else if (res.data.code == 410) {
+              let __that = that;
+              // 异步转同步，
+              (async function () {
+                // 登录
+                await __that.$store.dispatch("toLogon", {});
+
+                // 重新获取
+                __that.openPopup_huati();
+              })();
+            } else {
+              uni.showToast({
+                title: res.data.msg,
+                duration: 2500,
+                icon: "none",
+              });
+            }
+          },
+          fail: (res) => {
+            uni.showToast({
+              title: "网络失败，请重试！多次无效后，反馈官方客服哦！",
+              duration: 2500,
+              icon: "none",
+            });
+
+            resolve();
+          },
+        });
+      });
+    },
+    //   预览
+    prewFile(item, index) {
+      uni.previewImage({
+        current: index, // 当前显示图片索引
+        urls: this.fileList.map((el) => el.url), // 需要预览的图片http链接列表
+      });
+    },
+    // 删除文件
+    delFile(index) {
+      this.fileList.splice(index, 1);
+    },
+    chooseMedia() {
+      uni.chooseImage({
+        count: 9 - this.fileList.length, // 默认9, 设置图片的选择数量
+        sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ["album", "camera"],
+        success: async (e) => {
+          console.log(e);
+          let nowDateTime = this.$public.getNowDateTime();
+          let theName = [];
+          for (let i = 0; i < e.tempFiles.length; i++) {
+            theName.push(nowDateTime + "_" + i);
+          }
+
+          await this.$public
+            .upLoadImage({
+              type: "img",
+              tempFilePaths: e.tempFilePaths,
+              name: theName,
+              tempFiles: e.tempFiles,
+            })
+            .then((res) => {
+              console.log(res);
+              if (res.length) {
+                this.fileList = this.fileList.concat(res);
+                console.log(this.fileList);
+              }
+            });
+        },
+        fail: (error) => {
+          console.error("choose media fail:", error);
+        },
+      });
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
+.push {
+  padding: 0 0 146rpx;
+  .push-form {
+    padding: 0 30rpx;
+    border-top: 20rpx solid #fafafa;
+  }
+  .form-item {
+    padding: 40rpx 0;
+    border-bottom: 1rpx solid rgba(144, 144, 144, 0.4);
+    /deep/ .u-textarea {
+      min-height: 160rpx !important;
+      padding: 0 !important;
+      .u-textarea__field {
+        font-size: 24rpx !important;
+        color: #666666 !important;
+      }
+    }
+    /deep/ .input-placeholder {
+      font-family: PingFang SC;
+      font-weight: 400;
+      font-size: 28rpx !important;
+      color: #666666 !important;
+    }
+  }
+
+  .form-content {
+    border-bottom: none;
+    /deep/ .input-placeholder {
+      font-size: 24rpx !important;
+    }
+  }
+  .upload-box {
+    display: flex;
+    flex-wrap: wrap;
+    .filelist-item {
+      position: relative;
+      margin: 0 30rpx 30rpx 0;
+      & > .del-icon {
+        cursor: pointer;
+        padding: 5rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #ff812f;
+        margin-top: -14rpx;
+        position: absolute;
+        right: 0rpx;
+        margin-right: -14rpx;
+        z-index: 6;
+      }
+      & > image {
+        width: 180rpx;
+        height: 180rpx;
+        border-radius: 14rpx;
+      }
+      .video-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 140rpx;
+        height: 140rpx;
+        border-radius: 20rpx;
+        background: rgba(0, 0, 0, 0.5);
+      }
+    }
+    .upload-btn {
+      width: 180rpx;
+      height: 180rpx;
+      background: #ededed;
+      border-radius: 14rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 30rpx;
+    }
+  }
+
+  .the-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding-bottom: 30rpx;
+    .the-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f3f3f3;
+      height: 52rpx;
+      line-height: 52rpx;
+      padding: 0 30rpx;
+      border-radius: 200rpx;
+      font-family: PingFang SC;
+      font-weight: 400;
+      font-size: 24rpx;
+      color: #333333;
+    }
+
+    .label_selected {
+      background-color: #ff812f;
+      color: #ffffff;
+    }
+
+    .the-button image {
+      width: 24rpx;
+      height: 24rpx;
+      margin-right: 12rpx;
+    }
+
+    .is_anonymous {
+      color: #ffffff;
+    }
+
+    .the-button-1 {
+      background-color: #ff812f;
+    }
+  }
+  .huati_popup-box {
+    height: 85vh;
+    width: 100vw;
+    background-color: #ffffff;
+    border-radius: 30rpx 30rpx 0 0;
+
+    .the-selected-labels-title {
+      height: 6.5vh;
+      line-height: 6.5vh;
+      text-align: start;
+      color: #000000;
+      font-size: 15px;
+      margin-left: 3.5vw;
+    }
+
+    .the-selected-labels-label {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 93vw;
+      padding-left: 3.5vw;
+      padding-right: 3.5vw;
+      padding-bottom: 1vh;
+      background-color: #f3f3f3;
+      height: 24vh;
+      align-content: flex-start;
+      overflow: scroll;
+    }
+
+    .tips {
+      font-size: 12px;
+      color: #bbbbbb;
+      margin-left: 3.5vw;
+      height: 3.5vh;
+      line-height: 3.5vh;
+    }
+
+    .the-tip-labels {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 93vw;
+      padding-left: 3.5vw;
+      padding-right: 3.5vw;
+
+      height: 40vh;
+      overflow: scroll;
+      padding-bottom: 11vh;
+    }
+
+    .label-one {
+      padding: 10rpx 30rpx;
+      background-color: #ffedd5;
+      margin: 30rpx 30rpx 0 0;
+      border-radius: 200rpx;
+      color: #727272;
+      font-size: 26rpx;
+    }
+
+    .comment-input {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      position: fixed;
+      bottom: 0;
+      z-index: 999;
+      padding-left: 3.5vw;
+      padding-right: 3.5vw;
+      padding-top: 2.5vh;
+      padding-bottom: 2.5vh;
+      background-color: #ffffff;
+      width: 93vw;
+    }
+
+    .comment-input text {
+      font-size: 13px;
+      margin-left: 3.5vw;
+    }
+
+    .comment-button {
+      padding: 10rpx 30rpx;
+      background-color: #ff812f;
+      color: #ffffff;
+      border-radius: 200rpx;
+      text-align: center;
+      margin-left: 20rpx;
+    }
+  }
+  .choose-box {
+    border-top: 20rpx solid #fafafa;
+    background: #ffffff;
+    padding: 0 30rpx;
+    .choose-item {
+      padding: 39rpx 0;
+      border-bottom: 1rpx solid rgba(144, 144, 144, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .left-label {
+        font-family: PingFang SC;
+        font-weight: 600;
+        font-size: 28rpx;
+        color: #333333;
+        width: 250rpx;
+      }
+      .right-text {
+        font-family: PingFang SC;
+        font-weight: 600;
+        font-size: 24rpx;
+        color: #333333;
+        line-height: 34rpx;
+      }
+      /deep/.uicon-arrow-right {
+        margin: 2rpx 0 0 10rpx;
+        font-size: 24rpx !important;
+        color: #333333 !important;
+      }
+
+      /deep/ .u-input__content__field-wrapper__field {
+        text-align: right !important;
+        // 重要是这个属性，设置光标的位置，ltr时是鼠标光标在右侧，rtl时是鼠标光标在左侧
+        direction: ltr;
+      }
+      /deep/ .input-placeholder {
+        text-align: right;
+        font-family: PingFang SC;
+        font-weight: 500;
+        font-size: 24rpx;
+        color: #666666;
+      }
+    }
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .fix-bottom-box {
+    z-index: 10;
+    background: #ffffff;
+    box-shadow: 0rpx 0rpx 7rpx 1rpx rgba(0, 0, 0, 0.04);
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 25rpx 30rpx;
+    box-sizing: border-box;
+    .fix-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .pay-btn {
+      width: 100%;
+      height: 76rpx;
+      background: #ff812f;
+      border-radius: 38rpx;
+      font-family: PingFang SC;
+      font-weight: 400;
+      font-size: 26rpx;
+      color: #ffffff;
+      line-height: 76rpx;
+      text-align: center;
+    }
+    .cgx-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 36rpx;
+      image {
+        width: 34rpx;
+        height: 30rpx;
+        margin-bottom: 21rpx;
+      }
+      text {
+        font-family: PingFang SC;
+        font-weight: 400;
+        font-size: 22rpx;
+        color: #333333;
+        word-break: keep-all;
+      }
+    }
+  }
+  .flex-algin {
+    display: flex;
+    align-items: center;
+  }
+}
 </style>

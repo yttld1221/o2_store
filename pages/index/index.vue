@@ -594,6 +594,7 @@ export default {
       await this.getMomentsList("school");
     });
     uni.$on("publishSchool", async (data) => {
+      this.$refs.theMessage.pubLish();
       this.theTitleIndex = 1;
       this.theGetMomentsListPage = 1;
       this.school_datas = [];

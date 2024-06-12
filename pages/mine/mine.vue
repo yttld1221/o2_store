@@ -345,9 +345,10 @@ export default {
     (async function () {
       // 接口：获取当前几个统计数据（关注、粉丝、积分等）
       await that.getMyStatisticsNum();
-
-      // 接口，默认请求 收藏
-      that.getShopList();
+      that.theGetMomentsListPage = 1;
+      that.school_datas = [];
+      that.totalCount = 10;
+      that.line_4_itemsSelected(that.line_4_items_index, "其他");
     })();
 
     // 记录当前的previousPage，用于二次点击发布回到原来页面

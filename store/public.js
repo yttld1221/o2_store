@@ -249,13 +249,13 @@ function upLoadImage(payload) {
 						// 登录
 						await store.dispatch('toLogon', {});
 
-						uni.redirectTo({
-							url: '/pages/push/push_zudui?type=' + payload.type
-						})
+						// uni.redirectTo({
+						// 	url: '/pages/push/push_zudui?type=' + payload.type
+						// })
 						// 重新调用没用，因为需要选择图片的操作，不然无法传参
 						// __that.upLoadImage();
 						uni.showToast({
-							title: '很抱歉(^■^*)，页面过期，已为您重新刷新~',
+							title: '很抱歉，页面过期，已为您重新刷新~',
 							duration: 2500,
 							icon: 'none'
 						})

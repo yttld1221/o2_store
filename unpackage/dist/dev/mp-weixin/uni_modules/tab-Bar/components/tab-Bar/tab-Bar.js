@@ -315,11 +315,15 @@ var _default = {
     }
   },
   methods: {
+    pubLish: function pubLish() {
+      this.momentIndex = 0;
+    },
     closePop: function closePop() {
       this.show = false;
       this.momentIndex = this.current;
     },
     toPush: function toPush(item) {
+      this.closePop();
       uni.navigateTo({
         url: "/page_product/pages/push/index?type=" + item.label
       });

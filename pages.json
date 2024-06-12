@@ -75,14 +75,6 @@
 			}
 		},
 		{
-			"path": "pages/push/range",
-			"style": {
-				"navigationBarBackgroundColor": "#ffffff",
-				"navigationBarTextStyle": "black",
-				"navigationBarTitleText": "发布范围"
-			}
-		},
-		{
 			"path": "pages/message/message",
 			"style": {
 				"navigationStyle": "custom"
@@ -297,6 +289,14 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "",
 						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "pages/push/range",
+					"style": {
+						"navigationBarBackgroundColor": "#ffffff",
+						"navigationBarTextStyle": "black",
+						"navigationBarTitleText": "发布范围"
 					}
 				}
 			]

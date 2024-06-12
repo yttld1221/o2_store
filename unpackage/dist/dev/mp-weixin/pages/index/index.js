@@ -613,12 +613,13 @@ var _default = {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                _this2.$refs.theMessage.pubLish();
                 _this2.theTitleIndex = 1;
                 _this2.theGetMomentsListPage = 1;
                 _this2.school_datas = [];
-                _context3.next = 5;
+                _context3.next = 6;
                 return _this2.getMomentsList();
-              case 5:
+              case 6:
               case "end":
                 return _context3.stop();
             }
