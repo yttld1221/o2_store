@@ -73,7 +73,11 @@
       </view>
     </view>
     <view class="choose-box">
-      <view class="choose-item" @click="toRange()">
+      <view
+        class="choose-item"
+        v-if="!['组队/搭子'].includes(type)"
+        @click="toRange()"
+      >
         <view class="left-label">{{
           type == "分享/安利" ? "选择范围" : "公开范围"
         }}</view>
@@ -83,6 +87,119 @@
               ? `当前已选（${theSelectedranges.length}）`
               : "默认不限"
           }}</view>
+          <u-icon slot="right" name="arrow-right"></u-icon>
+        </view>
+      </view>
+      <view v-else>
+        <view class="choose-item hope-num">
+          <view class="left-label">期望人数</view>
+          <view class="flex-algin">
+            <u--input
+              placeholderStyle="color:#666666;"
+              placeholder="请输入期望人数"
+              v-model="theData.hope_num"
+              border="none"
+              type="number"
+            ></u--input>
+          </view>
+        </view>
+        <view class="choose-item">
+          <view class="left-label">性别要求</view>
+          <u-radio-group v-model="theData.sex_type" placement="row">
+            <u-radio activeColor="#f89f12" name="不限" label="不限"></u-radio>
+            <u-radio activeColor="#f89f12" name="男" label="男"></u-radio>
+            <u-radio activeColor="#f89f12" name="女" label="女"></u-radio>
+          </u-radio-group>
+        </view>
+        <view class="choose-item form-content">
+          <view class="left-label">费用方式</view>
+          <u-radio-group v-model="theData.free_type" placement="row">
+            <u-radio activeColor="#f89f12" name="免费" label="免费"></u-radio>
+            <u-radio activeColor="#f89f12" name="AA" label="AA"></u-radio>
+          </u-radio-group>
+        </view>
+      </view>
+      <view v-if="['兼职'].includes(type)">
+        <view class="choose-item hope-num">
+          <view class="left-label">结算报酬</view>
+          <view class="flex-algin">
+            <u--input
+              placeholderStyle="color:#666666;"
+              placeholder="请输入具体金额或面议"
+              v-model="theData.wages"
+              border="none"
+              type="number"
+            ></u--input>
+          </view>
+        </view>
+        <view v-if="theData.wages != '面议'">
+          <view class="choose-item">
+            <view class="left-label">结算单位</view>
+            <u-radio-group v-model="theData.jsdw" placement="row">
+              <u-radio
+                activeColor="#f89f12"
+                name="元/小时"
+                label="元/小时"
+              ></u-radio>
+              <u-radio
+                activeColor="#f89f12"
+                name="元/天"
+                label="元/天"
+              ></u-radio>
+              <u-radio
+                activeColor="#f89f12"
+                name="元/月"
+                label="元/月"
+              ></u-radio>
+            </u-radio-group>
+          </view>
+          <view class="choose-item">
+            <view class="left-label">结算周期</view>
+            <u-radio-group v-model="theData.jszq" placement="row">
+              <u-radio activeColor="#f89f12" name="日结" label="日结"></u-radio>
+              <u-radio activeColor="#f89f12" name="周结" label="周结"></u-radio>
+              <u-radio activeColor="#f89f12" name="月结" label="月结"></u-radio>
+            </u-radio-group>
+          </view>
+        </view>
+        <view class="choose-item" @click="toAddress()">
+          <view class="left-label">兼职城市</view>
+          <view class="flex-algin">
+            <view
+              class="right-text"
+              :class="{ 'choose-text': !theData.area_name }"
+              >{{
+                theData.area_name ? theData.area_name : "（请选择兼职所在城市）"
+              }}</view
+            >
+            <u-icon slot="right" name="arrow-right"></u-icon>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="choose-box" v-if="['组队/搭子'].includes(type)">
+      <view class="choose-item" :class="{ 'choose-time': dateRange.length }">
+        <view class="left-label">活动时间</view>
+        <view class="flex-algin">
+          <uni-datetime-picker
+            :border="false"
+            v-model="dateRange"
+            type="daterange"
+            @change="dateMaskClick"
+          />
+          <u-icon slot="right" name="arrow-right"></u-icon>
+        </view>
+      </view>
+      <view class="choose-item" @click="toAddress()">
+        <view class="left-label">活动地点</view>
+        <view class="flex-algin">
+          <view
+            class="right-text"
+            :class="{ 'choose-text': !theData.area_name }"
+            >{{
+              theData.area_name ? theData.area_name : "（请选择活动地点）"
+            }}</view
+          >
           <u-icon slot="right" name="arrow-right"></u-icon>
         </view>
       </view>
@@ -148,19 +265,30 @@
 </template>
 
 <script>
+import { addressList } from "../../components/piaoyi-cityPicker/cityData";
 export default {
   components: {},
   data() {
     return {
+      task_id: 0,
+      addressArr: [],
+      dateRange: [],
       theSelectedranges: [],
       theHandAddLabel: "",
       theLabels: [],
       theSelectedLabels: [],
       fileList: [],
       theData: {
+        area_code: "",
+        area_name: "",
         title: "",
         content: "",
         is_anonymous: 2,
+        sex_type: "不限",
+        free_type: "免费",
+        settlement: "",
+        jsdw: "元/小时",
+        jszq: "日结",
       },
       type: "",
       titleObj: {
@@ -196,6 +324,7 @@ export default {
     };
   },
   onLoad(options) {
+    this.getArea();
     if (options.type) {
       this.type = options.type;
       uni.setNavigationBarTitle({
@@ -205,16 +334,104 @@ export default {
     uni.$on("getRange", (data) => {
       this.theSelectedranges = data;
     });
+    uni.$on("changePushArea", async (data) => {
+      this.theData.area_code = data.code;
+      this.getAddText(data.code);
+    });
   },
   methods: {
+    getArea() {
+      this.addressArr = [];
+      addressList.forEach((el) => {
+        this.addressArr.push({
+          value: el.code,
+          label: el.name,
+          children: el.children.map((item) => {
+            return {
+              value: item.code + "00",
+              label: item.name,
+            };
+          }),
+        });
+      });
+    },
+    getAddText(code) {
+      this.addressArr.forEach((el) => {
+        el.children.forEach((item) => {
+          if (item.value == code) {
+            this.$set(this.theData, "area_name", el.label + item.label);
+          }
+        });
+      });
+    },
+    // 跳转地址选择
+    toAddress: function () {
+      uni.navigateTo({
+        url: "/pages/index/address?type=push",
+      });
+    },
+    // 选择时间
+    dateMaskClick: function () {
+      this.theData.start_at = this.dateRange[0];
+      this.theData.end_at = this.dateRange[1];
+    },
     // 发布
     save(is_on) {
       if (!this.theData.title) {
         uni.showToast({
           title: this.nameObj[this.type],
-          duration: 500,
+          duration: 2500,
           icon: "none",
         });
+        return false;
+      }
+      let tag = true;
+      if (this.type == "组队/搭子") {
+        if (this.theData.hope_num < 2) {
+          tag = false;
+          uni.showToast({
+            title: "请至少填写2个及以上的组队期望人数",
+            duration: 2500,
+            icon: "none",
+          });
+        } else {
+          let errorObj = {
+            sex_type: "请选择性别要求",
+            free_type: "请选择费用方式",
+            start_at: "请选择活动时间",
+            end_at: "请选择活动时间",
+            area_code: "请选择活动地点",
+          };
+          for (let i in errorObj) {
+            if (!this.theData[i]) {
+              tag = false;
+              uni.showToast({
+                title: errorObj[i],
+                duration: 2500,
+                icon: "none",
+              });
+              return;
+            }
+          }
+        }
+      } else if (this.type == "兼职") {
+        let errorObj = {
+          wages: "请输入具体金额或面议",
+          area_code: "请选择兼职所在城市",
+        };
+        for (let i in errorObj) {
+          if (!this.theData[i]) {
+            tag = false;
+            uni.showToast({
+              title: errorObj[i],
+              duration: 2500,
+              icon: "none",
+            });
+            return;
+          }
+        }
+      }
+      if (!tag) {
         return false;
       }
       //图片
@@ -228,6 +445,13 @@ export default {
       let label = this.theSelectedLabels.length
         ? this.theSelectedLabels.join(",")
         : "";
+      let settlement = "";
+      if (this.type == "兼职") {
+        settlement =
+          this.theData.wages == "面议"
+            ? ""
+            : `${this.theData.jsdw}/${this.theData.jszq}`;
+      }
       let param = {
         ...this.theData,
         id: 0,
@@ -236,6 +460,9 @@ export default {
         url,
         label,
         area_codes,
+        sex_type: this.theData.sex_type == "不限" ? "" : this.theData.sex_type,
+        task_id: this.task_id,
+        settlement,
       };
       if (["分享/安利", "兼职", "组队/搭子"].includes(this.type)) {
         delete param.is_anonymous;
@@ -452,12 +679,6 @@ export default {
     }
   }
 
-  .form-content {
-    border-bottom: none;
-    /deep/ .input-placeholder {
-      font-size: 24rpx !important;
-    }
-  }
   .upload-box {
     display: flex;
     flex-wrap: wrap;
@@ -596,7 +817,9 @@ export default {
     }
 
     .label-one {
-      padding: 10rpx 30rpx;
+      padding: 0 30rpx;
+      height: 52rpx;
+      line-height: 52rpx;
       background-color: #ffedd5;
       margin: 30rpx 30rpx 0 0;
       border-radius: 200rpx;
@@ -652,15 +875,46 @@ export default {
       }
       .right-text {
         font-family: PingFang SC;
-        font-weight: 600;
+        font-weight: 500;
         font-size: 24rpx;
         color: #333333;
-        line-height: 34rpx;
+      }
+      /deep/ .u-radio-group {
+        justify-content: flex-end;
+        .u-radio {
+          margin-left: 40rpx;
+        }
+        .u-radio__text {
+          font-family: PingFang SC;
+          font-weight: 400;
+          font-size: 26rpx !important;
+          color: #333333 !important;
+        }
       }
       /deep/.uicon-arrow-right {
         margin: 2rpx 0 0 10rpx;
         font-size: 24rpx !important;
         color: #333333 !important;
+      }
+      /deep/ .uni-date-range {
+        .icon-calendar {
+          display: none !important;
+        }
+        .uni-date__x-input,
+        .range-separator {
+          word-break: keep-all;
+          font-size: 24rpx !important;
+          color: #666666;
+          height: auto !important;
+          line-height: 30rpx !important;
+          display: inline !important;
+        }
+        .range-separator {
+          margin: 0 10rpx;
+        }
+      }
+      /deep/ .uni-date__icon-clear {
+        display: none !important;
       }
 
       /deep/ .u-input__content__field-wrapper__field {
@@ -675,6 +929,25 @@ export default {
         font-size: 24rpx;
         color: #666666;
       }
+    }
+    .hope-num {
+      .u-input__content__field-wrapper__field {
+        font-size: 24rpx;
+      }
+    }
+    .choose-time {
+      /deep/ .uni-date-range {
+        .uni-date__x-input,
+        .range-separator {
+          color: #333333 !important;
+        }
+      }
+    }
+  }
+  .form-content {
+    border-bottom: none !important;
+    /deep/ .input-placeholder {
+      font-size: 24rpx !important;
     }
   }
   .safe-bottom {
@@ -726,6 +999,10 @@ export default {
         word-break: keep-all;
       }
     }
+  }
+  .choose-text {
+    color: #666666 !important;
+    font-size: 24rpx !important;
   }
   .flex-algin {
     display: flex;

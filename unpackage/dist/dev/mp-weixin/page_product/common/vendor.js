@@ -1,6 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["page_product/common/vendor"],{
 
-/***/ 388:
+/***/ 381:
 /*!********************************************************************************!*\
   !*** D:/ouying/o2_store/page_product/components/piaoyi-cityPicker/cityData.js ***!
   \********************************************************************************/
@@ -10727,7 +10727,7 @@ exports.addressList = addressList;
 
 /***/ }),
 
-/***/ 421:
+/***/ 414:
 /*!**************************************************************!*\
   !*** D:/ouying/o2_store/page_product/pages/info/protocol.js ***!
   \**************************************************************/

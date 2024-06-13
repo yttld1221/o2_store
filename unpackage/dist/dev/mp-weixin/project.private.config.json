@@ -10,7 +10,7 @@
         {
           "name": "page_product/pages/push/index",
           "pathName": "page_product/pages/push/index",
-          "query": "type=话题",
+          "query": "type=兼职",
           "launchMode": "default",
           "scene": null
         }

@@ -239,6 +239,7 @@ export default {
           this.$store.commit("changeStore_addressPush", {
             tempSelectedAddress: this.tempSelectedAddress,
           });
+          uni.$emit("changePushArea", this.tempSelectedAddress);
           uni.navigateBack();
         }
       } else {
