@@ -62,15 +62,19 @@ export default {
       hotList: [],
       searchRecord: [],
       shopId: "",
+      from: "",
     };
   },
   onLoad(options) {
     if (options.shopId) {
       this.shopId = options.shopId;
     }
+    if (options.from) {
+      this.from = options.from;
+    }
   },
   onShow() {
-    if (!this.shopId) {
+    if (!this.shopId && !this.from) {
       this.getHot();
     }
     this.getSearchRecord();
@@ -79,7 +83,12 @@ export default {
   methods: {
     // 确认删除
     confirmDel() {
-      uni.removeStorageSync("searchRecord");
+      let key = this.shopId
+        ? "searchShopRecord"
+        : this.from
+        ? "searchPushRecord"
+        : "searchRecord";
+      uni.removeStorageSync(key);
       this.getSearchRecord();
       this.cancelDel();
     },
@@ -110,6 +119,8 @@ export default {
         let url = "/page_product/pages/search/searchResult?text=" + val;
         if (this.shopId) {
           url += "&shopId=" + this.shopId;
+        } else if (this.from) {
+          url += "&from=" + this.from;
         }
         uni.navigateTo({
           url,
@@ -124,6 +135,8 @@ export default {
       let key = "searchRecord";
       if (this.shopId) {
         key = "searchShopRecord";
+      } else if (this.from) {
+        key = "searchPushRecord";
       }
       this.searchRecord = uni.getStorageSync(key)
         ? JSON.parse(uni.getStorageSync(key))

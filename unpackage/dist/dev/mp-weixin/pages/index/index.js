@@ -140,6 +140,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var m0 = Number(_vm.statusBarHeight + _vm.navBarHeight + _vm.schoolHeight)
   var g0 =
     _vm.theAddress.title != undefined ? _vm.theAddress.title.length : null
   var g1 =
@@ -154,7 +155,6 @@ var render = function () {
     _vm.theTitleIndex == 1 && _vm.theSchool.title != "" && !(g2 < 5)
       ? _vm.theSchool.title.substring(0, 4)
       : null
-  var g4 = _vm.theTitleIndex == 1 ? _vm.titles.length : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
       return _vm.$public.disabled_tip("高级筛选")
@@ -164,11 +164,11 @@ var render = function () {
     {},
     {
       $root: {
+        m0: m0,
         g0: g0,
         g1: g1,
         g2: g2,
         g3: g3,
-        g4: g4,
       },
     }
   )
@@ -277,244 +277,8 @@ var _default = {
         update_id: 1
       },
       currentIndex: 0,
-      //
-      school_datas: [
-        // {
-        // 	id: 1,
-        // 	title: "欢迎来到氧气仓库官方资讯，这里有最前沿的校园资讯分享，快来和我一起看看吧～",
-        // 	url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        // 	pid: 0,
-        // 	is_on: 1, // 是否是上线状态，1表示是，2表示否
-        // 	is_hot: 2, // 是否是热门，1表示是，2表示否
-        // 	school_id: 3, // 发布人所在学校ID
-        // 	type: "话题", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // 	label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        // 	is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        // 	wages: "", // 兼职用的，工资金额或者显示"面议"
-        // 	settlement: "", // 工资结算方式  用/拼接
-        // 	hope_num: 10, // 组队的期望人数
-        // 	free_type: "", // 组队的费用类型  免费/AA
-        // 	is_entry: 1, // 本人是否报名组队，1是，2否
-        // 	area_code: "640100", // 活动区地区代码
-        // 	task_id: 0, // 关联的活动ID
-        // 	created_at: "2023-05-18 11:05:13", // 第一次插入时间
-        // 	released_at: "2024-03-11 16:05:13", // 发布时间
-        // 	create_id: 50, // 发布人ID
-        // 	sex_type: "", // 组队的性别要求
-        // 	start_at: null, // 组队活动开始日期
-        // 	end_at: null, // 组队活动开始日期
-        // 	is_regard: 2, // 组队活动结束日期
-        // 	is_thumb: 1, // 本人是否点过赞 1是2否
-        // 	thumb_num: 1, // 点赞数
-        // 	comment_num: 0, // 评论数
-        // 	entry_num: 3, // 实际报名人数
-        // 	nick_name: "氧*",
-        // 	avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        // 	school_name: "宁波大学",
-        // 	area_name: "银川市"
-        // },
-        // {
-        // 	// 该字段只有详情页才有
-        // 	content: "这是一段描述的内容，也就是活动的详情内容，但是只有详情页才有这个字段。",
-        // 	// 该字段只有详情页才有
-        // 	members: [{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		}
-        // 	],
-        // 	//------------------------------------------------------------------------------------------------------------------------
-        // 	id: 1,
-        // 	title: "欢迎来到氧气仓库官方资讯，这里有最前沿的校园资讯分享，快来和我一起看看吧～",
-        // 	url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        // 	pid: 0,
-        // 	is_on: 1, // 是否是上线状态，1表示是，2表示否
-        // 	is_hot: 2, // 是否是热门，1表示是，2表示否
-        // 	school_id: 3, // 发布人所在学校ID
-        // 	type: "组队/搭子", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // 	label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        // 	is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        // 	wages: "", // 兼职用的，工资金额或者显示"面议"
-        // 	settlement: "", // 工资结算方式  用/拼接
-        // 	hope_num: 10, // 组队的期望人数
-        // 	free_type: "AA", // 组队的费用类型  免费/AA
-        // 	is_entry: 1, // 本人是否报名组队，1是，2否
-        // 	area_code: "640100", // 活动区地区代码
-        // 	task_id: 0, // 关联的活动ID
-        // 	created_at: "2023-05-18 11:05:13", // 第一次插入时间
-        // 	released_at: "2024-03-11 16:05:13", // 发布时间
-        // 	create_id: 50, // 发布人ID
-        // 	sex_type: "不限", // 组队的性别要求
-        // 	start_at: "2024-03-15", // 组队活动开始日期
-        // 	end_at: "2025-03-17", // 组队活动结束日期
-        // 	is_regard: 2, // 本人是否点关注 1是2否
-        // 	is_thumb: 2, // 本人是否点过赞 1是2否
-        // 	thumb_num: 1, // 点赞数
-        // 	comment_num: 0, // 评论数
-        // 	entry_num: 3, // 实际报名人数
-        // 	nick_name: "氧*",
-        // 	avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        // 	school_name: "宁波大学",
-        // 	area_name: "银川市"
-        // },
-        // {
-        // 	id: 1,
-        // 	title: "欢迎来到氧气仓库官方资讯，这里有最前沿的校园资讯分享，快来和我一起看看吧～",
-        // 	url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        // 	pid: 0,
-        // 	is_on: 1, // 是否是上线状态，1表示是，2表示否
-        // 	is_hot: 2, // 是否是热门，1表示是，2表示否
-        // 	school_id: 3, // 发布人所在学校ID
-        // 	type: "话题", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // 	label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        // 	is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        // 	wages: "", // 兼职用的，工资金额或者显示"面议"
-        // 	settlement: "", // 工资结算方式  用/拼接
-        // 	hope_num: 0, // 组队的期望人数
-        // 	free_type: "", // 组队的费用类型  免费/AA
-        // 	is_entry: 1, // 本人是否报名组队，1是，2否
-        // 	area_code: "640100", // 活动区地区代码
-        // 	task_id: 0, // 关联的活动ID
-        // 	created_at: "2023-05-18 11:05:13", // 第一次插入时间
-        // 	released_at: "2024-03-11 16:05:13", // 发布时间
-        // 	create_id: 50, // 发布人ID
-        // 	sex_type: "", // 组队的性别要求
-        // 	start_at: null, // 组队活动开始日期
-        // 	end_at: null, // 组队活动开始日期
-        // 	is_regard: 2, // 组队活动结束日期
-        // 	is_thumb: 2, // 本人是否点过赞 1是2否
-        // 	thumb_num: 1, // 点赞数
-        // 	comment_num: 0, // 评论数
-        // 	entry_num: 0, // 实际报名人数
-        // 	nick_name: "氧*",
-        // 	avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        // 	school_name: "宁波大学",
-        // 	area_name: "银川市"
-        // },
-        // {
-        // 	id: 1,
-        // 	title: "潮流嘻哈素人拍照有需要的小伙伴快来一起参与我们吧！",
-        // 	url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        // 	pid: 0,
-        // 	is_on: 1, // 是否是上线状态，1表示是，2表示否
-        // 	is_hot: 2, // 是否是热门，1表示是，2表示否
-        // 	school_id: 3, // 发布人所在学校ID
-        // 	type: "兼职", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // 	label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        // 	is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        // 	wages: "288", // 兼职用的，工资金额或者显示"面议"
-        // 	settlement: "元/天/日结", // 工资结算方式  用/拼接
-        // 	hope_num: 0, // 组队的期望人数
-        // 	free_type: "", // 组队的费用类型  免费/AA
-        // 	is_entry: 1, // 本人是否报名组队，1是，2否
-        // 	area_code: "640100", // 活动区地区代码
-        // 	task_id: 0, // 关联的活动ID
-        // 	created_at: "2023-05-18 11:05:13", // 第一次插入时间
-        // 	released_at: "2024-03-11 16:05:13", // 发布时间
-        // 	create_id: 50, // 发布人ID
-        // 	sex_type: "", // 组队的性别要求
-        // 	start_at: null, // 组队活动开始日期
-        // 	end_at: null, // 组队活动开始日期
-        // 	is_regard: 2, // 组队活动结束日期
-        // 	is_thumb: 2, // 本人是否点过赞 1是2否
-        // 	thumb_num: 1, // 点赞数
-        // 	comment_num: 0, // 评论数
-        // 	entry_num: 0, // 实际报名人数
-        // 	nick_name: "氧*",
-        // 	avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        // 	school_name: "宁波大学",
-        // 	area_name: "银川市"
-        // },
-        // {
-        // 	id: 1,
-        // 	title: "潮流嘻哈素人拍照有需要的小伙伴快来一起参与我们吧！",
-        // 	url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        // 	pid: 0,
-        // 	is_on: 1, // 是否是上线状态，1表示是，2表示否
-        // 	is_hot: 2, // 是否是热门，1表示是，2表示否
-        // 	school_id: 3, // 发布人所在学校ID
-        // 	type: "兼职", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // 	label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        // 	is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        // 	wages: "288", // 兼职用的，工资金额或者显示"面议"
-        // 	settlement: "元/天/日结", // 工资结算方式  用/拼接
-        // 	hope_num: 0, // 组队的期望人数
-        // 	free_type: "", // 组队的费用类型  免费/AA
-        // 	is_entry: 1, // 本人是否报名组队，1是，2否
-        // 	area_code: "640100", // 活动区地区代码
-        // 	task_id: 0, // 关联的活动ID
-        // 	created_at: "2023-05-18 11:05:13", // 第一次插入时间
-        // 	released_at: "2024-03-11 16:05:13", // 发布时间
-        // 	create_id: 50, // 发布人ID
-        // 	sex_type: "", // 组队的性别要求
-        // 	start_at: null, // 组队活动开始日期
-        // 	end_at: null, // 组队活动开始日期
-        // 	is_regard: 2, // 组队活动结束日期
-        // 	is_thumb: 2, // 本人是否点过赞 1是2否
-        // 	thumb_num: 1, // 点赞数
-        // 	comment_num: 0, // 评论数
-        // 	entry_num: 0, // 实际报名人数
-        // 	nick_name: "氧*",
-        // 	avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        // 	school_name: "宁波大学",
-        // 	area_name: "银川撒旦撒大大实打实的撒大大啊实打实大苏打大苏打市"
-        // }
-      ]
+      school_datas: [],
+      schoolHeight: 0
     };
   },
   onLoad: function onLoad() {
@@ -534,6 +298,10 @@ var _default = {
     this.$store.commit("changeStore_addressNow", {
       tempSelectedAddress: storage_addressNow
     });
+    var query = uni.createSelectorQuery().in(this);
+    query.select(".school").boundingClientRect(function (data) {
+      _this2.schoolHeight = data.height;
+    }).exec();
     this.getShopType();
     uni.$on("changeIndexArea", /*#__PURE__*/function () {
       var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(data) {
@@ -993,6 +761,12 @@ var _default = {
     // 选择标签（校园墙）
     choiseOneTitle: function choiseOneTitle(index) {
       this.schoolOneTitleIndex = index;
+      var that = this;
+      // 重置获取的页码
+      that.theGetMomentsListPage = 1;
+      // 重置数组
+      that.school_datas = [];
+      that.getMomentsList();
     },
     // 清空输入框
     emptyInput: function emptyInput(type) {
@@ -1061,8 +835,9 @@ var _default = {
               pagesize: that.theGetMomentsListPagesize,
               // 校园墙类型：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他，传空字符串为全部
               // schoolOneTitleIndex == 0 表示是综合，就是全部的意思，所以传空
-              // type:(that.schoolOneTitleIndex == 0 ?'':that.titles[that.schoolOneTitleIndex]),
-              type: "",
+              type: that.schoolOneTitleIndex == 0 ? "" : that.titles[that.schoolOneTitleIndex],
+              // type: "",
+
               // 搜索字段，默认是个空
               title: that.searchInputText,
               // // 当前选中的学校id
@@ -1240,10 +1015,13 @@ var _default = {
     searchPost: function searchPost() {
       // 点搜索的话，应该需要重置一下数据
       // 重置后，接下去的触底加载应该是延用一样的逻辑，只是当前的搜索字段没有重置，一直保留
-      this.school_datas = [];
-      // 注意：搜索的话，默认把这个页码重置为1就行了，因为之后就是启用触底加载了
-      this.theGetMomentsListPage = 1;
-      this.getMomentsList();
+      // this.school_datas = [];
+      // // 注意：搜索的话，默认把这个页码重置为1就行了，因为之后就是启用触底加载了
+      // this.theGetMomentsListPage = 1;
+      // this.getMomentsList();
+      uni.navigateTo({
+        url: "/page_product/pages/search/schoolSearch"
+      });
     },
     // 点赞
     // 说明：点赞的接口放在index.js公共store中

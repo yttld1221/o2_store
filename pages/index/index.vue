@@ -14,7 +14,13 @@
     <!-- 背景 -->
     <view
       class="bg"
-      :style="'height:' + (statusBarHeight + navBarHeight + 125) + 'px;'"
+      :style="{
+        height: statusBarHeight + navBarHeight + schoolHeight + 'px',
+        'background-size':
+          '100% ' +
+          Number(statusBarHeight + navBarHeight + schoolHeight) +
+          'px',
+      }"
     ></view>
 
     <!-- 导航切换栏 -->
@@ -58,39 +64,24 @@
         <!-- 搜索 -->
         <view class="searchs-2">
           <view class="search-box-2">
-            <view class="search-picker" @click="toSchool()">
-              <text v-if="theSchool.title != ''">{{
-                theSchool.title.length < 5
-                  ? theSchool.title
-                  : theSchool.title.substring(0, 4) + "..."
-              }}</text>
-              <text v-if="theSchool.title == ''">全部校区</text>
-              <uni-icons
-                class="margin-left-5"
-                type="down"
-                size="12"
-              ></uni-icons>
+            <view class="flex-align">
+              <view class="search-picker" @click="toSchool()">
+                <text v-if="theSchool.title != ''">{{
+                  theSchool.title.length < 5
+                    ? theSchool.title
+                    : theSchool.title.substring(0, 4) + "..."
+                }}</text>
+                <text v-if="theSchool.title == ''">全部校区</text>
+                <uni-icons
+                  class="margin-left-5"
+                  type="down"
+                  size="12"
+                ></uni-icons>
+              </view>
+              <view @click="searchPost" class="search-input"
+                >请输入搜索内容</view
+              >
             </view>
-            <view class="search-input">
-              <input
-                type="text"
-                v-model="searchInputText"
-                :adjust-position="fasle"
-                cursor-spacing="20"
-                @focus="inputBindFocus"
-                @blur="inputBindBlur"
-                @confirm="searchPost"
-                confirm-type="search"
-                placeholder="请输入搜索内容"
-              />
-            </view>
-            <uni-icons
-              @click="emptyInput('searchInputText')"
-              v-if="searchInputText != ''"
-              type="clear"
-              size="20"
-              color="#bbbbbb"
-            ></uni-icons>
             <view @click="searchPost" class="search-button">
               <image
                 class="image-width-20"
@@ -103,9 +94,10 @@
         <!-- 标题 -->
         <view class="posts">
           <view class="posts-titles">
-            <view
-              class="flex-row"
-              :style="'width:' + titles.length * 20 + 'vw;'"
+            <scroll-view
+              class="scroll-view"
+              scroll-x="true"
+              scroll-with-animation="true"
             >
               <view
                 :class="{
@@ -113,35 +105,37 @@
                   'posts-titles-one-choised': schoolOneTitleIndex == index,
                 }"
                 @click="choiseOneTitle(index)"
-                v-for="(item, index) in theLevel == 2 ? titles : tempTitles"
+                v-for="(item, index) in titles"
               >
-                <view class="flex-column">
+                <view class="posts-titles-item">
                   <view>{{ item }}</view>
                   <view
                     :class="{ 'short-line': schoolOneTitleIndex == index }"
                   ></view>
                 </view>
               </view>
-            </view>
+            </scroll-view>
           </view>
           <!-- 筛选 -->
           <image
             @click="$public.disabled_tip('高级筛选')"
-            class="image-width-20"
+            class="types-img"
             src="/static/1_shaixuan.png"
             mode="widthFix"
           ></image>
         </view>
       </view>
       <!-- 内容 -->
-      <view>
+      <view
+        :style="
+          'margin-top:' +
+          (statusBarHeight + navBarHeight + schoolHeight) +
+          'px;'
+        "
+      >
         <view
           class="posts-data"
-          :style="
-            index == 0
-              ? 'margin-top:' + (statusBarHeight + navBarHeight + 125) + 'px;'
-              : ''
-          "
+          :key="index"
           v-for="(item, index) in school_datas"
         >
           <post-type-zudui
@@ -150,10 +144,6 @@
             @toThumb="toThumb"
             @actionMore="actionMore"
             @zuduiButtons="zuduiButtons"
-            v-if="
-              titles[schoolOneTitleIndex] == item.type ||
-              titles[schoolOneTitleIndex] == '综合'
-            "
             :postsDataOneIndex="index"
             :theData="item"
           ></post-type-zudui>
@@ -302,244 +292,8 @@ export default {
         update_id: 1,
       },
       currentIndex: 0,
-      //
-      school_datas: [
-        // {
-        // 	id: 1,
-        // 	title: "欢迎来到氧气仓库官方资讯，这里有最前沿的校园资讯分享，快来和我一起看看吧～",
-        // 	url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        // 	pid: 0,
-        // 	is_on: 1, // 是否是上线状态，1表示是，2表示否
-        // 	is_hot: 2, // 是否是热门，1表示是，2表示否
-        // 	school_id: 3, // 发布人所在学校ID
-        // 	type: "话题", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // 	label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        // 	is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        // 	wages: "", // 兼职用的，工资金额或者显示"面议"
-        // 	settlement: "", // 工资结算方式  用/拼接
-        // 	hope_num: 10, // 组队的期望人数
-        // 	free_type: "", // 组队的费用类型  免费/AA
-        // 	is_entry: 1, // 本人是否报名组队，1是，2否
-        // 	area_code: "640100", // 活动区地区代码
-        // 	task_id: 0, // 关联的活动ID
-        // 	created_at: "2023-05-18 11:05:13", // 第一次插入时间
-        // 	released_at: "2024-03-11 16:05:13", // 发布时间
-        // 	create_id: 50, // 发布人ID
-        // 	sex_type: "", // 组队的性别要求
-        // 	start_at: null, // 组队活动开始日期
-        // 	end_at: null, // 组队活动开始日期
-        // 	is_regard: 2, // 组队活动结束日期
-        // 	is_thumb: 1, // 本人是否点过赞 1是2否
-        // 	thumb_num: 1, // 点赞数
-        // 	comment_num: 0, // 评论数
-        // 	entry_num: 3, // 实际报名人数
-        // 	nick_name: "氧*",
-        // 	avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        // 	school_name: "宁波大学",
-        // 	area_name: "银川市"
-        // },
-        // {
-        // 	// 该字段只有详情页才有
-        // 	content: "这是一段描述的内容，也就是活动的详情内容，但是只有详情页才有这个字段。",
-        // 	// 该字段只有详情页才有
-        // 	members: [{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		},
-        // 		{
-        // 			id: "1",
-        // 			nick_name: "黄",
-        // 			avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        // 		}
-        // 	],
-        // 	//------------------------------------------------------------------------------------------------------------------------
-        // 	id: 1,
-        // 	title: "欢迎来到氧气仓库官方资讯，这里有最前沿的校园资讯分享，快来和我一起看看吧～",
-        // 	url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        // 	pid: 0,
-        // 	is_on: 1, // 是否是上线状态，1表示是，2表示否
-        // 	is_hot: 2, // 是否是热门，1表示是，2表示否
-        // 	school_id: 3, // 发布人所在学校ID
-        // 	type: "组队/搭子", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // 	label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        // 	is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        // 	wages: "", // 兼职用的，工资金额或者显示"面议"
-        // 	settlement: "", // 工资结算方式  用/拼接
-        // 	hope_num: 10, // 组队的期望人数
-        // 	free_type: "AA", // 组队的费用类型  免费/AA
-        // 	is_entry: 1, // 本人是否报名组队，1是，2否
-        // 	area_code: "640100", // 活动区地区代码
-        // 	task_id: 0, // 关联的活动ID
-        // 	created_at: "2023-05-18 11:05:13", // 第一次插入时间
-        // 	released_at: "2024-03-11 16:05:13", // 发布时间
-        // 	create_id: 50, // 发布人ID
-        // 	sex_type: "不限", // 组队的性别要求
-        // 	start_at: "2024-03-15", // 组队活动开始日期
-        // 	end_at: "2025-03-17", // 组队活动结束日期
-        // 	is_regard: 2, // 本人是否点关注 1是2否
-        // 	is_thumb: 2, // 本人是否点过赞 1是2否
-        // 	thumb_num: 1, // 点赞数
-        // 	comment_num: 0, // 评论数
-        // 	entry_num: 3, // 实际报名人数
-        // 	nick_name: "氧*",
-        // 	avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        // 	school_name: "宁波大学",
-        // 	area_name: "银川市"
-        // },
-        // {
-        // 	id: 1,
-        // 	title: "欢迎来到氧气仓库官方资讯，这里有最前沿的校园资讯分享，快来和我一起看看吧～",
-        // 	url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        // 	pid: 0,
-        // 	is_on: 1, // 是否是上线状态，1表示是，2表示否
-        // 	is_hot: 2, // 是否是热门，1表示是，2表示否
-        // 	school_id: 3, // 发布人所在学校ID
-        // 	type: "话题", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // 	label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        // 	is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        // 	wages: "", // 兼职用的，工资金额或者显示"面议"
-        // 	settlement: "", // 工资结算方式  用/拼接
-        // 	hope_num: 0, // 组队的期望人数
-        // 	free_type: "", // 组队的费用类型  免费/AA
-        // 	is_entry: 1, // 本人是否报名组队，1是，2否
-        // 	area_code: "640100", // 活动区地区代码
-        // 	task_id: 0, // 关联的活动ID
-        // 	created_at: "2023-05-18 11:05:13", // 第一次插入时间
-        // 	released_at: "2024-03-11 16:05:13", // 发布时间
-        // 	create_id: 50, // 发布人ID
-        // 	sex_type: "", // 组队的性别要求
-        // 	start_at: null, // 组队活动开始日期
-        // 	end_at: null, // 组队活动开始日期
-        // 	is_regard: 2, // 组队活动结束日期
-        // 	is_thumb: 2, // 本人是否点过赞 1是2否
-        // 	thumb_num: 1, // 点赞数
-        // 	comment_num: 0, // 评论数
-        // 	entry_num: 0, // 实际报名人数
-        // 	nick_name: "氧*",
-        // 	avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        // 	school_name: "宁波大学",
-        // 	area_name: "银川市"
-        // },
-        // {
-        // 	id: 1,
-        // 	title: "潮流嘻哈素人拍照有需要的小伙伴快来一起参与我们吧！",
-        // 	url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        // 	pid: 0,
-        // 	is_on: 1, // 是否是上线状态，1表示是，2表示否
-        // 	is_hot: 2, // 是否是热门，1表示是，2表示否
-        // 	school_id: 3, // 发布人所在学校ID
-        // 	type: "兼职", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // 	label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        // 	is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        // 	wages: "288", // 兼职用的，工资金额或者显示"面议"
-        // 	settlement: "元/天/日结", // 工资结算方式  用/拼接
-        // 	hope_num: 0, // 组队的期望人数
-        // 	free_type: "", // 组队的费用类型  免费/AA
-        // 	is_entry: 1, // 本人是否报名组队，1是，2否
-        // 	area_code: "640100", // 活动区地区代码
-        // 	task_id: 0, // 关联的活动ID
-        // 	created_at: "2023-05-18 11:05:13", // 第一次插入时间
-        // 	released_at: "2024-03-11 16:05:13", // 发布时间
-        // 	create_id: 50, // 发布人ID
-        // 	sex_type: "", // 组队的性别要求
-        // 	start_at: null, // 组队活动开始日期
-        // 	end_at: null, // 组队活动开始日期
-        // 	is_regard: 2, // 组队活动结束日期
-        // 	is_thumb: 2, // 本人是否点过赞 1是2否
-        // 	thumb_num: 1, // 点赞数
-        // 	comment_num: 0, // 评论数
-        // 	entry_num: 0, // 实际报名人数
-        // 	nick_name: "氧*",
-        // 	avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        // 	school_name: "宁波大学",
-        // 	area_name: "银川市"
-        // },
-        // {
-        // 	id: 1,
-        // 	title: "潮流嘻哈素人拍照有需要的小伙伴快来一起参与我们吧！",
-        // 	url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        // 	pid: 0,
-        // 	is_on: 1, // 是否是上线状态，1表示是，2表示否
-        // 	is_hot: 2, // 是否是热门，1表示是，2表示否
-        // 	school_id: 3, // 发布人所在学校ID
-        // 	type: "兼职", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // 	label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        // 	is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        // 	wages: "288", // 兼职用的，工资金额或者显示"面议"
-        // 	settlement: "元/天/日结", // 工资结算方式  用/拼接
-        // 	hope_num: 0, // 组队的期望人数
-        // 	free_type: "", // 组队的费用类型  免费/AA
-        // 	is_entry: 1, // 本人是否报名组队，1是，2否
-        // 	area_code: "640100", // 活动区地区代码
-        // 	task_id: 0, // 关联的活动ID
-        // 	created_at: "2023-05-18 11:05:13", // 第一次插入时间
-        // 	released_at: "2024-03-11 16:05:13", // 发布时间
-        // 	create_id: 50, // 发布人ID
-        // 	sex_type: "", // 组队的性别要求
-        // 	start_at: null, // 组队活动开始日期
-        // 	end_at: null, // 组队活动开始日期
-        // 	is_regard: 2, // 组队活动结束日期
-        // 	is_thumb: 2, // 本人是否点过赞 1是2否
-        // 	thumb_num: 1, // 点赞数
-        // 	comment_num: 0, // 评论数
-        // 	entry_num: 0, // 实际报名人数
-        // 	nick_name: "氧*",
-        // 	avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        // 	school_name: "宁波大学",
-        // 	area_name: "银川撒旦撒大大实打实的撒大大啊实打实大苏打大苏打市"
-        // }
-      ],
+      school_datas: [],
+      schoolHeight: 0,
     };
   },
   onLoad() {
@@ -558,6 +312,13 @@ export default {
     this.$store.commit("changeStore_addressNow", {
       tempSelectedAddress: storage_addressNow,
     });
+    let query = uni.createSelectorQuery().in(this);
+    query
+      .select(".school")
+      .boundingClientRect((data) => {
+        this.schoolHeight = data.height;
+      })
+      .exec();
 
     this.getShopType();
     uni.$on("changeIndexArea", async (data) => {
@@ -900,6 +661,12 @@ export default {
     // 选择标签（校园墙）
     choiseOneTitle: function (index) {
       this.schoolOneTitleIndex = index;
+      let that = this;
+      // 重置获取的页码
+      that.theGetMomentsListPage = 1;
+      // 重置数组
+      that.school_datas = [];
+      that.getMomentsList();
     },
 
     // 清空输入框
@@ -970,8 +737,11 @@ export default {
               pagesize: that.theGetMomentsListPagesize,
               // 校园墙类型：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他，传空字符串为全部
               // schoolOneTitleIndex == 0 表示是综合，就是全部的意思，所以传空
-              // type:(that.schoolOneTitleIndex == 0 ?'':that.titles[that.schoolOneTitleIndex]),
-              type: "",
+              type:
+                that.schoolOneTitleIndex == 0
+                  ? ""
+                  : that.titles[that.schoolOneTitleIndex],
+              // type: "",
 
               // 搜索字段，默认是个空
               title: that.searchInputText,
@@ -1148,10 +918,13 @@ export default {
     searchPost: function () {
       // 点搜索的话，应该需要重置一下数据
       // 重置后，接下去的触底加载应该是延用一样的逻辑，只是当前的搜索字段没有重置，一直保留
-      this.school_datas = [];
-      // 注意：搜索的话，默认把这个页码重置为1就行了，因为之后就是启用触底加载了
-      this.theGetMomentsListPage = 1;
-      this.getMomentsList();
+      // this.school_datas = [];
+      // // 注意：搜索的话，默认把这个页码重置为1就行了，因为之后就是启用触底加载了
+      // this.theGetMomentsListPage = 1;
+      // this.getMomentsList();
+      uni.navigateTo({
+        url: "/page_product/pages/search/schoolSearch",
+      });
     },
 
     // 点赞
@@ -1371,12 +1144,16 @@ export default {
 }
 
 .margin-left-5 {
-  margin-left: 1vw;
+  margin-left: 12rpx;
 }
 
 .image-width-20 {
-  width: 4.5vw;
-  height: 4.5vw;
+  width: 27rpx;
+  height: 28rpx;
+}
+.types-img {
+  width: 32rpx;
+  height: 32rpx;
 }
 
 .space-data {
@@ -1388,7 +1165,8 @@ export default {
   position: fixed;
   z-index: 9;
   top: 0;
-  background-image: linear-gradient(to bottom, #fb933a, #ffe479);
+  background-repeat: no-repeat;
+  background-image: url("https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240614/2024-06-14_14_46_30_0_22.png");
 }
 
 .titles {
@@ -1453,7 +1231,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 100vw;
+  width: 100%;
   z-index: 99;
 }
 
@@ -1463,51 +1241,55 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 0 30rpx;
-  margin-top: 15px;
+  margin-top: 40rpx;
   z-index: 9;
 }
 
 .search-box-2 {
-  width: 96vw;
-  height: 40px;
-  border-radius: 100px;
-  background-color: rgba(255, 255, 255, 0.8);
-
+  width: 100%;
+  height: 68rpx;
+  background: #f6f6f6;
+  border-radius: 200rpx;
+  background-color: rgba(246, 246, 246, 0.9);
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0px 3px;
+  padding: 4rpx;
 }
 
 .search-picker {
-  margin-left: 4.5vw;
-  font-size: 14px;
-  font-weight: bold;
-  border-right: #bbbbbb 1px solid;
-  padding-right: 4.5vw;
+  margin-left: 25rpx;
+  font-weight: 600;
+  font-size: 24rpx;
+  color: #000000;
+  border-right: #666666 1px solid;
+  padding-right: 29rpx;
 }
 
 .search-input {
-  font-size: 13px;
+  margin-left: 29rpx;
+  font-family: PingFang SC;
+  font-weight: 300;
+  font-size: 22rpx;
+  color: #666666;
 }
 
 .search-button {
-  width: 12vw;
-  height: 9vw;
+  width: 100rpx;
+  height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  border-radius: 100px;
+  border-radius: 200rpx;
   background-color: #f89f12;
 }
 
 .posts {
-  width: 92vw;
-  height: 55px;
-  margin-top: 15px;
-  padding: 0 4vw;
+  height: 104rpx;
+  margin-top: 34rpx;
+  padding: 0 30rpx;
   background-color: #fff0e8;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -1522,28 +1304,49 @@ export default {
 }
 
 .posts-titles {
-  width: 85%;
+  width: calc(100% - 50rpx);
   overflow: scroll;
 }
+.scroll-view {
+  white-space: nowrap;
+  display: flex;
+  height: 104rpx;
+  .posts-titles-one {
+    overflow: hidden;
+    height: 104rpx;
+    display: inline-block;
+    font-family: PingFang SC;
+    font-weight: 500;
+    font-size: 26rpx;
+    color: #333333;
+    margin-right: 57rpx;
+    .posts-titles-item {
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+  }
+  .posts-titles-one:last-child {
+    margin-right: 0;
+  }
 
-.posts-titles-one {
-  padding: 0 3vw;
-  line-height: 10vw;
-  text-align: center;
-  font-size: 13px;
-  /* font-weight: bold; */
-}
-
-.posts-titles-one-choised {
-  font-weight: bold;
-  font-size: 16px;
+  .posts-titles-one-choised {
+    font-weight: 600;
+    font-size: 30rpx;
+  }
 }
 
 .short-line {
-  width: 20px;
-  height: 5px;
-  border-radius: 100px;
-  background-image: linear-gradient(to right, #fec467, #fb933a);
+  position: absolute;
+  bottom: 15rpx;
+  width: 40rpx;
+  height: 8rpx;
+  background: linear-gradient(270deg, #ffc974, #f89f12);
+  border-radius: 200rpx;
 }
 
 .posts-data {
@@ -1641,5 +1444,9 @@ export default {
       }
     }
   }
+}
+.flex-align {
+  display: flex;
+  align-items: center;
 }
 </style>

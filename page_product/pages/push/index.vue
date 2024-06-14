@@ -176,6 +176,21 @@
           </view>
         </view>
       </view>
+      <view
+        class="choose-item"
+        v-if="['分享/安利'].includes(type)"
+        @click="chooseProduct()"
+      >
+        <view class="left-label">添加商品链接</view>
+        <view class="flex-algin right-product">
+          <view
+            class="right-text product-title"
+            :class="{ 'choose-text': !taskTitle }"
+            >{{ taskTitle ? taskTitle : "（请选择关联商品）" }}</view
+          >
+          <u-icon slot="right" name="arrow-right"></u-icon>
+        </view>
+      </view>
     </view>
     <view class="choose-box" v-if="['组队/搭子'].includes(type)">
       <view class="choose-item" :class="{ 'choose-time': dateRange.length }">
@@ -271,6 +286,7 @@ export default {
   data() {
     return {
       task_id: 0,
+      taskTitle: "",
       addressArr: [],
       dateRange: [],
       theSelectedranges: [],
@@ -338,8 +354,17 @@ export default {
       this.theData.area_code = data.code;
       this.getAddText(data.code);
     });
+    uni.$on("pushProduct", (data) => {
+      this.task_id = data.id;
+      this.taskTitle = data.title;
+    });
   },
   methods: {
+    chooseProduct() {
+      uni.navigateTo({
+        url: "/page_product/pages/search/index?from=push",
+      });
+    },
     getArea() {
       this.addressArr = [];
       addressList.forEach((el) => {
@@ -429,6 +454,22 @@ export default {
             });
             return;
           }
+        }
+      } else if (this.type == "分享/安利") {
+        if (!this.fileList.length) {
+          uni.showToast({
+            title: "请上传图片",
+            duration: 2500,
+            icon: "none",
+          });
+          return false;
+        } else if (!this.task_id) {
+          uni.showToast({
+            title: "请选择关联商品",
+            duration: 2500,
+            icon: "none",
+          });
+          return false;
         }
       }
       if (!tag) {
@@ -629,6 +670,9 @@ export default {
           for (let i = 0; i < e.tempFiles.length; i++) {
             theName.push(nowDateTime + "_" + i);
           }
+          e.tempFiles.forEach((el) => {
+            el.extname = el.path.substring(el.path.lastIndexOf(".") + 1);
+          });
 
           await this.$public
             .upLoadImage({
@@ -873,11 +917,22 @@ export default {
         color: #333333;
         width: 250rpx;
       }
+      .right-product {
+        width: calc(100% - 300rpx);
+        justify-content: flex-end;
+      }
       .right-text {
         font-family: PingFang SC;
         font-weight: 500;
         font-size: 24rpx;
         color: #333333;
+      }
+      .product-title {
+        text-align: right;
+        width: 85%;
+        overflow: hidden; /* 隐藏超出部分的内容 */
+        white-space: nowrap; /* 禁止文本换行 */
+        text-overflow: ellipsis; /* 在文本末尾添加省略号 */
       }
       /deep/ .u-radio-group {
         justify-content: flex-end;

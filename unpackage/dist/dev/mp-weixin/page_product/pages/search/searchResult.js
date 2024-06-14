@@ -264,7 +264,8 @@ var _default = {
       },
       list: [],
       contentHeight: 0,
-      shopId: ""
+      shopId: "",
+      from: ""
     };
   },
   onLoad: function onLoad(options) {
@@ -275,6 +276,9 @@ var _default = {
     }).exec();
     if (options.shopId) {
       this.shopId = options.shopId;
+    }
+    if (options.from) {
+      this.from = options.from;
     }
     if (options.text) {
       this.searchText = options.text;
@@ -305,9 +309,16 @@ var _default = {
     },
     // 跳转详情
     goDetail: function goDetail(item) {
-      uni.navigateTo({
-        url: "/page_product/pages/product/detail?id=" + item.id
-      });
+      if (this.from) {
+        uni.$emit("pushProduct", item);
+        uni.navigateBack({
+          delta: 2
+        });
+      } else {
+        uni.navigateTo({
+          url: "/page_product/pages/product/detail?id=" + item.id
+        });
+      }
     },
     changeText: function changeText(val) {
       if (!val) {
@@ -324,6 +335,8 @@ var _default = {
       var key = "searchRecord";
       if (this.shopId) {
         key = "searchShopRecord";
+      } else if (this.from) {
+        key = "searchPushRecord";
       }
       this.searchRecord = uni.getStorageSync(key) ? JSON.parse(uni.getStorageSync(key)) : [] || false;
       if (this.searchRecord.length > 0) {
@@ -412,6 +425,8 @@ var _default = {
         var key = "searchRecord";
         if (this.shopId) {
           key = "searchShopRecord";
+        } else if (this.from) {
+          key = "searchPushRecord";
         }
         uni.setStorageSync(key, JSON.stringify(this.searchRecord));
         this.getList();

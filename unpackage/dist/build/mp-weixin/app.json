@@ -8,8 +8,6 @@
     "pages/follow/follow",
     "pages/follow/personalhome",
     "pages/push/push",
-    "pages/push/push_zudui",
-    "pages/push/range",
     "pages/message/message",
     "pages/message/regard",
     "pages/mine/mine",
@@ -36,7 +34,9 @@
         "pages/fans/index",
         "pages/info/personal",
         "pages/info/register",
-        "pages/info/protocol"
+        "pages/info/protocol",
+        "pages/push/index",
+        "pages/push/range"
       ]
     }
   ],

@@ -13,18 +13,24 @@
           @custom="cancel"
         ></u-search>
       </view>
-      <view class="order-container">
-        <view
-          class="order-item"
-          @click="changeType(item, index)"
-          v-for="(item, index) in pxList"
-          :key="index"
+      <view class="type-container">
+        <scroll-view
+          class="scroll-view"
+          scroll-x="true"
+          scroll-with-animation="true"
         >
-          <image v-if="item.label == '综合'" src="@/static/icon-zh.png" />
-          <image v-else-if="item.label == '销量'" src="@/static/icon-xl.png" />
-          <image v-else src="@/static/icon-jg.png" />
-          <text>{{ item.label }}</text>
-        </view>
+          <view
+            class="type-item"
+            @click="changeType(item, index)"
+            v-for="(item, index) in titles"
+            :key="index"
+          >
+            <view class="type-item-text">
+              <text>{{ item }}</text>
+              <view v-if="chooseIndex == index" class="short-line"></view>
+            </view>
+          </view>
+        </scroll-view>
       </view>
     </view>
     <view class="list-container" :style="'margin-top:' + contentHeight + 'px;'">
@@ -65,28 +71,22 @@ export default {
   components: {},
   data() {
     return {
-      orderType: "desc",
-      order_field: "sort",
-      isLoading: "loading",
-      pxList: [
-        {
-          label: "综合",
-          type: "sort",
-        },
-        {
-          label: "销量",
-          type: "sale_num",
-        },
-        {
-          label: "价格",
-          type: "sale_price",
-        },
+      chooseIndex: 0,
+      titles: [
+        "全部",
+        "话题",
+        "组队/搭子",
+        "分享/安利",
+        "兼职",
+        "表白",
+        "求助",
+        "其他",
       ],
+      isLoading: "loading",
       // 当前获取的校园墙页码，每次需要+1
       theGetMomentsListPage: 1,
       theGetMomentsListPagesize: 4,
       searchText: "",
-      searchRecord: [],
       contentText: {
         contentdown: "查看更多",
         contentrefresh: "加载中...",
@@ -94,8 +94,6 @@ export default {
       },
       list: [],
       contentHeight: 0,
-      shopId: "",
-      from: "",
     };
   },
   onLoad(options) {
@@ -106,16 +104,6 @@ export default {
         this.contentHeight = data.height;
       })
       .exec();
-    if (options.shopId) {
-      this.shopId = options.shopId;
-    }
-    if (options.from) {
-      this.from = options.from;
-    }
-    if (options.text) {
-      this.searchText = options.text;
-      this.searchReasult();
-    }
   },
   onReachBottom() {
     // 触底后动画效果开启
@@ -123,63 +111,14 @@ export default {
     this.getList();
   },
   methods: {
-    // 切换类型
+    changeText(val) {},
     changeType(item, index) {
-      if (this.order_field != item.type || index == 2) {
-        this.order_field = item.type;
-        if (index == 2) {
-          this.orderType = this.orderType == "desc" ? "asc" : "desc";
-        } else {
-          this.orderType = "desc";
-        }
-        this.theGetMomentsListPage = 1;
-        this.list = [];
-        // 触底后动画效果开启
-        this.isLoading = "loading";
-        this.getList();
-      }
-    },
-    // 跳转详情
-    goDetail(item) {
-      if (this.from) {
-        uni.$emit("pushProduct", item);
-        uni.navigateBack({
-          delta: 2,
-        });
-      } else {
-        uni.navigateTo({
-          url: "/page_product/pages/product/detail?id=" + item.id,
-        });
-      }
-    },
-    changeText(val) {
-      if (!val) {
-        uni.navigateBack();
-      }
+      this.chooseIndex = index;
     },
     cancel() {
       uni.navigateBack({
-        delta: 2,
+        delta: 1,
       });
-    },
-    // 获取历史纪录
-    getSearchRecord() {
-      let key = "searchRecord";
-      if (this.shopId) {
-        key = "searchShopRecord";
-      } else if (this.from) {
-        key = "searchPushRecord";
-      }
-      this.searchRecord = uni.getStorageSync(key)
-        ? JSON.parse(uni.getStorageSync(key))
-        : [] || [];
-      if (this.searchRecord.length > 0) {
-        for (let i in this.searchRecord) {
-          if (i > 9) {
-            this.searchRecord.splice(i, 1);
-          }
-        }
-      }
     },
     getList() {
       this.isLoading = "loading"; // 加载中
@@ -236,23 +175,13 @@ export default {
     },
     searchReasult() {
       if (this.searchText) {
-        this.getSearchRecord();
-        for (var i in this.searchRecord) {
-          if (this.searchText == this.searchRecord[i].value) {
-            this.searchRecord.splice(i, 1);
-          }
-        }
-        this.searchRecord.unshift({
-          value: this.searchText,
-        });
-        let key = "searchRecord";
-        if (this.shopId) {
-          key = "searchShopRecord";
-        } else if (this.from) {
-          key = "searchPushRecord";
-        }
-        uni.setStorageSync(key, JSON.stringify(this.searchRecord));
         this.getList();
+      } else {
+        uni.showToast({
+          title: "请输入搜索关键词",
+          duration: 2500,
+          icon: "none",
+        });
       }
     },
   },
@@ -260,49 +189,58 @@ export default {
 </script>
 <style lang="scss" scoped>
 .search-result {
-  box-sizing: border-box;
+  box-sizing: btype-box;
   min-height: 100vh;
   background: #fafafa;
   .top-fixd {
     z-index: 5;
     background: #ffffff;
-    box-sizing: border-box;
+    box-sizing: btype-box;
     position: fixed;
     width: 100%;
     top: 0;
     .top-search {
       padding: 30rpx 30rpx 8rpx;
     }
-    .order-container {
-      display: flex;
-      align-items: center;
-      padding: 24rpx;
-      .order-item {
-        flex: 1;
+    .type-container {
+      padding: 0 30rpx;
+      .scroll-view {
+        white-space: nowrap;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        image {
-          width: 38rpx;
-          height: 38rpx;
-          margin-right: 3rpx;
+        height: 85rpx;
+        .type-item {
+          height: 85rpx;
+          overflow: hidden;
+          display: inline-block;
+          margin-right: 67rpx;
+          position: relative;
+          .type-item-text {
+            height: 85rpx;
+            font-family: PingFang SC;
+            font-weight: 500;
+            font-size: 26rpx;
+            color: #333333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            & > text {
+              margin-top: 8rpx;
+            }
+          }
         }
-        &:after {
-          position: absolute;
-          right: 0;
-          content: "";
-          height: 24rpx;
-          border-right: 1rpx solid #d7d7d7;
-        }
-        text {
-          line-height: 36rpx;
+        .type-item:last-child {
+          margin-right: 0;
         }
       }
-      .order-item:last-child {
-        &:after {
-          border: none;
-        }
+
+      .short-line {
+        position: absolute;
+        bottom: 0;
+        width: 40rpx;
+        height: 8rpx;
+        background: linear-gradient(270deg, #ffc974, #f89f12);
+        border-radius: 200rpx;
       }
     }
   }
@@ -312,20 +250,20 @@ export default {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    box-sizing: border-box;
+    box-sizing: btype-box;
     .list-item {
       margin-bottom: 20rpx;
       width: 335rpx;
-      border-radius: 10rpx 10rpx 0rpx 0rpx;
+      btype-radius: 10rpx 10rpx 0rpx 0rpx;
       .image-box {
         background: #ffffff;
-        border-radius: 10rpx 10rpx 0rpx 0rpx;
+        btype-radius: 10rpx 10rpx 0rpx 0rpx;
         width: 335rpx;
         height: 335rpx;
         z-index: 1;
         position: relative;
         image {
-          border-radius: 10rpx 10rpx 0rpx 0rpx;
+          btype-radius: 10rpx 10rpx 0rpx 0rpx;
           width: 335rpx;
           height: 335rpx;
         }
@@ -335,9 +273,9 @@ export default {
         padding: 30rpx 21rpx 32rpx;
         background: #ffffff;
         box-shadow: 0rpx 0rpx 7rpx 1rpx rgba(0, 0, 0, 0.04);
-        border-radius: 0 0 10rpx 10rpx;
+        btype-radius: 0 0 10rpx 10rpx;
         border: 1px solid #f4f4f4;
-        border-top: none;
+        btype-top: none;
         .list-item-title {
           width: 100%;
           white-space: nowrap;

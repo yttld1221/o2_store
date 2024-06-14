@@ -78,11 +78,15 @@
   margin-left: 2vw;
 }
 .margin-left-5 {
-  margin-left: 1vw;
+  margin-left: 12rpx;
 }
 .image-width-20 {
-  width: 4.5vw;
-  height: 4.5vw;
+  width: 27rpx;
+  height: 28rpx;
+}
+.types-img {
+  width: 32rpx;
+  height: 32rpx;
 }
 .space-data {
   position: fixed;
@@ -92,7 +96,8 @@
   position: fixed;
   z-index: 9;
   top: 0;
-  background-image: linear-gradient(to bottom, #fb933a, #ffe479);
+  background-repeat: no-repeat;
+  background-image: url("https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240614/2024-06-14_14_46_30_0_22.png");
 }
 .titles {
   width: 100%;
@@ -151,7 +156,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 100vw;
+  width: 100%;
   z-index: 99;
 }
 .searchs-2 {
@@ -160,45 +165,50 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 30rpx;
-  margin-top: 15px;
+  margin-top: 40rpx;
   z-index: 9;
 }
 .search-box-2 {
-  width: 96vw;
-  height: 40px;
-  border-radius: 100px;
-  background-color: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  height: 68rpx;
+  background: #f6f6f6;
+  border-radius: 200rpx;
+  background-color: rgba(246, 246, 246, 0.9);
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0px 3px;
+  padding: 4rpx;
 }
 .search-picker {
-  margin-left: 4.5vw;
-  font-size: 14px;
-  font-weight: bold;
-  border-right: #bbbbbb 1px solid;
-  padding-right: 4.5vw;
+  margin-left: 25rpx;
+  font-weight: 600;
+  font-size: 24rpx;
+  color: #000000;
+  border-right: #666666 1px solid;
+  padding-right: 29rpx;
 }
 .search-input {
-  font-size: 13px;
+  margin-left: 29rpx;
+  font-family: PingFang SC;
+  font-weight: 300;
+  font-size: 22rpx;
+  color: #666666;
 }
 .search-button {
-  width: 12vw;
-  height: 9vw;
+  width: 100rpx;
+  height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  border-radius: 100px;
+  border-radius: 200rpx;
   background-color: #f89f12;
 }
 .posts {
-  width: 92vw;
-  height: 55px;
-  margin-top: 15px;
-  padding: 0 4vw;
+  height: 104rpx;
+  margin-top: 34rpx;
+  padding: 0 30rpx;
   background-color: #fff0e8;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -210,25 +220,47 @@
   box-shadow: 0 -15px 15px 0px #fdc35f;
 }
 .posts-titles {
-  width: 85%;
+  width: calc(100% - 50rpx);
   overflow: scroll;
 }
-.posts-titles-one {
-  padding: 0 3vw;
-  line-height: 10vw;
-  text-align: center;
-  font-size: 13px;
-  /* font-weight: bold; */
+.scroll-view {
+  white-space: nowrap;
+  display: flex;
+  height: 104rpx;
 }
-.posts-titles-one-choised {
-  font-weight: bold;
-  font-size: 16px;
+.scroll-view .posts-titles-one {
+  overflow: hidden;
+  height: 104rpx;
+  display: inline-block;
+  font-family: PingFang SC;
+  font-weight: 500;
+  font-size: 26rpx;
+  color: #333333;
+  margin-right: 57rpx;
+}
+.scroll-view .posts-titles-one .posts-titles-item {
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.scroll-view .posts-titles-one:last-child {
+  margin-right: 0;
+}
+.scroll-view .posts-titles-one-choised {
+  font-weight: 600;
+  font-size: 30rpx;
 }
 .short-line {
-  width: 20px;
-  height: 5px;
-  border-radius: 100px;
-  background-image: linear-gradient(to right, #fec467, #fb933a);
+  position: absolute;
+  bottom: 15rpx;
+  width: 40rpx;
+  height: 8rpx;
+  background: linear-gradient(270deg, #ffc974, #f89f12);
+  border-radius: 200rpx;
 }
 .posts-data {
   position: relative;
@@ -322,5 +354,9 @@
   font-weight: 400;
   font-size: 22rpx;
   color: #999999;
+}
+.flex-align {
+  display: flex;
+  align-items: center;
 }
 

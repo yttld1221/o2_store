@@ -67,14 +67,6 @@
 			}
 		},
 		{
-			"path": "pages/push/push_zudui",
-			"style": {
-				"navigationBarBackgroundColor": "#ffffff",
-				"navigationBarTextStyle": "black",
-				"navigationBarTitleText": "发布"
-			}
-		},
-		{
 			"path": "pages/message/message",
 			"style": {
 				"navigationStyle": "custom"
@@ -103,14 +95,6 @@
 				"navigationBarBackgroundColor": "#ffffff",
 				"navigationBarTextStyle": "black",
 				"navigationBarTitleText": "修改头像"
-			}
-		},
-		{
-			"path": "pages/mine/edit_other",
-			"style": {
-				"navigationBarBackgroundColor": "#ffffff",
-				"navigationBarTextStyle": "black",
-				"navigationBarTitleText": "修改"
 			}
 		},
 		{
@@ -297,6 +281,16 @@
 						"navigationBarBackgroundColor": "#ffffff",
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "发布范围"
+					}
+				},
+				{
+					"path": "pages/search/schoolSearch",
+					"style": {
+						"navigationBarBackgroundColor": "#ffffff",
+						"navigationBarTextStyle": "black",
+						"navigationBarTitleText": "校园墙搜索",
+						"enablePullDownRefresh": false,
+						"onReachBottomDistance": 50
 					}
 				}
 			]

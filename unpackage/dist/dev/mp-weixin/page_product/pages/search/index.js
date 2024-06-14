@@ -246,16 +246,20 @@ var _default = {
       searchText: "",
       hotList: [],
       searchRecord: [],
-      shopId: ""
+      shopId: "",
+      from: ""
     };
   },
   onLoad: function onLoad(options) {
     if (options.shopId) {
       this.shopId = options.shopId;
     }
+    if (options.from) {
+      this.from = options.from;
+    }
   },
   onShow: function onShow() {
-    if (!this.shopId) {
+    if (!this.shopId && !this.from) {
       this.getHot();
     }
     this.getSearchRecord();
@@ -264,7 +268,8 @@ var _default = {
   methods: {
     // 确认删除
     confirmDel: function confirmDel() {
-      uni.removeStorageSync("searchRecord");
+      var key = this.shopId ? "searchShopRecord" : this.from ? "searchPushRecord" : "searchRecord";
+      uni.removeStorageSync(key);
       this.getSearchRecord();
       this.cancelDel();
     },
@@ -312,6 +317,8 @@ var _default = {
         var url = "/page_product/pages/search/searchResult?text=" + val;
         if (this.shopId) {
           url += "&shopId=" + this.shopId;
+        } else if (this.from) {
+          url += "&from=" + this.from;
         }
         uni.navigateTo({
           url: url
@@ -326,6 +333,8 @@ var _default = {
       var key = "searchRecord";
       if (this.shopId) {
         key = "searchShopRecord";
+      } else if (this.from) {
+        key = "searchPushRecord";
       }
       this.searchRecord = uni.getStorageSync(key) ? JSON.parse(uni.getStorageSync(key)) : [] || false;
       if (this.searchRecord.length > 0) {
