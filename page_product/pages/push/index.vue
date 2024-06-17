@@ -362,7 +362,7 @@ export default {
   methods: {
     chooseProduct() {
       uni.navigateTo({
-        url: "/page_product/pages/search/index?from=push",
+        url: "/page_product/pages/search/searchResult?from=push",
       });
     },
     getArea() {
@@ -501,7 +501,7 @@ export default {
         url,
         label,
         area_codes,
-        sex_type: this.theData.sex_type == "不限" ? "" : this.theData.sex_type,
+        sex_type: this.theData.sex_type,
         task_id: this.task_id,
         settlement,
       };

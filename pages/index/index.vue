@@ -117,12 +117,12 @@
             </scroll-view>
           </view>
           <!-- 筛选 -->
-          <image
+          <!-- <image
             @click="$public.disabled_tip('高级筛选')"
             class="types-img"
             src="/static/1_shaixuan.png"
             mode="widthFix"
-          ></image>
+          ></image> -->
         </view>
       </view>
       <!-- 内容 -->
@@ -227,6 +227,7 @@ export default {
   },
   data() {
     return {
+      inviteId: "",
       contentHeight: 0,
       tabArr: [],
       momentType: "",
@@ -361,6 +362,17 @@ export default {
       this.school_datas = [];
       await this.getMomentsList();
     });
+  },
+
+  //分享按钮
+  onShareAppMessage(e) {
+    console.log(e, this.inviteId);
+    if (e.from == "button") {
+      return {
+        title: "组队邀请",
+        path: `/pages/index/detail?id=${this.inviteId}`,
+      };
+    }
   },
   onShow() {
     this.theLevel = this.$store.state.theLogonUser.level;
@@ -757,6 +769,7 @@ export default {
               if (_that.theGetMomentsListPage == 1) {
                 _that.school_datas = [];
               }
+
               if (getType == "area") {
                 _that.tempAddressTitle = _that.theAddress.title;
               } else if (getType == "school") {
@@ -765,6 +778,11 @@ export default {
               }
               if (res.data.code == 0) {
                 if (res.data.data.length != 0) {
+                  if (_that.titles[_that.schoolOneTitleIndex] != "分享/安利") {
+                    res.data.data = res.data.data.filter(
+                      (el) => el.type != "分享/安利"
+                    );
+                  }
                   for (let i = 0; i < res.data.data.length; i++) {
                     _that.school_datas.push(res.data.data[i]);
                   }
@@ -1073,6 +1091,8 @@ export default {
             }
           }
         }
+      } else {
+        this.inviteId = option.id;
       }
     },
   },
@@ -1304,7 +1324,8 @@ export default {
 }
 
 .posts-titles {
-  width: calc(100% - 50rpx);
+  // width: calc(100% - 50rpx);
+  width: 100%;
   overflow: scroll;
 }
 .scroll-view {

@@ -111,6 +111,10 @@ export default {
     }
     if (options.from) {
       this.from = options.from;
+      uni.setNavigationBarTitle({
+        title: "选择关联商品",
+      });
+      this.getList();
     }
     if (options.text) {
       this.searchText = options.text;
@@ -144,7 +148,7 @@ export default {
       if (this.from) {
         uni.$emit("pushProduct", item);
         uni.navigateBack({
-          delta: 2,
+          delta: 1,
         });
       } else {
         uni.navigateTo({
@@ -153,13 +157,14 @@ export default {
       }
     },
     changeText(val) {
-      if (!val) {
+      if (!val && !this.from) {
         uni.navigateBack();
       }
     },
     cancel() {
+      let delta = this.from ? 1 : 2;
       uni.navigateBack({
-        delta: 2,
+        delta,
       });
     },
     // 获取历史纪录
@@ -202,6 +207,9 @@ export default {
           area_code: this.$store.state.store_addressNow.code,
         };
       }
+      if (this.from) {
+        delete params.area_code;
+      }
       this.API.home
         .getTaskList(params)
         .then((res) => {
@@ -235,24 +243,32 @@ export default {
         });
     },
     searchReasult() {
-      if (this.searchText) {
-        this.getSearchRecord();
-        for (var i in this.searchRecord) {
-          if (this.searchText == this.searchRecord[i].value) {
-            this.searchRecord.splice(i, 1);
-          }
-        }
-        this.searchRecord.unshift({
-          value: this.searchText,
-        });
-        let key = "searchRecord";
-        if (this.shopId) {
-          key = "searchShopRecord";
-        } else if (this.from) {
-          key = "searchPushRecord";
-        }
-        uni.setStorageSync(key, JSON.stringify(this.searchRecord));
+      if (this.from) {
+        this.theGetMomentsListPage = 1;
+        this.list = [];
         this.getList();
+      } else {
+        if (this.searchText) {
+          this.getSearchRecord();
+          for (var i in this.searchRecord) {
+            if (this.searchText == this.searchRecord[i].value) {
+              this.searchRecord.splice(i, 1);
+            }
+          }
+          this.searchRecord.unshift({
+            value: this.searchText,
+          });
+          let key = "searchRecord";
+          if (this.shopId) {
+            key = "searchShopRecord";
+          } else if (this.from) {
+            key = "searchPushRecord";
+          }
+          uni.setStorageSync(key, JSON.stringify(this.searchRecord));
+          this.theGetMomentsListPage = 1;
+          this.list = [];
+          this.getList();
+        }
       }
     },
   },
@@ -260,6 +276,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .search-result {
+  overflow: hidden;
   box-sizing: border-box;
   min-height: 100vh;
   background: #fafafa;

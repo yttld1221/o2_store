@@ -34,26 +34,16 @@
       </view>
     </view>
     <view class="list-container" :style="'margin-top:' + contentHeight + 'px;'">
-      <view
-        @click="goDetail(item)"
-        class="list-item"
-        v-for="(item, index) in list"
-        :key="index"
-      >
-        <view class="image-box">
-          <image mode="aspectFill" :src="item.img_url" />
-        </view>
-        <view class="list-item-info">
-          <view class="list-item-title">{{ item.title }}</view>
-          <view class="list-item-price flex-algin">
-            <view class="list-item-price-left"
-              >¥<text style="font-size: 34rpx">{{
-                item.sale_price
-              }}</text></view
-            >
-            <view class="list-item-price-right">已售：{{ item.sale_num }}</view>
-          </view>
-        </view>
+      <view class="posts-data" :key="index" v-for="(item, index) in list">
+        <post-type-zudui
+          @toDetail="toDetail"
+          @topPerSonalhome="topPerSonalhome"
+          @toThumb="toThumb"
+          @actionMore="actionMore"
+          @zuduiButtons="zuduiButtons"
+          :postsDataOneIndex="-1"
+          :theData="item"
+        ></post-type-zudui>
       </view>
     </view>
     <!-- 底部垫层 -->
@@ -104,6 +94,7 @@ export default {
         this.contentHeight = data.height;
       })
       .exec();
+    this.getList();
   },
   onReachBottom() {
     // 触底后动画效果开启
@@ -111,9 +102,170 @@ export default {
     this.getList();
   },
   methods: {
-    changeText(val) {},
+    // 点赞
+    // 说明：点赞的接口放在index.js公共store中
+    toThumb: async function (option) {
+      // 这里之所以又加了一层，是为了拿到子组件传过来的option
+      // 这是保存一下当前本人的点赞状态，用于判断最后本地是增加还是减少点赞数的
+      let temp_is_thumb = option.is_thumb;
+      await this.$store.dispatch("toThumb", {
+        id: option.id,
+        is_thumb: option.is_thumb,
+      });
+
+      // console.log('this.$store.state.is_thumb_true ',this.$store.state.is_thumb_true );
+      if (this.$store.state.is_thumb_true == true) {
+        for (let i = 0; i < this.list.length; i++) {
+          if (option.id == this.list[i].id) {
+            if (temp_is_thumb == 2) {
+              // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
+              this.$set(this.list[i], "thumb_num", this.list[i].thumb_num + 1);
+              this.$set(this.list[i], "is_thumb", 1);
+              uni.showToast({
+                title: "点赞成功",
+                duration: 1000,
+                icon: "none",
+              });
+            } else {
+              this.$set(this.list[i], "thumb_num", this.list[i].thumb_num - 1);
+              this.$set(this.list[i], "is_thumb", 2);
+              uni.showToast({
+                title: "已取消点赞",
+                duration: 1000,
+                icon: "none",
+              });
+            }
+          }
+        }
+      }
+    },
+    //打开三个点的操作
+    actionMore: function (option) {
+      let that = this;
+      let temp_is_collection = option.is_collection;
+      uni.showActionSheet({
+        itemList: [
+          option.is_collection == 2 ? "收藏该内容" : "取消收藏该内容",
+          "举报",
+        ],
+        itemColor: "#f89f12",
+        success: function (res) {
+          // console.log(res.tapIndex);
+          if (res.tapIndex == 0) {
+            let _that = that;
+            (async function () {
+              await _that.$store.dispatch("toCollection", {
+                id: option.id,
+              });
+
+              if (_that.$store.state.is_collection_true == true) {
+                // 表示调用接口成功
+                for (let i = 0; i < _that.list.length; i++) {
+                  if (option.id == _that.list[i].id) {
+                    if (temp_is_collection == 2) {
+                      // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
+                      _that.$set(_that.list[i], "is_collection", 1);
+                      uni.showToast({
+                        title: "收藏成功",
+                        duration: 1000,
+                        icon: "none",
+                      });
+                    } else {
+                      _that.$set(_that.list[i], "is_collection", 2);
+                      uni.showToast({
+                        title: "已取消收藏",
+                        duration: 1000,
+                        icon: "none",
+                      });
+                    }
+                  }
+                }
+              }
+            })();
+          } else {
+            uni.showToast({
+              title: "举报成功",
+              duration: 1000,
+              icon: "none",
+            });
+          }
+        },
+        fail: function (res) {
+          // console.log(res.errMsg);
+        },
+      });
+    },
+
+    // 邀请/组队按钮
+    zuduiButtons: async function (option) {
+      if (option.type == 1) {
+        // 1表示是组队的按钮
+        // 这是保存一下当前本人的加入状态，用于判断最后本地是显示加入还是退出
+        let temp_is_entry = option.is_entry;
+        await this.$store.dispatch("toEntry", {
+          id: option.id,
+          is_entry: option.is_entry,
+        });
+
+        // console.log('this.$store.state.is_entry_true ',this.$store.state.is_entry_true );
+        if (this.$store.state.is_entry_true == true) {
+          for (let i = 0; i < this.list.length; i++) {
+            if (option.id == this.list[i].id) {
+              if (temp_is_entry == 2) {
+                // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
+                this.$set(
+                  this.list[i],
+                  "entry_num",
+                  this.list[i].entry_num + 1
+                );
+                this.$set(this.list[i], "is_entry", 1);
+                uni.showToast({
+                  title: "加入成功",
+                  duration: 1000,
+                  icon: "none",
+                });
+              } else {
+                this.$set(
+                  this.list[i],
+                  "entry_num",
+                  this.list[i].entry_num - 1
+                );
+                this.$set(this.list[i], "is_entry", 2);
+                uni.showToast({
+                  title: "已退出组队",
+                  duration: 1000,
+                  icon: "none",
+                });
+              }
+            }
+          }
+        }
+      }
+    },
+    // 跳转详情页
+    toDetail: function (id) {
+      uni.navigateTo({
+        url: "/pages/index/detail?id=" + id,
+      });
+    },
+    // 跳转主页
+    topPerSonalhome: function (option) {
+      if (option.is_anonymous == 2) {
+        // 不匿名
+        uni.navigateTo({
+          url: "/pages/follow/personalhome?id=" + option.id,
+        });
+      } else {
+        uni.showToast({
+          title: "这个人很神秘，不想让你看到TA的主页~",
+          duration: 2500,
+          icon: "none",
+        });
+      }
+    },
     changeType(item, index) {
       this.chooseIndex = index;
+      this.searchReasult();
     },
     cancel() {
       uni.navigateBack({
@@ -126,23 +278,14 @@ export default {
         page: this.theGetMomentsListPage,
         pagesize: this.theGetMomentsListPagesize,
         title: this.searchText,
-        order_type: this.orderType,
-        order_field: this.order_field,
-        is_product: 1,
+        type: this.chooseIndex == 0 ? "" : this.titles[this.chooseIndex],
+        // // 当前选中的学校id
+        school_id: this.$store.state.store_schoolNow.id,
+        // // 行政区划编码，选定的最低一级区域的编码，空字符串是全部
+        area_code: this.$store.state.store_addressNow.code,
       };
-      if (this.shopId) {
-        params = {
-          ...params,
-          shop_id: this.shopId,
-        };
-      } else {
-        params = {
-          ...params,
-          area_code: this.$store.state.store_addressNow.code,
-        };
-      }
-      this.API.home
-        .getTaskList(params)
+      this.API.order
+        .getMomentsList(params)
         .then((res) => {
           console.log(res);
           // 如果是请求第一页，证明是首次请求，就重置一下
@@ -150,12 +293,12 @@ export default {
             this.list = [];
           }
           if (res.data.length != 0) {
+            if (this.titles[this.chooseIndex] != "分享/安利") {
+              res.data = res.data.filter((el) => el.type != "分享/安利");
+            }
             for (let i = 0; i < res.data.length; i++) {
               this.list.push({
                 ...res.data[i],
-                img_url: res.data[i].img_url
-                  ? res.data[i].img_url.split(",")[0]
-                  : "",
               });
             }
 
@@ -174,28 +317,23 @@ export default {
         });
     },
     searchReasult() {
-      if (this.searchText) {
-        this.getList();
-      } else {
-        uni.showToast({
-          title: "请输入搜索关键词",
-          duration: 2500,
-          icon: "none",
-        });
-      }
+      this.theGetMomentsListPage = 1;
+      this.list = [];
+      this.getList();
     },
   },
 };
 </script>
 <style lang="scss" scoped>
 .search-result {
-  box-sizing: btype-box;
+  box-sizing: border-box;
   min-height: 100vh;
   background: #fafafa;
+  overflow: hidden;
   .top-fixd {
     z-index: 5;
     background: #ffffff;
-    box-sizing: btype-box;
+    box-sizing: border-box;
     position: fixed;
     width: 100%;
     top: 0;
@@ -245,67 +383,10 @@ export default {
     }
   }
   .list-container {
-    padding: 24rpx 30rpx 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    box-sizing: btype-box;
-    .list-item {
-      margin-bottom: 20rpx;
-      width: 335rpx;
-      btype-radius: 10rpx 10rpx 0rpx 0rpx;
-      .image-box {
-        background: #ffffff;
-        btype-radius: 10rpx 10rpx 0rpx 0rpx;
-        width: 335rpx;
-        height: 335rpx;
-        z-index: 1;
-        position: relative;
-        image {
-          btype-radius: 10rpx 10rpx 0rpx 0rpx;
-          width: 335rpx;
-          height: 335rpx;
-        }
-      }
-      .list-item-info {
-        margin-top: -15rpx;
-        padding: 30rpx 21rpx 32rpx;
-        background: #ffffff;
-        box-shadow: 0rpx 0rpx 7rpx 1rpx rgba(0, 0, 0, 0.04);
-        btype-radius: 0 0 10rpx 10rpx;
-        border: 1px solid #f4f4f4;
-        btype-top: none;
-        .list-item-title {
-          width: 100%;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          font-family: PingFang SC;
-          font-weight: 500;
-          font-size: 24rpx;
-          color: #393a3e;
-          margin-bottom: 24rpx;
-        }
-        .list-item-price {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          .list-item-price-left {
-            font-family: PingFang SC;
-            font-weight: 300;
-            font-size: 22rpx;
-            color: #f23333;
-            line-height: 24rpx;
-          }
-          .list-item-price-right {
-            font-family: PingFang SC;
-            font-weight: 400;
-            font-size: 22rpx;
-            color: #999999;
-          }
-        }
-      }
+    box-sizing: border-box;
+    .posts-data {
+      position: relative;
+      z-index: 1;
     }
   }
 }

@@ -1,13 +1,36 @@
-
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
 .content {
-  /* height: 200px; */
-  width: 100vw;
+  padding: 27rpx 30rpx 36rpx;
   background-color: #ffffff;
-  /* margin-bottom: 10px; */
   display: flex;
   flex-direction: column;
   height: auto;
-  /* padding-bottom: 15px; */
+  border-bottom: 15rpx solid #fafafa;
 }
 .flex-row {
   display: flex;
@@ -18,104 +41,92 @@
   margin-bottom: 2vw;
 }
 .posts-data-one {
-  background-image: linear-gradient(
-    to bottom,
-    #fff0e8,
-    #fffdfd,
-    #ffffff
-  ) !important;
+  background-image: linear-gradient(to bottom, #fff0e8, #fffdfd, #ffffff) !important;
 }
 .line-1 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
-  width: 100vw;
-  margin-top: 3.5vw;
+  margin-top: 6rpx;
+  padding-bottom: 12rpx;
 }
 .line-1-left {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: start;
-  margin-left: 3.5vw;
 }
-.line-1-right {
-  margin-right: 3.5vw;
+.other-box {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
 }
 .avatar {
   /* border: #111111 1px solid; */
   border-radius: 100%;
-  width: 11.5vw;
-  height: 11.5vw;
+  width: 68rpx;
+  height: 68rpx;
   background-repeat: no-repeat !important;
   background-size: cover !important;
+  margin-right: 20rpx;
+}
+.post-right {
+  width: calc(100% - 83rpx);
+  overflow: hidden;
 }
 .nickname-time {
   display: flex;
   flex-direction: row;
 }
 .nickname {
-  font-weight: bold;
-  font-size: 14px;
-  margin-left: 1.5vw;
+  font-family: PingFang SC;
+  font-weight: 600;
+  font-size: 26rpx;
+  color: #333333;
 }
 .time {
-  margin-left: 3.5vw;
-  font-size: 13px;
-  color: #bbbbbb;
+  margin-left: 27rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #666666;
 }
 .line-2 {
   display: flex;
   flex-direction: row;
-  padding-left: 15vw;
-  width: 81.5vw;
-  padding-right: 3.5vw;
   flex-wrap: wrap;
 }
 .line-2-one {
   color: #f89f12;
-  font-size: 13px;
-  margin-right: 10px;
+  font-size: 24rpx;
+  margin-right: 20rpx;
 }
 .line-3 {
-  padding-left: 15vw;
-  width: 81.5vw;
-  padding-right: 3.5vw;
-  font-size: 14px;
-  margin-top: 5px;
-  font-weight: bold;
+  font-size: 24rpx;
+  margin-top: 10rpx;
+  color: #040000;
 }
 .line-3-1 {
-  padding-left: 15vw;
-  width: 81.5vw;
-  padding-right: 3.5vw;
-  font-size: 14px;
-  margin-top: 5px;
+  margin-top: 10rpx;
 }
 .line-3-1-a {
   font-style: italic;
   color: #ff6155;
-  font-size: 12px;
+  font-size: 24rpx;
 }
 .line-3-2 {
-  padding-left: 15vw;
-  width: 81.5vw;
-  padding-right: 3.5vw;
-  font-size: 14px;
-  margin-top: 10px;
+  font-size: 28rpx;
+  margin-top: 20rpx;
 }
 .line-4 {
   display: flex;
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
-  padding-left: 15vw;
-  padding-right: 3.5vw;
-  margin-top: 10px;
+  margin-top: 15rpx;
+  overflow: hidden;
 }
 .pad-r-pic {
-  padding-right: 29.5vw;
+  padding-right: 150rpx;
 }
 .pic-tip {
   background-color: #fafafa;
@@ -132,11 +143,11 @@
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
   -ms-interpolation-mode: nearest-neighbor;
-  border-radius: 3px;
-  width: 196rpx;
-  height: 196rpx;
-  margin-right: 1vw;
-  margin-bottom: 1vw;
+  border-radius: 6rpx;
+  width: 194rpx;
+  height: 194rpx;
+  margin-right: 11rpx;
+  margin-top: 11rpx;
   /* background-repeat: no-repeat !important;
   background-size: cover !important;
   background-color: #e5e5e5 !important;
@@ -145,97 +156,101 @@
 .line-4 .picture:last-child {
   margin-right: 0;
 }
+.mar-r-b {
+  margin-right: 0;
+}
 .line-5 {
   display: flex;
   flex-direction: column;
-  padding-left: 15vw;
-  width: 81.5vw;
-  padding-right: 3.5vw;
-  margin-top: 15px;
+  margin: 29rpx 0 13rpx;
 }
 .progress-tip {
   display: flex;
   flex-direction: row;
   align-items: center !important;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 29rpx;
 }
 .progress-tip-title {
-  font-size: 15px;
-  font-weight: bold;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
+.progress-tip-title > text {
+  font-family: Alibaba PuHuiTi;
+  font-weight: 800;
+  font-size: 26rpx;
+  color: #333333;
+}
 .sex-icon-type {
-  margin-left: 10px;
+  margin-left: 20rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 .sex-icon-type text {
-  font-size: 12px;
+  font-size: 24rpx;
 }
 .sex-icon {
-  width: 20px;
-  height: 20px;
-  margin-left: 5px;
+  width: 35rpx;
+  height: 35rpx;
+  margin-left: 10rpx;
 }
 .sex-type {
-  font-size: 13px;
-  margin-left: 5px;
+  font-size: 26rpx;
+  margin-left: 10rpx;
   font-weight: normal !important;
   color: #ff6155;
-  margin-right: 5px;
+  margin-right: 10rpx;
 }
 .progress-tip-num {
-  font-size: 15px;
+  font-family: DIN Alternate;
   font-weight: bold;
+  font-size: 26rpx;
+  color: #333333;
 }
 .progress-button {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 81.5vw;
   justify-content: space-between;
-  margin-top: 15px;
+  margin-top: 40rpx;
 }
-.progress-button-one-1 {
+.progress-button > view,
+.progress-button > button {
+  flex: 1;
+  margin: 0 14rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 39vw;
-  height: 45px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
   color: #ffffff;
-  border-radius: 100px;
+  border-radius: 200rpx;
+  height: 78rpx;
+  padding: 0 !important;
+}
+.progress-button .progress-button-one-1 {
+  margin-left: 0;
   background-color: #ff6155;
 }
-.progress-button-one-2 {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 39vw !important;
-  height: 45px;
-  color: #ffffff;
-  border-radius: 100px;
+.progress-button .progress-button-one-2 {
+  margin-right: 0;
   background-color: #f89f12;
 }
 .bg-gray {
   background-color: #bbbbbb !important;
 }
 .progress-button-name {
-  margin-left: 10px !important;
+  margin-left: 20rpx !important;
 }
 .line-6 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding-left: 15vw;
-  width: 81.5vw;
-  padding-right: 3.5vw;
-  margin-top: 15px;
+  margin-top: 29rpx;
 }
 .the-school {
   display: flex;
@@ -362,5 +377,9 @@
 .is-on-line-status {
   color: #bbbbbb;
   font-size: 13px;
+}
+.flex-algin {
+  display: flex;
+  align-items: center;
 }
 

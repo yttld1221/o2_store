@@ -220,7 +220,7 @@
   box-shadow: 0 -15px 15px 0px #fdc35f;
 }
 .posts-titles {
-  width: calc(100% - 50rpx);
+  width: 100%;
   overflow: scroll;
 }
 .scroll-view {

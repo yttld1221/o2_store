@@ -25,6 +25,7 @@
 /* 透明度 */
 /* 文章场景相关 */
 .search-result.data-v-3b74e442 {
+  overflow: hidden;
   box-sizing: border-box;
   min-height: 100vh;
   background: #fafafa;

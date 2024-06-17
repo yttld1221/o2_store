@@ -4,179 +4,6 @@
     @click="toDetail"
     :class="{ content: true, 'posts-data-one': postsDataOneIndex == 0 }"
   >
-    <view v-if="theData.type != '兼职' && type != '分享/安利'">
-      <!-- 头像等 -->
-      <view class="line-1">
-        <view class="line-1-left">
-          <view
-            @click.stop="topPerSonalhome"
-            class="avatar"
-            :style="'background: url(' + theData.avatar_url + ');'"
-          ></view>
-          <view class="margin-bottom-2vw nickname-time">
-            <view class="nickname">{{ theData.nick_name }}</view>
-            <view class="time">{{ released_at }}</view>
-          </view>
-        </view>
-        <view @click.stop="actionMore" class="line-1-right">
-          <uni-icons type="more-filled" size="20"></uni-icons>
-        </view>
-      </view>
-      <!-- 话题 -->
-      <view class="line-2" v-if="label.length">
-        <view class="line-2-one" v-for="(item, index) in label"
-          >#{{ item }}</view
-        >
-      </view>
-      <!-- 标题 -->
-      <view class="line-3">{{ theData.title }}</view>
-      <!-- 组队相关的，活动日期 -->
-      <view class="line-3-1" v-if="theData.type == '组队/搭子'">
-        <view class="line-3-1-a">#活动时间：{{ activeDate }}#</view>
-      </view>
-      <!-- 图片 -->
-      <view class="line-4" :class="{ 'pad-r-pic': getPictures.length == 4 }">
-        <!-- <view @click.stop="$public.previewImage(pictures,index)" v-if="item != ''" class="picture" :style="'background: url('+item+'?x-oss-process=image/resize,m_lfit,h_160,w_160'+');'" v-for="(item,index) in getPictures"></view> -->
-        <template v-if="item != ''">
-          <image
-            mode="aspectFill"
-            :src="item + '?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_100'"
-            @click.stop="$public.previewImage(pictures, index)"
-            class="picture"
-            v-for="(item, index) in getPictures"
-          />
-        </template>
-      </view>
-      <!-- <text
-        @click.stop="$public.previewImage(pictures)"
-        v-if="pictures.length"
-        class="pic-tip"
-        >共 {{ pictures.length }} 张，点击图片查看全部</text
-      > -->
-      <!-- 描述内容，只有详情页面才展示 -->
-      <view v-if="isDetail" class="line-3-2">{{ theData.content }}</view>
-      <!-- 组队邀请 -->
-      <view v-if="theData.type == '组队/搭子'" class="line-5">
-        <view class="progress-tip">
-          <view class="progress-tip-title">
-            <text>组队邀请</text>
-            <view class="sex-icon-type">
-              <text>(</text>
-              <image
-                class="sex-icon"
-                src="/static/1_sex.png"
-                mode="widthFix"
-              ></image>
-              <view class="sex-type">{{ theData.sex_type }}</view>
-              <image
-                class="sex-icon"
-                src="/static/1_feiyong.png"
-                mode="widthFix"
-              ></image>
-              <view class="sex-type">{{ theData.free_type }}</view>
-              <text>)</text>
-            </view>
-          </view>
-          <view v-if="isPersonalHome == false" class="progress-tip-num">{{
-            theData.entry_num + " / " + theData.hope_num
-          }}</view>
-        </view>
-        <view v-if="isPersonalHome == false" class="the-progress">
-          <progress
-            :percent="(theData.entry_num / theData.hope_num) * 100"
-            border-radius="100"
-            stroke-width="10"
-            activeColor="#f89f12"
-            backgroundColor="#f6f6f6"
-          ></progress>
-        </view>
-        <view
-          v-if="isPersonalHome == false && isMine == false"
-          class="progress-button"
-        >
-          <view @click.stop="zuduiButtons(0)" class="progress-button-one-1">
-            <uni-icons type="redo-filled" color="#ffffff" size="25"></uni-icons>
-            <view class="progress-button-name">邀请好友</view>
-          </view>
-          <view
-            @click.stop="zuduiButtons(1)"
-            :class="{
-              'progress-button-one-2': true,
-              'bg-gray': theData.is_entry == 1,
-            }"
-          >
-            <uni-icons type="auth-filled" color="#ffffff" size="25"></uni-icons>
-            <view class="progress-button-name">{{
-              theData.is_entry == 2 ? "加入组队" : "退出组队"
-            }}</view>
-          </view>
-        </view>
-      </view>
-      <!-- 学校、点赞数等 -->
-      <view class="line-6">
-        <view class="the-school">
-          <image
-            class="school-icon"
-            src="/static/1_school_icon@3x.png"
-            mode="widthFix"
-          ></image>
-          <view class="school-name"
-            >{{ theData.area_name
-            }}{{
-              (theData.area_name != "" && theData.school_name) != "" ? "·" : ""
-            }}{{ theData.school_name }}</view
-          >
-        </view>
-        <view class="the-thumb-comment-box">
-          <view
-            v-if="isPersonalHome == false"
-            @click.stop="toThumb"
-            class="flex-row"
-          >
-            <uni-icons
-              type="hand-up"
-              :color="theData.is_thumb == 2 ? '#000000' : '#ff6155'"
-              size="20"
-            ></uni-icons>
-            <view
-              class="the-thumb-num"
-              :style="theData.is_thumb == 2 ? '#000000' : 'color: #ff6155;'"
-              >{{ theData.thumb_num }}</view
-            >
-          </view>
-          <view v-if="isPersonalHome == false" class="flex-row the-comment">
-            <uni-icons type="chatbubble" size="20"></uni-icons>
-            <view class="the-thumb-num">{{ theData.comment_num }}</view>
-          </view>
-          <view v-if="isPersonalHome != false" class="flex-row the-comment">
-            <!-- <uni-icons type="chatbubble" size="20"></uni-icons> -->
-            <view class="the-thumb-num"
-              ><text style="color: #ff812f; margin-right: 5px"
-                >@{{ theData.type }}@</text
-              ><text style="color: #bbbbbb">详情 >> </text></view
-            >
-          </view>
-        </view>
-      </view>
-      <!-- 组队/搭子 有效，仅在详情页显示，已经报名的人 -->
-      <view
-        v-if="isDetail == true && theData.type == '组队/搭子'"
-        class="line-7"
-      >
-        <view class="line-7-line-space"></view>
-        <view class="line-7-line-title"
-          >组队成员（{{ theData.members.length }}）</view
-        >
-        <view class="line-7-member-avatars">
-          <image
-            class="line-7-member-avatars-image"
-            :src="item.avatar_url"
-            mode="widthFix"
-            v-for="(item, index) in theData.members"
-          ></image>
-        </view>
-      </view>
-    </view>
     <view v-if="theData.type == '兼职'">
       <!-- 标题 -->
       <view class="type-line-1">
@@ -194,6 +21,194 @@
           <view class="type-line-2-address-name">{{ theData.area_name }}</view>
         </view>
         <view class="type-line-2-settlement">{{ theData.settlement }}</view>
+      </view>
+    </view>
+    <view v-if="theData.type == '分享/安利'"></view>
+    <view
+      class="other-box"
+      v-if="!['兼职', '分享/安利'].includes(theData.type)"
+    >
+      <!-- 头像等 -->
+      <view
+        @click.stop="topPerSonalhome"
+        class="avatar"
+        :style="'background: url(' + theData.avatar_url + ');'"
+      ></view>
+      <view class="post-right">
+        <view class="line-1 flex-algin">
+          <view class="line-1-left flex-algin">
+            <view class="nickname">{{ theData.nick_name }}</view>
+            <view class="time">{{ released_at }}</view>
+          </view>
+          <view @click.stop="actionMore" class="line-1-right">
+            <uni-icons type="more-filled" size="18"></uni-icons>
+          </view>
+        </view>
+        <!-- 话题 -->
+        <view class="line-2" v-if="label.length">
+          <view class="line-2-one" v-for="(item, index) in label"
+            >#{{ item }}</view
+          >
+        </view>
+        <!-- 标题 -->
+        <view class="line-3">{{ theData.title }}</view>
+        <!-- 组队相关的，活动日期 -->
+        <view class="line-3-1" v-if="theData.type == '组队/搭子'">
+          <view class="line-3-1-a">#活动时间：{{ activeDate }}#</view>
+        </view>
+        <!-- 图片 -->
+        <view
+          v-if="getPictures.length"
+          class="line-4"
+          :class="{ 'pad-r-pic': getPictures.length == 4 }"
+        >
+          <image
+            mode="aspectFill"
+            :src="
+              item +
+              '?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_100'
+            "
+            @click.stop="$public.previewImage(pictures, index)"
+            class="picture"
+            :class="{
+              'mar-r-b': getPictures.length != 4 && [2, 5, 8].includes(index),
+            }"
+            v-for="(item, index) in getPictures"
+          />
+        </view>
+        <!-- <text
+        @click.stop="$public.previewImage(pictures)"
+        v-if="pictures.length"
+        class="pic-tip"
+        >共 {{ pictures.length }} 张，点击图片查看全部</text
+      > -->
+        <!-- 描述内容，只有详情页面才展示 -->
+        <view v-if="isDetail" class="line-3-2">{{ theData.content }}</view>
+        <!-- 组队邀请 -->
+        <view v-if="theData.type == '组队/搭子'" class="line-5">
+          <view class="progress-tip">
+            <view class="progress-tip-title">
+              <text>组队邀请</text>
+              <view class="sex-icon-type">
+                <text>(</text>
+                <image class="sex-icon" src="/static/1_sex.png"></image>
+                <view class="sex-type">{{ theData.sex_type }}</view>
+                <image class="sex-icon" src="/static/1_feiyong.png"></image>
+                <view class="sex-type">{{ theData.free_type }}</view>
+                <text>)</text>
+              </view>
+            </view>
+            <view class="progress-tip-num">{{
+              theData.entry_num + " / " + theData.hope_num
+            }}</view>
+          </view>
+          <view class="the-progress">
+            <progress
+              :percent="(theData.entry_num / theData.hope_num) * 100"
+              border-radius="100"
+              stroke-width="10"
+              activeColor="#F89F12"
+              backgroundColor="#F6F6F6"
+            ></progress>
+          </view>
+          <!-- v-if="isMine == false" -->
+          <view class="progress-button">
+            <button
+              @click.stop="zuduiButtons(0)"
+              open-type="share"
+              class="progress-button-one-1"
+            >
+              <uni-icons
+                type="redo-filled"
+                color="#ffffff"
+                size="25"
+              ></uni-icons>
+              <view classs="progress-button-name">邀请好友</view>
+            </button>
+            <view
+              @click.stop="zuduiButtons(1)"
+              :class="{
+                'progress-button-one-2': true,
+                'bg-gray': theData.is_entry == 1,
+              }"
+            >
+              <uni-icons
+                type="auth-filled"
+                color="#ffffff"
+                size="25"
+              ></uni-icons>
+              <view class="progress-button-name">{{
+                theData.is_entry == 2 ? "加入组队" : "退出组队"
+              }}</view>
+            </view>
+          </view>
+        </view>
+        <!-- 学校、点赞数等 -->
+        <view class="line-6">
+          <view class="the-school">
+            <image
+              class="school-icon"
+              src="/static/1_school_icon@3x.png"
+              mode="widthFix"
+            ></image>
+            <view class="school-name"
+              >{{ theData.area_name
+              }}{{
+                (theData.area_name != "" && theData.school_name) != ""
+                  ? "·"
+                  : ""
+              }}{{ theData.school_name }}</view
+            >
+          </view>
+          <view class="the-thumb-comment-box">
+            <view
+              v-if="isPersonalHome == false"
+              @click.stop="toThumb"
+              class="flex-row"
+            >
+              <uni-icons
+                type="hand-up"
+                :color="theData.is_thumb == 2 ? '#000000' : '#ff6155'"
+                size="20"
+              ></uni-icons>
+              <view
+                class="the-thumb-num"
+                :style="theData.is_thumb == 2 ? '#000000' : 'color: #ff6155;'"
+                >{{ theData.thumb_num }}</view
+              >
+            </view>
+            <view v-if="isPersonalHome == false" class="flex-row the-comment">
+              <uni-icons type="chatbubble" size="20"></uni-icons>
+              <view class="the-thumb-num">{{ theData.comment_num }}</view>
+            </view>
+            <view v-if="isPersonalHome != false" class="flex-row the-comment">
+              <!-- <uni-icons type="chatbubble" size="20"></uni-icons> -->
+              <view class="the-thumb-num"
+                ><text style="color: #ff812f; margin-right: 5px"
+                  >@{{ theData.type }}@</text
+                ><text style="color: #bbbbbb">详情 >> </text></view
+              >
+            </view>
+          </view>
+        </view>
+        <!-- 组队/搭子 有效，仅在详情页显示，已经报名的人 -->
+        <view
+          v-if="isDetail == true && theData.type == '组队/搭子'"
+          class="line-7"
+        >
+          <view class="line-7-line-space"></view>
+          <view class="line-7-line-title"
+            >组队成员（{{ theData.members.length }}）</view
+          >
+          <view class="line-7-member-avatars">
+            <image
+              class="line-7-member-avatars-image"
+              :src="item.avatar_url"
+              mode="widthFix"
+              v-for="(item, index) in theData.members"
+            ></image>
+          </view>
+        </view>
       </view>
     </view>
     <!-- 上下线按钮 -->
@@ -218,8 +233,6 @@
         }}</view>
       </view>
     </view>
-    <!-- 间隔 -->
-    <view class="space-line"></view>
   </view>
 </template>
 
@@ -339,6 +352,7 @@ export default {
       // 组队的按钮
     };
   },
+
   mounted() {
     // console.log('theData',this.theData);
 
@@ -490,16 +504,14 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .content {
-  /* height: 200px; */
-  width: 100vw;
+  padding: 27rpx 30rpx 36rpx;
   background-color: #ffffff;
-  /* margin-bottom: 10px; */
   display: flex;
   flex-direction: column;
   height: auto;
-  /* padding-bottom: 15px; */
+  border-bottom: 15rpx solid #fafafa;
 }
 .flex-row {
   display: flex;
@@ -523,84 +535,78 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
-  width: 100vw;
-  margin-top: 3.5vw;
+  margin-top: 6rpx;
+  padding-bottom: 12rpx;
 }
 .line-1-left {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: start;
-  margin-left: 3.5vw;
 }
-.line-1-right {
-  margin-right: 3.5vw;
+.other-box {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
 }
 .avatar {
   /* border: #111111 1px solid; */
   border-radius: 100%;
-  width: 11.5vw;
-  height: 11.5vw;
+  width: 68rpx;
+  height: 68rpx;
   background-repeat: no-repeat !important;
   background-size: cover !important;
+  margin-right: 20rpx;
+}
+.post-right {
+  width: calc(100% - 83rpx);
+  overflow: hidden;
 }
 .nickname-time {
   display: flex;
   flex-direction: row;
 }
 .nickname {
-  font-weight: bold;
-  font-size: 14px;
-  margin-left: 1.5vw;
+  font-family: PingFang SC;
+  font-weight: 600;
+  font-size: 26rpx;
+  color: #333333;
 }
 .time {
-  margin-left: 3.5vw;
-  font-size: 13px;
-  color: #bbbbbb;
+  margin-left: 27rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #666666;
 }
 
 .line-2 {
   display: flex;
   flex-direction: row;
-  padding-left: 15vw;
-  width: 81.5vw;
-  padding-right: 3.5vw;
   flex-wrap: wrap;
 }
 .line-2-one {
   color: #f89f12;
-  font-size: 13px;
-  margin-right: 10px;
+  font-size: 24rpx;
+  margin-right: 20rpx;
 }
 
 .line-3 {
-  padding-left: 15vw;
-  width: 81.5vw;
-  padding-right: 3.5vw;
-  font-size: 14px;
-  margin-top: 5px;
-  font-weight: bold;
+  font-size: 24rpx;
+  margin-top: 10rpx;
+  color: #040000;
 }
 
 .line-3-1 {
-  padding-left: 15vw;
-  width: 81.5vw;
-  padding-right: 3.5vw;
-  font-size: 14px;
-  margin-top: 5px;
+  margin-top: 10rpx;
 }
 .line-3-1-a {
   font-style: italic;
   color: #ff6155;
-  font-size: 12px;
+  font-size: 24rpx;
 }
 .line-3-2 {
-  padding-left: 15vw;
-  width: 81.5vw;
-  padding-right: 3.5vw;
-  font-size: 14px;
-  margin-top: 10px;
+  font-size: 28rpx;
+  margin-top: 20rpx;
 }
 
 .line-4 {
@@ -608,12 +614,11 @@ export default {
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
-  padding-left: 15vw;
-  padding-right: 3.5vw;
-  margin-top: 10px;
+  margin-top: 15rpx;
+  overflow: hidden;
 }
 .pad-r-pic {
-  padding-right: 29.5vw;
+  padding-right: 150rpx;
 }
 .pic-tip {
   background-color: #fafafa;
@@ -630,11 +635,11 @@ export default {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
   -ms-interpolation-mode: nearest-neighbor;
-  border-radius: 3px;
-  width: 196rpx;
-  height: 196rpx;
-  margin-right: 1vw;
-  margin-bottom: 1vw;
+  border-radius: 6rpx;
+  width: 194rpx;
+  height: 194rpx;
+  margin-right: 11rpx;
+  margin-top: 11rpx;
   /* background-repeat: no-repeat !important;
   background-size: cover !important;
   background-color: #e5e5e5 !important;
@@ -645,98 +650,104 @@ export default {
   margin-right: 0;
 }
 
+.mar-r-b {
+  margin-right: 0;
+}
+
 .line-5 {
   display: flex;
   flex-direction: column;
-  padding-left: 15vw;
-  width: 81.5vw;
-  padding-right: 3.5vw;
-  margin-top: 15px;
+  margin: 29rpx 0 13rpx;
 }
 .progress-tip {
   display: flex;
   flex-direction: row;
   align-items: center !important;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 29rpx;
 }
 .progress-tip-title {
-  font-size: 15px;
-  font-weight: bold;
   display: flex;
   flex-direction: row;
   align-items: center;
+  & > text {
+    font-family: Alibaba PuHuiTi;
+    font-weight: 800;
+    font-size: 26rpx;
+    color: #333333;
+  }
 }
 .sex-icon-type {
-  margin-left: 10px;
+  margin-left: 20rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 .sex-icon-type text {
-  font-size: 12px;
+  font-size: 24rpx;
 }
 .sex-icon {
-  width: 20px;
-  height: 20px;
-  margin-left: 5px;
+  width: 35rpx;
+  height: 35rpx;
+  margin-left: 10rpx;
 }
 .sex-type {
-  font-size: 13px;
-  margin-left: 5px;
+  font-size: 26rpx;
+  margin-left: 10rpx;
   font-weight: normal !important;
   color: #ff6155;
-  margin-right: 5px;
+  margin-right: 10rpx;
 }
 .progress-tip-num {
-  font-size: 15px;
+  font-family: DIN Alternate;
   font-weight: bold;
+  font-size: 26rpx;
+  color: #333333;
 }
 .progress-button {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 81.5vw;
   justify-content: space-between;
-  margin-top: 15px;
-}
-.progress-button-one-1 {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 39vw;
-  height: 45px;
-  color: #ffffff;
-  border-radius: 100px;
-  background-color: #ff6155;
-}
-.progress-button-one-2 {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 39vw !important;
-  height: 45px;
-  color: #ffffff;
-  border-radius: 100px;
-  background-color: #f89f12;
+  margin-top: 40rpx;
+  & > view,
+  & > button {
+    flex: 1;
+    margin: 0 14rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-family: PingFang SC;
+    font-weight: 400;
+    font-size: 26rpx;
+    color: #ffffff;
+    border-radius: 200rpx;
+    height: 78rpx;
+    padding: 0 !important;
+  }
+
+  .progress-button-one-1 {
+    margin-left: 0;
+    background-color: #ff6155;
+  }
+  .progress-button-one-2 {
+    margin-right: 0;
+    background-color: #f89f12;
+  }
 }
 .bg-gray {
   background-color: #bbbbbb !important;
 }
 .progress-button-name {
-  margin-left: 10px !important;
+  margin-left: 20rpx !important;
 }
 
 .line-6 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding-left: 15vw;
-  width: 81.5vw;
-  padding-right: 3.5vw;
-  margin-top: 15px;
+  margin-top: 29rpx;
 }
 .the-school {
   display: flex;
@@ -865,5 +876,9 @@ export default {
 .is-on-line-status {
   color: #bbbbbb;
   font-size: 13px;
+}
+.flex-algin {
+  display: flex;
+  align-items: center;
 }
 </style>
