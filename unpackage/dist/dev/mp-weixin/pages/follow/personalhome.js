@@ -305,6 +305,8 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -471,6 +473,12 @@ var _default = {
     toDetail: function toDetail(id) {
       uni.navigateTo({
         url: "/pages/index/detail?id=" + id
+      });
+    },
+    // 个人主页兼职不可以展示联系按钮
+    toJzDetail: function toJzDetail(id) {
+      uni.navigateTo({
+        url: "/pages/index/detail?id=" + id + "&noPhone=1"
       });
     },
     // 点赞

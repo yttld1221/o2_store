@@ -106,6 +106,8 @@
     <view class="the-line-5">
       <view class="posts-data" v-for="(item, index) in school_datas">
         <post-type-zudui
+          :showPhone="false"
+          @toJzDetail="toJzDetail"
           @toDetail="toDetail"
           @toThumb="toThumb"
           @zuduiButtons="zuduiButtons"
@@ -261,6 +263,12 @@ export default {
     toDetail: function (id) {
       uni.navigateTo({
         url: "/pages/index/detail?id=" + id,
+      });
+    },
+    // 个人主页兼职不可以展示联系按钮
+    toJzDetail: function (id) {
+      uni.navigateTo({
+        url: "/pages/index/detail?id=" + id + "&noPhone=1",
       });
     },
     // 点赞

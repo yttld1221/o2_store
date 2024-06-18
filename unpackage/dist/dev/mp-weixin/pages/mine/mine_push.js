@@ -214,6 +214,8 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -301,12 +303,18 @@ var _default = {
       this.theGetMomentsListPage = 1;
       this.getMomentsList();
     },
+    // 个人主页兼职不可以展示联系按钮
+    toJzDetail: function toJzDetail(id) {
+      this.$public.isIntoDetail(id, "请发布上线后再查看详情", "noPhone");
+    },
     // 跳转详情页
     toDetail: function toDetail(id) {
-      uni.navigateTo({
-        url: "/pages/index/detail?id=" + id
-      });
+      this.$public.isIntoDetail(id, "请发布上线后再查看详情");
+      // uni.navigateTo({
+      //   url: "/pages/index/detail?id=" + id,
+      // });
     },
+
     // 上下线
     toOn: function () {
       var _toOn = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(option) {

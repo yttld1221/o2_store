@@ -3,6 +3,7 @@
     <!-- 内容 -->
     <view class="posts-data">
       <post-type-zudui
+        :showPhone="showPhone"
         @toThumb="toThumb"
         @zuduiButtons="zuduiButtons"
         @topPerSonalhome="topPerSonalhome"
@@ -77,6 +78,8 @@
 export default {
   data() {
     return {
+      showPhone: true,
+      id: "",
       // 底部显示加载中的动画效果  more表示加载前，loading表示加载中，no-more表示没有更多数据
       isLoading: "loading",
 
@@ -87,96 +90,21 @@ export default {
       theGetCommentListPagesize: 10,
 
       // 详情页数据
-      detailData: {
-        // 该字段只有详情页才有
-        content:
-          "这是一段描述的内容，也就是活动的详情内容，但是只有详情页才有这个字段。",
-        // 该字段只有详情页才有
-        members: [
-          {
-            id: "1",
-            nick_name: "黄",
-            avatar_url:
-              "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png",
-          },
-        ],
-        //------------------------------------------------------------------------------------------------------------------------
-        id: 1,
-        title:
-          "欢迎来到氧气仓库官方资讯，这里有最前沿的校园资讯分享，快来和我一起看看吧～",
-        url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        pid: 0,
-        is_on: 1, // 是否是上线状态，1表示是，2表示否
-        is_hot: 2, // 是否是热门，1表示是，2表示否
-        school_id: 3, // 发布人所在学校ID
-        type: "组队/搭子", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        label:
-          "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        wages: "", // 兼职用的，工资金额或者显示"面议"
-        settlement: "", // 工资结算方式  用/拼接
-        hope_num: 10, // 组队的期望人数
-        free_type: "AA", // 组队的费用类型  免费/AA
-        is_entry: 1, // 本人是否报名组队，1是，2否
-        area_code: "640100", // 活动区地区代码
-        task_id: 0, // 关联的活动ID
-        created_at: "2021-05-18 11:05:13", // 第一次插入时间
-        released_at: "2021-03-11 16:05:13", // 发布时间
-        create_id: 50, // 发布人ID
-        sex_type: "不限", // 组队的性别要求
-        start_at: "2021-03-15", // 组队活动开始日期
-        end_at: "2021-03-17", // 组队活动结束日期
-        is_regard: 2, // 本人是否点关注 1是2否
-        is_thumb: 2, // 本人是否点过赞 1是2否
-        thumb_num: 1, // 点赞数
-        comment_num: 0, // 评论数
-        entry_num: 3, // 实际报名人数
-        nick_name: "氧*",
-        avatar_url:
-          "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        school_name: "宁波大学",
-        area_name: "银川市",
-      },
+      detailData: {},
 
       // 要发布的评论
       theInputComment: "",
       // 评论
-      theComments: [
-        {
-          id: 1,
-          moments_id: 1,
-          msg: "。",
-          create_id: 1,
-          created_at: "",
-          thumb_num: 0,
-          is_thumb: 1, // 本人是否点赞过 1是2否
-          nick_name: "",
-          avatar_url: "",
-        },
-      ],
+      theComments: [],
     };
   },
   onLoad(option) {
-    // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-    // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-    // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
     // 调用详情接口
-    // 重定向
-    let that = this;
-    // 异步转同步调用
-    (async function () {
-      console.log("option", option);
-      // 存再index.js的公共方法，调用帖子详情（接口中把详情内容赋值给了index.js的全局变量theDetailData）
-      await that.$store.dispatch("getMomentInfo", {
-        id: option.id,
-      });
-      // 本页面赋值
-      that.detailData = that.$store.state.theDetailData;
-      // console.log('that.detailData', that.detailData);
-
-      // 获取评论列表（第一页的）
-      that.getCommentList();
-    })();
+    this.id = option.id;
+    this.getDetail();
+    if (option.noPhone) {
+      this.showPhone = false;
+    }
   },
   // 监听下拉动作
   onPullDownRefresh() {
@@ -212,6 +140,32 @@ export default {
     this.getCommentList();
   },
   methods: {
+    getDetail() {
+      this.API.home
+        .getMomentInfo({
+          moments_id: this.id,
+        })
+        .then((res) => {
+          this.detailData = res.data;
+          this.getCommentList();
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.getDetail();
+          } else if (err.code == 404 && err.msg == "校园墙内容不存在") {
+            uni.navigateBack({
+              delta: 1,
+              success: () => {
+                uni.showToast({
+                  title: err.msg,
+                  icon: "none",
+                });
+              },
+            });
+          }
+        });
+    },
     //---------------------------------------------------------------界面处理方法---------------------------------------------------------------
     //---------------------------------------------------------------界面处理方法---------------------------------------------------------------
     //---------------------------------------------------------------界面处理方法---------------------------------------------------------------

@@ -871,7 +871,9 @@ var _default = {
                     });
                   }
                   for (var i = 0; i < res.data.data.length; i++) {
-                    _that.school_datas.push(res.data.data[i]);
+                    _that.school_datas.push(_objectSpread(_objectSpread({}, res.data.data[i]), {}, {
+                      img_url: res.data.data[i].url ? res.data.data[i].url.split(",")[0] : ""
+                    }));
                   }
                   _that.isLoading = "no-more"; // 取消加载动画
                   // console.log('_that.addressData',_that.addressData);
@@ -1091,14 +1093,19 @@ var _default = {
     }(),
     //打开三个点的操作
     actionMore: function actionMore(option) {
+      var _this7 = this;
       var that = this;
       var temp_is_collection = option.is_collection;
+      var itemList = [option.is_collection == 2 ? "收藏" : "取消收藏", option.is_regard == 1 ? "取消关注" : "关注TA", "不看此类话题"];
+      if (this.$store.state.theLogonUser.id == option.create_id) {
+        itemList.splice(1, 1);
+      }
       uni.showActionSheet({
-        itemList: [option.is_collection == 2 ? "收藏该内容" : "取消收藏该内容", "举报"],
-        itemColor: "#f89f12",
+        itemList: itemList,
+        itemColor: "#333333",
         success: function success(res) {
           // console.log(res.tapIndex);
-          if (res.tapIndex == 0) {
+          if (["收藏", "取消收藏"].includes(itemList[res.tapIndex])) {
             var _that = that;
             (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee10() {
               var i;
@@ -1141,12 +1148,10 @@ var _default = {
                 }
               }, _callee10);
             }))();
-          } else {
-            uni.showToast({
-              title: "举报成功",
-              duration: 1000,
-              icon: "none"
-            });
+          } else if (["取消关注", "关注TA"].includes(itemList[res.tapIndex])) {
+            _this7.followHandle(option);
+          } else if (["不看此类话题"].includes(itemList[res.tapIndex])) {
+            _this7.ignoreType(option);
           }
         },
         fail: function fail(res) {
@@ -1154,22 +1159,101 @@ var _default = {
         }
       });
     },
+    // 忽略话题
+    ignoreType: function ignoreType(option) {
+      var _this8 = this;
+      this.API.home.addDelMyIgnoreType({
+        ignore_type: option.type,
+        type: 1
+      }).then(function (res) {
+        console.log(res.data);
+        _this8.choiseOneTitle(0);
+        uni.showToast({
+          title: "操作成功",
+          duration: 1000,
+          icon: "none"
+        });
+      }).catch( /*#__PURE__*/function () {
+        var _ref10 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee11(err) {
+          return _regenerator.default.wrap(function _callee11$(_context11) {
+            while (1) {
+              switch (_context11.prev = _context11.next) {
+                case 0:
+                  if (!(err.code == 410)) {
+                    _context11.next = 4;
+                    break;
+                  }
+                  _context11.next = 3;
+                  return _this8.$store.dispatch("toLogon", {});
+                case 3:
+                  _this8.ignoreType();
+                case 4:
+                case "end":
+                  return _context11.stop();
+              }
+            }
+          }, _callee11);
+        }));
+        return function (_x7) {
+          return _ref10.apply(this, arguments);
+        };
+      }());
+    },
+    // 关注
+    followHandle: function followHandle(option) {
+      var _this9 = this;
+      this.API.order.regard({
+        to_user_id: option.create_id
+      }).then(function (res) {
+        console.log(res.data);
+        _this9.$set(_this9.school_datas[option.index], "is_regard", option.is_regard == 1 ? 2 : 1);
+        uni.showToast({
+          title: option.is_regard == 1 ? "已取消关注" : "关注成功",
+          duration: 1000,
+          icon: "none"
+        });
+      }).catch( /*#__PURE__*/function () {
+        var _ref11 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee12(err) {
+          return _regenerator.default.wrap(function _callee12$(_context12) {
+            while (1) {
+              switch (_context12.prev = _context12.next) {
+                case 0:
+                  if (!(err.code == 410)) {
+                    _context12.next = 4;
+                    break;
+                  }
+                  _context12.next = 3;
+                  return _this9.$store.dispatch("toLogon", {});
+                case 3:
+                  _this9.followHandle();
+                case 4:
+                case "end":
+                  return _context12.stop();
+              }
+            }
+          }, _callee12);
+        }));
+        return function (_x8) {
+          return _ref11.apply(this, arguments);
+        };
+      }());
+    },
     // 邀请/组队按钮
     zuduiButtons: function () {
-      var _zuduiButtons = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee11(option) {
+      var _zuduiButtons = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee13(option) {
         var temp_is_entry, i;
-        return _regenerator.default.wrap(function _callee11$(_context11) {
+        return _regenerator.default.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
                 if (!(option.type == 1)) {
-                  _context11.next = 7;
+                  _context13.next = 7;
                   break;
                 }
                 // 1表示是组队的按钮
                 // 这是保存一下当前本人的加入状态，用于判断最后本地是显示加入还是退出
                 temp_is_entry = option.is_entry;
-                _context11.next = 4;
+                _context13.next = 4;
                 return this.$store.dispatch("toEntry", {
                   id: option.id,
                   is_entry: option.is_entry
@@ -1200,18 +1284,18 @@ var _default = {
                     }
                   }
                 }
-                _context11.next = 8;
+                _context13.next = 8;
                 break;
               case 7:
                 this.inviteId = option.id;
               case 8:
               case "end":
-                return _context11.stop();
+                return _context13.stop();
             }
           }
-        }, _callee11, this);
+        }, _callee13, this);
       }));
-      function zuduiButtons(_x7) {
+      function zuduiButtons(_x9) {
         return _zuduiButtons.apply(this, arguments);
       }
       return zuduiButtons;

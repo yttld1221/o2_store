@@ -1,4 +1,5 @@
 import store from '../store/index'
+import home from '../API/requestApi/home'
 
 // 字符串转数组
 function strToArr(str, char) { // str为字符串，char为间隔的字符
@@ -280,8 +281,34 @@ function upLoadImage(payload) {
 	})
 }
 
+function isIntoDetail(id, msg = '', showBtn = '') {
+	home.getMomentInfo({
+		moments_id: id,
+	}).then((res) => {
+		let url = "/pages/index/detail?id=" + id
+		if (showBtn == 'noPhone') {
+			url += "&noPhone=1"
+		}
+		console.log(url)
+		uni.navigateTo({
+			url
+		});
+	}).catch(async (err) => {
+		if (err.code == 410) {
+			await this.$store.dispatch("toLogon", {});
+			this.isIntoDetail(id);
+		} else if (err.code == 404 && err.msg == "校园墙内容不存在") {
+			uni.showToast({
+				title: msg ? msg : err.msg,
+				icon: "none",
+			});
+		}
+	});
+}
+
 // 暴露出去的方法
 module.exports = {
+	isIntoDetail,
 	getNowDate,
 	upLoadImage,
 	getDateDiff,

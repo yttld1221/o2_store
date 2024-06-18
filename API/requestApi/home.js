@@ -113,6 +113,16 @@ const home = {
 			}
 		})
 	},
+	// v2忽略-添加或删除本人忽略的校园墙类型
+	addDelMyIgnoreType(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/wx/addDelMyIgnoreType`,
+			data: {
+				...data
+			}
+		})
+	},
 }
 
 export default home;

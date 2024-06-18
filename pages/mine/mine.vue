@@ -165,6 +165,7 @@
         <post-type-zudui
           @topPerSonalhome="topPerSonalhome"
           @toDetail="toDetail"
+          :showMore="false"
           :postsDataOneIndex="-1"
           :isPersonalHome="true"
           :theData="item"
@@ -1067,7 +1068,7 @@ export default {
 }
 
 .posts-data {
-  width: 93vw !important;
+  width: 100vw !important;
 }
 
 .space-line-bottom {

@@ -32,7 +32,7 @@
       >
         <view class="fans-list-item-left flex-align">
           <image
-            @click="topPerSonalhome(item.id)"
+            @click="topPerSonalhome(item, 'regard')"
             mode="aspectFill"
             :src="item.avatar_url"
           />
@@ -86,6 +86,7 @@
     >
       <view class="posts-data" v-for="(item, index) in school_datas">
         <post-type-zudui
+          :showMore="false"
           :isPersonalHome="true"
           @topPerSonalhome="topPerSonalhome"
           @toDetail="toDetail"
@@ -234,9 +235,17 @@ export default {
     //------------------------------------------------  页面跳转  -----------------------------------------------------
     //------------------------------------------------  页面跳转  -----------------------------------------------------
     // 跳转主页
-    topPerSonalhome: function (id) {
+    topPerSonalhome: function (item, type = "") {
+      if (!type && item.is_anonymous != 2) {
+        uni.showToast({
+          title: "这个人很神秘，不想让你看到TA的主页~",
+          duration: 2500,
+          icon: "none",
+        });
+        return false;
+      }
       uni.navigateTo({
-        url: "/pages/follow/personalhome?id=" + id,
+        url: "/pages/follow/personalhome?id=" + item.id,
       });
     },
     // 跳转详情页
@@ -578,6 +587,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-content: flex-start;
+  border-top: 20rpx solid #fafafa;
 }
 
 .space-line-bottom {

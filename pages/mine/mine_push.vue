@@ -24,6 +24,8 @@
     <!-- 内容 -->
     <view class="posts-data" v-for="(item, index) in school_datas">
       <post-type-zudui
+        :showPhone="false"
+        @toJzDetail="toJzDetail"
         @toDetail="toDetail"
         @toOn="toOn"
         :isMine="true"
@@ -135,12 +137,16 @@ export default {
       this.theGetMomentsListPage = 1;
       this.getMomentsList();
     },
-
+    // 个人主页兼职不可以展示联系按钮
+    toJzDetail: function (id) {
+      this.$public.isIntoDetail(id, "请发布上线后再查看详情", "noPhone");
+    },
     // 跳转详情页
     toDetail: function (id) {
-      uni.navigateTo({
-        url: "/pages/index/detail?id=" + id,
-      });
+      this.$public.isIntoDetail(id, "请发布上线后再查看详情");
+      // uni.navigateTo({
+      //   url: "/pages/index/detail?id=" + id,
+      // });
     },
 
     // 上下线
@@ -274,6 +280,7 @@ export default {
 }
 
 .the-line-4 {
+  z-index: 10;
   display: flex;
   flex-direction: row;
   width: 100vw;

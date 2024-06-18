@@ -252,7 +252,7 @@
   align-content: flex-start;
 }
 .posts-data {
-  width: 93vw !important;
+  width: 100vw !important;
 }
 .space-line-bottom {
   height: 280rpx;

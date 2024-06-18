@@ -12,7 +12,6 @@
     "pages/message/regard",
     "pages/mine/mine",
     "pages/mine/edit_avatar",
-    "pages/mine/edit_other",
     "pages/mine/mine_push"
   ],
   "subPackages": [
@@ -36,7 +35,8 @@
         "pages/info/register",
         "pages/info/protocol",
         "pages/push/index",
-        "pages/push/range"
+        "pages/push/range",
+        "pages/search/schoolSearch"
       ]
     }
   ],

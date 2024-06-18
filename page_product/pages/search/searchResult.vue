@@ -84,7 +84,7 @@ export default {
       ],
       // 当前获取的校园墙页码，每次需要+1
       theGetMomentsListPage: 1,
-      theGetMomentsListPagesize: 4,
+      theGetMomentsListPagesize: 6,
       searchText: "",
       searchRecord: [],
       contentText: {

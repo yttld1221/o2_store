@@ -269,9 +269,12 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
+//
 var _default = {
   data: function data() {
     return {
+      showPhone: true,
+      id: "",
       // 底部显示加载中的动画效果  more表示加载前，loading表示加载中，no-more表示没有更多数据
       isLoading: "loading",
       // 由于接口分也逻辑，如果拿完的是最后一页，下一页是会报错的，所以需要知道当前是否是最后一页，否则不允许调用接口的
@@ -281,124 +284,20 @@ var _default = {
       theGetCommentListPage: 1,
       theGetCommentListPagesize: 10,
       // 详情页数据
-      detailData: {
-        // 该字段只有详情页才有
-        content: "这是一段描述的内容，也就是活动的详情内容，但是只有详情页才有这个字段。",
-        // 该字段只有详情页才有
-        members: [{
-          id: "1",
-          nick_name: "黄",
-          avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230513/168394053478518.png"
-        }],
-        //------------------------------------------------------------------------------------------------------------------------
-        id: 1,
-        title: "欢迎来到氧气仓库官方资讯，这里有最前沿的校园资讯分享，快来和我一起看看吧～",
-        url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png",
-        // 图片，多张用英文的逗号隔开
-        pid: 0,
-        is_on: 1,
-        // 是否是上线状态，1表示是，2表示否
-        is_hot: 2,
-        // 是否是热门，1表示是，2表示否
-        school_id: 3,
-        // 发布人所在学校ID
-        type: "组队/搭子",
-        //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影",
-        // 标签，多个用英文的逗号隔开
-        is_anonymous: 1,
-        // 是否匿名 1表示是，2表示不匿名
-        wages: "",
-        // 兼职用的，工资金额或者显示"面议"
-        settlement: "",
-        // 工资结算方式  用/拼接
-        hope_num: 10,
-        // 组队的期望人数
-        free_type: "AA",
-        // 组队的费用类型  免费/AA
-        is_entry: 1,
-        // 本人是否报名组队，1是，2否
-        area_code: "640100",
-        // 活动区地区代码
-        task_id: 0,
-        // 关联的活动ID
-        created_at: "2021-05-18 11:05:13",
-        // 第一次插入时间
-        released_at: "2021-03-11 16:05:13",
-        // 发布时间
-        create_id: 50,
-        // 发布人ID
-        sex_type: "不限",
-        // 组队的性别要求
-        start_at: "2021-03-15",
-        // 组队活动开始日期
-        end_at: "2021-03-17",
-        // 组队活动结束日期
-        is_regard: 2,
-        // 本人是否点关注 1是2否
-        is_thumb: 2,
-        // 本人是否点过赞 1是2否
-        thumb_num: 1,
-        // 点赞数
-        comment_num: 0,
-        // 评论数
-        entry_num: 3,
-        // 实际报名人数
-        nick_name: "氧*",
-        avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        school_name: "宁波大学",
-        area_name: "银川市"
-      },
+      detailData: {},
       // 要发布的评论
       theInputComment: "",
       // 评论
-      theComments: [{
-        id: 1,
-        moments_id: 1,
-        msg: "。",
-        create_id: 1,
-        created_at: "",
-        thumb_num: 0,
-        is_thumb: 1,
-        // 本人是否点赞过 1是2否
-        nick_name: "",
-        avatar_url: ""
-      }]
+      theComments: []
     };
   },
   onLoad: function onLoad(option) {
-    // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-    // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-    // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
     // 调用详情接口
-    // 重定向
-    var that = this;
-    // 异步转同步调用
-    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-      return _regenerator.default.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              console.log("option", option);
-              // 存再index.js的公共方法，调用帖子详情（接口中把详情内容赋值给了index.js的全局变量theDetailData）
-              _context.next = 3;
-              return that.$store.dispatch("getMomentInfo", {
-                id: option.id
-              });
-            case 3:
-              // 本页面赋值
-              that.detailData = that.$store.state.theDetailData;
-              // console.log('that.detailData', that.detailData);
-
-              // 获取评论列表（第一页的）
-              that.getCommentList();
-            case 5:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }))();
+    this.id = option.id;
+    this.getDetail();
+    if (option.noPhone) {
+      this.showPhone = false;
+    }
   },
   // 监听下拉动作
   onPullDownRefresh: function onPullDownRefresh() {
@@ -416,22 +315,22 @@ var _default = {
     that.totalCount = 11;
 
     // 异步转同步调用
-    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-      return _regenerator.default.wrap(function _callee2$(_context2) {
+    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
+      return _regenerator.default.wrap(function _callee$(_context) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context.prev = _context.next) {
             case 0:
-              _context2.next = 2;
+              _context.next = 2;
               return that.getCommentList();
             case 2:
               // 等待接口返回后，取消下拉刷新动画
               uni.stopPullDownRefresh();
             case 3:
             case "end":
-              return _context2.stop();
+              return _context.stop();
           }
         }
-      }, _callee2);
+      }, _callee);
     }))();
   },
   // 页面触底的监听事件，配合pages.json中的"onReachBottomDistance": 0，0的位置写距离底部的距离
@@ -443,6 +342,53 @@ var _default = {
     this.getCommentList();
   },
   methods: {
+    getDetail: function getDetail() {
+      var _this2 = this;
+      this.API.home.getMomentInfo({
+        moments_id: this.id
+      }).then(function (res) {
+        _this2.detailData = res.data;
+        _this2.getCommentList();
+      }).catch( /*#__PURE__*/function () {
+        var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(err) {
+          return _regenerator.default.wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  if (!(err.code == 410)) {
+                    _context2.next = 6;
+                    break;
+                  }
+                  _context2.next = 3;
+                  return _this2.$store.dispatch("toLogon", {});
+                case 3:
+                  _this2.getDetail();
+                  _context2.next = 7;
+                  break;
+                case 6:
+                  if (err.code == 404 && err.msg == "校园墙内容不存在") {
+                    uni.navigateBack({
+                      delta: 1,
+                      success: function success() {
+                        uni.showToast({
+                          title: err.msg,
+                          icon: "none"
+                        });
+                      }
+                    });
+                  }
+                case 7:
+                case "end":
+                  return _context2.stop();
+              }
+            }
+          }, _callee2);
+        }));
+        return function (_x) {
+          return _ref2.apply(this, arguments);
+        };
+      }());
+    },
     //---------------------------------------------------------------界面处理方法---------------------------------------------------------------
     //---------------------------------------------------------------界面处理方法---------------------------------------------------------------
     //---------------------------------------------------------------界面处理方法---------------------------------------------------------------
@@ -513,7 +459,7 @@ var _default = {
           }
         }, _callee3, this);
       }));
-      function toThumb(_x) {
+      function toThumb(_x2) {
         return _toThumb.apply(this, arguments);
       }
       return toThumb;
@@ -641,7 +587,7 @@ var _default = {
           }
         }, _callee5, this);
       }));
-      function zuduiButtons(_x2) {
+      function zuduiButtons(_x3) {
         return _zuduiButtons.apply(this, arguments);
       }
       return zuduiButtons;

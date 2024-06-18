@@ -281,6 +281,7 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
+//
 var _default = {
   data: function data() {
     return {
@@ -424,9 +425,18 @@ var _default = {
     //------------------------------------------------  页面跳转  -----------------------------------------------------
     //------------------------------------------------  页面跳转  -----------------------------------------------------
     // 跳转主页
-    topPerSonalhome: function topPerSonalhome(id) {
+    topPerSonalhome: function topPerSonalhome(item) {
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+      if (!type && item.is_anonymous != 2) {
+        uni.showToast({
+          title: "这个人很神秘，不想让你看到TA的主页~",
+          duration: 2500,
+          icon: "none"
+        });
+        return false;
+      }
       uni.navigateTo({
-        url: "/pages/follow/personalhome?id=" + id
+        url: "/pages/follow/personalhome?id=" + item.id
       });
     },
     // 跳转详情页

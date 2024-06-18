@@ -37,7 +37,7 @@
             >
           </view>
           <view
-            :style="{ visibility: id != theLogonUser.shop_id ? '' : 'hidden' }"
+            :style="{ visibility: userId != theLogonUser.id ? '' : 'hidden' }"
             @click="followHandle()"
             class="other-info-right"
             :class="{ 'is-regard': userInfo.is_regard == 1 }"

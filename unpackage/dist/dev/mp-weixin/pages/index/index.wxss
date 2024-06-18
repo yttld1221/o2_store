@@ -355,6 +355,32 @@
   font-size: 22rpx;
   color: #999999;
 }
+.al-box {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 30rpx;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+}
+.al-box .al-item {
+  margin: 20rpx 0 0 0;
+  border-radius: 2rpx 2rpx 0 0;
+  padding: 0 10rpx;
+  width: 50%;
+  box-sizing: border-box;
+}
+.al-box .al-item image {
+  width: 100%;
+  height: 430rpx;
+  border-radius: 2rpx 2rpx 0 0;
+}
+.al-box .al-item:nth-child(2n-1) {
+  padding-left: 0;
+}
+.al-box .al-item:nth-child(2n) {
+  padding-right: 0;
+}
 .flex-align {
   display: flex;
   align-items: center;
