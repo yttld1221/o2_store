@@ -216,6 +216,12 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -235,55 +241,49 @@ var _default = {
       // 当前获取的校园墙页码，每次需要+1
       theGetMomentsListPage: 1,
       theGetMomentsListPagesize: 5,
-      school_datas: [
-        // {
-        // 	id: 1,
-        // 	title: "欢迎来到氧气仓库官方资讯，这里有最前沿的校园资讯分享，快来和我一起看看吧～",
-        // 	url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        // 	pid: 0,
-        // 	is_on: 1, // 是否是上线状态，1表示是，2表示否
-        // 	is_hot: 2, // 是否是热门，1表示是，2表示否
-        // 	school_id: 3, // 发布人所在学校ID
-        // 	type: "话题", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // 	label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        // 	is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        // 	wages: "", // 兼职用的，工资金额或者显示"面议"
-        // 	settlement: "", // 工资结算方式  用/拼接
-        // 	hope_num: 10, // 组队的期望人数
-        // 	free_type: "", // 组队的费用类型  免费/AA
-        // 	is_entry: 1, // 本人是否报名组队，1是，2否
-        // 	area_code: "640100", // 活动区地区代码
-        // 	task_id: 0, // 关联的活动ID
-        // 	created_at: "2023-05-18 11:05:13", // 第一次插入时间
-        // 	released_at: "2024-03-11 16:05:13", // 发布时间
-        // 	create_id: 50, // 发布人ID
-        // 	sex_type: "", // 组队的性别要求
-        // 	start_at: null, // 组队活动开始日期
-        // 	end_at: null, // 组队活动开始日期
-        // 	is_regard: 2, // 组队活动结束日期
-        // 	is_thumb: 1, // 本人是否点过赞 1是2否
-        // 	thumb_num: 1, // 点赞数
-        // 	comment_num: 0, // 评论数
-        // 	entry_num: 3, // 实际报名人数
-        // 	nick_name: "氧*",
-        // 	avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        // 	school_name: "宁波大学",
-        // 	area_name: "银川市"
-        // }
-      ]
+      school_datas: [],
+      contentHeight: 0
     };
   },
   onLoad: function onLoad() {
-    // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-    // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-    // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
+    var _this2 = this;
+    var query = uni.createSelectorQuery().in(this);
+    query.select(".the-line-4").boundingClientRect(function (data) {
+      _this2.contentHeight = data.height;
+    }).exec();
+    this.theGetMomentsListPage = 1;
+    this.getMomentsList();
+  },
+  // 监听下拉动作
+  onPullDownRefresh: function onPullDownRefresh() {
+    var _this3 = this;
+    // 重置获取的页码
+    this.theGetMomentsListPage = 1;
+    // 重置数组
+    this.school_datas = [];
+    // 异步转同步调用
+    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
+      return _regenerator.default.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return _this3.getMomentsList();
+            case 2:
+              // 等待接口返回后，取消下拉刷新动画
+              uni.stopPullDownRefresh();
+            case 3:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   onShow: function onShow() {
     // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
     // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
     // --------------------------------------------------------------调用初始数据--------------------------------------------------------------
-    this.theGetMomentsListPage = 1;
-    this.getMomentsList();
   },
   // 页面触底的监听事件，配合pages.json中的"onReachBottomDistance": 0，0的位置写距离底部的距离
   onReachBottom: function onReachBottom() {
@@ -305,30 +305,73 @@ var _default = {
     },
     // 个人主页兼职不可以展示联系按钮
     toJzDetail: function toJzDetail(id) {
-      this.$public.isIntoDetail(id, "请发布上线后再查看详情", "noPhone");
+      console.log(id);
+      var url = "/pages/index/detail?id=" + id;
+      url += "&noPhone=1";
+      var index = this.school_datas.findIndex(function (el) {
+        return el.id == id;
+      });
+      if (index > -1) {
+        url += this.school_datas[index].is_on == 1 ? "" : "&noMore=1";
+      }
+      uni.navigateTo({
+        url: url
+      });
     },
     // 跳转详情页
     toDetail: function toDetail(id) {
-      this.$public.isIntoDetail(id, "请发布上线后再查看详情");
-      // uni.navigateTo({
-      //   url: "/pages/index/detail?id=" + id,
-      // });
+      console.log(id);
+      var url = "/pages/index/detail?id=" + id;
+      var index = this.school_datas.findIndex(function (el) {
+        return el.id == id;
+      });
+      if (index > -1) {
+        url += this.school_datas[index].is_on == 1 ? "" : "&noMore=1";
+      }
+      uni.navigateTo({
+        url: url
+      });
     },
-
+    //打开三个点的操作
+    actionMore: function actionMore(option) {
+      var _this4 = this;
+      var that = this;
+      var itemList = [option.is_on == 1 ? "下线撤回" : "上线发布"];
+      if (option.is_on == 2) {
+        itemList.unshift("编辑");
+      }
+      uni.showActionSheet({
+        itemList: itemList,
+        itemColor: "#333333",
+        success: function success(res) {
+          // console.log(res.tapIndex);
+          if (["下线撤回", "上线发布"].includes(itemList[res.tapIndex])) {
+            _this4.toOn(option);
+          } else if (["编辑"].includes(itemList[res.tapIndex])) {
+            uni.navigateTo({
+              url: "/page_product/pages/push/index?type=" + option.type + "&id=" + option.id
+            });
+          }
+        },
+        fail: function fail(res) {
+          // console.log(res.errMsg);
+        }
+      });
+    },
     // 上下线
     toOn: function () {
-      var _toOn = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(option) {
-        return _regenerator.default.wrap(function _callee$(_context) {
+      var _toOn = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(option) {
+        return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 // 每次调用前先重置一下
                 this.$store.state.isOn_true = false;
                 if (!(option.is_on == 1)) {
-                  _context.next = 7;
+                  _context2.next = 7;
                   break;
                 }
-                _context.next = 4;
+                _context2.next = 4;
                 return this.$store.dispatch("upDownMyMoments", {
                   id: option.id,
                   is_on: 2,
@@ -339,10 +382,10 @@ var _default = {
                   // 调用成功
                   this.line_4_itemsSelected(2); // 操作成功，就跳转草稿页
                 }
-                _context.next = 10;
+                _context2.next = 10;
                 break;
               case 7:
-                _context.next = 9;
+                _context2.next = 9;
                 return this.$store.dispatch("upDownMyMoments", {
                   id: option.id,
                   is_on: 1,
@@ -355,10 +398,10 @@ var _default = {
                 }
               case 10:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, this);
+        }, _callee2, this);
       }));
       function toOn(_x) {
         return _toOn.apply(this, arguments);
@@ -427,12 +470,12 @@ var _default = {
             } else if (res.data.code == 410) {
               var __that = _that;
               // 异步转同步，
-              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-                return _regenerator.default.wrap(function _callee2$(_context2) {
+              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
+                return _regenerator.default.wrap(function _callee3$(_context3) {
                   while (1) {
-                    switch (_context2.prev = _context2.next) {
+                    switch (_context3.prev = _context3.next) {
                       case 0:
-                        _context2.next = 2;
+                        _context3.next = 2;
                         return __that.$store.dispatch("toLogon", {});
                       case 2:
                         // 重置
@@ -441,10 +484,10 @@ var _default = {
                         __that.getMomentsList();
                       case 4:
                       case "end":
-                        return _context2.stop();
+                        return _context3.stop();
                     }
                   }
-                }, _callee2);
+                }, _callee3);
               }))();
             } else {
               uni.showToast({

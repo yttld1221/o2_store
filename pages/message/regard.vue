@@ -17,7 +17,7 @@
               :src="item.from_avatar_url"
             />
           </view>
-          <view @click="toDetail(item.moments_id)" class="message-info">
+          <view @click="toDetail(item)" class="message-info">
             <view class="message-name">{{ item.from_nick_name }}</view>
             <view
               class="message-desc"
@@ -34,7 +34,7 @@
           >TA的主页</view
         >
         <image
-          @click="toDetail(item.moments_id)"
+          @click="toDetail(item)"
           v-if="type == '互动'"
           class="img_url"
           :class="{ 'bg-img': item.img_url }"
@@ -114,26 +114,21 @@ export default {
       });
     },
     // 跳转详情页
-    toDetail: function (id) {
-      // console.log('id',id);
+    toDetail: function (item) {
       if (this.type != "互动") {
         return;
       }
-      this.API.home
-        .getMomentInfo({
-          moments_id: id,
-        })
-        .then((res) => {
-          uni.navigateTo({
-            url: "/pages/index/detail?id=" + id,
-          });
-        })
-        .catch(async (err) => {
-          if (err.code == 410) {
-            await this.$store.dispatch("toLogon", {});
-            this.toDetail();
-          }
+      if (item.is_on == 1) {
+        uni.navigateTo({
+          url: "/pages/index/detail?id=" + item.moments_id,
         });
+      } else {
+        uni.showToast({
+          title: "找不到对应的校园墙",
+          duration: 2500,
+          icon: "none",
+        });
+      }
     },
     //------------------------------------------------  接口调用  -----------------------------------------------------
     //------------------------------------------------  接口调用  -----------------------------------------------------

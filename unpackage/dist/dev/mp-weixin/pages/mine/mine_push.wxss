@@ -37,10 +37,8 @@
 }
 .posts-data {
   width: 100vw;
-  margin-top: 45px;
 }
 .space-line-bottom {
-  margin-top: 45px;
-  height: 180px;
+  margin: 30rpx 0;
 }
 

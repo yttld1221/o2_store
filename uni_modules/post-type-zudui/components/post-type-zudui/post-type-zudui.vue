@@ -10,6 +10,12 @@
     }"
   >
     <view class="jz-box" v-if="theData.type == '兼职'">
+      <view v-if="isMine" @click.stop="actionMore" class="jz-more">
+        <uni-icons
+          type="more-filled"
+          size="18"
+        ></uni-icons>
+      </view>
       <view class="jz-top" :class="{ 'mt-box': theData.wages == '面议' }">
         <view class="my-left">
           <!-- 标题 -->
@@ -256,7 +262,7 @@
       </view>
     </view>
     <!-- 上下线按钮 -->
-    <view v-if="isMine" class="is-on-line">
+    <!-- <view v-if="isMine" class="is-on-line">
       <view class="is-on-line-status"
         >当前状态：{{ theData.is_on == 1 ? "已上线" : "草稿箱" }}</view
       >
@@ -276,7 +282,7 @@
           theData.is_on != 1 ? "上线发布" : "下线撤回"
         }}</view>
       </view>
-    </view>
+    </view> -->
   </view>
 </template>
 
@@ -353,43 +359,21 @@ export default {
       // 组队的按钮
     };
   },
+  watch: {
+    theData: {
+      handler(newVal, oldVal) {
+        this.initDatas();
+      },
+      deep: true,
+    },
+  },
 
   mounted() {
     // console.log('theData',this.theData);
 
     // 这里除了个问题，导致拿到的theData有时候在mounted的时候是空的
     console.log(this.theData);
-    let that = this;
-
-    setTimeout(function () {
-      that.released_at = that.getTime(that.theData.released_at);
-      that.label = that.theData.label ? that.theData.label.split(",") : [];
-      that.pictures = that.theData.url ? that.theData.url.split(",") : [];
-      //   that.$public.strToArr(that.theData.url, ",");
-      //   that.pictures = that.pictures.filter((el) => el);
-
-      if (that.theData.type == "组队/搭子") {
-        // 只有组队/搭子，才需要处理这个
-        let nowYear = new Date().getFullYear() + "";
-        let starts = that.$public.strToArr(that.theData.start_at, "-");
-        // console.log(starts);
-        let ends = that.$public.strToArr(that.theData.end_at, "-");
-        // console.log(ends);
-        that.activeDate =
-          (starts[0] == nowYear ? "" : starts[0] + "年") +
-          starts[1] +
-          "月" +
-          starts[2] +
-          "日" +
-          "-" +
-          (ends[0] == nowYear ? "" : ends[0] + "年") +
-          ends[1] +
-          "月" +
-          ends[2] +
-          "日";
-        // console.log('that.activeDate',that.activeDate);
-      }
-    }, 50);
+    this.initDatas();
   },
   computed: {
     getPictures: function () {
@@ -410,11 +394,43 @@ export default {
     },
   },
   methods: {
+    initDatas() {
+      let that = this;
+      this.$nextTick(function () {
+        that.released_at = that.getTime(that.theData.released_at);
+        that.label = that.theData.label ? that.theData.label.split(",") : [];
+        that.pictures = that.theData.url ? that.theData.url.split(",") : [];
+        //   that.$public.strToArr(that.theData.url, ",");
+        //   that.pictures = that.pictures.filter((el) => el);
+
+        if (that.theData.type == "组队/搭子") {
+          // 只有组队/搭子，才需要处理这个
+          let nowYear = new Date().getFullYear() + "";
+          let starts = that.$public.strToArr(that.theData.start_at, "-");
+          // console.log(starts);
+          let ends = that.$public.strToArr(that.theData.end_at, "-");
+          // console.log(ends);
+          that.activeDate =
+            (starts[0] == nowYear ? "" : starts[0] + "年") +
+            starts[1] +
+            "月" +
+            starts[2] +
+            "日" +
+            "-" +
+            (ends[0] == nowYear ? "" : ends[0] + "年") +
+            ends[1] +
+            "月" +
+            ends[2] +
+            "日";
+          // console.log('that.activeDate',that.activeDate);
+        }
+      });
+    },
     //---------------------------------------------------- 绑定的方法 ----------------------------------------------------
     //---------------------------------------------------- 绑定的方法 ----------------------------------------------------
     //---------------------------------------------------- 绑定的方法 ----------------------------------------------------
     toDetail: function () {
-      if (this.theData.type == "兼职" && !this.showPhone) {
+      if (!this.showPhone) {
         this.$emit("toJzDetail", this.theData.id);
       } else {
         this.$emit("toDetail", this.theData.id);
@@ -437,6 +453,8 @@ export default {
       // 传0表示是邀请，传1是组队按钮
       this.$emit("zuduiButtons", {
         id: this.theData.id,
+        title: this.theData.title,
+        url: this.theData.url,
         is_entry: this.theData.is_entry,
         type: index,
       });
@@ -454,6 +472,7 @@ export default {
     actionMore: function () {
       this.$emit("actionMore", {
         id: this.theData.id,
+        is_on: this.theData.is_on,
         type: this.theData.type,
         create_id: this.theData.create_id,
         is_regard: this.theData.is_regard,
@@ -467,6 +486,7 @@ export default {
 
     // 这里需要写个方法对时间进行处理
     getTime: function (theTime) {
+      console.log(theTime);
       // 转化时间戳的方法
       // 发帖时间的时间戳
       let timestamp_at = new Date(theTime).getTime();
@@ -831,6 +851,10 @@ export default {
 .jz-box {
   width: 100%;
   padding-top: 11rpx;
+  .jz-more {
+    display: flex;
+    justify-content: flex-end;
+  }
   .jz-top {
     width: 100%;
   }

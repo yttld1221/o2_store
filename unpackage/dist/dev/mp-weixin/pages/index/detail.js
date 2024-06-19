@@ -270,9 +270,11 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
+//
 var _default = {
   data: function data() {
     return {
+      showMore: true,
       showPhone: true,
       id: "",
       // 底部显示加载中的动画效果  more表示加载前，loading表示加载中，no-more表示没有更多数据
@@ -297,6 +299,9 @@ var _default = {
     this.getDetail();
     if (option.noPhone) {
       this.showPhone = false;
+    }
+    if (option.noMore) {
+      this.showMore = false;
     }
   },
   // 监听下拉动作
@@ -356,28 +361,14 @@ var _default = {
               switch (_context2.prev = _context2.next) {
                 case 0:
                   if (!(err.code == 410)) {
-                    _context2.next = 6;
+                    _context2.next = 4;
                     break;
                   }
                   _context2.next = 3;
                   return _this2.$store.dispatch("toLogon", {});
                 case 3:
                   _this2.getDetail();
-                  _context2.next = 7;
-                  break;
-                case 6:
-                  if (err.code == 404 && err.msg == "校园墙内容不存在") {
-                    uni.navigateBack({
-                      delta: 1,
-                      success: function success() {
-                        uni.showToast({
-                          title: err.msg,
-                          icon: "none"
-                        });
-                      }
-                    });
-                  }
-                case 7:
+                case 4:
                 case "end":
                   return _context2.stop();
               }
@@ -466,14 +457,18 @@ var _default = {
     }(),
     //打开三个点的操作
     actionMore: function actionMore(option) {
+      console.log(option);
       var that = this;
       var temp_is_collection = option.is_collection;
+      var itemList = [option.is_collection == 2 ? "收藏" : "取消收藏", option.is_regard == 1 ? "取消关注" : "关注TA"];
+      if (this.$store.state.theLogonUser.id == option.create_id || !this.showPhone) {
+        itemList.splice(1, 1);
+      }
       uni.showActionSheet({
-        itemList: [option.is_collection == 2 ? "收藏该内容" : "取消收藏该内容", "举报"],
-        itemColor: "#f89f12",
+        itemList: itemList,
+        itemColor: "#333333",
         success: function success(res) {
-          // console.log(res.tapIndex);
-          if (res.tapIndex == 0) {
+          if (["收藏", "取消收藏"].includes(itemList[res.tapIndex])) {
             var _that = that;
             (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
               return _regenerator.default.wrap(function _callee4$(_context4) {
@@ -511,12 +506,8 @@ var _default = {
                 }
               }, _callee4);
             }))();
-          } else {
-            uni.showToast({
-              title: "举报成功",
-              duration: 1000,
-              icon: "none"
-            });
+          } else if (["取消关注", "关注TA"].includes(itemList[res.tapIndex])) {
+            this.followHandle(option);
           }
         },
         fail: function fail(res) {
@@ -524,22 +515,61 @@ var _default = {
         }
       });
     },
+    // 关注
+    followHandle: function followHandle(option) {
+      var _this3 = this;
+      this.API.order.regard({
+        to_user_id: option.create_id
+      }).then(function (res) {
+        console.log(res.data);
+        _this3.$set(_this3.detailData, "is_regard", option.is_regard == 1 ? 2 : 1);
+        uni.showToast({
+          title: option.is_regard == 1 ? "已取消关注" : "关注成功",
+          duration: 1000,
+          icon: "none"
+        });
+      }).catch( /*#__PURE__*/function () {
+        var _ref4 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(err) {
+          return _regenerator.default.wrap(function _callee5$(_context5) {
+            while (1) {
+              switch (_context5.prev = _context5.next) {
+                case 0:
+                  if (!(err.code == 410)) {
+                    _context5.next = 4;
+                    break;
+                  }
+                  _context5.next = 3;
+                  return _this3.$store.dispatch("toLogon", {});
+                case 3:
+                  _this3.followHandle();
+                case 4:
+                case "end":
+                  return _context5.stop();
+              }
+            }
+          }, _callee5);
+        }));
+        return function (_x3) {
+          return _ref4.apply(this, arguments);
+        };
+      }());
+    },
     // 邀请/组队按钮
     zuduiButtons: function () {
-      var _zuduiButtons = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(option) {
+      var _zuduiButtons = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6(option) {
         var temp_is_entry, i;
-        return _regenerator.default.wrap(function _callee5$(_context5) {
+        return _regenerator.default.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (!(option.type == 1)) {
-                  _context5.next = 5;
+                  _context6.next = 5;
                   break;
                 }
                 // 1表示是组队的按钮
                 // 这是保存一下当前本人的加入状态，用于判断最后本地是显示加入还是退出
                 temp_is_entry = option.is_entry;
-                _context5.next = 4;
+                _context6.next = 4;
                 return this.$store.dispatch("toEntry", {
                   id: option.id,
                   is_entry: option.is_entry
@@ -582,12 +612,12 @@ var _default = {
                 }
               case 5:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
-      function zuduiButtons(_x3) {
+      function zuduiButtons(_x4) {
         return _zuduiButtons.apply(this, arguments);
       }
       return zuduiButtons;
@@ -637,21 +667,21 @@ var _default = {
               } else if (res.data.code == 410) {
                 var __that = _that;
                 // 异步转同步，
-                (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
-                  return _regenerator.default.wrap(function _callee6$(_context6) {
+                (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
+                  return _regenerator.default.wrap(function _callee7$(_context7) {
                     while (1) {
-                      switch (_context6.prev = _context6.next) {
+                      switch (_context7.prev = _context7.next) {
                         case 0:
-                          _context6.next = 2;
+                          _context7.next = 2;
                           return __that.$store.dispatch("toLogon", {});
                         case 2:
                           __that.getCommentList();
                         case 3:
                         case "end":
-                          return _context6.stop();
+                          return _context7.stop();
                       }
                     }
-                  }, _callee6);
+                  }, _callee7);
                 }))();
               } else {
                 uni.showToast({
@@ -729,22 +759,22 @@ var _default = {
               } else if (res.data.code == 410) {
                 var __that = _that;
                 // 异步转同步，
-                (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
-                  return _regenerator.default.wrap(function _callee7$(_context7) {
+                (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8() {
+                  return _regenerator.default.wrap(function _callee8$(_context8) {
                     while (1) {
-                      switch (_context7.prev = _context7.next) {
+                      switch (_context8.prev = _context8.next) {
                         case 0:
-                          _context7.next = 2;
+                          _context8.next = 2;
                           return __that.$store.dispatch("toLogon", {});
                         case 2:
                           // 获取省市数据
                           __that.toComment();
                         case 3:
                         case "end":
-                          return _context7.stop();
+                          return _context8.stop();
                       }
                     }
-                  }, _callee7);
+                  }, _callee8);
                 }))();
               } else {
                 uni.showToast({
@@ -804,22 +834,22 @@ var _default = {
           } else if (res.data.code == 410) {
             var __that = _that;
             // 异步转同步，
-            (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8() {
-              return _regenerator.default.wrap(function _callee8$(_context8) {
+            (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee9() {
+              return _regenerator.default.wrap(function _callee9$(_context9) {
                 while (1) {
-                  switch (_context8.prev = _context8.next) {
+                  switch (_context9.prev = _context9.next) {
                     case 0:
-                      _context8.next = 2;
+                      _context9.next = 2;
                       return __that.$store.dispatch("toLogon", {});
                     case 2:
                       // 获取省市数据
                       __that.commentThumb();
                     case 3:
                     case "end":
-                      return _context8.stop();
+                      return _context9.stop();
                   }
                 }
-              }, _callee8);
+              }, _callee9);
             }))();
           } else {
             uni.showToast({

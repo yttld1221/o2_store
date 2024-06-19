@@ -4,7 +4,7 @@
     <view class="top">
       <uni-search-bar @input="toInput" v-model="searchValue"></uni-search-bar>
       <!-- 25px -->
-      <view v-if="type !== 'mall'" class="selected">
+      <view v-if="!['push', 'mall'].includes(type)" class="selected">
         <view class="selected-tip">已选择</view>
         <view class="selected-content">
           <uni-icons

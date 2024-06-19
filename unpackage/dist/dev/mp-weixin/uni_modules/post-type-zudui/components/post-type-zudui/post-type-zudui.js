@@ -79,11 +79,11 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
-    uIcon: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 423))
-    },
     uniIcons: function () {
       return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 432))
+    },
+    uIcon: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 423))
     },
   }
 } catch (e) {
@@ -472,6 +472,12 @@ exports.default = void 0;
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var _default2 = {
   name: "post-type-zudui",
   props: {
@@ -543,30 +549,21 @@ var _default2 = {
       // 组队的按钮
     };
   },
+
+  watch: {
+    theData: {
+      handler: function handler(newVal, oldVal) {
+        this.initDatas();
+      },
+      deep: true
+    }
+  },
   mounted: function mounted() {
     // console.log('theData',this.theData);
 
     // 这里除了个问题，导致拿到的theData有时候在mounted的时候是空的
     console.log(this.theData);
-    var that = this;
-    setTimeout(function () {
-      that.released_at = that.getTime(that.theData.released_at);
-      that.label = that.theData.label ? that.theData.label.split(",") : [];
-      that.pictures = that.theData.url ? that.theData.url.split(",") : [];
-      //   that.$public.strToArr(that.theData.url, ",");
-      //   that.pictures = that.pictures.filter((el) => el);
-
-      if (that.theData.type == "组队/搭子") {
-        // 只有组队/搭子，才需要处理这个
-        var nowYear = new Date().getFullYear() + "";
-        var starts = that.$public.strToArr(that.theData.start_at, "-");
-        // console.log(starts);
-        var ends = that.$public.strToArr(that.theData.end_at, "-");
-        // console.log(ends);
-        that.activeDate = (starts[0] == nowYear ? "" : starts[0] + "年") + starts[1] + "月" + starts[2] + "日" + "-" + (ends[0] == nowYear ? "" : ends[0] + "年") + ends[1] + "月" + ends[2] + "日";
-        // console.log('that.activeDate',that.activeDate);
-      }
-    }, 50);
+    this.initDatas();
   },
   computed: {
     getPictures: function getPictures() {
@@ -588,11 +585,33 @@ var _default2 = {
   },
 
   methods: {
+    initDatas: function initDatas() {
+      var that = this;
+      this.$nextTick(function () {
+        that.released_at = that.getTime(that.theData.released_at);
+        that.label = that.theData.label ? that.theData.label.split(",") : [];
+        that.pictures = that.theData.url ? that.theData.url.split(",") : [];
+        //   that.$public.strToArr(that.theData.url, ",");
+        //   that.pictures = that.pictures.filter((el) => el);
+
+        if (that.theData.type == "组队/搭子") {
+          // 只有组队/搭子，才需要处理这个
+          var nowYear = new Date().getFullYear() + "";
+          var starts = that.$public.strToArr(that.theData.start_at, "-");
+          // console.log(starts);
+          var ends = that.$public.strToArr(that.theData.end_at, "-");
+          // console.log(ends);
+          that.activeDate = (starts[0] == nowYear ? "" : starts[0] + "年") + starts[1] + "月" + starts[2] + "日" + "-" + (ends[0] == nowYear ? "" : ends[0] + "年") + ends[1] + "月" + ends[2] + "日";
+          // console.log('that.activeDate',that.activeDate);
+        }
+      });
+    },
+
     //---------------------------------------------------- 绑定的方法 ----------------------------------------------------
     //---------------------------------------------------- 绑定的方法 ----------------------------------------------------
     //---------------------------------------------------- 绑定的方法 ----------------------------------------------------
     toDetail: function toDetail() {
-      if (this.theData.type == "兼职" && !this.showPhone) {
+      if (!this.showPhone) {
         this.$emit("toJzDetail", this.theData.id);
       } else {
         this.$emit("toDetail", this.theData.id);
@@ -615,6 +634,8 @@ var _default2 = {
       // 传0表示是邀请，传1是组队按钮
       this.$emit("zuduiButtons", {
         id: this.theData.id,
+        title: this.theData.title,
+        url: this.theData.url,
         is_entry: this.theData.is_entry,
         type: index
       });
@@ -631,6 +652,7 @@ var _default2 = {
     actionMore: function actionMore() {
       this.$emit("actionMore", {
         id: this.theData.id,
+        is_on: this.theData.is_on,
         type: this.theData.type,
         create_id: this.theData.create_id,
         is_regard: this.theData.is_regard,
@@ -644,6 +666,7 @@ var _default2 = {
 
     // 这里需要写个方法对时间进行处理
     getTime: function getTime(theTime) {
+      console.log(theTime);
       // 转化时间戳的方法
       // 发帖时间的时间戳
       var timestamp_at = new Date(theTime).getTime();

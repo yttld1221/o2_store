@@ -3,10 +3,10 @@
   "navigationBarTextStyle": "black",
   "navigationBarTitleText": "店铺主页",
   "enablePullDownRefresh": true,
-  "onReachBottomDistance": 50,
+  "onReachBottomDistance": 100,
   "usingComponents": {
     "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
-    "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more",
-    "post-zudui": "/page_product/components/postZudui"
+    "post-type-zudui": "/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui",
+    "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more"
   }
 }

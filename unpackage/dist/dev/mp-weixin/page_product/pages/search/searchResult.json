@@ -3,7 +3,7 @@
   "navigationBarTextStyle": "black",
   "navigationBarTitleText": "搜索结果",
   "enablePullDownRefresh": false,
-  "onReachBottomDistance": 50,
+  "onReachBottomDistance": 100,
   "usingComponents": {
     "u-search": "/uni_modules/uview-ui/components/u-search/u-search",
     "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more"

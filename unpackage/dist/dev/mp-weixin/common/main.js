@@ -16,7 +16,7 @@ __webpack_require__(/*! uni-pages */ 26);
 var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 27));
 var _index = _interopRequireDefault(__webpack_require__(/*! ./store/index.js */ 33));
 var _public = _interopRequireDefault(__webpack_require__(/*! ./store/public.js */ 38));
-var _apiList = _interopRequireDefault(__webpack_require__(/*! API/apiList.js */ 39));
+var _apiList = _interopRequireDefault(__webpack_require__(/*! API/apiList.js */ 41));
 var _uviewUi = _interopRequireDefault(__webpack_require__(/*! @/uni_modules/uview-ui */ 48));
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 25));
 __webpack_require__(/*! ./uni.promisify.adaptor */ 170);

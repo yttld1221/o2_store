@@ -285,6 +285,7 @@ export default {
   components: {},
   data() {
     return {
+      id: "",
       task_id: 0,
       taskTitle: "",
       addressArr: [],
@@ -308,14 +309,14 @@ export default {
       },
       type: "",
       titleObj: {
-        话题: "发布话题",
-        "组队/搭子": "发布组队",
+        话题: "话题",
+        "组队/搭子": "组队",
         "分享/安利": "安利好物",
-        二手闲置: "发布闲置",
-        兼职: "发布兼职",
-        表白: "发布表白",
-        求助: "发布求助",
-        其他: "发布其他",
+        二手闲置: "闲置",
+        兼职: "兼职",
+        表白: "表白",
+        求助: "求助",
+        其他: "其他",
       },
       nameObj: {
         话题: "请输入推荐标题",
@@ -344,8 +345,15 @@ export default {
     if (options.type) {
       this.type = options.type;
       uni.setNavigationBarTitle({
-        title: this.titleObj[options.type],
+        title:
+          this.type == "分享/安利"
+            ? this.titleObj[options.type]
+            : `${options.id ? "编辑" : "发布"}${this.titleObj[options.type]}`,
       });
+    }
+    if (options.id) {
+      this.id = options.id;
+      this.getDetail(options.id);
     }
     uni.$on("getRange", (data) => {
       this.theSelectedranges = data;
@@ -360,6 +368,58 @@ export default {
     });
   },
   methods: {
+    getDetail(id) {
+      this.API.home
+        .getMyMomentInfo({
+          moments_id: id,
+        })
+        .then((res) => {
+          console.log(res);
+          this.theData = { ...res.data };
+          this.theSelectedLabels = res.data.label
+            ? res.data.label.split(",")
+            : [];
+          let arrImg = res.data.url
+            ? res.data.url.split(",").map((el) => {
+                return {
+                  url: el,
+                };
+              })
+            : [];
+          this.fileList = this.fileList.concat(arrImg);
+          let areaArr = res.data.area_names
+            ? res.data.area_names.split(",")
+            : [];
+          this.theSelectedranges = res.data.area_codes
+            ? res.data.area_codes.split(",").map((el, index) => {
+                return {
+                  title: areaArr[index],
+                  code: el,
+                };
+              })
+            : [];
+          this.task_id = res.data.task_id ? res.data.task_id : "";
+          this.taskTitle = res.data.task_title ? res.data.task_title : "";
+          if (res.data.area_code) {
+            this.getAddText(res.data.area_code);
+          }
+          this.dateRange = res.data.start_at
+            ? [res.data.start_at, res.data.end_at]
+            : [];
+          if (this.type == "兼职" && res.data.wages != "面议") {
+            let str = res.data.settlement.slice(-2);
+            let text = "/" + str;
+            this.theData.jsdw = res.data.settlement.split(text)[0];
+            this.theData.jszq = str;
+          }
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.getDetail(id);
+          }
+        });
+    },
     chooseProduct() {
       uni.navigateTo({
         url: "/page_product/pages/search/searchResult?from=push",
@@ -441,6 +501,7 @@ export default {
         }
       } else if (this.type == "兼职") {
         let errorObj = {
+          content: "请填写介绍工作内容、职位要求、加分项",
           wages: "请输入具体金额或面议",
           area_code: "请选择兼职所在城市",
         };
@@ -456,19 +517,14 @@ export default {
           }
         }
       } else if (this.type == "分享/安利") {
-        if (!this.fileList.length) {
-          uni.showToast({
-            title: "请上传图片",
-            duration: 2500,
-            icon: "none",
-          });
+        if (!this.theData.content) {
+          this.commonShowToast("请填写正文介绍");
+          return false;
+        } else if (!this.fileList.length) {
+          this.commonShowToast("请上传图片");
           return false;
         } else if (!this.task_id) {
-          uni.showToast({
-            title: "请选择关联商品",
-            duration: 2500,
-            icon: "none",
-          });
+          this.commonShowToast("请选择关联商品");
           return false;
         }
       }
@@ -495,7 +551,7 @@ export default {
       }
       let param = {
         ...this.theData,
-        id: 0,
+        id: this.id ? this.id : 0,
         is_on,
         type: this.type,
         url,
@@ -511,16 +567,28 @@ export default {
       this.API.push
         .publish(param)
         .then((res) => {
-          uni.$emit("publishSchool", {});
-          uni.switchTab({
-            url: "/pages/index/index",
-            success: () => {
-              uni.showToast({
-                title: is_on == 1 ? "发布成功" : "保存成功",
-                icon: "none",
-              });
-            },
-          });
+          if (is_on == 1) {
+            uni.$emit("publishSchool", {});
+            uni.switchTab({
+              url: "/pages/index/index",
+              success: () => {
+                uni.showToast({
+                  title: "发布成功",
+                  icon: "none",
+                });
+              },
+            });
+          } else {
+            uni.navigateBack({
+              delta: 1,
+              success: () => {
+                uni.showToast({
+                  title: "保存成功",
+                  icon: "none",
+                });
+              },
+            });
+          }
         })
         .catch(async (err) => {
           if (err.code == 410) {
@@ -528,6 +596,13 @@ export default {
             this.save(is_on);
           }
         });
+    },
+    commonShowToast(text) {
+      uni.showToast({
+        title: text,
+        duration: 2500,
+        icon: "none",
+      });
     },
     // 跳转范围选择
     toRange: function () {

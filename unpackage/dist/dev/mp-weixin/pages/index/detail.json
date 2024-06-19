@@ -3,7 +3,7 @@
   "navigationBarTextStyle": "black",
   "navigationBarTitleText": "详情页",
   "enablePullDownRefresh": true,
-  "onReachBottomDistance": 50,
+  "onReachBottomDistance": 100,
   "usingComponents": {
     "post-type-zudui": "/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui",
     "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons",

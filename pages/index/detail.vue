@@ -4,6 +4,7 @@
     <view class="posts-data">
       <post-type-zudui
         :showPhone="showPhone"
+        :showMore="showMore"
         @toThumb="toThumb"
         @zuduiButtons="zuduiButtons"
         @topPerSonalhome="topPerSonalhome"
@@ -78,6 +79,7 @@
 export default {
   data() {
     return {
+      showMore: true,
       showPhone: true,
       id: "",
       // 底部显示加载中的动画效果  more表示加载前，loading表示加载中，no-more表示没有更多数据
@@ -104,6 +106,9 @@ export default {
     this.getDetail();
     if (option.noPhone) {
       this.showPhone = false;
+    }
+    if (option.noMore) {
+      this.showMore = false;
     }
   },
   // 监听下拉动作
@@ -153,16 +158,6 @@ export default {
           if (err.code == 410) {
             await this.$store.dispatch("toLogon", {});
             this.getDetail();
-          } else if (err.code == 404 && err.msg == "校园墙内容不存在") {
-            uni.navigateBack({
-              delta: 1,
-              success: () => {
-                uni.showToast({
-                  title: err.msg,
-                  icon: "none",
-                });
-              },
-            });
           }
         });
     },
@@ -237,17 +232,24 @@ export default {
     },
     //打开三个点的操作
     actionMore: function (option) {
+      console.log(option);
       let that = this;
       let temp_is_collection = option.is_collection;
+      let itemList = [
+        option.is_collection == 2 ? "收藏" : "取消收藏",
+        option.is_regard == 1 ? "取消关注" : "关注TA",
+      ];
+      if (
+        this.$store.state.theLogonUser.id == option.create_id ||
+        !this.showPhone
+      ) {
+        itemList.splice(1, 1);
+      }
       uni.showActionSheet({
-        itemList: [
-          option.is_collection == 2 ? "收藏该内容" : "取消收藏该内容",
-          "举报",
-        ],
-        itemColor: "#f89f12",
+        itemList,
+        itemColor: "#333333",
         success: function (res) {
-          // console.log(res.tapIndex);
-          if (res.tapIndex == 0) {
+          if (["收藏", "取消收藏"].includes(itemList[res.tapIndex])) {
             let _that = that;
             (async function () {
               await _that.$store.dispatch("toCollection", {
@@ -274,18 +276,40 @@ export default {
                 }
               }
             })();
-          } else {
-            uni.showToast({
-              title: "举报成功",
-              duration: 1000,
-              icon: "none",
-            });
+          } else if (["取消关注", "关注TA"].includes(itemList[res.tapIndex])) {
+            this.followHandle(option);
           }
         },
         fail: function (res) {
           // console.log(res.errMsg);
         },
       });
+    },
+    // 关注
+    followHandle(option) {
+      this.API.order
+        .regard({
+          to_user_id: option.create_id,
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.$set(
+            this.detailData,
+            "is_regard",
+            option.is_regard == 1 ? 2 : 1
+          );
+          uni.showToast({
+            title: option.is_regard == 1 ? "已取消关注" : "关注成功",
+            duration: 1000,
+            icon: "none",
+          });
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.followHandle();
+          }
+        });
     },
     // 邀请/组队按钮
     zuduiButtons: async function (option) {

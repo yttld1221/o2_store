@@ -134,20 +134,19 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 =
-    _vm.type !== "mall" && _vm.addressNow != undefined && _vm.addressNow != ""
+  var g0 = ["push", "mall"].includes(_vm.type)
+  var g1 =
+    !g0 && _vm.addressNow != undefined && _vm.addressNow != ""
       ? _vm.addressNow.substring(0, 9)
       : null
-  var g1 =
-    _vm.type !== "mall" && _vm.addressNow != undefined
-      ? _vm.addressNow.length
-      : null
+  var g2 = !g0 && _vm.addressNow != undefined ? _vm.addressNow.length : null
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         g0: g0,
         g1: g1,
+        g2: g2,
       },
     }
   )

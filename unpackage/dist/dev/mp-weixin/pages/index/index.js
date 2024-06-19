@@ -400,8 +400,9 @@ var _default = {
     console.log(e, this.inviteId);
     if (e.from == "button") {
       return {
-        title: "组队邀请",
-        path: "/pages/index/detail?id=".concat(this.inviteId)
+        title: this.inviteId.title,
+        path: "/pages/index/detail?id=".concat(this.inviteId.id),
+        imageUrl: this.inviteId.url ? this.inviteId.url.split(",")[0] : "/static/icon-zd.png"
       };
     }
   },
@@ -1287,7 +1288,7 @@ var _default = {
                 _context13.next = 8;
                 break;
               case 7:
-                this.inviteId = option.id;
+                this.inviteId = option;
               case 8:
               case "end":
                 return _context13.stop();

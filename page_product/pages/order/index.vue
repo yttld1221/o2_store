@@ -205,15 +205,15 @@ export default {
     // 确认删除
     async confirmDel() {
       let res = "";
-      if (this.content == "del") {
-        res = await this.API.order.delOrder({ id: this.delId });
-      } else if (this.content == "send") {
-        res = await this.API.order.checkOrder({ id: this.delId });
-      } else {
-        res = await this.API.order.cancelOrder({ id: this.delId });
-      }
-      console.log(res);
       try {
+        if (this.content == "del") {
+          res = await this.API.order.delOrder({ id: this.delId });
+        } else if (this.content == "send") {
+          res = await this.API.order.checkOrder({ id: this.delId });
+        } else {
+          res = await this.API.order.cancelOrder({ id: this.delId });
+        }
+        console.log(res);
         if (res.code == 0) {
           if (this.content == "del") {
             this.orderList.splice(this.handleIndex, 1);

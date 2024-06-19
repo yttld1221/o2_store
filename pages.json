@@ -5,7 +5,7 @@
 			"style": {
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": true,
-				"onReachBottomDistance": 50
+				"onReachBottomDistance": 100
 			}
 		},
 		{
@@ -13,7 +13,7 @@
 			"style": {
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": true,
-				"onReachBottomDistance": 50
+				"onReachBottomDistance": 100
 			}
 		},
 		{
@@ -41,7 +41,7 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarTitleText": "详情页",
 				"enablePullDownRefresh": true,
-				"onReachBottomDistance": 50
+				"onReachBottomDistance": 100
 			}
 		},
 		{
@@ -49,7 +49,7 @@
 			"style": {
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": true,
-				"onReachBottomDistance": 50
+				"onReachBottomDistance": 100
 			}
 		},
 		{
@@ -78,7 +78,7 @@
 				"navigationBarBackgroundColor": "#ffffff",
 				"navigationBarTextStyle": "black",
 				"navigationBarTitleText": "关注/互动",
-				"onReachBottomDistance": 50
+				"onReachBottomDistance": 100
 			}
 		},
 		{
@@ -86,7 +86,7 @@
 			"style": {
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": true,
-				"onReachBottomDistance": 50
+				"onReachBottomDistance": 100
 			}
 		},
 		{
@@ -103,7 +103,8 @@
 				"navigationBarBackgroundColor": "#ffffff",
 				"navigationBarTextStyle": "black",
 				"navigationBarTitleText": "发布管理",
-				"onReachBottomDistance": 50
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 100
 			}
 		}
 	],
@@ -118,7 +119,7 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "商品详情",
 						"enablePullDownRefresh": false,
-						"onReachBottomDistance": 50
+						"onReachBottomDistance": 100
 					}
 				},
 				{
@@ -128,7 +129,7 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "支付",
 						"enablePullDownRefresh": false,
-						"onReachBottomDistance": 50
+						"onReachBottomDistance": 100
 					}
 				},
 				{
@@ -138,7 +139,7 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "地址管理",
 						"enablePullDownRefresh": false,
-						"onReachBottomDistance": 50
+						"onReachBottomDistance": 100
 					}
 				},
 				{
@@ -148,7 +149,7 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "添加收货地址",
 						"enablePullDownRefresh": false,
-						"onReachBottomDistance": 50
+						"onReachBottomDistance": 100
 					}
 				},
 				{
@@ -158,7 +159,7 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "搜索",
 						"enablePullDownRefresh": false,
-						"onReachBottomDistance": 50
+						"onReachBottomDistance": 100
 					}
 				},
 				{
@@ -168,7 +169,7 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "搜索结果",
 						"enablePullDownRefresh": false,
-						"onReachBottomDistance": 50
+						"onReachBottomDistance": 100
 					}
 				},
 				{
@@ -178,7 +179,7 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "我的订单",
 						"enablePullDownRefresh": true,
-						"onReachBottomDistance": 50
+						"onReachBottomDistance": 100
 					}
 				},
 				{
@@ -188,7 +189,7 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "订单详情",
 						"enablePullDownRefresh": false,
-						"onReachBottomDistance": 50
+						"onReachBottomDistance": 100
 					}
 				},
 				{
@@ -198,7 +199,7 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "申请退款",
 						"enablePullDownRefresh": false,
-						"onReachBottomDistance": 50
+						"onReachBottomDistance": 100
 					}
 				},
 				{
@@ -208,7 +209,7 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "评价",
 						"enablePullDownRefresh": false,
-						"onReachBottomDistance": 50
+						"onReachBottomDistance": 100
 					}
 				},
 				{
@@ -218,7 +219,7 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "店铺主页",
 						"enablePullDownRefresh": true,
-						"onReachBottomDistance": 50
+						"onReachBottomDistance": 100
 					}
 				},
 				{
@@ -228,7 +229,7 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "申请工作室",
 						"enablePullDownRefresh": false,
-						"onReachBottomDistance": 50
+						"onReachBottomDistance": 100
 					}
 				},
 				{
@@ -238,7 +239,7 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "我的粉丝",
 						"enablePullDownRefresh": true,
-						"onReachBottomDistance": 50
+						"onReachBottomDistance": 100
 					}
 				},
 				{
@@ -290,7 +291,7 @@
 						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "校园墙搜索",
 						"enablePullDownRefresh": false,
-						"onReachBottomDistance": 50
+						"onReachBottomDistance": 100
 					}
 				}
 			]

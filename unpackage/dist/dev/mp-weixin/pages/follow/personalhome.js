@@ -307,6 +307,10 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -321,6 +325,7 @@ var _default = {
       //
       line_4_items: ["TA的动态"],
       line_4_items_index: 0,
+      inviteId: "",
       // 主页个人信息
       thePersonalInfo: {
         id: 50,
@@ -406,6 +411,16 @@ var _default = {
       }, _callee);
     }))();
   },
+  onShareAppMessage: function onShareAppMessage(e) {
+    console.log(e, this.inviteId);
+    if (e.from == "button") {
+      return {
+        title: this.inviteId.title,
+        path: "/pages/index/detail?id=".concat(this.inviteId.id),
+        imageUrl: this.inviteId.url ? this.inviteId.url.split(",")[0] : "/static/icon-zd.png"
+      };
+    }
+  },
   onShow: function onShow() {},
   // 页面触底的监听事件，配合pages.json中的"onReachBottomDistance": 0，0的位置写距离底部的距离
   onReachBottom: function onReachBottom() {
@@ -416,6 +431,128 @@ var _default = {
     this.getMomentsList();
   },
   methods: {
+    // 邀请/组队按钮
+    zuduiButtons: function () {
+      var _zuduiButtons = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(option) {
+        var temp_is_entry, i;
+        return _regenerator.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!(option.type == 1)) {
+                  _context2.next = 7;
+                  break;
+                }
+                // 1表示是组队的按钮
+                // 这是保存一下当前本人的加入状态，用于判断最后本地是显示加入还是退出
+                temp_is_entry = option.is_entry;
+                _context2.next = 4;
+                return this.$store.dispatch("toEntry", {
+                  id: option.id,
+                  is_entry: option.is_entry
+                });
+              case 4:
+                // console.log('this.$store.state.is_entry_true ',this.$store.state.is_entry_true );
+                if (this.$store.state.is_entry_true == true) {
+                  for (i = 0; i < this.school_datas.length; i++) {
+                    if (option.id == this.school_datas[i].id) {
+                      if (temp_is_entry == 2) {
+                        // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
+                        this.$set(this.school_datas[i], "entry_num", this.school_datas[i].entry_num + 1);
+                        this.$set(this.school_datas[i], "is_entry", 1);
+                        uni.showToast({
+                          title: "加入成功",
+                          duration: 1000,
+                          icon: "none"
+                        });
+                      } else {
+                        this.$set(this.school_datas[i], "entry_num", this.school_datas[i].entry_num - 1);
+                        this.$set(this.school_datas[i], "is_entry", 2);
+                        uni.showToast({
+                          title: "已退出组队",
+                          duration: 1000,
+                          icon: "none"
+                        });
+                      }
+                    }
+                  }
+                }
+                _context2.next = 8;
+                break;
+              case 7:
+                this.inviteId = option;
+              case 8:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+      function zuduiButtons(_x) {
+        return _zuduiButtons.apply(this, arguments);
+      }
+      return zuduiButtons;
+    }(),
+    //打开三个点的操作
+    actionMore: function actionMore(option) {
+      var that = this;
+      var temp_is_collection = option.is_collection;
+      var itemList = [option.is_collection == 2 ? "收藏" : "取消收藏"];
+      uni.showActionSheet({
+        itemList: itemList,
+        itemColor: "#333333",
+        success: function success(res) {
+          // console.log(res.tapIndex);
+          if (["收藏", "取消收藏"].includes(itemList[res.tapIndex])) {
+            var _that = that;
+            (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
+              var i;
+              return _regenerator.default.wrap(function _callee3$(_context3) {
+                while (1) {
+                  switch (_context3.prev = _context3.next) {
+                    case 0:
+                      _context3.next = 2;
+                      return _that.$store.dispatch("toCollection", {
+                        id: option.id
+                      });
+                    case 2:
+                      if (_that.$store.state.is_collection_true == true) {
+                        // 表示调用接口成功
+                        for (i = 0; i < _that.school_datas.length; i++) {
+                          if (option.id == _that.school_datas[i].id) {
+                            if (temp_is_collection == 2) {
+                              // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
+                              _that.$set(_that.school_datas[i], "is_collection", 1);
+                              uni.showToast({
+                                title: "收藏成功",
+                                duration: 1000,
+                                icon: "none"
+                              });
+                            } else {
+                              _that.$set(_that.school_datas[i], "is_collection", 2);
+                              uni.showToast({
+                                title: "已取消收藏",
+                                duration: 1000,
+                                icon: "none"
+                              });
+                            }
+                          }
+                        }
+                      }
+                    case 3:
+                    case "end":
+                      return _context3.stop();
+                  }
+                }
+              }, _callee3);
+            }))();
+          }
+        },
+        fail: function fail(res) {
+          // console.log(res.errMsg);
+        }
+      });
+    },
     toFans: function toFans() {
       uni.navigateTo({
         url: "/page_product/pages/fans/index?userId=" + this.thePersonalInfo.id + "&name=" + this.thePersonalInfo.nick_name
@@ -427,26 +564,26 @@ var _default = {
     },
     // 点击关注
     toRegard: function () {
-      var _toRegard = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(item) {
-        return _regenerator.default.wrap(function _callee2$(_context2) {
+      var _toRegard = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4(item) {
+        return _regenerator.default.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 if (!(item == "关注TA")) {
-                  _context2.next = 7;
+                  _context4.next = 7;
                   break;
                 }
-                _context2.next = 3;
+                _context4.next = 3;
                 return this.$store.dispatch("toRegard", {
                   id: this.thePersonalInfo.id
                 });
               case 3:
                 this.thePersonalInfo.is_regard = 1;
                 this.thePersonalInfo.fans_num += 1;
-                _context2.next = 11;
+                _context4.next = 11;
                 break;
               case 7:
-                _context2.next = 9;
+                _context4.next = 9;
                 return this.$store.dispatch("toRegard", {
                   id: this.thePersonalInfo.id
                 });
@@ -455,12 +592,12 @@ var _default = {
                 this.thePersonalInfo.fans_num -= 1;
               case 11:
               case "end":
-                return _context2.stop();
+                return _context4.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee4, this);
       }));
-      function toRegard(_x) {
+      function toRegard(_x2) {
         return _toRegard.apply(this, arguments);
       }
       return toRegard;
@@ -484,16 +621,16 @@ var _default = {
     // 点赞
     // 说明：点赞的接口放在index.js公共store中
     toThumb: function () {
-      var _toThumb = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(option) {
+      var _toThumb = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(option) {
         var temp_is_thumb, i;
-        return _regenerator.default.wrap(function _callee3$(_context3) {
+        return _regenerator.default.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 // 这里之所以又加了一层，是为了拿到子组件传过来的option
                 // 这是保存一下当前本人的点赞状态，用于判断最后本地是增加还是减少点赞数的
                 temp_is_thumb = option.is_thumb;
-                _context3.next = 3;
+                _context5.next = 3;
                 return this.$store.dispatch("toThumb", {
                   id: option.id,
                   is_thumb: option.is_thumb
@@ -526,12 +663,12 @@ var _default = {
                 }
               case 4:
               case "end":
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee5, this);
       }));
-      function toThumb(_x2) {
+      function toThumb(_x3) {
         return _toThumb.apply(this, arguments);
       }
       return toThumb;
@@ -567,7 +704,8 @@ var _default = {
             // // 当前选中的学校id
             school_id: that.$store.state.store_schoolNow.id,
             // // 行政区划编码，选定的最低一级区域的编码，空字符串是全部
-            area_code: that.$store.state.store_addressNow.code
+            area_code: that.$store.state.store_addressNow.code,
+            is_anonymous: 2
           },
           success: function success(res) {
             console.log("getMomentsList_res", res);
@@ -604,12 +742,12 @@ var _default = {
             } else if (res.data.code == 410) {
               var __that = _that;
               // 异步转同步，
-              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
-                return _regenerator.default.wrap(function _callee4$(_context4) {
+              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
+                return _regenerator.default.wrap(function _callee6$(_context6) {
                   while (1) {
-                    switch (_context4.prev = _context4.next) {
+                    switch (_context6.prev = _context6.next) {
                       case 0:
-                        _context4.next = 2;
+                        _context6.next = 2;
                         return __that.$store.dispatch("toLogon", {});
                       case 2:
                         // 重置
@@ -618,10 +756,10 @@ var _default = {
                         __that.getMomentsList();
                       case 4:
                       case "end":
-                        return _context4.stop();
+                        return _context6.stop();
                     }
                   }
-                }, _callee4);
+                }, _callee6);
               }))();
             } else {
               uni.showToast({

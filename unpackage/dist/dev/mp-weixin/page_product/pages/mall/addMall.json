@@ -3,7 +3,7 @@
   "navigationBarTextStyle": "black",
   "navigationBarTitleText": "申请工作室",
   "enablePullDownRefresh": false,
-  "onReachBottomDistance": 50,
+  "onReachBottomDistance": 100,
   "usingComponents": {
     "u--input": "/uni_modules/uview-ui/components/u--input/u--input",
     "u-code": "/uni_modules/uview-ui/components/u-code/u-code",

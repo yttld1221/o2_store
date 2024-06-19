@@ -442,41 +442,41 @@ var _default = {
             switch (_context2.prev = _context2.next) {
               case 0:
                 res = "";
+                _context2.prev = 1;
                 if (!(_this3.content == "del")) {
-                  _context2.next = 7;
+                  _context2.next = 8;
                   break;
                 }
-                _context2.next = 4;
+                _context2.next = 5;
                 return _this3.API.order.delOrder({
                   id: _this3.delId
                 });
-              case 4:
+              case 5:
                 res = _context2.sent;
-                _context2.next = 16;
+                _context2.next = 17;
                 break;
-              case 7:
+              case 8:
                 if (!(_this3.content == "send")) {
-                  _context2.next = 13;
+                  _context2.next = 14;
                   break;
                 }
-                _context2.next = 10;
+                _context2.next = 11;
                 return _this3.API.order.checkOrder({
                   id: _this3.delId
                 });
-              case 10:
+              case 11:
                 res = _context2.sent;
-                _context2.next = 16;
+                _context2.next = 17;
                 break;
-              case 13:
-                _context2.next = 15;
+              case 14:
+                _context2.next = 16;
                 return _this3.API.order.cancelOrder({
                   id: _this3.delId
                 });
-              case 15:
-                res = _context2.sent;
               case 16:
+                res = _context2.sent;
+              case 17:
                 console.log(res);
-                _context2.prev = 17;
                 if (res.code == 0) {
                   if (_this3.content == "del") {
                     _this3.orderList.splice(_this3.handleIndex, 1);
@@ -496,7 +496,7 @@ var _default = {
                 break;
               case 21:
                 _context2.prev = 21;
-                _context2.t0 = _context2["catch"](17);
+                _context2.t0 = _context2["catch"](1);
                 if (!(_context2.t0.code == 410)) {
                   _context2.next = 27;
                   break;
@@ -510,7 +510,7 @@ var _default = {
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[17, 21]]);
+        }, _callee2, null, [[1, 21]]);
       }))();
     },
     // 订单操作

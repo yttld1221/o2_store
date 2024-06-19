@@ -110,8 +110,11 @@ export default {
     console.log(e, this.inviteId);
     if (e.from == "button") {
       return {
-        title: "组队邀请",
-        path: `/pages/index/detail?id=${this.inviteId}`,
+        title: this.inviteId.title,
+        path: `/pages/index/detail?id=${this.inviteId.id}`,
+        imageUrl: this.inviteId.url
+          ? this.inviteId.url.split(",")[0]
+          : "/static/icon-zd.png",
       };
     }
   },
@@ -311,7 +314,7 @@ export default {
           }
         }
       } else {
-        this.inviteId = option.id;
+        this.inviteId = option;
       }
     },
     // 跳转详情页

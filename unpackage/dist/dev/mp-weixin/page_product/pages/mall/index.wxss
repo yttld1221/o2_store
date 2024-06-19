@@ -166,9 +166,6 @@
   font-size: 32rpx;
   color: #333333;
 }
-.mall .list-box.data-v-321ac974 {
-  padding: 36rpx 30rpx 0;
-}
 .mall .list-box .shop-list-box.data-v-321ac974 {
   display: flex;
   justify-content: space-between;
@@ -234,6 +231,9 @@
 .mall .list-box .posts-data.data-v-321ac974 {
   position: relative;
   z-index: 1;
+}
+.mall .shop-list.data-v-321ac974 {
+  padding: 36rpx 30rpx 0;
 }
 .mall .flex-algin.data-v-321ac974 {
   display: flex;

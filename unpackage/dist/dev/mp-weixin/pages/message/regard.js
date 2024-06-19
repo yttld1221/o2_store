@@ -320,43 +320,21 @@ var _default = {
       });
     },
     // 跳转详情页
-    toDetail: function toDetail(id) {
-      var _this2 = this;
-      // console.log('id',id);
+    toDetail: function toDetail(item) {
       if (this.type != "互动") {
         return;
       }
-      this.API.home.getMomentInfo({
-        moments_id: id
-      }).then(function (res) {
+      if (item.is_on == 1) {
         uni.navigateTo({
-          url: "/pages/index/detail?id=" + id
+          url: "/pages/index/detail?id=" + item.moments_id
         });
-      }).catch( /*#__PURE__*/function () {
-        var _ref3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(err) {
-          return _regenerator.default.wrap(function _callee3$(_context3) {
-            while (1) {
-              switch (_context3.prev = _context3.next) {
-                case 0:
-                  if (!(err.code == 410)) {
-                    _context3.next = 4;
-                    break;
-                  }
-                  _context3.next = 3;
-                  return _this2.$store.dispatch("toLogon", {});
-                case 3:
-                  _this2.toDetail();
-                case 4:
-                case "end":
-                  return _context3.stop();
-              }
-            }
-          }, _callee3);
-        }));
-        return function (_x) {
-          return _ref3.apply(this, arguments);
-        };
-      }());
+      } else {
+        uni.showToast({
+          title: "找不到对应的校园墙",
+          duration: 2500,
+          icon: "none"
+        });
+      }
     },
     //------------------------------------------------  接口调用  -----------------------------------------------------
     //------------------------------------------------  接口调用  -----------------------------------------------------
@@ -418,12 +396,12 @@ var _default = {
             } else if (res.data.code == 410) {
               var __that = _that;
               // 异步转同步，
-              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
-                return _regenerator.default.wrap(function _callee4$(_context4) {
+              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3() {
+                return _regenerator.default.wrap(function _callee3$(_context3) {
                   while (1) {
-                    switch (_context4.prev = _context4.next) {
+                    switch (_context3.prev = _context3.next) {
                       case 0:
-                        _context4.next = 2;
+                        _context3.next = 2;
                         return __that.$store.dispatch("toLogon", {});
                       case 2:
                         // 重置
@@ -431,10 +409,10 @@ var _default = {
                         __that.getMySystemMsgList();
                       case 3:
                       case "end":
-                        return _context4.stop();
+                        return _context3.stop();
                     }
                   }
-                }, _callee4);
+                }, _callee3);
               }))();
             } else {
               uni.showToast({
@@ -487,12 +465,12 @@ var _default = {
             } else if (res.data.code == 410) {
               var __that = _that;
               // 异步转同步，
-              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
-                return _regenerator.default.wrap(function _callee5$(_context5) {
+              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4() {
+                return _regenerator.default.wrap(function _callee4$(_context4) {
                   while (1) {
-                    switch (_context5.prev = _context5.next) {
+                    switch (_context4.prev = _context4.next) {
                       case 0:
-                        _context5.next = 2;
+                        _context4.next = 2;
                         return __that.$store.dispatch("toLogon", {});
                       case 2:
                         // 重置
@@ -500,10 +478,10 @@ var _default = {
                         __that.getMySystemMsgList();
                       case 3:
                       case "end":
-                        return _context5.stop();
+                        return _context4.stop();
                     }
                   }
-                }, _callee5);
+                }, _callee4);
               }))();
             } else {
               uni.showToast({

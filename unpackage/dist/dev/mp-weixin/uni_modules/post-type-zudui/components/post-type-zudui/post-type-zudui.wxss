@@ -327,6 +327,10 @@
   width: 100%;
   padding-top: 11rpx;
 }
+.jz-box .jz-more {
+  display: flex;
+  justify-content: flex-end;
+}
 .jz-box .jz-top {
   width: 100%;
 }

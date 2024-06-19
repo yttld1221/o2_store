@@ -113,6 +113,16 @@ const home = {
 			}
 		})
 	},
+	// v2校园墙-发布管理获取详情
+	getMyMomentInfo(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/moments/getMyMomentInfo`,
+			data: {
+				...data
+			}
+		})
+	},
 	// v2忽略-添加或删除本人忽略的校园墙类型
 	addDelMyIgnoreType(data) {
 		return api.post({
