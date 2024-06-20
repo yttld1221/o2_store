@@ -607,5 +607,5 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ })
 
-},[[357,"common/runtime","common/vendor","page_product/common/vendor"]]]);
+},[[357,"common/runtime","common/vendor"]]]);
 //# sourceMappingURL=../../../../.sourcemap/mp-weixin/page_product/pages/mall/addMall.js.map

@@ -3,7 +3,7 @@
   "navigationBarTextStyle": "black",
   "navigationBarTitleText": "评价",
   "enablePullDownRefresh": false,
-  "onReachBottomDistance": 50,
+  "onReachBottomDistance": 100,
   "usingComponents": {
     "u-rate": "/uni_modules/uview-ui/components/u-rate/u-rate",
     "u--textarea": "/uni_modules/uview-ui/components/u--textarea/u--textarea",

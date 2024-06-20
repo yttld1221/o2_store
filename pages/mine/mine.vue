@@ -979,7 +979,7 @@ export default {
   font-weight: 400;
   font-size: 24rpx;
   color: #666666;
-  margin-top: 27rpx;
+  margin-top: 24rpx;
 }
 
 .the-line-3 {

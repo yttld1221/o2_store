@@ -1,84 +1,167 @@
 <template>
   <view class="content">
-    <!-- 内容 -->
-    <view class="posts-data">
-      <post-type-zudui
-        :showPhone="showPhone"
-        :showMore="showMore"
-        @toThumb="toThumb"
-        @zuduiButtons="zuduiButtons"
-        @topPerSonalhome="topPerSonalhome"
-        @actionMore="actionMore"
-        :isDetail="true"
-        :postsDataOneIndex="1"
-        :theData="detailData"
-      ></post-type-zudui>
-    </view>
+    <view v-if="!['兼职', '分享/安利', ''].includes(detailData.type)">
+      <!-- 内容 -->
+      <view class="posts-data">
+        <post-type-zudui
+          :showPhone="showPhone"
+          :showMore="showMore"
+          @toThumb="toThumb"
+          @zuduiButtons="zuduiButtons"
+          @topPerSonalhome="topPerSonalhome"
+          @actionMore="actionMore"
+          :isDetail="true"
+          :postsDataOneIndex="1"
+          :theData="detailData"
+        ></post-type-zudui>
+      </view>
 
-    <!-- 评论区域 -->
-    <view class="comment">
-      <view class="comment-title">精彩评论</view>
-      <view class="comment-one" v-for="(item, index) in theComments">
-        <!-- 头像 -->
+      <!-- 评论区域 -->
+      <view class="comment">
+        <view class="comment-title">精彩评论</view>
         <view
-          @click="topPerSonalhome({ id: item.create_id, is_anonymous: 2 })"
-          class="comment-one-avatar"
-          :style="'background: url(' + item.avatar_url + ');'"
-        ></view>
-        <!-- 内容 -->
-        <view class="comment-one-content">
-          <view class="comment-one-content-line-1">
-            <!-- 名字和时间 -->
-            <view class="comment-one-content-line-1-left">
-              <view class="left-name">{{ item.nick_name }}</view>
-              <view v-if="theComments.length > 0" class="left-time">{{
-                showDateTime(item)
-              }}</view>
-              <!-- <view class="left-time">{{item.created_at != '刚刚'?$public.showDateTime(item.created_at):'刚刚'}}</view> -->
-            </view>
-            <!-- 点赞 -->
-            <view
-              @click="commentThumb(item, index)"
-              class="comment-one-content-line-1-right"
-            >
+          class="comment-one"
+          :key="index"
+          v-for="(item, index) in theComments"
+        >
+          <!-- 头像 -->
+          <view
+            @click="topPerSonalhome({ id: item.create_id, is_anonymous: 2 })"
+            class="comment-one-avatar"
+            :style="'background: url(' + item.avatar_url + ');'"
+          ></view>
+          <!-- 内容 -->
+          <view class="comment-one-content">
+            <view class="comment-one-content-line-1">
+              <!-- 名字和时间 -->
+              <view class="comment-one-content-line-1-left">
+                <view class="left-name">{{ item.nick_name }}</view>
+                <view v-if="theComments.length > 0" class="left-time">{{
+                  showDateTime(item)
+                }}</view>
+                <!-- <view class="left-time">{{item.created_at != '刚刚'?$public.showDateTime(item.created_at):'刚刚'}}</view> -->
+              </view>
+              <!-- 点赞 -->
               <view
-                class="right-num"
-                :style="item.is_thumb == 2 ? '#000000' : 'color: #ff6155;'"
-                >{{ item.thumb_num }}</view
+                @click="commentThumb(item, index)"
+                class="comment-one-content-line-1-right"
               >
-              <uni-icons
-                type="hand-up"
-                :color="item.is_thumb == 2 ? '#000000' : '#ff6155'"
-                size="20"
-              ></uni-icons>
+                <view
+                  class="right-num"
+                  :style="item.is_thumb == 2 ? '#000000' : 'color: #ff6155;'"
+                  >{{ item.thumb_num }}</view
+                >
+                <uni-icons
+                  type="hand-up"
+                  :color="item.is_thumb == 2 ? '#000000' : '#ff6155'"
+                  size="20"
+                ></uni-icons>
+              </view>
             </view>
+            <!-- <text class="hf-btn">回复</text> -->
+            <view class="comment-one-content-line-2">{{ item.msg }}</view>
           </view>
-          <!-- <text class="hf-btn">回复</text> -->
-          <view class="comment-one-content-line-2">{{ item.msg }}</view>
         </view>
       </view>
+      <!-- 底部间隔 -->
+      <view class="space-line-bottom">
+        <uni-load-more :status="loading"></uni-load-more>
+      </view>
     </view>
-    <!-- 底部间隔 -->
-    <view class="space-line-bottom">
-      <uni-load-more :status="loading"></uni-load-more>
+    <view class="jz-detail" v-else-if="detailData.type == '兼职'">
+      <view class="jz-box">
+        <view class="jz-top" :class="{ 'mt-box': detailData.wages == '面议' }">
+          <view :style="{ width: detailData.wages == '面议' ? '80%' : '100%' }">
+            <!-- 标题 -->
+            <view class="type-line-1">
+              <view
+                class="type-line-1-title"
+                :style="{ width: detailData.wages == '面议' ? '80%' : '70%' }"
+                >{{ detailData.title }}</view
+              >
+              <view v-if="detailData.wages != '面议'" class="type-line-1-amount"
+                >{{ detailData.wages
+                }}<view class="type-line-2-settlement amount-text">{{
+                  detailData.settlement
+                }}</view></view
+              >
+            </view>
+            <!-- 地址和结算方式 -->
+            <view class="type-line-2">
+              <view class="type-line-2-address">
+                <u-icon
+                  name="map-fill"
+                  color="rgba(190,190,190,1)"
+                  size="20"
+                ></u-icon>
+                <view class="type-line-2-address-name">{{
+                  detailData.area_name
+                }}</view>
+              </view>
+              <view
+                v-if="detailData.wages != '面议'"
+                class="type-line-2-settlement"
+                >{{ detailData.settlement }}</view
+              >
+            </view>
+          </view>
+          <view class="my-text" v-if="detailData.wages == '面议'">{{
+            detailData.wages
+          }}</view>
+        </view>
+      </view>
+      <view class="jz-content">
+        <view class="jz-content-title"> 职位描述 </view>
+        <view class="jz-content-desc">
+          <view>工作内容：</view>
+          <view>{{ detailData.content }}</view>
+        </view>
+      </view>
+      <view class="jz-address">
+        <view class="jz-address-label"> 工作地址 </view>
+        <view class="jz-address-text">{{ detailData.city }}</view>
+      </view>
     </view>
     <!-- 评论输入框 -->
-    <view class="comment-input" :style="'bottom:' + 0 + 'px;'">
-      <uni-easyinput
-        v-model="theInputComment"
-        confirmType="send"
-        placeholder="想要说点什么..."
-        :inputBorder="false"
-      />
-      <view @click="toComment" class="comment-button">发送</view>
+    <view
+      v-if="!['兼职', '分享/安利', ''].includes(detailData.type)"
+      class="comment-input"
+      :style="'bottom:' + 0 + 'px;'"
+    >
+      <view class="btn-box">
+        <uni-easyinput
+          :trim="true"
+          cursorSpacing="50"
+          v-model="theInputComment"
+          confirmType="send"
+          placeholder="想要说点什么..."
+        />
+        <view @click="toComment" class="comment-button">发送</view>
+      </view>
+    </view>
+    <view v-else-if="detailData.type == '兼职'">
+      <view class="safe-bottom"></view>
+      <view class="fix-bottom-box">
+        <view class="fix-bottom" v-if="detailData.type == '兼职'">
+          <view
+            class="pay-btn"
+            @click="
+              topPerSonalhome({ id: detailData.create_id, is_anonymous: 2 })
+            "
+            >立即联系</view
+          >
+        </view>
+      </view>
     </view>
   </view>
 </template>
 
 <script>
+import { addressList } from "../../page_product/components/piaoyi-cityPicker/cityData";
 export default {
   data() {
     return {
+      addressArr: [],
       showMore: true,
       showPhone: true,
       id: "",
@@ -92,7 +175,7 @@ export default {
       theGetCommentListPagesize: 10,
 
       // 详情页数据
-      detailData: {},
+      detailData: { type: "" },
 
       // 要发布的评论
       theInputComment: "",
@@ -102,8 +185,10 @@ export default {
   },
   onLoad(option) {
     // 调用详情接口
-    this.id = option.id;
-    this.getDetail();
+    if (option.id) {
+      this.id = option.id;
+      this.getDetail();
+    }
     if (option.noPhone) {
       this.showPhone = false;
     }
@@ -114,37 +199,70 @@ export default {
   // 监听下拉动作
   onPullDownRefresh() {
     let that = this;
-    // 重置获取的页码
-    that.theGetCommentListPage = 1;
+    if (!["兼职", "分享/安利"].includes(that.detailData.type)) {
+      // 重置获取的页码
+      that.theGetCommentListPage = 1;
 
-    // 重置评论数组
-    that.theComments = [];
+      // 重置评论数组
+      that.theComments = [];
 
-    // 重置输入框内容
-    that.theInputComment = "";
+      // 重置输入框内容
+      that.theInputComment = "";
 
-    // 重置总条数
-    that.totalCount = 11;
+      // 重置总条数
+      that.totalCount = 11;
 
-    // 异步转同步调用
-    (async function () {
-      // 获取评论列表（第一页的）
+      // 异步转同步调用
+      (async function () {
+        // 获取评论列表（第一页的）
 
-      await that.getCommentList();
+        await that.getCommentList();
 
-      // 等待接口返回后，取消下拉刷新动画
+        // 等待接口返回后，取消下拉刷新动画
+        uni.stopPullDownRefresh();
+      })();
+    } else {
       uni.stopPullDownRefresh();
-    })();
+    }
   },
   // 页面触底的监听事件，配合pages.json中的"onReachBottomDistance": 0，0的位置写距离底部的距离
   onReachBottom() {
-    // 触底后动画效果开启
-    this.isLoading = "loading";
+    if (!["兼职", "分享/安利"].includes(this.detailData.type)) {
+      // 触底后动画效果开启
+      this.isLoading = "loading";
 
-    // 调用接口
-    this.getCommentList();
+      // 调用接口
+      this.getCommentList();
+    }
   },
   methods: {
+    getAddText(code) {
+      let text = "";
+      this.addressArr.forEach((el) => {
+        el.children.forEach((item) => {
+          if (item.value == code) {
+            text = el.label + item.label;
+          }
+        });
+      });
+      return text;
+    },
+    getArea() {
+      this.addressArr = [];
+      addressList.forEach((el) => {
+        this.addressArr.push({
+          value: el.code,
+          label: el.name,
+          children: el.children.map((item) => {
+            return {
+              value: item.code + "00",
+              label: item.name,
+            };
+          }),
+        });
+      });
+      this.detailData.city = this.getAddText(this.detailData.area_code);
+    },
     getDetail() {
       this.API.home
         .getMomentInfo({
@@ -152,7 +270,11 @@ export default {
         })
         .then((res) => {
           this.detailData = res.data;
-          this.getCommentList();
+          if (!["兼职", "分享/安利"].includes(this.detailData.type)) {
+            this.getCommentList();
+          } else if (["兼职"].includes(this.detailData.type)) {
+            this.getArea();
+          }
         })
         .catch(async (err) => {
           if (err.code == 410) {
@@ -621,39 +743,41 @@ export default {
 }
 
 .comment {
-  width: 100vw;
-  margin-bottom: 15px;
+  padding: 30rpx;
   background-color: #ffffff;
 }
 
 .comment-title {
-  padding-left: 4.5vw;
-  margin-top: 15px;
-  font-size: 15px;
-  font-weight: bold;
+  font-family: PingFang SC;
+  font-weight: 600;
+  font-size: 30rpx;
+  color: #111111;
+  margin-bottom: 40rpx;
 }
 
 .comment-one {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 15px 3.5vw 0 3.5vw;
-  margin-bottom: 15px;
+  margin-bottom: 50rpx;
+}
+.comment-one:last-child {
+  margin-bottom: 0;
 }
 
 .comment-one-avatar {
   /* border: #111111 1px solid; */
   border-radius: 100%;
-  width: 11.5vw;
-  height: 11.5vw;
+  width: 70rpx;
+  height: 70rpx;
   padding: 0 !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
 }
 
 .comment-one-content {
-  width: 88.5vw;
-  padding-left: 3.5vw;
+  width: calc(100% - 90rpx);
+  margin-left: 20rpx;
 }
 
 .comment-one-content-line-1 {
@@ -669,14 +793,18 @@ export default {
 }
 
 .left-name {
-  font-size: 14px !important;
-  font-weight: bold;
+  font-family: PingFang SC;
+  font-weight: 600;
+  font-size: 28rpx;
+  color: #000000;
 }
 
 .left-time {
-  margin-left: 3.5vw;
-  font-size: 13px;
-  color: #bbbbbb;
+  margin-left: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #666666;
 }
 
 .comment-one-content-line-1-right {
@@ -686,14 +814,19 @@ export default {
 }
 
 .right-num {
-  font-size: 13px;
-  color: #727272;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 20rpx;
+  color: #333333;
+  margin-right: 9rpx;
 }
 
 .comment-one-content-line-2 {
-  font-size: 13px !important;
-  color: #727272;
-  margin-top: 10px;
+  font-family: PingFang SC;
+  font-weight: 300;
+  font-size: 24rpx;
+  color: #111111;
+  margin-top: 10rpx;
 }
 
 .space-line-bottom {
@@ -701,32 +834,209 @@ export default {
 }
 
 .comment-input {
-  display: flex;
-  flex-direction: row;
   position: fixed;
   bottom: 0;
+  width: 100%;
   z-index: 999;
-  padding-left: 3.5vw;
-  padding-right: 3.5vw;
-  padding-top: 10px;
-  padding-bottom: 3.5vw;
+  padding: 20rpx 30rpx 40rpx;
   background-color: #ffffff;
-  width: 93vw;
+  box-sizing: border-box;
+  .btn-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /deep/ .uni-easyinput {
+      .is-input-border {
+        border: 2rpx solid #dcdfe6;
+      }
+      .uni-easyinput__content-input {
+        height: 66rpx;
+      }
+    }
+  }
 }
 
 .comment-button {
-  width: 75px;
-  height: 35px;
-  line-height: 35px;
+  width: 127rpx;
+  height: 70rpx;
+  line-height: 70rpx;
   background-color: #ff812f;
   color: #ffffff;
-  border-radius: 100px;
+  border-radius: 200rpx;
   text-align: center;
-  margin-left: 10px;
+  margin-left: 23rpx;
 }
 .hf-btn {
   color: #f89f12;
   margin-left: 40rpx;
   vertical-align: middle;
+}
+.jz-detail {
+  padding: 27rpx 30rpx 126rpx;
+  .jz-box {
+    width: 100%;
+    .jz-more {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .jz-top {
+      width: 100%;
+    }
+    .jz-company {
+      margin-top: 40rpx;
+      border-top: 1rpx solid #eeeeee;
+      padding-top: 20rpx;
+      display: flex;
+      justify-content: flex-end;
+      .phone-btn {
+        width: 146rpx;
+        height: 45rpx;
+        line-height: 45rpx;
+        text-align: center;
+        background: #ff5809;
+        border-radius: 60rpx;
+        font-family: PingFang SC;
+        font-weight: 400;
+        font-size: 24rpx;
+        color: #ffffff;
+      }
+    }
+    .type-line-1 {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .type-line-1-title {
+      font-family: PingFang SC;
+      font-weight: 600;
+      font-size: 44rpx;
+      color: #333333;
+    }
+    .type-line-1-amount {
+      font-family: DIN Alternate;
+      font-weight: bold;
+      font-size: 40rpx;
+      color: #ff812f;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .amount-text {
+      height: 0rpx;
+      visibility: hidden;
+    }
+    .type-line-2 {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 28rpx;
+    }
+    .type-line-2-address {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-family: PingFang SC;
+      font-weight: 400;
+      font-size: 22rpx;
+      color: #666666;
+    }
+    .type-line-2-address-name {
+      margin-left: 18rpx;
+      font-family: PingFang SC;
+      font-weight: 400;
+      font-size: 22rpx;
+      color: #666666;
+    }
+    .type-line-2-settlement {
+      font-family: PingFang SC;
+      font-weight: 400;
+      font-size: 22rpx;
+      color: #666666;
+    }
+  }
+  .jz-content {
+    margin-top: 41rpx;
+    border-bottom: 1rpx solid #eeeeee;
+    border-top: 1rpx solid #eeeeee;
+    padding: 38rpx 0;
+    .jz-content-title {
+      font-family: PingFang SC;
+      font-weight: 600;
+      font-size: 32rpx;
+      color: #333333;
+    }
+    .jz-content-desc {
+      background: #f9f6f5;
+      border-radius: 22rpx;
+      padding: 33rpx 47rpx;
+      margin-top: 34rpx;
+      font-family: PingFang SC;
+      font-weight: 400;
+      font-size: 24rpx;
+      color: #333333;
+      line-height: 38rpx;
+    }
+  }
+  .jz-address {
+    padding: 38rpx 0;
+    .jz-address-label {
+      font-family: PingFang SC;
+      font-weight: 600;
+      font-size: 32rpx;
+      color: #333333;
+    }
+    .jz-address-text {
+      margin-top: 40rpx;
+      font-family: PingFang SC;
+      font-weight: 500;
+      font-size: 24rpx;
+      color: #333333;
+    }
+  }
+  .mt-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .my-text {
+      font-family: PingFang SC;
+      font-weight: 600;
+      font-size: 33rpx;
+      color: #ff812f;
+    }
+  }
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.fix-bottom-box {
+  z-index: 10;
+  background: #ffffff;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 20rpx 30rpx;
+  box-sizing: border-box;
+  .fix-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pay-btn {
+    width: 100%;
+    height: 76rpx;
+    background: linear-gradient(-55deg, #ff9b5a, #ff812f);
+    border-radius: 38rpx;
+    font-family: PingFang SC;
+    font-weight: 400;
+    font-size: 26rpx;
+    color: #ffffff;
+    line-height: 76rpx;
+    text-align: center;
+  }
 }
 </style>

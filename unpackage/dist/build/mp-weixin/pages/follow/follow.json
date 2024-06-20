@@ -1,7 +1,7 @@
 {
   "navigationStyle": "custom",
   "enablePullDownRefresh": true,
-  "onReachBottomDistance": 50,
+  "onReachBottomDistance": 100,
   "usingComponents": {
     "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more",
     "post-type-zudui": "/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui",

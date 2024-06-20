@@ -183,7 +183,7 @@ var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/run
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var cityPicker = function cityPicker() {
-  Promise.all(/*! require.ensure | page_product/components/piaoyi-cityPicker/piaoyi-cityPicker */[__webpack_require__.e("page_product/common/vendor"), __webpack_require__.e("page_product/components/piaoyi-cityPicker/piaoyi-cityPicker")]).then((function () {
+  Promise.all(/*! require.ensure | page_product/components/piaoyi-cityPicker/piaoyi-cityPicker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("page_product/components/piaoyi-cityPicker/piaoyi-cityPicker")]).then((function () {
     return resolve(__webpack_require__(/*! ../../components/piaoyi-cityPicker/piaoyi-cityPicker */ 637));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };

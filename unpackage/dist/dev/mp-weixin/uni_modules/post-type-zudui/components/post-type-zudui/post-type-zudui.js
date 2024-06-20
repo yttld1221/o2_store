@@ -478,6 +478,10 @@ exports.default = void 0;
 //
 //
 //
+//
+//
+//
+//
 var _default2 = {
   name: "post-type-zudui",
   props: {
@@ -587,7 +591,7 @@ var _default2 = {
   methods: {
     initDatas: function initDatas() {
       var that = this;
-      this.$nextTick(function () {
+      that.$nextTick(function () {
         that.released_at = that.getTime(that.theData.released_at);
         that.label = that.theData.label ? that.theData.label.split(",") : [];
         that.pictures = that.theData.url ? that.theData.url.split(",") : [];
@@ -667,39 +671,41 @@ var _default2 = {
     // 这里需要写个方法对时间进行处理
     getTime: function getTime(theTime) {
       console.log(theTime);
-      // 转化时间戳的方法
-      // 发帖时间的时间戳
-      var timestamp_at = new Date(theTime).getTime();
-      // 当前时间的时间戳
-      var timestamp_now = new Date().getTime();
+      if (theTime) {
+        // 转化时间戳的方法
+        // 发帖时间的时间戳
+        var timestamp_at = new Date(theTime).getTime();
+        // 当前时间的时间戳
+        var timestamp_now = new Date().getTime();
 
-      // 相差的时间，转化为了分钟
-      var difference = (timestamp_now - timestamp_at) / 1000 / 60;
-      if (difference < 5) {
-        // 小于1个小时，就显示时间
-        // console.log(difference+'分钟前');
-        return "刚刚";
-      } else if (difference >= 5 && difference < 60) {
-        return Math.floor(difference) + "分钟前";
-      } else {
-        var theYear = theTime.substring(0, 4);
-        var theMonth = theTime.substring(5, 7);
-        var theDay = theTime.substring(8, 10);
-        var now = new Date();
-        var nowYear = now.getFullYear() + "";
-        var nowMonth = now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1 + "";
-        var nowDay = now.getDate() < 10 ? "0" + now.getDate() : now.getDate() + "";
-        // 同一天的话
-        if (theYear == nowYear && theMonth == nowMonth && theDay == nowDay) {
-          // console.log(theTime.substring(11,19));
-          // console.log(theYear,theMonth,theDay);
-          // console.log(nowYear,nowMonth,nowDay);
-          return "今天" + " " + theTime.substring(11, 19);
+        // 相差的时间，转化为了分钟
+        var difference = (timestamp_now - timestamp_at) / 1000 / 60;
+        if (difference < 5) {
+          // 小于1个小时，就显示时间
+          // console.log(difference+'分钟前');
+          return "刚刚";
+        } else if (difference >= 5 && difference < 60) {
+          return Math.floor(difference) + "分钟前";
         } else {
-          // console.log(theTime.substring(11,19));
-          // console.log(theYear,theMonth,theDay);
-          // console.log(nowYear,nowMonth,nowDay);
-          return theTime;
+          var theYear = theTime.substring(0, 4);
+          var theMonth = theTime.substring(5, 7);
+          var theDay = theTime.substring(8, 10);
+          var now = new Date();
+          var nowYear = now.getFullYear() + "";
+          var nowMonth = now.getMonth() + 1 < 10 ? "0" + (now.getMonth() + 1) : now.getMonth() + 1 + "";
+          var nowDay = now.getDate() < 10 ? "0" + now.getDate() : now.getDate() + "";
+          // 同一天的话
+          if (theYear == nowYear && theMonth == nowMonth && theDay == nowDay) {
+            // console.log(theTime.substring(11,19));
+            // console.log(theYear,theMonth,theDay);
+            // console.log(nowYear,nowMonth,nowDay);
+            return "今天" + " " + theTime.substring(11, 19);
+          } else {
+            // console.log(theTime.substring(11,19));
+            // console.log(theYear,theMonth,theDay);
+            // console.log(nowYear,nowMonth,nowDay);
+            return theTime;
+          }
         }
       }
     }
@@ -749,3 +755,4 @@ __webpack_require__.r(__webpack_exports__);
     },
     [['uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui-create-component']]
 ]);
+                                                       

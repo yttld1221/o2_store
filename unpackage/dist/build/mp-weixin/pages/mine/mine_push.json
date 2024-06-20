@@ -2,7 +2,8 @@
   "navigationBarBackgroundColor": "#ffffff",
   "navigationBarTextStyle": "black",
   "navigationBarTitleText": "发布管理",
-  "onReachBottomDistance": 50,
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 100,
   "usingComponents": {
     "post-type-zudui": "/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui",
     "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more"

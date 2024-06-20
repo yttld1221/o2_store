@@ -3,7 +3,7 @@
   "navigationBarTextStyle": "black",
   "navigationBarTitleText": "我的粉丝",
   "enablePullDownRefresh": true,
-  "onReachBottomDistance": 50,
+  "onReachBottomDistance": 100,
   "usingComponents": {
     "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more"
   }

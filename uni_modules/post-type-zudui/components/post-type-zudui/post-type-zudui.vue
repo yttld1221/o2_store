@@ -11,16 +11,20 @@
   >
     <view class="jz-box" v-if="theData.type == '兼职'">
       <view v-if="isMine" @click.stop="actionMore" class="jz-more">
-        <uni-icons
-          type="more-filled"
-          size="18"
-        ></uni-icons>
+        <uni-icons type="more-filled" size="20"></uni-icons>
       </view>
       <view class="jz-top" :class="{ 'mt-box': theData.wages == '面议' }">
-        <view class="my-left">
+        <view
+          class="my-left"
+          :style="{ width: theData.wages == '面议' ? '80%' : '100%' }"
+        >
           <!-- 标题 -->
           <view class="type-line-1">
-            <view class="type-line-1-title">{{ theData.title }}</view>
+            <view
+              class="type-line-1-title"
+              :style="{ width: theData.wages == '面议' ? '80%' : '70%' }"
+              >{{ theData.title }}</view
+            >
             <view v-if="theData.wages != '面议'" class="type-line-1-amount"
               >{{ theData.wages
               }}<view class="type-line-2-settlement amount-text">{{
@@ -100,7 +104,7 @@
             <view class="time">{{ released_at }}</view>
           </view>
           <view v-if="showMore" @click.stop="actionMore" class="line-1-right">
-            <uni-icons type="more-filled" size="18"></uni-icons>
+            <uni-icons type="more-filled" size="22"></uni-icons>
           </view>
         </view>
         <!-- 话题 -->
@@ -343,7 +347,7 @@ export default {
     theData: {
       type: Object,
       default: () => {},
-      required: true,
+      required: false,
     },
   },
   data() {
@@ -362,6 +366,7 @@ export default {
   watch: {
     theData: {
       handler(newVal, oldVal) {
+        console.log(222222);
         this.initDatas();
       },
       deep: true,
@@ -373,6 +378,7 @@ export default {
 
     // 这里除了个问题，导致拿到的theData有时候在mounted的时候是空的
     console.log(this.theData);
+    console.log(1111111);
     this.initDatas();
   },
   computed: {
@@ -396,7 +402,7 @@ export default {
   methods: {
     initDatas() {
       let that = this;
-      this.$nextTick(function () {
+      setTimeout(function () {
         that.released_at = that.getTime(that.theData.released_at);
         that.label = that.theData.label ? that.theData.label.split(",") : [];
         that.pictures = that.theData.url ? that.theData.url.split(",") : [];
@@ -424,7 +430,7 @@ export default {
             "日";
           // console.log('that.activeDate',that.activeDate);
         }
-      });
+      }, 50);
     },
     //---------------------------------------------------- 绑定的方法 ----------------------------------------------------
     //---------------------------------------------------- 绑定的方法 ----------------------------------------------------
@@ -487,44 +493,46 @@ export default {
     // 这里需要写个方法对时间进行处理
     getTime: function (theTime) {
       console.log(theTime);
-      // 转化时间戳的方法
-      // 发帖时间的时间戳
-      let timestamp_at = new Date(theTime).getTime();
-      // 当前时间的时间戳
-      let timestamp_now = new Date().getTime();
+      if (theTime) {
+        // 转化时间戳的方法
+        // 发帖时间的时间戳
+        let timestamp_at = new Date(theTime).getTime();
+        // 当前时间的时间戳
+        let timestamp_now = new Date().getTime();
 
-      // 相差的时间，转化为了分钟
-      let difference = (timestamp_now - timestamp_at) / 1000 / 60;
-      if (difference < 5) {
-        // 小于1个小时，就显示时间
-        // console.log(difference+'分钟前');
-        return "刚刚";
-      } else if (difference >= 5 && difference < 60) {
-        return Math.floor(difference) + "分钟前";
-      } else {
-        let theYear = theTime.substring(0, 4);
-        let theMonth = theTime.substring(5, 7);
-        let theDay = theTime.substring(8, 10);
-
-        let now = new Date();
-        let nowYear = now.getFullYear() + "";
-        let nowMonth =
-          now.getMonth() + 1 < 10
-            ? "0" + (now.getMonth() + 1)
-            : now.getMonth() + 1 + "";
-        let nowDay =
-          now.getDate() < 10 ? "0" + now.getDate() : now.getDate() + "";
-        // 同一天的话
-        if (theYear == nowYear && theMonth == nowMonth && theDay == nowDay) {
-          // console.log(theTime.substring(11,19));
-          // console.log(theYear,theMonth,theDay);
-          // console.log(nowYear,nowMonth,nowDay);
-          return "今天" + " " + theTime.substring(11, 19);
+        // 相差的时间，转化为了分钟
+        let difference = (timestamp_now - timestamp_at) / 1000 / 60;
+        if (difference < 5) {
+          // 小于1个小时，就显示时间
+          // console.log(difference+'分钟前');
+          return "刚刚";
+        } else if (difference >= 5 && difference < 60) {
+          return Math.floor(difference) + "分钟前";
         } else {
-          // console.log(theTime.substring(11,19));
-          // console.log(theYear,theMonth,theDay);
-          // console.log(nowYear,nowMonth,nowDay);
-          return theTime;
+          let theYear = theTime.substring(0, 4);
+          let theMonth = theTime.substring(5, 7);
+          let theDay = theTime.substring(8, 10);
+
+          let now = new Date();
+          let nowYear = now.getFullYear() + "";
+          let nowMonth =
+            now.getMonth() + 1 < 10
+              ? "0" + (now.getMonth() + 1)
+              : now.getMonth() + 1 + "";
+          let nowDay =
+            now.getDate() < 10 ? "0" + now.getDate() : now.getDate() + "";
+          // 同一天的话
+          if (theYear == nowYear && theMonth == nowMonth && theDay == nowDay) {
+            // console.log(theTime.substring(11,19));
+            // console.log(theYear,theMonth,theDay);
+            // console.log(nowYear,nowMonth,nowDay);
+            return "今天" + " " + theTime.substring(11, 19);
+          } else {
+            // console.log(theTime.substring(11,19));
+            // console.log(theYear,theMonth,theDay);
+            // console.log(nowYear,nowMonth,nowDay);
+            return theTime;
+          }
         }
       }
     },
@@ -570,6 +578,14 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+.line-1-right {
+  overflow: hidden;
+  box-sizing: border-box;
+  /deep/ uni-icons {
+    display: flex;
+    align-items: center;
+  }
 }
 .other-box {
   width: 100%;
@@ -902,7 +918,6 @@ export default {
   font-weight: 600;
   font-size: 30rpx;
   color: #333333;
-  width: 70%;
 }
 .type-line-1-amount {
   font-family: DIN Alternate;

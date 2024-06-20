@@ -733,6 +733,6 @@ export default {
   /* width: 93vw !important; */
 }
 .space-line-bottom {
-  height: 100px;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 </style>

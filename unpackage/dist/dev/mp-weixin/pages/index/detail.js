@@ -109,6 +109,9 @@ try {
     uniLoadMore: function () {
       return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 455))
     },
+    uIcon: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 423))
+    },
     uniEasyinput: function () {
       return __webpack_require__.e(/*! import() | uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput */ "uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue */ 506))
     },
@@ -134,21 +137,27 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 = _vm.theComments.length
-  var l0 = _vm.__map(_vm.theComments, function (item, index) {
-    var $orig = _vm.__get_orig(item)
-    var m0 = g0 > 0 ? _vm.showDateTime(item) : null
-    return {
-      $orig: $orig,
-      m0: m0,
-    }
-  })
+  var g0 = ["兼职", "分享/安利", ""].includes(_vm.detailData.type)
+  var l0 = !g0
+    ? _vm.__map(_vm.theComments, function (item, index) {
+        var $orig = _vm.__get_orig(item)
+        var g1 = _vm.theComments.length
+        var m0 = g1 > 0 ? _vm.showDateTime(item) : null
+        return {
+          $orig: $orig,
+          g1: g1,
+          m0: m0,
+        }
+      })
+    : null
+  var g2 = ["兼职", "分享/安利", ""].includes(_vm.detailData.type)
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         g0: g0,
         l0: l0,
+        g2: g2,
       },
     }
   )
@@ -194,6 +203,88 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 34));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
+var _cityData = __webpack_require__(/*! ../../page_product/components/piaoyi-cityPicker/cityData */ 363);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -274,6 +365,7 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 var _default = {
   data: function data() {
     return {
+      addressArr: [],
       showMore: true,
       showPhone: true,
       id: "",
@@ -286,7 +378,9 @@ var _default = {
       theGetCommentListPage: 1,
       theGetCommentListPagesize: 10,
       // 详情页数据
-      detailData: {},
+      detailData: {
+        type: ""
+      },
       // 要发布的评论
       theInputComment: "",
       // 评论
@@ -295,8 +389,10 @@ var _default = {
   },
   onLoad: function onLoad(option) {
     // 调用详情接口
-    this.id = option.id;
-    this.getDetail();
+    if (option.id) {
+      this.id = option.id;
+      this.getDetail();
+    }
     if (option.noPhone) {
       this.showPhone = false;
     }
@@ -307,53 +403,91 @@ var _default = {
   // 监听下拉动作
   onPullDownRefresh: function onPullDownRefresh() {
     var that = this;
-    // 重置获取的页码
-    that.theGetCommentListPage = 1;
+    if (!["兼职", "分享/安利"].includes(that.detailData.type)) {
+      // 重置获取的页码
+      that.theGetCommentListPage = 1;
 
-    // 重置评论数组
-    that.theComments = [];
+      // 重置评论数组
+      that.theComments = [];
 
-    // 重置输入框内容
-    that.theInputComment = "";
+      // 重置输入框内容
+      that.theInputComment = "";
 
-    // 重置总条数
-    that.totalCount = 11;
+      // 重置总条数
+      that.totalCount = 11;
 
-    // 异步转同步调用
-    (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
-      return _regenerator.default.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return that.getCommentList();
-            case 2:
-              // 等待接口返回后，取消下拉刷新动画
-              uni.stopPullDownRefresh();
-            case 3:
-            case "end":
-              return _context.stop();
+      // 异步转同步调用
+      (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
+        return _regenerator.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return that.getCommentList();
+              case 2:
+                // 等待接口返回后，取消下拉刷新动画
+                uni.stopPullDownRefresh();
+              case 3:
+              case "end":
+                return _context.stop();
+            }
           }
-        }
-      }, _callee);
-    }))();
+        }, _callee);
+      }))();
+    } else {
+      uni.stopPullDownRefresh();
+    }
   },
   // 页面触底的监听事件，配合pages.json中的"onReachBottomDistance": 0，0的位置写距离底部的距离
   onReachBottom: function onReachBottom() {
-    // 触底后动画效果开启
-    this.isLoading = "loading";
+    if (!["兼职", "分享/安利"].includes(this.detailData.type)) {
+      // 触底后动画效果开启
+      this.isLoading = "loading";
 
-    // 调用接口
-    this.getCommentList();
+      // 调用接口
+      this.getCommentList();
+    }
   },
   methods: {
-    getDetail: function getDetail() {
+    getAddText: function getAddText(code) {
+      var text = "";
+      this.addressArr.forEach(function (el) {
+        el.children.forEach(function (item) {
+          if (item.value == code) {
+            text = el.label + item.label;
+          }
+        });
+      });
+      return text;
+    },
+    getArea: function getArea() {
       var _this2 = this;
+      this.addressArr = [];
+      _cityData.addressList.forEach(function (el) {
+        _this2.addressArr.push({
+          value: el.code,
+          label: el.name,
+          children: el.children.map(function (item) {
+            return {
+              value: item.code + "00",
+              label: item.name
+            };
+          })
+        });
+      });
+      this.detailData.city = this.getAddText(this.detailData.area_code);
+    },
+    getDetail: function getDetail() {
+      var _this3 = this;
       this.API.home.getMomentInfo({
         moments_id: this.id
       }).then(function (res) {
-        _this2.detailData = res.data;
-        _this2.getCommentList();
+        _this3.detailData = res.data;
+        if (!["兼职", "分享/安利"].includes(_this3.detailData.type)) {
+          _this3.getCommentList();
+        } else if (["兼职"].includes(_this3.detailData.type)) {
+          _this3.getArea();
+        }
       }).catch( /*#__PURE__*/function () {
         var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(err) {
           return _regenerator.default.wrap(function _callee2$(_context2) {
@@ -365,9 +499,9 @@ var _default = {
                     break;
                   }
                   _context2.next = 3;
-                  return _this2.$store.dispatch("toLogon", {});
+                  return _this3.$store.dispatch("toLogon", {});
                 case 3:
-                  _this2.getDetail();
+                  _this3.getDetail();
                 case 4:
                 case "end":
                   return _context2.stop();
@@ -517,12 +651,12 @@ var _default = {
     },
     // 关注
     followHandle: function followHandle(option) {
-      var _this3 = this;
+      var _this4 = this;
       this.API.order.regard({
         to_user_id: option.create_id
       }).then(function (res) {
         console.log(res.data);
-        _this3.$set(_this3.detailData, "is_regard", option.is_regard == 1 ? 2 : 1);
+        _this4.$set(_this4.detailData, "is_regard", option.is_regard == 1 ? 2 : 1);
         uni.showToast({
           title: option.is_regard == 1 ? "已取消关注" : "关注成功",
           duration: 1000,
@@ -539,9 +673,9 @@ var _default = {
                     break;
                   }
                   _context5.next = 3;
-                  return _this3.$store.dispatch("toLogon", {});
+                  return _this4.$store.dispatch("toLogon", {});
                 case 3:
-                  _this3.followHandle();
+                  _this4.followHandle();
                 case 4:
                 case "end":
                   return _context5.stop();

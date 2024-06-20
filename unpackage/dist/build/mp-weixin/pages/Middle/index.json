@@ -1,6 +1,6 @@
 {
   "navigationStyle": "custom",
   "enablePullDownRefresh": true,
-  "onReachBottomDistance": 50,
+  "onReachBottomDistance": 100,
   "usingComponents": {}
 }
