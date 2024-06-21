@@ -1187,7 +1187,7 @@ var _default = {
                   _context11.next = 3;
                   return _this8.$store.dispatch("toLogon", {});
                 case 3:
-                  _this8.ignoreType();
+                  _this8.ignoreType(option);
                 case 4:
                 case "end":
                   return _context11.stop();
@@ -1226,7 +1226,7 @@ var _default = {
                   _context12.next = 3;
                   return _this9.$store.dispatch("toLogon", {});
                 case 3:
-                  _this9.followHandle();
+                  _this9.followHandle(option);
                 case 4:
                 case "end":
                   return _context12.stop();

@@ -30,6 +30,7 @@
         v-for="(item, index) in school_datas"
       >
         <post-type-zudui
+          @zuduiButtons="zuduiButtons"
           :showPhone="false"
           @toJzDetail="toJzDetail"
           @toDetail="toDetail"
@@ -54,6 +55,7 @@
 export default {
   data() {
     return {
+      inviteId: {},
       // 用于 uni-load-more
       contentText: {
         contentdown: "查看更多",
@@ -116,7 +118,68 @@ export default {
     // 调用接口
     this.getMomentsList();
   },
+  //分享按钮
+  onShareAppMessage(e) {
+    console.log(e, this.inviteId);
+    if (e.from == "button") {
+      return {
+        title: this.inviteId.title,
+        path: `/pages/index/detail?id=${this.inviteId.id}`,
+        imageUrl: this.inviteId.url
+          ? this.inviteId.url.split(",")[0]
+          : "/static/icon-zd.png",
+      };
+    }
+  },
   methods: {
+    // 邀请/组队按钮
+    zuduiButtons: async function (option) {
+      if (option.type == 1) {
+        // 1表示是组队的按钮
+        // 这是保存一下当前本人的加入状态，用于判断最后本地是显示加入还是退出
+        let temp_is_entry = option.is_entry;
+        await this.$store.dispatch("toEntry", {
+          id: option.id,
+          is_entry: option.is_entry,
+        });
+
+        // console.log('this.$store.state.is_entry_true ',this.$store.state.is_entry_true );
+        if (this.$store.state.is_entry_true == true) {
+          for (let i = 0; i < this.school_datas.length; i++) {
+            if (option.id == this.school_datas[i].id) {
+              if (temp_is_entry == 2) {
+                // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
+                this.$set(
+                  this.school_datas[i],
+                  "entry_num",
+                  this.school_datas[i].entry_num + 1
+                );
+                this.$set(this.school_datas[i], "is_entry", 1);
+                uni.showToast({
+                  title: "加入成功",
+                  duration: 1000,
+                  icon: "none",
+                });
+              } else {
+                this.$set(
+                  this.school_datas[i],
+                  "entry_num",
+                  this.school_datas[i].entry_num - 1
+                );
+                this.$set(this.school_datas[i], "is_entry", 2);
+                uni.showToast({
+                  title: "已退出组队",
+                  duration: 1000,
+                  icon: "none",
+                });
+              }
+            }
+          }
+        }
+      } else {
+        this.inviteId = option;
+      }
+    },
     // 切换状态
     line_4_itemsSelected: function (index) {
       // console.log(1111111);

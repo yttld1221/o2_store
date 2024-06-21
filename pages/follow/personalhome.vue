@@ -354,14 +354,14 @@ export default {
         await this.$store.dispatch("toRegard", {
           id: this.thePersonalInfo.id,
         });
-
+        uni.$emit("changeRegard", 1);
         this.thePersonalInfo.is_regard = 1;
         this.thePersonalInfo.fans_num += 1;
       } else {
         await this.$store.dispatch("toRegard", {
           id: this.thePersonalInfo.id,
         });
-
+        uni.$emit("changeRegard", 2);
         this.thePersonalInfo.is_regard = 2;
         this.thePersonalInfo.fans_num -= 1;
       }

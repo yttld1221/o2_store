@@ -384,6 +384,10 @@
   font-weight: 600;
   font-size: 30rpx;
   color: #333333;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .type-line-1-amount {
   font-family: DIN Alternate;

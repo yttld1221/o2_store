@@ -1,7 +1,7 @@
 {
   "navigationBarBackgroundColor": "#ffffff",
   "navigationBarTextStyle": "black",
-  "navigationBarTitleText": "详情页",
+  "navigationBarTitleText": "详情",
   "enablePullDownRefresh": true,
   "onReachBottomDistance": 100,
   "usingComponents": {
@@ -9,6 +9,8 @@
     "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons",
     "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more",
     "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "u-swiper": "/uni_modules/uview-ui/components/u-swiper/u-swiper",
+    "u-image": "/uni_modules/uview-ui/components/u-image/u-image",
     "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput"
   }
 }

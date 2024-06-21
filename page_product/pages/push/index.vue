@@ -3,6 +3,7 @@
     <view class="push-form">
       <view class="form-item">
         <u--input
+          :maxlength="type == '兼职' ? 10 : 60"
           :placeholder="nameObj[type]"
           v-model="theData.title"
           placeholderStyle="color:#666666;"
@@ -522,9 +523,6 @@ export default {
           return false;
         } else if (!this.fileList.length) {
           this.commonShowToast("请上传图片");
-          return false;
-        } else if (!this.task_id) {
-          this.commonShowToast("请选择关联商品");
           return false;
         }
       }

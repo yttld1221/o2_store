@@ -14,10 +14,7 @@
         <uni-icons type="more-filled" size="20"></uni-icons>
       </view>
       <view class="jz-top" :class="{ 'mt-box': theData.wages == '面议' }">
-        <view
-          class="my-left"
-          :style="{ width: theData.wages == '面议' ? '80%' : '100%' }"
-        >
+        <view :style="{ width: theData.wages == '面议' ? '80%' : '100%' }">
           <!-- 标题 -->
           <view class="type-line-1">
             <view
@@ -109,17 +106,12 @@
         </view>
         <!-- 话题 -->
         <view class="line-2" v-if="label.length">
-          <view class="line-2-one" v-for="(item, index) in label"
+          <view class="line-2-one" :key="index" v-for="(item, index) in label"
             >#{{ item }}</view
           >
         </view>
         <!-- 标题 -->
         <view class="line-3">{{ theData.title }}</view>
-        <!-- 组队相关的，活动日期 -->
-        <!-- <view class="line-3-1" v-if="theData.type == '组队/搭子'">
-          <view class="line-3-1-a">#活动时间：{{ activeDate }}#</view>
-        </view> -->
-        <!-- 图片 -->
         <view
           v-if="getPictures.length"
           class="line-4"
@@ -136,6 +128,7 @@
             :class="{
               'mar-r-b': getPictures.length != 4 && [2, 5, 8].includes(index),
             }"
+            :key="index"
             v-for="(item, index) in getPictures"
           />
         </view>
@@ -146,14 +139,6 @@
           <view class="progress-tip">
             <view class="progress-tip-title">
               <text>组队邀请</text>
-              <!-- <view class="sex-icon-type">
-                <text>(</text>
-                <image class="sex-icon" src="/static/1_sex.png"></image>
-                <view class="sex-type">{{ theData.sex_type }}</view>
-                <image class="sex-icon" src="/static/1_feiyong.png"></image>
-                <view class="sex-type">{{ theData.free_type }}</view>
-                <text>)</text>
-              </view> -->
             </view>
             <view class="progress-tip-num">{{
               theData.entry_num + " / " + theData.hope_num
@@ -173,7 +158,6 @@
             <text>付费方式：{{ theData.free_type }}</text>
             <text>时间：{{ activeDate }}</text>
           </view>
-          <!-- v-if="isMine == false" -->
           <view class="progress-button" v-if="theData.is_on == 1">
             <button
               @click.stop="zuduiButtons(0)"
@@ -216,7 +200,7 @@
           </view>
           <view
             class="the-thumb-comment-box"
-            v-if="!isPersonalHome && theData.is_on == 1"
+            v-if="!isPersonalHome && theData.is_on == 1 && !isMine"
           >
             <view @click.stop="toThumb" class="flex-row">
               <uni-icons
@@ -238,13 +222,6 @@
                 theData.comment_num
               }}</view>
             </view>
-            <!-- <view v-if="isPersonalHome != false" class="flex-row the-comment">
-              <view class="the-thumb-num"
-                ><text style="color: #ff812f; margin-right: 5px"
-                  >@{{ theData.type }}@</text
-                ><text style="color: #bbbbbb">详情 >> </text></view
-              >
-            </view> -->
           </view>
         </view>
         <!-- 组队/搭子 有效，仅在详情页显示，已经报名的人 -->
@@ -257,6 +234,7 @@
           >
           <view class="line-7-member-avatars">
             <image
+              :key="index"
               class="line-7-member-avatars-image"
               :src="item.avatar_url"
               v-for="(item, index) in theData.members"
@@ -265,28 +243,6 @@
         </view>
       </view>
     </view>
-    <!-- 上下线按钮 -->
-    <!-- <view v-if="isMine" class="is-on-line">
-      <view class="is-on-line-status"
-        >当前状态：{{ theData.is_on == 1 ? "已上线" : "草稿箱" }}</view
-      >
-      <view
-        @click.stop=""
-        :class="{
-          'progress-button-one-2': true,
-          'bg-gray': theData.is_on == 1,
-        }"
-      >
-        <uni-icons
-          type="paperplane-filled"
-          color="#ffffff"
-          size="25"
-        ></uni-icons>
-        <view @click="toOn()" class="progress-button-name">{{
-          theData.is_on != 1 ? "上线发布" : "下线撤回"
-        }}</view>
-      </view>
-    </view> -->
   </view>
 </template>
 
@@ -347,7 +303,7 @@ export default {
     theData: {
       type: Object,
       default: () => {},
-      required: false,
+      required: true,
     },
   },
   data() {
@@ -366,7 +322,6 @@ export default {
   watch: {
     theData: {
       handler(newVal, oldVal) {
-        console.log(222222);
         this.initDatas();
       },
       deep: true,
@@ -374,35 +329,19 @@ export default {
   },
 
   mounted() {
-    // console.log('theData',this.theData);
-
     // 这里除了个问题，导致拿到的theData有时候在mounted的时候是空的
     console.log(this.theData);
-    console.log(1111111);
     this.initDatas();
   },
   computed: {
     getPictures: function () {
       return this.pictures;
-      // let thePictures = [];
-      // console.log(this.pictures);
-      // if (this.pictures.length > 4) {
-      //   for (let i = 0; i < this.pictures.length; i++) {
-      //     thePictures.push(this.pictures[i]);
-      //     if (i == 3) {
-      //       break;
-      //     }
-      //   }
-      //   return thePictures;
-      // } else {
-      //   return this.pictures;
-      // }
     },
   },
   methods: {
     initDatas() {
       let that = this;
-      setTimeout(function () {
+      that.$nextTick(function () {
         that.released_at = that.getTime(that.theData.released_at);
         that.label = that.theData.label ? that.theData.label.split(",") : [];
         that.pictures = that.theData.url ? that.theData.url.split(",") : [];
@@ -430,7 +369,7 @@ export default {
             "日";
           // console.log('that.activeDate',that.activeDate);
         }
-      }, 50);
+      });
     },
     //---------------------------------------------------- 绑定的方法 ----------------------------------------------------
     //---------------------------------------------------- 绑定的方法 ----------------------------------------------------
@@ -476,15 +415,27 @@ export default {
 
     // 点击右上角的三个点
     actionMore: function () {
-      this.$emit("actionMore", {
-        id: this.theData.id,
-        is_on: this.theData.is_on,
-        type: this.theData.type,
-        create_id: this.theData.create_id,
-        is_regard: this.theData.is_regard,
-        is_collection: this.theData.is_collection,
-        index: this.postsDataOneIndex,
-      });
+      this.API.home
+        .getMomentInfo({
+          moments_id: this.theData.id,
+        })
+        .then((res) => {
+          this.$emit("actionMore", {
+            id: this.theData.id,
+            is_on: res.data.is_on,
+            type: this.theData.type,
+            create_id: this.theData.create_id,
+            is_regard: res.data.is_regard,
+            is_collection: res.data.is_collection,
+            index: this.postsDataOneIndex,
+          });
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.actionMore();
+          }
+        });
     },
     //---------------------------------------------------- 预处理数据 ----------------------------------------------------
     //---------------------------------------------------- 预处理数据 ----------------------------------------------------
@@ -918,6 +869,10 @@ export default {
   font-weight: 600;
   font-size: 30rpx;
   color: #333333;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .type-line-1-amount {
   font-family: DIN Alternate;

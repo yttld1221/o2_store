@@ -134,6 +134,12 @@
         "
         :class="{ 'al-box': titles[schoolOneTitleIndex] == '分享/安利' }"
       >
+        <!--瀑布流照片墙
+        <waterfall
+          @toDetail="toDetail"
+          :list="school_datas"
+          v-if="titles[schoolOneTitleIndex] == '分享/安利'"
+        ></waterfall>-->
         <view
           :class="
             titles[schoolOneTitleIndex] == '分享/安利'
@@ -1084,7 +1090,7 @@ export default {
         .catch(async (err) => {
           if (err.code == 410) {
             await this.$store.dispatch("toLogon", {});
-            this.ignoreType();
+            this.ignoreType(option);
           }
         });
     },
@@ -1110,7 +1116,7 @@ export default {
         .catch(async (err) => {
           if (err.code == 410) {
             await this.$store.dispatch("toLogon", {});
-            this.followHandle();
+            this.followHandle(option);
           }
         });
     },

@@ -1,6 +1,7 @@
 <template>
   <view class="detail">
     <u-swiper
+      radius="0"
       bgColor="#FFFFFF"
       @click="previewImage"
       height="750rpx"

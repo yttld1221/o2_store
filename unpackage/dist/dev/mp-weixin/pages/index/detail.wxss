@@ -199,6 +199,10 @@
   font-weight: 600;
   font-size: 44rpx;
   color: #333333;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .jz-detail .jz-box .type-line-1-amount {
   font-family: DIN Alternate;
@@ -293,6 +297,118 @@
   font-size: 33rpx;
   color: #ff812f;
 }
+.al-detail .al-regard {
+  border-bottom: 10rpx solid #f7f7f7;
+  padding: 30rpx;
+  justify-content: space-between;
+}
+.al-detail .al-regard .al-regard-left .avatar-img {
+  width: 80rpx;
+  height: 80rpx;
+}
+.al-detail .al-regard .al-regard-left .al-regard-info {
+  height: 80rpx;
+  margin-left: 14rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.al-detail .al-regard .al-regard-left .al-regard-info .name-text {
+  font-family: PingFang SC;
+  font-weight: bold;
+  font-size: 26rpx;
+  color: #333333;
+}
+.al-detail .al-regard .al-regard-left .al-regard-info .time-text {
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #666666;
+}
+.al-detail .al-regard .regard-btn {
+  padding: 15rpx 30rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 100rpx;
+}
+.al-detail .al-content {
+  padding: 40rpx 30rpx;
+}
+.al-detail .al-content .al-content-title {
+  font-family: PingFang SC;
+  font-weight: bold;
+  font-size: 28rpx;
+  color: #393a3e;
+  margin-bottom: 20rpx;
+}
+.al-detail .al-content .al-content-text {
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 24rpx;
+  color: #393a3e;
+  line-height: 50rpx;
+}
+.al-detail .al-product {
+  margin-top: 20rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  font-size: 26rpx;
+  color: #393a3e;
+  padding: 30rpx;
+  background: #f7f7f7;
+  border-radius: 10rpx;
+  display: flex;
+  align-items: center;
+}
+.al-detail .al-product .icon-box {
+  width: 40rpx;
+  height: 40rpx;
+  background: #ff812f;
+  border-radius: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.al-detail .al-product .al-product-title {
+  box-sizing: border-box;
+  width: calc(100% - 54rpx);
+  margin-left: 14rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  font-size: 26rpx;
+  color: #393a3e;
+}
+.al-detail .al-product .al-product-title > text {
+  word-break: keep-all;
+}
+.al-detail .al-product .al-product-title .shu {
+  width: 1rpx;
+  height: 22rpx;
+  margin: 0 14rpx;
+  background: #777777;
+}
+.al-detail .al-product .al-product-title .title-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+ .u-swiper__indicator {
+  bottom: 54rpx !important;
+}
+ .u-swiper__indicator .indicator-num {
+  width: 90rpx;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 20rpx 0rpx 0rpx 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #ffffff;
+}
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -322,5 +438,9 @@
   color: #ffffff;
   line-height: 76rpx;
   text-align: center;
+}
+.flex-align {
+  display: flex;
+  align-items: center;
 }
 

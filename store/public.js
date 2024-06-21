@@ -281,27 +281,16 @@ function upLoadImage(payload) {
 	})
 }
 
-function isIntoDetail(id, msg = '', showBtn = '') {
+function isIntoDetail(id) {
 	home.getMomentInfo({
 		moments_id: id,
 	}).then((res) => {
-		let url = "/pages/index/detail?id=" + id
-		if (showBtn == 'noPhone') {
-			url += "&noPhone=1"
-		}
-		console.log(url)
-		uni.navigateTo({
-			url
-		});
+		console.log(res, 222)
+		return res
 	}).catch(async (err) => {
 		if (err.code == 410) {
-			await this.$store.dispatch("toLogon", {});
-			this.isIntoDetail(id);
-		} else if (err.code == 404 && err.msg == "校园墙内容不存在") {
-			uni.showToast({
-				title: msg ? msg : err.msg,
-				icon: "none",
-			});
+			await store.dispatch("toLogon", {});
+			isIntoDetail(id);
 		}
 	});
 }

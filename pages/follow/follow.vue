@@ -84,8 +84,13 @@
       class="followed-posts"
       :style="'margin-top:' + (statusBarHeight + navBarHeight) + 'px;'"
     >
-      <view class="posts-data" v-for="(item, index) in school_datas">
+      <view
+        class="posts-data"
+        :key="index"
+        v-for="(item, index) in school_datas"
+      >
         <post-type-zudui
+          @zuduiButtons="zuduiButtons"
           :showMore="false"
           :isPersonalHome="true"
           @topPerSonalhome="topPerSonalhome"
@@ -132,42 +137,8 @@ export default {
       // 我关注的人
       followedUsers: [],
       //
-      school_datas: [
-        // {
-        // 	id: 1,
-        // 	title: "欢迎来到氧气仓库官方资讯，这里有最前沿的校园资讯分享，快来和我一起看看吧～",
-        // 	url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        // 	pid: 0,
-        // 	is_on: 1, // 是否是上线状态，1表示是，2表示否
-        // 	is_hot: 2, // 是否是热门，1表示是，2表示否
-        // 	school_id: 3, // 发布人所在学校ID
-        // 	type: "话题", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // 	label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        // 	is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        // 	wages: "", // 兼职用的，工资金额或者显示"面议"
-        // 	settlement: "", // 工资结算方式  用/拼接
-        // 	hope_num: 10, // 组队的期望人数
-        // 	free_type: "", // 组队的费用类型  免费/AA
-        // 	is_entry: 1, // 本人是否报名组队，1是，2否
-        // 	area_code: "640100", // 活动区地区代码
-        // 	task_id: 0, // 关联的活动ID
-        // 	created_at: "2023-05-18 11:05:13", // 第一次插入时间
-        // 	released_at: "2024-03-11 16:05:13", // 发布时间
-        // 	create_id: 50, // 发布人ID
-        // 	sex_type: "", // 组队的性别要求
-        // 	start_at: null, // 组队活动开始日期
-        // 	end_at: null, // 组队活动开始日期
-        // 	is_regard: 2, // 组队活动结束日期
-        // 	is_thumb: 1, // 本人是否点过赞 1是2否
-        // 	thumb_num: 1, // 点赞数
-        // 	comment_num: 0, // 评论数
-        // 	entry_num: 3, // 实际报名人数
-        // 	nick_name: "氧*",
-        // 	avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        // 	school_name: "宁波大学",
-        // 	area_name: "银川市"
-        // }
-      ],
+      school_datas: [],
+      inviteId: {},
     };
   },
   onLoad() {
@@ -218,7 +189,68 @@ export default {
       this.getMomentsList();
     }
   },
+  //分享按钮
+  onShareAppMessage(e) {
+    console.log(e, this.inviteId);
+    if (e.from == "button") {
+      return {
+        title: this.inviteId.title,
+        path: `/pages/index/detail?id=${this.inviteId.id}`,
+        imageUrl: this.inviteId.url
+          ? this.inviteId.url.split(",")[0]
+          : "/static/icon-zd.png",
+      };
+    }
+  },
   methods: {
+    // 邀请/组队按钮
+    zuduiButtons: async function (option) {
+      if (option.type == 1) {
+        // 1表示是组队的按钮
+        // 这是保存一下当前本人的加入状态，用于判断最后本地是显示加入还是退出
+        let temp_is_entry = option.is_entry;
+        await this.$store.dispatch("toEntry", {
+          id: option.id,
+          is_entry: option.is_entry,
+        });
+
+        // console.log('this.$store.state.is_entry_true ',this.$store.state.is_entry_true );
+        if (this.$store.state.is_entry_true == true) {
+          for (let i = 0; i < this.school_datas.length; i++) {
+            if (option.id == this.school_datas[i].id) {
+              if (temp_is_entry == 2) {
+                // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
+                this.$set(
+                  this.school_datas[i],
+                  "entry_num",
+                  this.school_datas[i].entry_num + 1
+                );
+                this.$set(this.school_datas[i], "is_entry", 1);
+                uni.showToast({
+                  title: "加入成功",
+                  duration: 1000,
+                  icon: "none",
+                });
+              } else {
+                this.$set(
+                  this.school_datas[i],
+                  "entry_num",
+                  this.school_datas[i].entry_num - 1
+                );
+                this.$set(this.school_datas[i], "is_entry", 2);
+                uni.showToast({
+                  title: "已退出组队",
+                  duration: 1000,
+                  icon: "none",
+                });
+              }
+            }
+          }
+        }
+      } else {
+        this.inviteId = option;
+      }
+    },
     // 切换导航栏
     changeFollow: function () {
       // 重置

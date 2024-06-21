@@ -239,7 +239,7 @@ export default {
         .catch(async (err) => {
           if (err.code == 410) {
             await this.$store.dispatch("toLogon", {});
-            this.ignoreType();
+            this.ignoreType(option);
           }
         });
     },
@@ -265,7 +265,7 @@ export default {
         .catch(async (err) => {
           if (err.code == 410) {
             await this.$store.dispatch("toLogon", {});
-            this.followHandle();
+            this.followHandle(option);
           }
         });
     },

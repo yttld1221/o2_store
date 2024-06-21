@@ -3,18 +3,5 @@
   "projectname": "o2_store",
   "setting": {
     "compileHotReLoad": true
-  },
-  "condition": {
-    "miniprogram": {
-      "list": [
-        {
-          "name": "pages/index/detail",
-          "pathName": "pages/index/detail",
-          "query": "id=161",
-          "launchMode": "default",
-          "scene": null
-        }
-      ]
-    }
   }
 }

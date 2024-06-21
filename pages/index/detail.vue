@@ -122,9 +122,89 @@
         <view class="jz-address-text">{{ detailData.city }}</view>
       </view>
     </view>
+    <view class="al-detail" v-else-if="detailData.type == '分享/安利'">
+      <u-swiper
+        radius="0"
+        bgColor="#FFFFFF"
+        @click="previewImage"
+        height="750rpx"
+        :list="srcList"
+        @change="(e) => (currentNum = e.current)"
+        :autoplay="false"
+        indicatorStyle="right: 0px"
+      >
+        <u-swiper-item
+          slot="item"
+          v-for="(item, index) in srcList"
+          :key="index"
+        >
+          <u-image
+            :src="item"
+            width="100%"
+            height="750rpx"
+            mode="aspectFill"
+          ></u-image>
+        </u-swiper-item>
+        <view slot="indicator" class="indicator-num">
+          <text class="indicator-num__text"
+            ><text style="font-size: 28rpx">{{ currentNum + 1 }}</text
+            ><text style="font-size: 18rpx">/{{ srcList.length }}</text></text
+          >
+        </view>
+      </u-swiper>
+      <view class="al-regard flex-align">
+        <view class="al-regard-left flex-align">
+          <view
+            @click="
+              topPerSonalhome({ id: detailData.create_id, is_anonymous: 2 })
+            "
+            class="comment-one-avatar avatar-img"
+            :style="'background: url(' + detailData.avatar_url + ');'"
+          ></view>
+          <view class="al-regard-info">
+            <view class="name-text">{{ detailData.nick_name }}</view>
+            <view class="time-text">{{ getTime(detailData.released_at) }}</view>
+          </view>
+        </view>
+        <view
+          v-if="isMe()"
+          class="regard-btn"
+          :style="{
+            background: detailData.is_regard == 1 ? '#bbbbbb' : '#ff812f',
+          }"
+          @click="toFollow()"
+        >
+          {{ detailData.is_regard == 1 ? "取消关注" : "关注" }}
+        </view>
+      </view>
+      <view class="al-content">
+        <view class="al-content-title">{{ detailData.title }}</view>
+        <view class="al-content-text">{{ detailData.content }}</view>
+        <view
+          v-if="detailData.task_id"
+          class="al-product flex-align"
+          @click="toProduct()"
+        >
+          <view class="icon-box">
+            <u-icon
+              name="shopping-cart-fill"
+              color="#FFFFFF"
+              size="20"
+            ></u-icon>
+          </view>
+          <view class="al-product-title flex-align"
+            ><text>购物</text> <view class="shu"></view>
+            <view class="title-text">{{ detailData.task_title }}</view></view
+          >
+        </view>
+      </view>
+    </view>
     <!-- 评论输入框 -->
     <view
-      v-if="!['兼职', '分享/安利', ''].includes(detailData.type)"
+      v-if="
+        !['兼职', '分享/安利', ''].includes(detailData.type) &&
+        detailData.is_on == 1
+      "
       class="comment-input"
       :style="'bottom:' + 0 + 'px;'"
     >
@@ -139,7 +219,7 @@
         <view @click="toComment" class="comment-button">发送</view>
       </view>
     </view>
-    <view v-else-if="detailData.type == '兼职'">
+    <view v-else-if="detailData.type == '兼职' && detailData.is_on == 1">
       <view class="safe-bottom"></view>
       <view class="fix-bottom-box">
         <view class="fix-bottom" v-if="detailData.type == '兼职'">
@@ -161,6 +241,9 @@ import { addressList } from "../../page_product/components/piaoyi-cityPicker/cit
 export default {
   data() {
     return {
+      currentNum: 0,
+      srcList: [],
+      inviteId: "",
       addressArr: [],
       showMore: true,
       showPhone: true,
@@ -195,6 +278,11 @@ export default {
     if (option.noMore) {
       this.showMore = false;
     }
+    uni.$on("changeRegard", (data) => {
+      if (this.detailData.type == "分享/安利") {
+        this.$set(this.detailData, "is_regard", data);
+      }
+    });
   },
   // 监听下拉动作
   onPullDownRefresh() {
@@ -235,7 +323,76 @@ export default {
       this.getCommentList();
     }
   },
+  //分享按钮
+  onShareAppMessage(e) {
+    console.log(e, this.inviteId);
+    if (e.from == "button") {
+      return {
+        title: this.inviteId.title,
+        path: `/pages/index/detail?id=${this.inviteId.id}`,
+        imageUrl: this.inviteId.url
+          ? this.inviteId.url.split(",")[0]
+          : "/static/icon-zd.png",
+      };
+    }
+  },
   methods: {
+    // 是否是本人
+    isMe() {
+      return this.detailData.create_id != this.$store.state.theLogonUser.id;
+    },
+    toProduct() {
+      if (this.detailData.task_is_on == 1) {
+        uni.navigateTo({
+          url:
+            "/page_product/pages/product/detail?id=" + this.detailData.task_id,
+        });
+      } else {
+        uni.showToast({
+          title: "关联商品已下线",
+          duration: 2500,
+          icon: "none",
+        });
+      }
+    },
+    getTime: function (theTime) {
+      if (theTime) {
+        // 转化时间戳的方法
+        // 发帖时间的时间戳
+        let timestamp_at = new Date(theTime).getTime();
+        // 当前时间的时间戳
+        let timestamp_now = new Date().getTime();
+
+        // 相差的时间，转化为了分钟
+        let difference = (timestamp_now - timestamp_at) / 1000 / 60;
+        if (difference < 5) {
+          // 小于1个小时，就显示时间
+          // console.log(difference+'分钟前');
+          return "刚刚";
+        } else if (difference >= 5 && difference < 60) {
+          return Math.floor(difference) + "分钟前";
+        } else {
+          let theYear = theTime.substring(0, 4);
+          let theMonth = theTime.substring(5, 7);
+          let theDay = theTime.substring(8, 10);
+
+          let now = new Date();
+          let nowYear = now.getFullYear() + "";
+          let nowMonth =
+            now.getMonth() + 1 < 10
+              ? "0" + (now.getMonth() + 1)
+              : now.getMonth() + 1 + "";
+          let nowDay =
+            now.getDate() < 10 ? "0" + now.getDate() : now.getDate() + "";
+          // 同一天的话
+          if (theYear == nowYear && theMonth == nowMonth && theDay == nowDay) {
+            return "今天" + " " + theTime.substring(11, 19);
+          } else {
+            return theTime;
+          }
+        }
+      }
+    },
     getAddText(code) {
       let text = "";
       this.addressArr.forEach((el) => {
@@ -274,6 +431,23 @@ export default {
             this.getCommentList();
           } else if (["兼职"].includes(this.detailData.type)) {
             this.getArea();
+          }
+          if (
+            ["兼职", "分享/安利", "组队/搭子"].includes(this.detailData.type)
+          ) {
+            uni.setNavigationBarTitle({
+              title:
+                this.detailData.type == "分享/安利"
+                  ? "安利详情"
+                  : this.detailData.type == "兼职"
+                  ? "兼职详情"
+                  : "组队详情",
+            });
+            if (["分享/安利"].includes(this.detailData.type)) {
+              this.srcList = this.detailData.url
+                ? this.detailData.url.split(",")
+                : [];
+            }
           }
         })
         .catch(async (err) => {
@@ -407,6 +581,12 @@ export default {
         },
       });
     },
+    toFollow() {
+      this.followHandle({
+        create_id: this.detailData.create_id,
+        is_regard: this.detailData.is_regard,
+      });
+    },
     // 关注
     followHandle(option) {
       this.API.order
@@ -429,7 +609,7 @@ export default {
         .catch(async (err) => {
           if (err.code == 410) {
             await this.$store.dispatch("toLogon", {});
-            this.followHandle();
+            this.followHandle(option);
           }
         });
     },
@@ -490,6 +670,8 @@ export default {
             });
           }
         }
+      } else {
+        this.inviteId = option;
       }
     },
     //---------------------------------------------------------------服务端接口---------------------------------------------------------------
@@ -913,6 +1095,10 @@ export default {
       font-weight: 600;
       font-size: 44rpx;
       color: #333333;
+      box-sizing: border-box;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .type-line-1-amount {
       font-family: DIN Alternate;
@@ -1009,6 +1195,122 @@ export default {
     }
   }
 }
+.al-detail {
+  .al-regard {
+    border-bottom: 10rpx solid #f7f7f7;
+    padding: 30rpx;
+    justify-content: space-between;
+    .al-regard-left {
+      .avatar-img {
+        width: 80rpx;
+        height: 80rpx;
+      }
+      .al-regard-info {
+        height: 80rpx;
+        margin-left: 14rpx;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        .name-text {
+          font-family: PingFang SC;
+          font-weight: bold;
+          font-size: 26rpx;
+          color: #333333;
+        }
+        .time-text {
+          font-family: PingFang SC;
+          font-weight: 400;
+          font-size: 22rpx;
+          color: #666666;
+        }
+      }
+    }
+    .regard-btn {
+      padding: 15rpx 30rpx;
+      font-family: PingFang SC;
+      font-weight: 400;
+      font-size: 26rpx;
+      color: #ffffff;
+      text-align: center;
+      border-radius: 100rpx;
+    }
+  }
+  .al-content {
+    padding: 40rpx 30rpx;
+    .al-content-title {
+      font-family: PingFang SC;
+      font-weight: bold;
+      font-size: 28rpx;
+      color: #393a3e;
+      margin-bottom: 20rpx;
+    }
+    .al-content-text {
+      font-family: PingFang SC;
+      font-weight: 400;
+      font-size: 24rpx;
+      color: #393a3e;
+      line-height: 50rpx;
+    }
+  }
+  .al-product {
+    margin-top: 20rpx;
+    font-family: PingFang SC;
+    font-weight: bold;
+    font-size: 26rpx;
+    color: #393a3e;
+    padding: 30rpx;
+    background: #f7f7f7;
+    border-radius: 10rpx;
+    display: flex;
+    align-items: center;
+    .icon-box {
+      width: 40rpx;
+      height: 40rpx;
+      background: #ff812f;
+      border-radius: 10rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .al-product-title {
+      box-sizing: border-box;
+      width: calc(100% - 54rpx);
+      margin-left: 14rpx;
+      font-family: PingFang SC;
+      font-weight: bold;
+      font-size: 26rpx;
+      color: #393a3e;
+      & > text {
+        word-break: keep-all;
+      }
+      .shu {
+        width: 1rpx;
+        height: 22rpx;
+        margin: 0 14rpx;
+        background: #777777;
+      }
+      .title-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+/deep/ .u-swiper__indicator {
+  bottom: 54rpx !important;
+  .indicator-num {
+    width: 90rpx;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 20rpx 0rpx 0rpx 20rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: PingFang SC;
+    font-weight: 400;
+    color: #ffffff;
+  }
+}
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -1038,5 +1340,9 @@ export default {
     line-height: 76rpx;
     text-align: center;
   }
+}
+.flex-align {
+  display: flex;
+  align-items: center;
 }
 </style>

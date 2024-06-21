@@ -186,54 +186,13 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 
 
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 34));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
 //
 //
 //
@@ -563,8 +522,6 @@ var _default2 = {
     }
   },
   mounted: function mounted() {
-    // console.log('theData',this.theData);
-
     // 这里除了个问题，导致拿到的theData有时候在mounted的时候是空的
     console.log(this.theData);
     this.initDatas();
@@ -572,22 +529,8 @@ var _default2 = {
   computed: {
     getPictures: function getPictures() {
       return this.pictures;
-      // let thePictures = [];
-      // console.log(this.pictures);
-      // if (this.pictures.length > 4) {
-      //   for (let i = 0; i < this.pictures.length; i++) {
-      //     thePictures.push(this.pictures[i]);
-      //     if (i == 3) {
-      //       break;
-      //     }
-      //   }
-      //   return thePictures;
-      // } else {
-      //   return this.pictures;
-      // }
     }
   },
-
   methods: {
     initDatas: function initDatas() {
       var that = this;
@@ -654,15 +597,44 @@ var _default2 = {
     },
     // 点击右上角的三个点
     actionMore: function actionMore() {
-      this.$emit("actionMore", {
-        id: this.theData.id,
-        is_on: this.theData.is_on,
-        type: this.theData.type,
-        create_id: this.theData.create_id,
-        is_regard: this.theData.is_regard,
-        is_collection: this.theData.is_collection,
-        index: this.postsDataOneIndex
-      });
+      var _this = this;
+      this.API.home.getMomentInfo({
+        moments_id: this.theData.id
+      }).then(function (res) {
+        _this.$emit("actionMore", {
+          id: _this.theData.id,
+          is_on: res.data.is_on,
+          type: _this.theData.type,
+          create_id: _this.theData.create_id,
+          is_regard: res.data.is_regard,
+          is_collection: res.data.is_collection,
+          index: _this.postsDataOneIndex
+        });
+      }).catch( /*#__PURE__*/function () {
+        var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(err) {
+          return _regenerator.default.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  if (!(err.code == 410)) {
+                    _context.next = 4;
+                    break;
+                  }
+                  _context.next = 3;
+                  return _this.$store.dispatch("toLogon", {});
+                case 3:
+                  _this.actionMore();
+                case 4:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee);
+        }));
+        return function (_x) {
+          return _ref.apply(this, arguments);
+        };
+      }());
     },
     //---------------------------------------------------- 预处理数据 ----------------------------------------------------
     //---------------------------------------------------- 预处理数据 ----------------------------------------------------
@@ -755,4 +727,3 @@ __webpack_require__.r(__webpack_exports__);
     },
     [['uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui-create-component']]
 ]);
-                                                       
