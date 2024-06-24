@@ -107,25 +107,30 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 =
+  var f0 =
+    _vm.theData.type == "兼职" && _vm.theData.wages != "面议"
+      ? _vm._f("getSettlement")(_vm.theData.settlement)
+      : null
+  var g0 = _vm.theData.type == "兼职" ? _vm.label.length : null
+  var g1 =
     !["兼职", "分享/安利"].includes(_vm.theData.type) ||
     (_vm.theData.type == "分享/安利" && _vm.compoentType != "list")
-  var g1 = g0 ? _vm.label.length : null
-  var g2 = g0 ? _vm.getPictures.length : null
-  var g3 = g0 && g2 ? _vm.getPictures.length : null
+  var g2 = g1 ? _vm.label.length : null
+  var g3 = g1 ? _vm.getPictures.length : null
+  var g4 = g1 && g3 ? _vm.getPictures.length : null
   var l0 =
-    g0 && g2
+    g1 && g3
       ? _vm.__map(_vm.getPictures, function (item, index) {
           var $orig = _vm.__get_orig(item)
-          var g4 = _vm.getPictures.length != 4 && [2, 5, 8].includes(index)
+          var g5 = _vm.getPictures.length != 4 && [2, 5, 8].includes(index)
           return {
             $orig: $orig,
-            g4: g4,
+            g5: g5,
           }
         })
       : null
-  var g5 =
-    g0 && _vm.isDetail == true && _vm.theData.type == "组队/搭子"
+  var g6 =
+    g1 && _vm.isDetail == true && _vm.theData.type == "组队/搭子"
       ? _vm.theData.members.length
       : null
   if (!_vm._isMounted) {
@@ -142,12 +147,14 @@ var render = function () {
     {},
     {
       $root: {
+        f0: f0,
         g0: g0,
         g1: g1,
         g2: g2,
         g3: g3,
+        g4: g4,
         l0: l0,
-        g5: g5,
+        g6: g6,
       },
     }
   )
@@ -193,9 +200,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 34));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
-//
-//
-//
 //
 //
 //
@@ -513,6 +517,13 @@ var _default2 = {
     };
   },
 
+  filters: {
+    getSettlement: function getSettlement(val) {
+      if (val) {
+        return val.split(val.slice(-3))[0];
+      }
+    }
+  },
   watch: {
     theData: {
       handler: function handler(newVal, oldVal) {

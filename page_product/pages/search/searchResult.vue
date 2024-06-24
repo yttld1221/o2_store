@@ -51,11 +51,8 @@
       </view>
     </view>
     <!-- 底部垫层 -->
-    <view @click="getList()" class="space-line-bottom">
-      <uni-load-more
-        :status="isLoading"
-        :content-text="contentText"
-      ></uni-load-more>
+    <view class="space-line-bottom">
+      <uni-load-more :status="isLoading"></uni-load-more>
     </view>
   </view>
 </template>

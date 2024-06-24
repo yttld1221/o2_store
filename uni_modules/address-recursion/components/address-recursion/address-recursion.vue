@@ -112,8 +112,7 @@ export default {
       required: true,
     },
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     // 选择其中一个地址
     selectingAddress: function (arr) {
@@ -125,12 +124,12 @@ export default {
 
 <style>
 .content {
+  box-sizing: border-box;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: 10vw;
-  width: 86.5vw;
-  padding-right: 3.5vw;
+  padding: 0 30rpx 0 95rpx;
 }
 
 .the-title {
@@ -139,23 +138,26 @@ export default {
   flex-direction: column;
 }
 .title-1 {
-  height: 45px;
-  line-height: 45px;
-  color: #727272;
-  border-top: #e5e5e5 1px solid;
-  border-bottom: #e5e5e5 1px solid;
+  padding: 25rpx 0;
+  border-bottom: 1rpx solid #e5e5e5;
   overflow: scroll;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
+  color: #000000;
 }
 .title-1 text {
   white-space: nowrap;
 }
 .title-2 {
-  height: 45px;
-  line-height: 45px;
-  margin-left: 10vw;
-  color: #727272;
-  border-bottom: #e5e5e5 1px solid;
+  margin-left: 80rpx;
+  padding: 25rpx 0;
+  border-bottom: 1rpx solid #e5e5e5;
   overflow: scroll;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
+  color: #000000;
 }
 .title-2 text {
   white-space: nowrap;
@@ -164,6 +166,6 @@ export default {
   border-top: none !important;
 }
 .no-border-2 {
-  border-bottom: none !important;
+  /* border-bottom: none !important; */
 }
 </style>

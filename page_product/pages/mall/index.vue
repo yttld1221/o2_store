@@ -112,11 +112,8 @@
       </view>
     </view>
     <!-- 底部垫层 -->
-    <view @click="getList()" class="space-line-bottom">
-      <uni-load-more
-        :status="isLoading"
-        :content-text="contentText"
-      ></uni-load-more>
+    <view class="space-line-bottom">
+      <uni-load-more :status="isLoading"></uni-load-more>
     </view>
     <view class="safe-bottom"></view>
   </view>
@@ -127,21 +124,11 @@ export default {
   data() {
     return {
       schoolOneTitleIndex: 0,
-      titles: [
-        "综合",
-        "话题",
-        "组队/搭子",
-        "分享/安利",
-        "兼职",
-        "表白",
-        "求助",
-        "其他",
-      ],
       userInfo: {},
       isLoading: "loading",
       // 当前获取的校园墙页码，每次需要+1
       theGetMomentsListPage: 1,
-      theGetMomentsListPagesize: 4,
+      theGetMomentsListPagesize: 10,
       contentText: {
         contentdown: "查看更多",
         contentrefresh: "加载中...",
@@ -321,7 +308,9 @@ export default {
     },
     // 转换时间
     getTime() {
-      return this.$public.showDateTime(this.userInfo.last_login_at);
+      if (this.userInfo.last_login_at) {
+        return this.$public.showDateTime(this.userInfo.last_login_at);
+      }
     },
     toThumb: async function (option) {
       // 这里之所以又加了一层，是为了拿到子组件传过来的option

@@ -1,20 +1,23 @@
 <template>
-  <view class="content">
+  <view class="choose-content">
     <!-- 置顶的 -->
     <view class="top">
-      <uni-search-bar @input="toInput" v-model="searchValue"></uni-search-bar>
+      <view class="search-box">
+        <u-search
+          @search="toInput"
+          placeholder="请输入搜索关键词"
+          v-model="searchValue"
+          :showAction="false"
+        ></u-search>
+      </view>
+
       <!-- 25px -->
       <view v-if="!['push', 'mall'].includes(type)" class="selected">
         <view class="selected-tip">已选择</view>
         <view class="selected-content">
-          <uni-icons
-            type="map-pin-ellipse"
-            size="17"
-            color="#ff812f"
-          ></uni-icons>
-          <view class="margin-left-5">当前：</view>
-          <view class="margin-left-5">
-            {{
+          <u-icon name="map-fill" color="#ff812f" size="17"></u-icon>
+          <view class="margin-left-5"
+            >当前：{{
               addressNow != undefined
                 ? addressNow != ""
                   ? addressNow.substring(0, 9)
@@ -22,8 +25,8 @@
                 : "(空)"
             }}{{
               addressNow != undefined ? (addressNow.length > 9 ? "…" : "") : ""
-            }}
-          </view>
+            }}</view
+          >
         </view>
       </view>
       <!-- 50px -->
@@ -35,10 +38,7 @@
       </view>
     </view>
     <!-- 列表 -->
-    <view
-      class="address-box"
-      :style="'margin-top:' + (56 + 25 + 15 + 50) + 'px;'"
-    >
+    <view class="address-box" :style="'margin-top:' + contentHeight + 'px;'">
       <address-recursion
         @selectingAddress="selectingAddress"
         :level="2"
@@ -57,6 +57,7 @@
 export default {
   data() {
     return {
+      contentHeight: 0,
       // 这个页面是复用的，所以这里要知道到底是哪个页面过来的，"index"表示首页选择地区，"push"表示发布页面选择地区
       // 这里没有用到uniapp的监听器，后期有机会试一下，这里用到全局文件store传递数据
       type: 0,
@@ -145,6 +146,13 @@ export default {
   onLoad(option) {
     // 判断是哪里调过来的，因为这个页面在发布中也用到，两个逻辑不一样
     // console.log('option',option);
+    let query = uni.createSelectorQuery().in(this);
+    query
+      .select(".top")
+      .boundingClientRect((data) => {
+        this.contentHeight = data.height;
+      })
+      .exec();
     this.type = option.type;
 
     // 获取默认选择的位置
@@ -349,9 +357,9 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .margin-left-5 {
-  margin-left: 3.5vw;
+  margin-left: 11rpx;
 }
 
 ::-webkit-scrollbar {
@@ -359,79 +367,87 @@ export default {
   height: 0;
 }
 
-.content {
+.choose-content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100vw;
 }
 
 .top {
+  box-sizing: border-box;
   background-color: #ffffff;
   width: 100vw;
   position: fixed;
   top: 0;
+  .search-box {
+    padding: 30rpx;
+  }
 }
 
 .selected {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: 0 30rpx 30rpx;
 }
 
 .selected-tip {
-  margin-left: 3.5vw;
-  height: 25px;
-  line-height: 25px;
-  font-size: 13px;
-  color: #bbbbbb;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 24rpx;
+  color: #959595;
 }
 
 .selected-content {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  margin-right: 15px;
-  font-size: 13px;
-  height: 25px;
-  line-height: 25px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 24rpx;
+  color: #000000;
 }
 
 .the-selected {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0 0 0 15px;
+  padding: 15rpx 30rpx;
   background-color: #f6f6f6;
-  margin-top: 15px;
 }
 
 .the-selected-title {
-  width: 60vw;
+  width: 70%;
   overflow: scroll;
+  display: flex;
+  align-items: center;
 }
 
-.the-selected-title text {
+.the-selected-title > text {
   white-space: nowrap;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
+  color: #000000;
 }
 
 .the-button {
   background-color: #f89f12;
+  padding: 0 30rpx;
+  height: 70rpx !important;
+  display: flex;
+  align-items: center;
+  border-radius: 100rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
   color: #ffffff;
-  padding: 0 15px;
-  height: 35px !important;
-  line-height: 35px !important;
-  border-radius: 15px;
 }
-
-.the-selected view {
-  margin-right: 3.5vw;
-  height: 50px;
-  line-height: 50px;
+/deep/ .uniui-clear {
+  margin-left: 8rpx;
 }
 
 .space-line-bottom {
-  height: 100px;
+  height: 100rpx;
 }
 </style>

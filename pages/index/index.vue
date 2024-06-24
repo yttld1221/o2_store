@@ -222,11 +222,8 @@
     </template>
 
     <!-- 底部垫层 -->
-    <view @click="loadMore()" class="space-line-bottom">
-      <uni-load-more
-        :status="isLoading"
-        :content-text="contentText"
-      ></uni-load-more>
+    <view class="space-line-bottom">
+      <uni-load-more :status="isLoading"></uni-load-more>
     </view>
 
     <tab-Bar ref="theMessage" current="0"></tab-Bar>

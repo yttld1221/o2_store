@@ -113,13 +113,13 @@ try {
       return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 423))
     },
     uSwiper: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swiper/u-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swiper/u-swiper")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swiper/u-swiper.vue */ 513))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swiper/u-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swiper/u-swiper")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swiper/u-swiper.vue */ 506))
     },
     uImage: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-image/u-image */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-image/u-image")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-image/u-image.vue */ 521))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-image/u-image */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-image/u-image")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-image/u-image.vue */ 514))
     },
     uniEasyinput: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput */ "uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue */ 529))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput */ "uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue */ 522))
     },
   }
 } catch (e) {
@@ -156,7 +156,12 @@ var render = function () {
         }
       })
     : null
-  var g2 =
+  var f0 =
+    !!g0 && _vm.detailData.type == "兼职" && _vm.detailData.wages != "面议"
+      ? _vm._f("getSettlement")(_vm.detailData.settlement)
+      : null
+  var g2 = !!g0 && _vm.detailData.type == "兼职" ? _vm.label.length : null
+  var g3 =
     !!g0 &&
     !(_vm.detailData.type == "兼职") &&
     _vm.detailData.type == "分享/安利"
@@ -174,7 +179,7 @@ var render = function () {
     _vm.detailData.type == "分享/安利"
       ? _vm.isMe()
       : null
-  var g3 =
+  var g4 =
     !["兼职", "分享/安利", ""].includes(_vm.detailData.type) &&
     _vm.detailData.is_on == 1
   if (!_vm._isMounted) {
@@ -188,10 +193,12 @@ var render = function () {
       $root: {
         g0: g0,
         l0: l0,
+        f0: f0,
         g2: g2,
+        g3: g3,
         m1: m1,
         m2: m2,
-        g3: g3,
+        g4: g4,
       },
     }
   )
@@ -474,11 +481,10 @@ var _cityData = __webpack_require__(/*! ../../page_product/components/piaoyi-cit
 //
 //
 //
-//
-//
 var _default = {
   data: function data() {
     return {
+      label: "",
       currentNum: 0,
       srcList: [],
       inviteId: "",
@@ -503,6 +509,13 @@ var _default = {
       // 评论
       theComments: []
     };
+  },
+  filters: {
+    getSettlement: function getSettlement(val) {
+      if (val) {
+        return val.split(val.slice(-3))[0];
+      }
+    }
   },
   onLoad: function onLoad(option) {
     var _this2 = this;
@@ -678,6 +691,8 @@ var _default = {
           });
           if (["分享/安利"].includes(_this4.detailData.type)) {
             _this4.srcList = _this4.detailData.url ? _this4.detailData.url.split(",") : [];
+          } else if (["兼职"].includes(_this4.detailData.type)) {
+            _this4.label = res.data.label ? res.data.label.split(",") : [];
           }
         }
       }).catch( /*#__PURE__*/function () {

@@ -85,11 +85,8 @@
       </view>
     </view>
     <!-- 底部垫层 -->
-    <view class="space-line-bottom" @click="getMomentsList()">
-      <uni-load-more
-        :status="isLoading"
-        :content-text="contentText"
-      ></uni-load-more>
+    <view class="space-line-bottom">
+      <uni-load-more :status="isLoading"></uni-load-more>
     </view>
     <u-modal
       :show="show"

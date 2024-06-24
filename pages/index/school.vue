@@ -1,22 +1,21 @@
 <template>
-  <view class="content">
+  <view class="choose-content">
     <!-- 置顶的 -->
     <view class="top">
-      <uni-search-bar @input="toInput" v-model="searchValue"></uni-search-bar>
+      <view class="search-box">
+        <u-search
+          @search="toInput"
+          placeholder="请输入搜索关键词"
+          v-model="searchValue"
+          :showAction="false"
+        ></u-search>
+      </view>
       <!-- 25px -->
       <view class="selected">
         <view class="selected-tip">已选择</view>
         <view class="selected-content">
-          <uni-icons
-            type="map-pin-ellipse"
-            size="17"
-            color="#ff812f"
-          ></uni-icons>
-          <view class="margin-left-5">当前：</view>
-          <view class="margin-left-5"
-            >{{ schoolNow != "" ? schoolNow.substring(0, 9) : "(空)"
-            }}{{ schoolNow.length > 9 ? "…" : "" }}
-          </view>
+          当前：{{ schoolNow != "" ? schoolNow.substring(0, 9) : "(空)"
+          }}{{ schoolNow.length > 9 ? "…" : "" }}
         </view>
       </view>
       <!-- 50px -->
@@ -27,22 +26,19 @@
               ? tempSelectedSchool.title
               : "默认全部校区"
           }}</text>
+          <uni-icons
+            v-if="tempSelectedSchool.title != ''"
+            @click="cleanSchool()"
+            type="clear"
+            size="25"
+            color="#727272"
+          ></uni-icons>
         </view>
-        <uni-icons
-          v-if="tempSelectedSchool.title != ''"
-          @click="cleanSchool()"
-          type="clear"
-          size="25"
-          color="#727272"
-        ></uni-icons>
         <view @click="confirmSchool()" class="the-button">确认选择</view>
       </view>
     </view>
     <!-- 列表 -->
-    <view
-      class="address-box"
-      :style="'margin-top:' + (56 + 25 + 15 + 50) + 'px;'"
-    >
+    <view class="address-box" :style="'margin-top:' + contentHeight + 'px;'">
       <address-recursion
         @selectingAddress="selectingSchool"
         :level="1"
@@ -61,6 +57,7 @@
 export default {
   data() {
     return {
+      contentHeight: 0,
       // 用于接受跳转过来的页面，目前主要用到注册界面需要区分对待
       type: "",
 
@@ -99,6 +96,13 @@ export default {
     };
   },
   onLoad(option) {
+    let query = uni.createSelectorQuery().in(this);
+    query
+      .select(".top")
+      .boundingClientRect((data) => {
+        this.contentHeight = data.height;
+      })
+      .exec();
     // 获取默认选择的位置
     this.getStore_schoolNow();
 
@@ -298,7 +302,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .margin-left-5 {
   margin-left: 3.5vw;
 }
@@ -308,79 +312,85 @@ export default {
   height: 0;
 }
 
-.content {
+.choose-content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100vw;
 }
 
 .top {
+  box-sizing: border-box;
   background-color: #ffffff;
   width: 100vw;
   position: fixed;
   top: 0;
+  .search-box {
+    padding: 30rpx;
+  }
 }
 
 .selected {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: 0 30rpx 30rpx;
 }
 
 .selected-tip {
-  margin-left: 3.5vw;
-  height: 25px;
-  line-height: 25px;
-  font-size: 13px;
-  color: #bbbbbb;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 24rpx;
+  color: #959595;
 }
 
 .selected-content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-right: 15px;
-  font-size: 13px;
-  height: 25px;
-  line-height: 25px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 24rpx;
+  color: #000000;
 }
 
 .the-selected {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0 0 0 15px;
+  padding: 15rpx 30rpx;
   background-color: #f6f6f6;
-  margin-top: 15px;
 }
 
 .the-selected-title {
-  width: 45vw;
+  width: 70%;
   overflow: scroll;
+  display: flex;
+  align-items: center;
 }
 
-.the-selected-title text {
+.the-selected-title > text {
   white-space: nowrap;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
+  color: #000000;
 }
 
 .the-button {
   background-color: #f89f12;
+  padding: 0 30rpx;
+  height: 70rpx !important;
+  display: flex;
+  align-items: center;
+  border-radius: 100rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
   color: #ffffff;
-  padding: 0 15px;
-  height: 35px !important;
-  line-height: 35px !important;
-  border-radius: 15px;
 }
-
-.the-selected view {
-  margin-right: 3.5vw;
-  height: 50px;
-  line-height: 50px;
+/deep/ .uniui-clear {
+  margin-left: 8rpx;
 }
 
 .space-line-bottom {
-  height: 100px;
+  height: 100rpx;
 }
 </style>

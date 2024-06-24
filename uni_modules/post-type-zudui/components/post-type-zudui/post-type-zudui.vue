@@ -13,43 +13,40 @@
       <view v-if="isMine" @click.stop="actionMore" class="jz-more">
         <uni-icons type="more-filled" size="20"></uni-icons>
       </view>
-      <view class="jz-top" :class="{ 'mt-box': theData.wages == '面议' }">
-        <view :style="{ width: theData.wages == '面议' ? '80%' : '100%' }">
-          <!-- 标题 -->
-          <view class="type-line-1">
-            <view
-              class="type-line-1-title"
-              :style="{ width: theData.wages == '面议' ? '80%' : '70%' }"
-              >{{ theData.title }}</view
-            >
-            <view v-if="theData.wages != '面议'" class="type-line-1-amount"
-              >{{ theData.wages
-              }}<view class="type-line-2-settlement amount-text">{{
-                theData.settlement
-              }}</view></view
-            >
-          </view>
-          <!-- 地址和结算方式 -->
-          <view class="type-line-2">
-            <view class="type-line-2-address">
-              <u-icon name="map-fill" color="#FF5809" size="20"></u-icon>
-              <view class="type-line-2-address-name">{{
-                theData.area_name
-              }}</view>
-            </view>
-            <view
-              v-if="theData.wages != '面议'"
-              class="type-line-2-settlement"
-              >{{ theData.settlement }}</view
-            >
-          </view>
+      <view class="jz-top">
+        <!-- 标题 -->
+        <view class="type-line-1">
+          <view class="type-line-1-title">{{ theData.title }}</view>
+          <view class="type-line-1-amount"
+            >{{ theData.wages
+            }}<text v-if="theData.wages != '面议'">{{
+              theData.settlement | getSettlement
+            }}</text>
+          </view></view
+        >
+        <view class="jz-labels" v-if="label.length">
+          <view
+            class="line-2-one jz-labels-item"
+            :key="index"
+            v-for="(item, index) in label"
+            >{{ item }}</view
+          >
         </view>
-        <view class="my-text" v-if="theData.wages == '面议'">{{
-          theData.wages
-        }}</view>
-      </view>
-      <view class="jz-company" v-if="theData.is_on == 1 && showPhone">
-        <view class="phone-btn" @click.stop="topPerSonalhome">立即联系</view>
+        <!-- 地址和结算方式 -->
+        <view class="type-line-2">
+          <view class="type-line-2-address">
+            <u-icon name="map-fill" color="#FF5809" size="20"></u-icon>
+            <view class="type-line-2-address-name">{{
+              theData.area_name
+            }}</view>
+          </view>
+          <view
+            v-if="theData.is_on == 1 && showPhone"
+            class="phone-btn"
+            @click.stop="topPerSonalhome"
+            >立即联系</view
+          >
+        </view>
       </view>
     </view>
     <view
@@ -319,6 +316,13 @@ export default {
       // 组队的按钮
     };
   },
+  filters: {
+    getSettlement(val) {
+      if (val) {
+        return val.split(val.slice(-3))[0];
+      }
+    },
+  },
   watch: {
     theData: {
       handler(newVal, oldVal) {
@@ -583,6 +587,25 @@ export default {
   font-size: 24rpx;
   margin-right: 20rpx;
 }
+.jz-labels {
+  margin-top: 16rpx;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  .jz-labels-item {
+    padding: 5rpx 22rpx;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 6rpx;
+    font-family: PingFang SC;
+    font-weight: 400;
+    font-size: 22rpx;
+    color: #666666;
+    margin-right: 8rpx;
+  }
+  .jz-labels-item:last-child {
+    margin-right: 0;
+  }
+}
 
 .line-3 {
   font-size: 24rpx;
@@ -825,24 +848,17 @@ export default {
   .jz-top {
     width: 100%;
   }
-  .jz-company {
-    margin-top: 40rpx;
-    border-top: 1rpx solid #eeeeee;
-    padding-top: 20rpx;
-    display: flex;
-    justify-content: flex-end;
-    .phone-btn {
-      width: 146rpx;
-      height: 45rpx;
-      line-height: 45rpx;
-      text-align: center;
-      background: #ff5809;
-      border-radius: 60rpx;
-      font-family: PingFang SC;
-      font-weight: 400;
-      font-size: 24rpx;
-      color: #ffffff;
-    }
+  .phone-btn {
+    width: 146rpx;
+    height: 45rpx;
+    line-height: 45rpx;
+    text-align: center;
+    background: #ff5809;
+    border-radius: 60rpx;
+    font-family: PingFang SC;
+    font-weight: 400;
+    font-size: 24rpx;
+    color: #ffffff;
   }
 }
 .mt-box {
@@ -873,16 +889,15 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 50%;
 }
 .type-line-1-amount {
   font-family: DIN Alternate;
   font-weight: bold;
-  font-size: 40rpx;
+  font-size: 30rpx;
   color: #ff812f;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  white-space: nowrap;
 }
 .amount-text {
   height: 0rpx;

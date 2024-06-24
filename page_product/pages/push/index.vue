@@ -927,8 +927,7 @@ export default {
       width: 93vw;
       padding-left: 3.5vw;
       padding-right: 3.5vw;
-
-      height: 40vh;
+      max-height: 40vh;
       overflow: scroll;
       padding-bottom: 11vh;
     }

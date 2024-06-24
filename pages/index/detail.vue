@@ -70,44 +70,38 @@
     </view>
     <view class="jz-detail" v-else-if="detailData.type == '兼职'">
       <view class="jz-box">
-        <view class="jz-top" :class="{ 'mt-box': detailData.wages == '面议' }">
-          <view :style="{ width: detailData.wages == '面议' ? '80%' : '100%' }">
-            <!-- 标题 -->
-            <view class="type-line-1">
-              <view
-                class="type-line-1-title"
-                :style="{ width: detailData.wages == '面议' ? '80%' : '70%' }"
-                >{{ detailData.title }}</view
-              >
-              <view v-if="detailData.wages != '面议'" class="type-line-1-amount"
-                >{{ detailData.wages
-                }}<view class="type-line-2-settlement amount-text">{{
-                  detailData.settlement
-                }}</view></view
-              >
-            </view>
-            <!-- 地址和结算方式 -->
-            <view class="type-line-2">
-              <view class="type-line-2-address">
-                <u-icon
-                  name="map-fill"
-                  color="rgba(190,190,190,1)"
-                  size="20"
-                ></u-icon>
-                <view class="type-line-2-address-name">{{
-                  detailData.area_name
-                }}</view>
-              </view>
-              <view
-                v-if="detailData.wages != '面议'"
-                class="type-line-2-settlement"
-                >{{ detailData.settlement }}</view
-              >
+        <view class="jz-top">
+          <!-- 标题 -->
+          <view class="type-line-1">
+            <view class="type-line-1-title">{{ detailData.title }}</view>
+            <view class="type-line-1-amount"
+              >{{ detailData.wages
+              }}<text v-if="detailData.wages != '面议'">{{
+                detailData.settlement | getSettlement
+              }}</text>
+            </view></view
+          >
+          <view class="jz-labels" v-if="label.length">
+            <view
+              class="jz-labels-item"
+              :key="index"
+              v-for="(item, index) in label"
+              >{{ item }}</view
+            >
+          </view>
+          <!-- 地址和结算方式 -->
+          <view class="type-line-2">
+            <view class="type-line-2-address">
+              <u-icon
+                name="map-fill"
+                color="rgba(190,190,190,1)"
+                size="20"
+              ></u-icon>
+              <view class="type-line-2-address-name">{{
+                detailData.area_name
+              }}</view>
             </view>
           </view>
-          <view class="my-text" v-if="detailData.wages == '面议'">{{
-            detailData.wages
-          }}</view>
         </view>
       </view>
       <view class="jz-content">
@@ -219,7 +213,11 @@
         <view @click="toComment" class="comment-button">发送</view>
       </view>
     </view>
-    <view v-else-if="detailData.type == '兼职' && detailData.is_on == 1">
+    <view
+      v-else-if="
+        detailData.type == '兼职' && detailData.is_on == 1 && showPhone
+      "
+    >
       <view class="safe-bottom"></view>
       <view class="fix-bottom-box">
         <view class="fix-bottom" v-if="detailData.type == '兼职'">
@@ -241,6 +239,7 @@ import { addressList } from "../../page_product/components/piaoyi-cityPicker/cit
 export default {
   data() {
     return {
+      label: "",
       currentNum: 0,
       srcList: [],
       inviteId: "",
@@ -265,6 +264,13 @@ export default {
       // 评论
       theComments: [],
     };
+  },
+  filters: {
+    getSettlement(val) {
+      if (val) {
+        return val.split(val.slice(-3))[0];
+      }
+    },
   },
   onLoad(option) {
     // 调用详情接口
@@ -447,6 +453,8 @@ export default {
               this.srcList = this.detailData.url
                 ? this.detailData.url.split(",")
                 : [];
+            } else if (["兼职"].includes(this.detailData.type)) {
+              this.label = res.data.label ? res.data.label.split(",") : [];
             }
           }
         })
@@ -1093,22 +1101,41 @@ export default {
     .type-line-1-title {
       font-family: PingFang SC;
       font-weight: 600;
-      font-size: 44rpx;
+      font-size: 30rpx;
       color: #333333;
       box-sizing: border-box;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      width: 50%;
     }
     .type-line-1-amount {
       font-family: DIN Alternate;
       font-weight: bold;
-      font-size: 40rpx;
+      font-size: 30rpx;
       color: #ff812f;
       position: relative;
+      white-space: nowrap;
+    }
+    .jz-labels {
+      margin-top: 16rpx;
       display: flex;
-      flex-direction: column;
       align-items: center;
+      flex-wrap: wrap;
+      .jz-labels-item {
+        font-size: 24rpx;
+        padding: 5rpx 22rpx;
+        background: rgba(0, 0, 0, 0.03);
+        border-radius: 6rpx;
+        font-family: PingFang SC;
+        font-weight: 400;
+        font-size: 22rpx;
+        color: #666666;
+        margin-right: 8rpx;
+      }
+      .jz-labels-item:last-child {
+        margin-right: 0;
+      }
     }
     .amount-text {
       height: 0rpx;

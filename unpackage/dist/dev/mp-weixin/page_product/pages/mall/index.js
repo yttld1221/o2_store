@@ -306,19 +306,15 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 //
 //
 //
-//
-//
-//
 var _default = {
   data: function data() {
     return {
       schoolOneTitleIndex: 0,
-      titles: ["综合", "话题", "组队/搭子", "分享/安利", "兼职", "表白", "求助", "其他"],
       userInfo: {},
       isLoading: "loading",
       // 当前获取的校园墙页码，每次需要+1
       theGetMomentsListPage: 1,
-      theGetMomentsListPagesize: 4,
+      theGetMomentsListPagesize: 10,
       contentText: {
         contentdown: "查看更多",
         contentrefresh: "加载中...",
@@ -526,7 +522,9 @@ var _default = {
     },
     // 转换时间
     getTime: function getTime() {
-      return this.$public.showDateTime(this.userInfo.last_login_at);
+      if (this.userInfo.last_login_at) {
+        return this.$public.showDateTime(this.userInfo.last_login_at);
+      }
     },
     toThumb: function () {
       var _toThumb = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4(option) {

@@ -107,6 +107,25 @@
   font-size: 24rpx;
   margin-right: 20rpx;
 }
+.jz-labels {
+  margin-top: 16rpx;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.jz-labels .jz-labels-item {
+  padding: 5rpx 22rpx;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 6rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #666666;
+  margin-right: 8rpx;
+}
+.jz-labels .jz-labels-item:last-child {
+  margin-right: 0;
+}
 .line-3 {
   font-size: 24rpx;
   margin-top: 10rpx;
@@ -342,14 +361,7 @@
 .jz-box .jz-top {
   width: 100%;
 }
-.jz-box .jz-company {
-  margin-top: 40rpx;
-  border-top: 1rpx solid #eeeeee;
-  padding-top: 20rpx;
-  display: flex;
-  justify-content: flex-end;
-}
-.jz-box .jz-company .phone-btn {
+.jz-box .phone-btn {
   width: 146rpx;
   height: 45rpx;
   line-height: 45rpx;
@@ -388,16 +400,15 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 50%;
 }
 .type-line-1-amount {
   font-family: DIN Alternate;
   font-weight: bold;
-  font-size: 40rpx;
+  font-size: 30rpx;
   color: #ff812f;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  white-space: nowrap;
 }
 .amount-text {
   height: 0rpx;
