@@ -101,16 +101,19 @@ var components
 try {
   components = {
     uSwiper: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swiper/u-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swiper/u-swiper")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swiper/u-swiper.vue */ 506))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swiper/u-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swiper/u-swiper")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swiper/u-swiper.vue */ 495))
     },
     uImage: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-image/u-image */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-image/u-image")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-image/u-image.vue */ 514))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-image/u-image */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-image/u-image")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-image/u-image.vue */ 503))
+    },
+    uIcon: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 423))
     },
     uDivider: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-divider/u-divider */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-divider/u-divider")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-divider/u-divider.vue */ 545))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-divider/u-divider */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-divider/u-divider")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-divider/u-divider.vue */ 534))
     },
     uniGoodsNav: function () {
-      return Promise.all(/*! import() | uni_modules/uni-goods-nav/components/uni-goods-nav/uni-goods-nav */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-goods-nav/components/uni-goods-nav/uni-goods-nav")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-goods-nav/components/uni-goods-nav/uni-goods-nav.vue */ 553))
+      return Promise.all(/*! import() | uni_modules/uni-goods-nav/components/uni-goods-nav/uni-goods-nav */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-goods-nav/components/uni-goods-nav/uni-goods-nav")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-goods-nav/components/uni-goods-nav/uni-goods-nav.vue */ 542))
     },
   }
 } catch (e) {
@@ -135,6 +138,7 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 = _vm.srcList.length
+  var g1 = _vm.evaluateList.length
   if (!_vm._isMounted) {
     _vm.e0 = function (e) {
       return (_vm.currentNum = e.current)
@@ -145,6 +149,7 @@ var render = function () {
     {
       $root: {
         g0: g0,
+        g1: g1,
       },
     }
   )
@@ -260,10 +265,24 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   components: {},
   data: function data() {
     return {
+      evaluateTotal: 0,
+      evaluateList: [],
       id: "",
       info: {},
       srcList: [],
@@ -301,12 +320,47 @@ var _default = {
       }
     });
     this.id = options.id;
-    this.getDetail();
+    this.getDetail("list");
   },
   methods: {
+    getEvaluate: function getEvaluate() {
+      var _this = this;
+      var param = {
+        product_id: this.id,
+        page: 1,
+        pagesize: 2
+      };
+      this.API.home.getValuationList(param).then(function (res) {
+        console.log(res);
+      }).catch( /*#__PURE__*/function () {
+        var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(err) {
+          return _regenerator.default.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  if (!(err.code == 410)) {
+                    _context.next = 4;
+                    break;
+                  }
+                  _context.next = 3;
+                  return _this.$store.dispatch("toLogon", {});
+                case 3:
+                  _this.getEvaluate();
+                case 4:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee);
+        }));
+        return function (_x) {
+          return _ref.apply(this, arguments);
+        };
+      }());
+    },
     // icon点击
     onClick: function onClick(e) {
-      var _this = this;
+      var _this2 = this;
       if (e.index == 0) {
         if (!this.info.apply_id) {
           return;
@@ -326,34 +380,34 @@ var _default = {
         }).then(function (res) {
           console.log(res);
           uni.showToast({
-            title: _this.info.is_collection == 1 ? "取消收藏成功" : "收藏成功",
+            title: _this2.info.is_collection == 1 ? "取消收藏成功" : "收藏成功",
             duration: 2500,
             icon: "none"
           });
-          _this.getDetail();
+          _this2.getDetail();
         }).catch( /*#__PURE__*/function () {
-          var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(err) {
-            return _regenerator.default.wrap(function _callee$(_context) {
+          var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(err) {
+            return _regenerator.default.wrap(function _callee2$(_context2) {
               while (1) {
-                switch (_context.prev = _context.next) {
+                switch (_context2.prev = _context2.next) {
                   case 0:
                     if (!(err.code == 410)) {
-                      _context.next = 4;
+                      _context2.next = 4;
                       break;
                     }
-                    _context.next = 3;
-                    return _this.$store.dispatch("toLogon", {});
+                    _context2.next = 3;
+                    return _this2.$store.dispatch("toLogon", {});
                   case 3:
-                    _this.onClick(e);
+                    _this2.onClick(e);
                   case 4:
                   case "end":
-                    return _context.stop();
+                    return _context2.stop();
                 }
               }
-            }, _callee);
+            }, _callee2);
           }));
-          return function (_x) {
-            return _ref.apply(this, arguments);
+          return function (_x2) {
+            return _ref2.apply(this, arguments);
           };
         }());
       }
@@ -393,37 +447,41 @@ var _default = {
       });
     },
     getDetail: function getDetail() {
-      var _this2 = this;
+      var _this3 = this;
+      var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
       this.API.home.getTaskInfo({
         id: this.id
       }).then(function (res) {
         console.log(res);
-        _this2.info = res.data;
-        _this2.srcList = _this2.info.img_url ? _this2.info.img_url.split(",") : [];
-        _this2.detailSrc = _this2.info.content_html ? _this2.info.content_html.split(",") : [];
+        _this3.info = res.data;
+        _this3.srcList = _this3.info.img_url ? _this3.info.img_url.split(",") : [];
+        _this3.detailSrc = _this3.info.content_html ? _this3.info.content_html.split(",") : [];
+        if (type) {
+          _this3.getEvaluate();
+        }
       }).catch( /*#__PURE__*/function () {
-        var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(err) {
-          return _regenerator.default.wrap(function _callee2$(_context2) {
+        var _ref3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(err) {
+          return _regenerator.default.wrap(function _callee3$(_context3) {
             while (1) {
-              switch (_context2.prev = _context2.next) {
+              switch (_context3.prev = _context3.next) {
                 case 0:
                   if (!(err.code == 410)) {
-                    _context2.next = 4;
+                    _context3.next = 4;
                     break;
                   }
-                  _context2.next = 3;
-                  return _this2.$store.dispatch("toLogon", {});
+                  _context3.next = 3;
+                  return _this3.$store.dispatch("toLogon", {});
                 case 3:
-                  _this2.getDetail();
+                  _this3.getDetail();
                 case 4:
                 case "end":
-                  return _context2.stop();
+                  return _context3.stop();
               }
             }
-          }, _callee2);
+          }, _callee3);
         }));
-        return function (_x2) {
-          return _ref2.apply(this, arguments);
+        return function (_x3) {
+          return _ref3.apply(this, arguments);
         };
       }());
     }

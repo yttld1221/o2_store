@@ -157,6 +157,12 @@
 .message-container .message-list .message-list-item .is-regard.data-v-a91f51d4 {
   background: #bbbbbb;
 }
+.space-line-bottom.data-v-a91f51d4 {
+  height: 250rpx;
+}
+.safe-bottom.data-v-a91f51d4 {
+  padding-bottom: env(safe-area-inset-bottom);
+}
 .flex-align.data-v-a91f51d4 {
   display: flex;
   align-items: center;

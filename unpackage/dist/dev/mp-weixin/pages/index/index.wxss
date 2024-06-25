@@ -91,11 +91,16 @@
 .space-data {
   position: fixed;
 }
-.bg {
+.bg-box {
   width: 100%;
   position: fixed;
   z-index: 9;
   top: 0;
+  background: #ffffff;
+}
+.bg {
+  width: 100%;
+  height: 100%;
   background-repeat: no-repeat;
   background-image: url("https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240614/2024-06-14_14_46_30_0_22.png");
 }
@@ -268,7 +273,7 @@
   width: 100vw;
 }
 .space-line-bottom {
-  height: 180px;
+  height: 250rpx;
 }
 .city-text {
   margin: 0 12rpx;
@@ -380,6 +385,9 @@
 }
 .al-box .al-item:nth-child(2n) {
   padding-right: 0;
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
 }
 .flex-align {
   display: flex;

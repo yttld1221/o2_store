@@ -13,16 +13,21 @@
 
     <!-- 背景 -->
     <view
-      class="bg"
+      class="bg-box"
       :style="{
-        height: statusBarHeight + navBarHeight + schoolHeight + 'px',
-        'background-size':
-          '100% ' +
-          Number(statusBarHeight + navBarHeight + schoolHeight) +
-          'px',
+        height: statusBarHeight + navBarHeight + schoolHeight - 1 + 'px',
       }"
+    >
+      <view
+        class="bg"
+        :style="{
+          'background-size':
+            '100% ' +
+            Number(statusBarHeight + navBarHeight + schoolHeight) +
+            'px',
+        }"
+      ></view
     ></view>
-
     <!-- 导航切换栏 -->
     <view
       class="titles"
@@ -30,6 +35,7 @@
     >
       <view class="titles-box">
         <view
+          :key="index"
           class="titles-item"
           @click="toTitleOne(index)"
           :class="{ 'title-selected': index == theTitleIndex }"
@@ -225,7 +231,7 @@
     <view class="space-line-bottom">
       <uni-load-more :status="isLoading"></uni-load-more>
     </view>
-
+    <view class="safe-bottom"></view>
     <tab-Bar ref="theMessage" current="0"></tab-Bar>
   </view>
 </template>
@@ -1250,11 +1256,16 @@ export default {
   position: fixed;
 }
 
-.bg {
+.bg-box {
   width: 100%;
   position: fixed;
   z-index: 9;
   top: 0;
+  background: #ffffff;
+}
+.bg {
+  width: 100%;
+  height: 100%;
   background-repeat: no-repeat;
   background-image: url("https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240614/2024-06-14_14_46_30_0_22.png");
 }
@@ -1447,7 +1458,7 @@ export default {
 }
 
 .space-line-bottom {
-  height: 180px;
+  height: 250rpx;
 }
 .city-text {
   margin: 0 12rpx;
@@ -1561,6 +1572,9 @@ export default {
       padding-right: 0;
     }
   }
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
 }
 .flex-align {
   display: flex;

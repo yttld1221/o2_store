@@ -101,7 +101,7 @@
         <uni-load-more :status="isLoading"></uni-load-more>
       </view>
     </view>
-
+    <view class="safe-bottom"></view>
     <tab-Bar current="1"></tab-Bar>
   </view>
 </template>
@@ -617,6 +617,9 @@ export default {
 }
 
 .space-line-bottom {
-  height: 180px;
+  height: 250rpx;
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
 }
 </style>

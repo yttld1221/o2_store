@@ -244,7 +244,6 @@
   background-color: #f89f12;
   border-radius: 100px;
   margin-top: 30rpx;
-  margin-bottom: -4rpx;
 }
 .the-line-5 {
   display: flex;
@@ -255,7 +254,10 @@
   width: 100vw !important;
 }
 .space-line-bottom {
-  height: 280rpx;
+  height: 250rpx;
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
 }
 .list-container {
   width: 100%;

@@ -46,6 +46,18 @@
         <text>已售{{ info.sale_num }}件</text>
       </view>
     </view>
+    <view class="evaluate-box">
+      <view class="evaluate-title flex-align">
+        <view class="evaluate-title-left flex-align"
+          ><view class="shu"></view>评价（{{ evaluateTotal }}）</view
+        >
+        <u-icon slot="right" name="arrow-right"></u-icon>
+      </view>
+      <view class="evaluate-list-box">
+        <view class="more-evaluate" v-if="evaluateList.length"></view>
+        <view class="no-evaluate" v-else>暂无评价</view>
+      </view>
+    </view>
     <u-divider text="商品详情"></u-divider>
     <view class="image-detail"
       ><image
@@ -73,6 +85,8 @@ export default {
   components: {},
   data() {
     return {
+      evaluateTotal: 0,
+      evaluateList: [],
       id: "",
       info: {},
       srcList: [],
@@ -116,9 +130,27 @@ export default {
       },
     });
     this.id = options.id;
-    this.getDetail();
+    this.getDetail("list");
   },
   methods: {
+    getEvaluate() {
+      let param = {
+        product_id: this.id,
+        page: 1,
+        pagesize: 2,
+      };
+      this.API.home
+        .getValuationList(param)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.getEvaluate();
+          }
+        });
+    },
     // icon点击
     onClick(e) {
       if (e.index == 0) {
@@ -198,7 +230,7 @@ export default {
         urls: this.srcList,
       });
     },
-    getDetail() {
+    getDetail(type = "") {
       this.API.home
         .getTaskInfo({ id: this.id })
         .then((res) => {
@@ -208,6 +240,9 @@ export default {
           this.detailSrc = this.info.content_html
             ? this.info.content_html.split(",")
             : [];
+          if (type) {
+            this.getEvaluate();
+          }
         })
         .catch(async (err) => {
           if (err.code == 410) {
@@ -294,6 +329,39 @@ export default {
       justify-content: space-between;
     }
   }
+  .evaluate-box {
+    padding: 0 29rpx;
+    border-top: 20rpx solid #fafafa;
+    background: #ffffff;
+    .evaluate-title {
+      padding: 27rpx 0;
+      justify-content: space-between;
+      .evaluate-title-left {
+        font-family: PingFang SC;
+        font-weight: 400;
+        font-size: 26rpx;
+        color: #333333;
+        .shu {
+          margin-right: 15rpx;
+          width: 6rpx;
+          height: 33rpx;
+          background: #ff812f;
+        }
+      }
+    }
+    .evaluate-list-box {
+      .more-evaluate {
+      }
+      .no-evaluate {
+        font-family: PingFang SC;
+        font-weight: 400;
+        font-size: 24rpx;
+        color: #333333;
+        padding: 30rpx 0 57rpx 0;
+        text-align: center;
+      }
+    }
+  }
   .image-detail {
     background: #ffffff;
   }
@@ -331,6 +399,10 @@ export default {
       font-weight: 400;
       color: #ffffff;
     }
+  }
+  .flex-align {
+    display: flex;
+    align-items: center;
   }
 }
 </style>

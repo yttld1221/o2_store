@@ -136,7 +136,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _props = _interopRequireDefault(__webpack_require__(/*! ./props.js */ 577));
+var _props = _interopRequireDefault(__webpack_require__(/*! ./props.js */ 566));
 //
 //
 //

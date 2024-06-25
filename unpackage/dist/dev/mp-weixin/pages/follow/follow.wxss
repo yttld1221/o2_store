@@ -165,6 +165,9 @@
   border-top: 20rpx solid #fafafa;
 }
 .space-line-bottom.data-v-2f62b6b4 {
-  height: 180px;
+  height: 250rpx;
+}
+.safe-bottom.data-v-2f62b6b4 {
+  padding-bottom: env(safe-area-inset-bottom);
 }
 

@@ -161,12 +161,17 @@
       </view>
     </view>
     <view class="the-line-5" v-else>
-      <view class="posts-data" v-for="(item, index) in school_datas">
+      <view
+        class="posts-data"
+        :key="index"
+        v-for="(item, index) in school_datas"
+      >
         <post-type-zudui
           @topPerSonalhome="topPerSonalhome"
           @toDetail="toDetail"
           :showMore="false"
           :postsDataOneIndex="-1"
+          @zuduiButtons="zuduiButtons"
           :isPersonalHome="true"
           :theData="item"
         ></post-type-zudui>
@@ -176,7 +181,7 @@
     <view class="space-line-bottom">
       <uni-load-more :status="isMore"></uni-load-more>
     </view>
-
+    <view class="safe-bottom"></view>
     <tab-Bar ref="theMessage" current="4"></tab-Bar>
   </view>
 </template>
@@ -194,45 +199,7 @@ export default {
 
       // 登录信息
       theLogonUser: {
-        // is_sale: 1, //是否是销售员，1-是，2-否
-        // is_buy_vip: 1, //是否购买vip套餐，1-是，2-否，通过该字段判读购买
-        // birthday: "", //生日
-        // specialty: "", //学生专业，我的个人中心有用
-        // shop_id: 0, //开的店铺id,0-代表未开店
-        // vip_expire_at: "", // vip到期日期
-        // ignore_type: "", // 忽略的校园墙类型，多个用逗号拼接，话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // buy_vip_at: "", // 购买vip套餐的日期
-        // vip_task_id: 0, // vip会员套餐的活动id
-        // allow_publish: 1, //是否允许发布校园墙，1-是，2-否
-        // intro: "", // 自我介绍
-        // id: 1,
-        // is_sale: 1,
-        // name: "", //姓名
-        // nick_name: "游客A", // 昵称
-        avatar_url: "", //头像   之所以解放这个属性，主要是解决微信的渲染层和网络层的报错，默认找不到这个字段会报错的
-        // openid: "dfaafeee002001",
-        // unionid: "opI9e1eV_BqJdUv0n_S97ptfJQNE",
-        // sex: "", // 性别
-        // school_id: 0,
-        // school_ids: null,
-        // school_name: '宁波大学',
-        // school_names: [{
-        // 	id: 1,
-        // 	name: '宁波大学'
-        // }],
-        // phone: "",
-        // level: 0, //会员等级，0-游客，1-普通会员，2-认证会员
-        // create_id: 1,
-        // update_id: 1,
-        // pid: 0, // 推荐人id
-        // cert_url: "", //学生证url
-        // grad_date: null, //毕业日期
-        // logon_time: null, //注册时间
-        // verify_status: 0, //审核状态：0-无需处理(默认)，1-待审核，2-审核通过，3-被拒绝，4-锁定(毕业半年以上)
-        // verify_time: null, //审核时间
-        // created_at: "2023-03-16 14:16:16",
-        // updated_at: "2023-03-16 14:18:26",
-        // deleted_at: null
+        avatar_url: "",
       },
 
       // 由于接口分也逻辑，如果拿完的是最后一页，下一页是会报错的，所以需要知道当前是否是最后一页，否则不允许调用接口的
@@ -285,7 +252,7 @@ export default {
         },
       ],
       //
-      line_4_items: ["收藏", "点赞"],
+      line_4_items: ["收藏", "组队", "点赞"],
       line_4_items_index: 0,
 
       // 用于分页加载传参
@@ -294,42 +261,8 @@ export default {
       theGetMomentsListPagesize: 4,
 
       //
-      school_datas: [
-        // {
-        // 	id: 1,
-        // 	title: "欢迎来到氧气仓库官方资讯，这里有最前沿的校园资讯分享，快来和我一起看看吧～",
-        // 	url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        // 	pid: 0,
-        // 	is_on: 1, // 是否是上线状态，1表示是，2表示否
-        // 	is_hot: 2, // 是否是热门，1表示是，2表示否
-        // 	school_id: 3, // 发布人所在学校ID
-        // 	type: "话题", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // 	label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        // 	is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        // 	wages: "", // 兼职用的，工资金额或者显示"面议"
-        // 	settlement: "", // 工资结算方式  用/拼接
-        // 	hope_num: 10, // 组队的期望人数
-        // 	free_type: "", // 组队的费用类型  免费/AA
-        // 	is_entry: 1, // 本人是否报名组队，1是，2否
-        // 	area_code: "640100", // 活动区地区代码
-        // 	task_id: 0, // 关联的活动ID
-        // 	created_at: "2023-05-18 11:05:13", // 第一次插入时间
-        // 	released_at: "2024-03-11 16:05:13", // 发布时间
-        // 	create_id: 50, // 发布人ID
-        // 	sex_type: "", // 组队的性别要求
-        // 	start_at: null, // 组队活动开始日期
-        // 	end_at: null, // 组队活动开始日期
-        // 	is_regard: 2,
-        // 	is_thumb: 1, // 本人是否点过赞 1是2否
-        // 	thumb_num: 1, // 点赞数
-        // 	comment_num: 0, // 评论数
-        // 	entry_num: 3, // 实际报名人数
-        // 	nick_name: "氧*",
-        // 	avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        // 	school_name: "宁波大学",
-        // 	area_name: "银川市"
-        // }
-      ],
+      school_datas: [],
+      inviteId: {},
     };
   },
   onLoad() {
@@ -379,7 +312,62 @@ export default {
     // 调用接口 line_4_items_index=0 为第一个的列表  1表示第二列的列表
     this.line_4_itemsSelected(this.line_4_items_index, "其他");
   },
+  onShareAppMessage(e) {
+    console.log(e, this.inviteId);
+    if (e.from == "button") {
+      return {
+        title: this.inviteId.title,
+        path: `/pages/index/detail?id=${this.inviteId.id}`,
+        imageUrl: this.inviteId.url
+          ? this.inviteId.url.split(",")[0]
+          : "/static/icon-zd.png",
+      };
+    }
+  },
   methods: {
+    // 邀请/组队按钮
+    zuduiButtons: async function (option) {
+      if (option.type == 1) {
+        // 1表示是组队的按钮
+        // 这是保存一下当前本人的加入状态，用于判断最后本地是显示加入还是退出
+        let temp_is_entry = option.is_entry;
+        await this.$store.dispatch("toEntry", {
+          id: option.id,
+          is_entry: option.is_entry,
+        });
+
+        // console.log('this.$store.state.is_entry_true ',this.$store.state.is_entry_true );
+        if (this.$store.state.is_entry_true == true) {
+          for (let i = 0; i < this.school_datas.length; i++) {
+            if (option.id == this.school_datas[i].id) {
+              if (temp_is_entry == 2) {
+                // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
+                this.$set(
+                  this.school_datas[i],
+                  "entry_num",
+                  this.school_datas[i].entry_num + 1
+                );
+                this.$set(this.school_datas[i], "is_entry", 1);
+                uni.showToast({
+                  title: "加入成功",
+                  duration: 1000,
+                  icon: "none",
+                });
+              } else {
+                this.school_datas.splice(i, 1);
+                uni.showToast({
+                  title: "已退出组队",
+                  duration: 1000,
+                  icon: "none",
+                });
+              }
+            }
+          }
+        }
+      } else {
+        this.inviteId = option;
+      }
+    },
     // 跳转详情
     goDetail(item) {
       uni.navigateTo({
@@ -409,7 +397,7 @@ export default {
     },
 
     // 获取收藏商品列表
-    getShopList(type = "") {
+    getschool_datas(type = "") {
       this.isLoading = "loading"; // 加载中
       let param = {
         page: this.theGetMomentsListPage,
@@ -448,7 +436,7 @@ export default {
         .catch(async (err) => {
           if (err.code == 410) {
             await this.$store.dispatch("toLogon", {});
-            this.getShopList(type);
+            this.getschool_datas(type);
           }
         });
     },
@@ -479,17 +467,22 @@ export default {
 
       if (index == 0) {
         if (this.school_datas.length < this.totalCount) {
-          this.getShopList(type);
+          this.getschool_datas(type);
         }
       } else {
-        // 接口，默认请求 我加入的组队
-        await this.getMomentsList({
-          is_thumb: 1, // 本人点赞过的
+        let param = {
           // 传参不全，当前只用到onload时候需要的字段
           page: this.theGetMomentsListPage,
           pagesize: this.theGetMomentsListPagesize,
           type: "",
-        });
+        };
+        if (index == 1) {
+          param.is_entry = 1;
+        } else {
+          param.is_thumb = 1;
+        }
+        // 接口，默认请求 我加入的组队
+        await this.getMomentsList(param);
         this.toScroll(type);
       }
     },
@@ -731,7 +724,6 @@ export default {
       return new Promise(function (resolve, reject) {
         let that = _this;
         that.isLoading = "loading"; // 加载中
-        // console.log(111);
         if (that.school_datas.length < that.totalCount) {
           uni.request({
             url: that.$store.state.theUrl + "/wechat/moments/getMomentsList",
@@ -749,7 +741,6 @@ export default {
 
                 // 只有第一次请求的时候，也就是页码是1的时候，赋值一下总条数
                 _that.totalCount = res.data.count;
-                // console.log('_that.totalCount', _that.totalCount);
               }
 
               if (res.data.code == 0) {
@@ -757,19 +748,12 @@ export default {
                   for (let i = 0; i < res.data.data.length; i++) {
                     _that.school_datas.push(res.data.data[i]);
                   }
-
                   _that.isLoading = "no-more"; // 取消加载动画
-                  // console.log('_that.addressData',_that.addressData);
                   // 页面+1
                   _that.theGetMomentsListPage += 1;
                   resolve();
                 } else {
                   _that.isLoading = "no-more"; // 取消加载动画
-                  // uni.showToast({
-                  // 	title: '没有更多了哦~',
-                  // 	duration: 1500,
-                  // 	icon: 'none'
-                  // })
                   resolve();
                 }
               } else if (res.data.code == 500) {
@@ -1058,7 +1042,6 @@ export default {
   background-color: #f89f12;
   border-radius: 100px;
   margin-top: 30rpx;
-  margin-bottom: -4rpx;
 }
 
 .the-line-5 {
@@ -1072,7 +1055,10 @@ export default {
 }
 
 .space-line-bottom {
-  height: 280rpx;
+  height: 250rpx;
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
 }
 .list-container {
   width: 100%;

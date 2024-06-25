@@ -133,6 +133,16 @@ const home = {
 			}
 		})
 	},
+	// v2评价-分页获取指定产品的评价
+	getValuationList(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/goods/getValuationList`,
+			data: {
+				...data
+			}
+		})
+	},
 }
 
 export default home;

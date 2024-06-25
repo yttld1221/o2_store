@@ -86,6 +86,9 @@
         </view>
       </view>
     </view>
+    <!-- 底部垫层 -->
+    <view class="space-line-bottom"> </view>
+    <view class="safe-bottom"></view>
     <tab-Bar current="3"></tab-Bar>
   </view>
 </template>
@@ -365,6 +368,12 @@ export default {
       }
     }
   }
+}
+.space-line-bottom {
+  height: 250rpx;
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .flex-align {

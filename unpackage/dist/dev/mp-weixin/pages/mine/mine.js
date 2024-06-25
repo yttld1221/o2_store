@@ -101,7 +101,7 @@ var components
 try {
   components = {
     uniPopup: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */ "uni_modules/uni-popup/components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 529))
+      return __webpack_require__.e(/*! import() | uni_modules/uni-popup/components/uni-popup/uni-popup */ "uni_modules/uni-popup/components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-popup/components/uni-popup/uni-popup.vue */ 518))
     },
     uniIcons: function () {
       return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 432))
@@ -382,6 +382,11 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 //
 //
 //
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -392,47 +397,8 @@ var _default = {
       erweima_img: "",
       // 登录信息
       theLogonUser: {
-        // is_sale: 1, //是否是销售员，1-是，2-否
-        // is_buy_vip: 1, //是否购买vip套餐，1-是，2-否，通过该字段判读购买
-        // birthday: "", //生日
-        // specialty: "", //学生专业，我的个人中心有用
-        // shop_id: 0, //开的店铺id,0-代表未开店
-        // vip_expire_at: "", // vip到期日期
-        // ignore_type: "", // 忽略的校园墙类型，多个用逗号拼接，话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // buy_vip_at: "", // 购买vip套餐的日期
-        // vip_task_id: 0, // vip会员套餐的活动id
-        // allow_publish: 1, //是否允许发布校园墙，1-是，2-否
-        // intro: "", // 自我介绍
-        // id: 1,
-        // is_sale: 1,
-        // name: "", //姓名
-        // nick_name: "游客A", // 昵称
-        avatar_url: "" //头像   之所以解放这个属性，主要是解决微信的渲染层和网络层的报错，默认找不到这个字段会报错的
-        // openid: "dfaafeee002001",
-        // unionid: "opI9e1eV_BqJdUv0n_S97ptfJQNE",
-        // sex: "", // 性别
-        // school_id: 0,
-        // school_ids: null,
-        // school_name: '宁波大学',
-        // school_names: [{
-        // 	id: 1,
-        // 	name: '宁波大学'
-        // }],
-        // phone: "",
-        // level: 0, //会员等级，0-游客，1-普通会员，2-认证会员
-        // create_id: 1,
-        // update_id: 1,
-        // pid: 0, // 推荐人id
-        // cert_url: "", //学生证url
-        // grad_date: null, //毕业日期
-        // logon_time: null, //注册时间
-        // verify_status: 0, //审核状态：0-无需处理(默认)，1-待审核，2-审核通过，3-被拒绝，4-锁定(毕业半年以上)
-        // verify_time: null, //审核时间
-        // created_at: "2023-03-16 14:16:16",
-        // updated_at: "2023-03-16 14:18:26",
-        // deleted_at: null
+        avatar_url: ""
       },
-
       // 由于接口分也逻辑，如果拿完的是最后一页，下一页是会报错的，所以需要知道当前是否是最后一页，否则不允许调用接口的
       totalCount: 11,
       // 初始值必须大于theGetCommentListPagesize
@@ -473,49 +439,15 @@ var _default = {
         enable: true
       }],
       //
-      line_4_items: ["收藏", "点赞"],
+      line_4_items: ["收藏", "组队", "点赞"],
       line_4_items_index: 0,
       // 用于分页加载传参
       // 当前获取的校园墙页码，每次需要+1
       theGetMomentsListPage: 1,
       theGetMomentsListPagesize: 4,
       //
-      school_datas: [
-        // {
-        // 	id: 1,
-        // 	title: "欢迎来到氧气仓库官方资讯，这里有最前沿的校园资讯分享，快来和我一起看看吧～",
-        // 	url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png,https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684379049443118.png", // 图片，多张用英文的逗号隔开
-        // 	pid: 0,
-        // 	is_on: 1, // 是否是上线状态，1表示是，2表示否
-        // 	is_hot: 2, // 是否是热门，1表示是，2表示否
-        // 	school_id: 3, // 发布人所在学校ID
-        // 	type: "话题", //类型有：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他
-        // 	label: "#打球,#吃喝玩,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影,#看电影", // 标签，多个用英文的逗号隔开
-        // 	is_anonymous: 1, // 是否匿名 1表示是，2表示不匿名
-        // 	wages: "", // 兼职用的，工资金额或者显示"面议"
-        // 	settlement: "", // 工资结算方式  用/拼接
-        // 	hope_num: 10, // 组队的期望人数
-        // 	free_type: "", // 组队的费用类型  免费/AA
-        // 	is_entry: 1, // 本人是否报名组队，1是，2否
-        // 	area_code: "640100", // 活动区地区代码
-        // 	task_id: 0, // 关联的活动ID
-        // 	created_at: "2023-05-18 11:05:13", // 第一次插入时间
-        // 	released_at: "2024-03-11 16:05:13", // 发布时间
-        // 	create_id: 50, // 发布人ID
-        // 	sex_type: "", // 组队的性别要求
-        // 	start_at: null, // 组队活动开始日期
-        // 	end_at: null, // 组队活动开始日期
-        // 	is_regard: 2,
-        // 	is_thumb: 1, // 本人是否点过赞 1是2否
-        // 	thumb_num: 1, // 点赞数
-        // 	comment_num: 0, // 评论数
-        // 	entry_num: 3, // 实际报名人数
-        // 	nick_name: "氧*",
-        // 	avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/20230518/1684378586065116.png",
-        // 	school_name: "宁波大学",
-        // 	area_name: "银川市"
-        // }
-      ]
+      school_datas: [],
+      inviteId: {}
     };
   },
   onLoad: function onLoad() {
@@ -586,7 +518,78 @@ var _default = {
     // 调用接口 line_4_items_index=0 为第一个的列表  1表示第二列的列表
     this.line_4_itemsSelected(this.line_4_items_index, "其他");
   },
+  onShareAppMessage: function onShareAppMessage(e) {
+    console.log(e, this.inviteId);
+    if (e.from == "button") {
+      return {
+        title: this.inviteId.title,
+        path: "/pages/index/detail?id=".concat(this.inviteId.id),
+        imageUrl: this.inviteId.url ? this.inviteId.url.split(",")[0] : "/static/icon-zd.png"
+      };
+    }
+  },
   methods: {
+    // 邀请/组队按钮
+    zuduiButtons: function () {
+      var _zuduiButtons = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(option) {
+        var temp_is_entry, i;
+        return _regenerator.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!(option.type == 1)) {
+                  _context3.next = 7;
+                  break;
+                }
+                // 1表示是组队的按钮
+                // 这是保存一下当前本人的加入状态，用于判断最后本地是显示加入还是退出
+                temp_is_entry = option.is_entry;
+                _context3.next = 4;
+                return this.$store.dispatch("toEntry", {
+                  id: option.id,
+                  is_entry: option.is_entry
+                });
+              case 4:
+                // console.log('this.$store.state.is_entry_true ',this.$store.state.is_entry_true );
+                if (this.$store.state.is_entry_true == true) {
+                  for (i = 0; i < this.school_datas.length; i++) {
+                    if (option.id == this.school_datas[i].id) {
+                      if (temp_is_entry == 2) {
+                        // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
+                        this.$set(this.school_datas[i], "entry_num", this.school_datas[i].entry_num + 1);
+                        this.$set(this.school_datas[i], "is_entry", 1);
+                        uni.showToast({
+                          title: "加入成功",
+                          duration: 1000,
+                          icon: "none"
+                        });
+                      } else {
+                        this.school_datas.splice(i, 1);
+                        uni.showToast({
+                          title: "已退出组队",
+                          duration: 1000,
+                          icon: "none"
+                        });
+                      }
+                    }
+                  }
+                }
+                _context3.next = 8;
+                break;
+              case 7:
+                this.inviteId = option;
+              case 8:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+      function zuduiButtons(_x) {
+        return _zuduiButtons.apply(this, arguments);
+      }
+      return zuduiButtons;
+    }(),
     // 跳转详情
     goDetail: function goDetail(item) {
       uni.navigateTo({
@@ -614,7 +617,7 @@ var _default = {
       }, 5000);
     },
     // 获取收藏商品列表
-    getShopList: function getShopList() {
+    getschool_datas: function getschool_datas() {
       var _this2 = this;
       var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
       this.isLoading = "loading"; // 加载中
@@ -648,27 +651,27 @@ var _default = {
         }
         console.log(_this2.school_datas);
       }).catch( /*#__PURE__*/function () {
-        var _ref3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(err) {
-          return _regenerator.default.wrap(function _callee3$(_context3) {
+        var _ref3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4(err) {
+          return _regenerator.default.wrap(function _callee4$(_context4) {
             while (1) {
-              switch (_context3.prev = _context3.next) {
+              switch (_context4.prev = _context4.next) {
                 case 0:
                   if (!(err.code == 410)) {
-                    _context3.next = 4;
+                    _context4.next = 4;
                     break;
                   }
-                  _context3.next = 3;
+                  _context4.next = 3;
                   return _this2.$store.dispatch("toLogon", {});
                 case 3:
-                  _this2.getShopList(type);
+                  _this2.getschool_datas(type);
                 case 4:
                 case "end":
-                  return _context3.stop();
+                  return _context4.stop();
               }
             }
-          }, _callee3);
+          }, _callee4);
         }));
-        return function (_x) {
+        return function (_x2) {
           return _ref3.apply(this, arguments);
         };
       }());
@@ -686,16 +689,17 @@ var _default = {
     },
     // 收藏和点赞的切换按钮
     line_4_itemsSelected: function () {
-      var _line_4_itemsSelected = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4(index, type) {
-        return _regenerator.default.wrap(function _callee4$(_context4) {
+      var _line_4_itemsSelected = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(index, type) {
+        var param;
+        return _regenerator.default.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!(type == "状态切换" && this.line_4_items_index == index)) {
-                  _context4.next = 2;
+                  _context5.next = 2;
                   break;
                 }
-                return _context4.abrupt("return", false);
+                return _context5.abrupt("return", false);
               case 2:
                 if (type == "状态切换") {
                   // 只有在点击切换栏的时候，才重置
@@ -705,55 +709,60 @@ var _default = {
                 }
                 this.line_4_items_index = index;
                 if (!(index == 0)) {
-                  _context4.next = 8;
+                  _context5.next = 8;
                   break;
                 }
                 if (this.school_datas.length < this.totalCount) {
-                  this.getShopList(type);
+                  this.getschool_datas(type);
                 }
-                _context4.next = 11;
+                _context5.next = 13;
                 break;
               case 8:
-                _context4.next = 10;
-                return this.getMomentsList({
-                  is_thumb: 1,
-                  // 本人点赞过的
+                param = {
                   // 传参不全，当前只用到onload时候需要的字段
                   page: this.theGetMomentsListPage,
                   pagesize: this.theGetMomentsListPagesize,
                   type: ""
-                });
-              case 10:
+                };
+                if (index == 1) {
+                  param.is_entry = 1;
+                } else {
+                  param.is_thumb = 1;
+                }
+                // 接口，默认请求 我加入的组队
+                _context5.next = 12;
+                return this.getMomentsList(param);
+              case 12:
                 this.toScroll(type);
-              case 11:
+              case 13:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
-      function line_4_itemsSelected(_x2, _x3) {
+      function line_4_itemsSelected(_x3, _x4) {
         return _line_4_itemsSelected.apply(this, arguments);
       }
       return line_4_itemsSelected;
     }(),
     // 打开我的二维码
     openPopup_erweima: function () {
-      var _openPopup_erweima = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
-        return _regenerator.default.wrap(function _callee5$(_context5) {
+      var _openPopup_erweima = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
+        return _regenerator.default.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context5.next = 2;
+                _context6.next = 2;
                 return this.getShareQrCode();
               case 2:
                 this.$refs.erweima_popup.open();
               case 3:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
       function openPopup_erweima() {
         return _openPopup_erweima.apply(this, arguments);
@@ -874,12 +883,12 @@ var _default = {
             } else if (res.data.code == 410) {
               var __that = _that;
               // 异步转同步，
-              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6() {
-                return _regenerator.default.wrap(function _callee6$(_context6) {
+              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
+                return _regenerator.default.wrap(function _callee7$(_context7) {
                   while (1) {
-                    switch (_context6.prev = _context6.next) {
+                    switch (_context7.prev = _context7.next) {
                       case 0:
-                        _context6.next = 2;
+                        _context7.next = 2;
                         return __that.$store.dispatch("toLogon", {});
                       case 2:
                         // 重新获取登录人信息
@@ -889,10 +898,10 @@ var _default = {
                         __that.getShareQrCode();
                       case 4:
                       case "end":
-                        return _context6.stop();
+                        return _context7.stop();
                     }
                   }
-                }, _callee6);
+                }, _callee7);
               }))();
             } else if (res.data.code == 411) {
               // let __that = _that;
@@ -957,12 +966,12 @@ var _default = {
             } else if (res.data.code == 410) {
               var __that = _that;
               // 异步转同步，
-              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7() {
-                return _regenerator.default.wrap(function _callee7$(_context7) {
+              (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8() {
+                return _regenerator.default.wrap(function _callee8$(_context8) {
                   while (1) {
-                    switch (_context7.prev = _context7.next) {
+                    switch (_context8.prev = _context8.next) {
                       case 0:
-                        _context7.next = 2;
+                        _context8.next = 2;
                         return __that.$store.dispatch("toLogon", {});
                       case 2:
                         // 重新获取登录人信息
@@ -973,10 +982,10 @@ var _default = {
                         resolve();
                       case 5:
                       case "end":
-                        return _context7.stop();
+                        return _context8.stop();
                     }
                   }
-                }, _callee7);
+                }, _callee8);
               }))();
             } else {
               uni.showToast({
@@ -1002,7 +1011,6 @@ var _default = {
       return new Promise(function (resolve, reject) {
         var that = _this;
         that.isLoading = "loading"; // 加载中
-        // console.log(111);
         if (that.school_datas.length < that.totalCount) {
           uni.request({
             url: that.$store.state.theUrl + "/wechat/moments/getMomentsList",
@@ -1020,26 +1028,18 @@ var _default = {
 
                 // 只有第一次请求的时候，也就是页码是1的时候，赋值一下总条数
                 _that.totalCount = res.data.count;
-                // console.log('_that.totalCount', _that.totalCount);
               }
-
               if (res.data.code == 0) {
                 if (res.data.data.length != 0) {
                   for (var i = 0; i < res.data.data.length; i++) {
                     _that.school_datas.push(res.data.data[i]);
                   }
                   _that.isLoading = "no-more"; // 取消加载动画
-                  // console.log('_that.addressData',_that.addressData);
                   // 页面+1
                   _that.theGetMomentsListPage += 1;
                   resolve();
                 } else {
                   _that.isLoading = "no-more"; // 取消加载动画
-                  // uni.showToast({
-                  // 	title: '没有更多了哦~',
-                  // 	duration: 1500,
-                  // 	icon: 'none'
-                  // })
                   resolve();
                 }
               } else if (res.data.code == 500) {

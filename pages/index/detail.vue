@@ -426,6 +426,13 @@ export default {
       });
       this.detailData.city = this.getAddText(this.detailData.area_code);
     },
+    previewImage(index) {
+      console.log(this.srcList);
+      uni.previewImage({
+        current: index,
+        urls: this.srcList,
+      });
+    },
     getDetail() {
       this.API.home
         .getMomentInfo({

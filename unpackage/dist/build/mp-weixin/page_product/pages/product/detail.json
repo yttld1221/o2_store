@@ -7,6 +7,7 @@
   "usingComponents": {
     "u-swiper": "/uni_modules/uview-ui/components/u-swiper/u-swiper",
     "u-image": "/uni_modules/uview-ui/components/u-image/u-image",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
     "u-divider": "/uni_modules/uview-ui/components/u-divider/u-divider",
     "uni-goods-nav": "/uni_modules/uni-goods-nav/components/uni-goods-nav/uni-goods-nav"
   }

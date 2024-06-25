@@ -3,42 +3,43 @@
     <!-- <view class="message">
 			<uni-icons :animation="animationData" type="chatboxes" size="30" color="#ffffff"></uni-icons>
 		</view> -->
-
-    <view
-      :class="{ 'tabbar-item': true, 'tabbar-item-push': index == 2 }"
-      v-for="(item, index) in list"
-      :key="index"
-      @click="changeTab(index)"
-    >
-      <view :class="{ 'img-box': index == 2 }">
-        <image
-          :animation="index == 3 ? animationData : ''"
-          :class="{ img: true, push: index == 2 }"
-          mode="widthFix"
-          :src="item.selectedIconPath"
-          v-if="momentIndex == index"
-        ></image>
-        <image
-          :animation="index == 3 ? animationData : ''"
-          :class="{ img: true, push: index == 2 }"
-          mode="widthFix"
-          :src="item.iconPath"
-          v-else
-        ></image>
-        <image
-          class="push-hidden"
-          :class="{ img: true }"
-          mode="widthFix"
-          src="@/static/2_tabbar_follow@3x.png"
-          v-if="index == 2"
-        ></image>
-        <view class="text active" v-if="momentIndex == index">{{
-          item.text
-        }}</view>
-        <view class="text" v-else
-          >{{ item.text
-          }}<text v-if="index == 3 && isRedTip" class="red-tip"></text
-        ></view>
+    <view class="tabbar-box">
+      <view
+        :class="{ 'tabbar-item': true, 'tabbar-item-push': index == 2 }"
+        v-for="(item, index) in list"
+        :key="index"
+        @click="changeTab(index)"
+      >
+        <view :class="{ 'img-box': index == 2 }">
+          <image
+            :animation="index == 3 ? animationData : ''"
+            :class="{ img: true, push: index == 2 }"
+            mode="widthFix"
+            :src="item.selectedIconPath"
+            v-if="momentIndex == index"
+          ></image>
+          <image
+            :animation="index == 3 ? animationData : ''"
+            :class="{ img: true, push: index == 2 }"
+            mode="widthFix"
+            :src="item.iconPath"
+            v-else
+          ></image>
+          <image
+            class="push-hidden"
+            :class="{ img: true }"
+            mode="widthFix"
+            src="@/static/2_tabbar_follow@3x.png"
+            v-if="index == 2"
+          ></image>
+          <view class="text active" v-if="momentIndex == index">{{
+            item.text
+          }}</view>
+          <view class="text" v-else
+            >{{ item.text
+            }}<text v-if="index == 3 && isRedTip" class="red-tip"></text
+          ></view>
+        </view>
       </view>
     </view>
     <u-popup
@@ -257,17 +258,24 @@ export default {
 <style lang="scss">
 .tabbar {
   box-shadow: 0rpx -5rpx 6rpx 1rpx rgba(0, 0, 0, 0.04);
-  font-size: 1.5vh;
+  font-size: 20rpx;
   position: fixed;
   left: 0;
   bottom: 0;
   z-index: 100;
   width: 100%;
-  height: 125rpx;
+  background-color: #fff;
+}
+
+.tabbar-box {
+  z-index: 100000;
+  position: relative;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-around;
   background-color: #fff;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .message {
@@ -296,7 +304,7 @@ export default {
 }
 
 .tabbar-item {
-  height: 100%;
+  height: 125rpx;
   width: 20vw;
   /* padding: 0 40rpx; */
   display: flex;
@@ -358,6 +366,7 @@ export default {
 }
 .push-pop {
   padding: 45rpx 52rpx 125rpx;
+  padding-bottom: calc(125rpx + env(safe-area-inset-bottom));
   .pop-title {
     font-family: PingFang SC;
     font-weight: 500;

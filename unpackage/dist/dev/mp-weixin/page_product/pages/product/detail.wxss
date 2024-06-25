@@ -99,6 +99,35 @@
   align-items: center;
   justify-content: space-between;
 }
+.detail .evaluate-box.data-v-8f054364 {
+  padding: 0 29rpx;
+  border-top: 20rpx solid #fafafa;
+  background: #ffffff;
+}
+.detail .evaluate-box .evaluate-title.data-v-8f054364 {
+  padding: 27rpx 0;
+  justify-content: space-between;
+}
+.detail .evaluate-box .evaluate-title .evaluate-title-left.data-v-8f054364 {
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
+  color: #333333;
+}
+.detail .evaluate-box .evaluate-title .evaluate-title-left .shu.data-v-8f054364 {
+  margin-right: 15rpx;
+  width: 6rpx;
+  height: 33rpx;
+  background: #ff812f;
+}
+.detail .evaluate-box .evaluate-list-box .no-evaluate.data-v-8f054364 {
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 24rpx;
+  color: #333333;
+  padding: 30rpx 0 57rpx 0;
+  text-align: center;
+}
 .detail .image-detail.data-v-8f054364 {
   background: #ffffff;
 }
@@ -127,5 +156,9 @@
   font-family: PingFang SC;
   font-weight: 400;
   color: #ffffff;
+}
+.detail .flex-align.data-v-8f054364 {
+  display: flex;
+  align-items: center;
 }
 

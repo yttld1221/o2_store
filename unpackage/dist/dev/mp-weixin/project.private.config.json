@@ -3,25 +3,5 @@
   "projectname": "o2_store",
   "setting": {
     "compileHotReLoad": true
-  },
-  "condition": {
-    "miniprogram": {
-      "list": [
-        {
-          "name": "pages/index/school",
-          "pathName": "pages/index/school",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "pages/index/detail",
-          "pathName": "pages/index/detail",
-          "query": "id=167",
-          "launchMode": "default",
-          "scene": null
-        }
-      ]
-    }
   }
 }
