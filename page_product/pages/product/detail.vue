@@ -47,14 +47,76 @@
       </view>
     </view>
     <view class="evaluate-box">
-      <view class="evaluate-title flex-align">
+      <view class="evaluate-title flex-align" @click="goEvaluate()">
         <view class="evaluate-title-left flex-align"
           ><view class="shu"></view>评价（{{ evaluateTotal }}）</view
         >
         <u-icon slot="right" name="arrow-right"></u-icon>
       </view>
       <view class="evaluate-list-box">
-        <view class="more-evaluate" v-if="evaluateList.length"></view>
+        <view v-if="evaluateList.length">
+          <view class="more-evaluate">
+            <view
+              class="evaluate-item"
+              v-for="(item, index) in evaluateList"
+              :key="index"
+            >
+              <view class="evaluate-item-top">
+                <view
+                  class="comment-one-avatar"
+                  :style="'background: url(' + item.avatar_url + ');'"
+                ></view>
+                <view class="evaluate-item-rate">
+                  <text>{{ item.nick_name }}</text>
+                  <u-rate
+                    size="10"
+                    active-color="#FF812F"
+                    gutter="6"
+                    :count="5"
+                    v-model="item.total_num"
+                    readonly
+                  ></u-rate>
+                </view>
+              </view>
+              <view class="evaluate-item-content">
+                {{ item.content }}
+              </view>
+              <view class="evaluate-img-box" v-if="item.img_url.length">
+                <view
+                  class="evaluate-item-img"
+                  :key="imgIndex"
+                  :class="{
+                    'border-left': imgIndex == 0,
+                    'border-right': imgIndex == item.img_url.length - 1,
+                  }"
+                  v-for="(imgItem, imgIndex) in item.img_url"
+                >
+                  <image
+                    @click="prewFile(imgItem, 'image')"
+                    class="image-style"
+                    v-if="getType(imgItem)"
+                    mode="aspectFill"
+                    :src="imgItem"
+                  />
+                  <view
+                    @click="prewFile(imgItem, 'video')"
+                    class="video-box"
+                    v-else
+                  >
+                    <u-icon
+                      name="play-right"
+                      color="#FFFFFF"
+                      size="34"
+                    ></u-icon>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="btn-box">
+            <view class="more-btn" @click="goEvaluate()">查看更多评价</view>
+          </view>
+        </view>
         <view class="no-evaluate" v-else>暂无评价</view>
       </view>
     </view>
@@ -77,12 +139,14 @@
       @click="onClick"
       @buttonClick="buttonClick"
     />
+    <prew-video ref="prewVideo" />
   </view>
 </template>
 
 <script>
+import prewVideo from "../../components/prewVideo.vue";
 export default {
-  components: {},
+  components: { prewVideo },
   data() {
     return {
       evaluateTotal: 0,
@@ -133,6 +197,28 @@ export default {
     this.getDetail("list");
   },
   methods: {
+    //   预览
+    prewFile(item, type) {
+      if (type == "image") {
+        uni.previewImage({
+          current: 0, // 当前显示图片索引
+          urls: [item], // 需要预览的图片http链接列表
+        });
+      } else {
+        this.$refs.prewVideo.open(item);
+      }
+    },
+    getType(url) {
+      let fileType = url.substring(url.lastIndexOf(".") + 1).toLowerCase();
+      return ["jpg", "jpeg", "png"].includes(fileType);
+    },
+    goEvaluate() {
+      if (this.evaluateTotal) {
+        uni.navigateTo({
+          url: "/page_product/pages/product/evaluate?id=" + this.id,
+        });
+      }
+    },
     getEvaluate() {
       let param = {
         product_id: this.id,
@@ -143,6 +229,13 @@ export default {
         .getValuationList(param)
         .then((res) => {
           console.log(res);
+          this.evaluateTotal = res.count;
+          this.evaluateList = res.data.map((el) => {
+            return {
+              ...el,
+              img_url: el.img_url ? el.img_url.split(",") : [],
+            };
+          });
         })
         .catch(async (err) => {
           if (err.code == 410) {
@@ -214,6 +307,7 @@ export default {
             url: this.info.img_url ? this.info.img_url.split(",")[0] : "",
             title: this.info.title,
             price: this.info.sale_price,
+            is_auto_check: this.info.is_auto_check,
           },
         ];
         uni.navigateTo({
@@ -247,7 +341,7 @@ export default {
         .catch(async (err) => {
           if (err.code == 410) {
             await this.$store.dispatch("toLogon", {});
-            this.getDetail();
+            this.getDetail(type);
           }
         });
     },
@@ -330,12 +424,12 @@ export default {
     }
   }
   .evaluate-box {
-    padding: 0 29rpx;
     border-top: 20rpx solid #fafafa;
     background: #ffffff;
     .evaluate-title {
-      padding: 27rpx 0;
+      padding: 27rpx 29rpx;
       justify-content: space-between;
+      border-bottom: 1rpx solid #e7e7e7;
       .evaluate-title-left {
         font-family: PingFang SC;
         font-weight: 400;
@@ -350,14 +444,114 @@ export default {
       }
     }
     .evaluate-list-box {
+      padding: 0 29rpx;
       .more-evaluate {
+        .evaluate-item {
+          padding: 22rpx 0 40rpx;
+          border-bottom: 1rpx solid #e7e7e7;
+          .evaluate-item-top {
+            display: flex;
+            align-items: center;
+            .comment-one-avatar {
+              border-radius: 100%;
+              width: 70rpx;
+              height: 70rpx;
+              padding: 0 !important;
+              background-repeat: no-repeat !important;
+              background-size: cover !important;
+            }
+            .evaluate-item-rate {
+              display: flex;
+              height: 70rpx;
+              flex-direction: column;
+              justify-content: space-around;
+              margin-left: 14rpx;
+              font-family: PingFang SC;
+              font-weight: 400;
+              font-size: 24rpx;
+              color: #333333;
+              /deep/ .u-rate__content {
+                .u-rate__content__item:first-child {
+                  .uicon-star-fill {
+                    padding-left: 0 !important;
+                  }
+                }
+              }
+            }
+          }
+          .evaluate-item-content {
+            margin-top: 25rpx;
+            font-family: PingFang SC;
+            font-weight: 400;
+            font-size: 24rpx;
+            color: #333333;
+            line-height: 44rpx;
+          }
+          .evaluate-img-box {
+            display: flex;
+            margin-top: 28rpx;
+            .evaluate-item-img {
+              margin-right: 10rpx;
+              &:last-child {
+                margin-right: 0;
+              }
+              & > image {
+                width: 200rpx;
+                height: 200rpx;
+              }
+              .video-box {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 200rpx;
+                height: 200rpx;
+                background: rgba(0, 0, 0, 0.5);
+              }
+            }
+            .border-left {
+              & > image,
+              .video-box {
+                border-radius: 20rpx 0 0 20rpx;
+              }
+            }
+            .border-right {
+              & > image,
+              .video-box {
+                border-radius: 0 20rpx 20rpx 0;
+              }
+            }
+          }
+        }
+        .evaluate-item:last-child {
+          border-bottom: none;
+        }
+      }
+      .btn-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .more-btn {
+          width: 240rpx;
+          padding: 17rpx 0;
+          margin: 10rpx 0 48rpx 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 100rpx;
+          border: 1px solid #999999;
+          font-family: PingFang SC;
+          font-weight: 300;
+          font-size: 24rpx;
+          color: #7b7b7b;
+        }
       }
       .no-evaluate {
         font-family: PingFang SC;
         font-weight: 400;
         font-size: 24rpx;
         color: #333333;
-        padding: 30rpx 0 57rpx 0;
+        padding: 57rpx 0;
         text-align: center;
       }
     }

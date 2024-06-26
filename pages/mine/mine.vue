@@ -379,6 +379,10 @@ export default {
         uni.navigateTo({
           url: "/page_product/pages/fans/index",
         });
+      } else if (index == 2) {
+        uni.navigateTo({
+          url: "/page_product/pages/account/index",
+        });
       }
     },
     // 消息动画

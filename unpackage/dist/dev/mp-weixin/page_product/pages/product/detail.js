@@ -109,6 +109,9 @@ try {
     uIcon: function () {
       return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 423))
     },
+    uRate: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-rate/u-rate */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-rate/u-rate")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-rate/u-rate.vue */ 640))
+    },
     uDivider: function () {
       return Promise.all(/*! import() | uni_modules/uview-ui/components/u-divider/u-divider */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-divider/u-divider")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-divider/u-divider.vue */ 534))
     },
@@ -139,6 +142,29 @@ var render = function () {
   var _c = _vm._self._c || _h
   var g0 = _vm.srcList.length
   var g1 = _vm.evaluateList.length
+  var l1 = g1
+    ? _vm.__map(_vm.evaluateList, function (item, index) {
+        var $orig = _vm.__get_orig(item)
+        var g2 = item.img_url.length
+        var l0 = g2
+          ? _vm.__map(item.img_url, function (imgItem, imgIndex) {
+              var $orig = _vm.__get_orig(imgItem)
+              var g3 = item.img_url.length
+              var m0 = _vm.getType(imgItem)
+              return {
+                $orig: $orig,
+                g3: g3,
+                m0: m0,
+              }
+            })
+          : null
+        return {
+          $orig: $orig,
+          g2: g2,
+          l0: l0,
+        }
+      })
+    : null
   if (!_vm._isMounted) {
     _vm.e0 = function (e) {
       return (_vm.currentNum = e.current)
@@ -150,6 +176,7 @@ var render = function () {
       $root: {
         g0: g0,
         g1: g1,
+        l1: l1,
       },
     }
   )
@@ -195,90 +222,18 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 34));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+var prewVideo = function prewVideo() {
+  __webpack_require__.e(/*! require.ensure | page_product/components/prewVideo */ "page_product/components/prewVideo").then((function () {
+    return resolve(__webpack_require__(/*! ../../components/prewVideo.vue */ 633));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 var _default = {
-  components: {},
+  components: {
+    prewVideo: prewVideo
+  },
   data: function data() {
     return {
       evaluateTotal: 0,
@@ -323,6 +278,29 @@ var _default = {
     this.getDetail("list");
   },
   methods: {
+    //   预览
+    prewFile: function prewFile(item, type) {
+      if (type == "image") {
+        uni.previewImage({
+          current: 0,
+          // 当前显示图片索引
+          urls: [item] // 需要预览的图片http链接列表
+        });
+      } else {
+        this.$refs.prewVideo.open(item);
+      }
+    },
+    getType: function getType(url) {
+      var fileType = url.substring(url.lastIndexOf(".") + 1).toLowerCase();
+      return ["jpg", "jpeg", "png"].includes(fileType);
+    },
+    goEvaluate: function goEvaluate() {
+      if (this.evaluateTotal) {
+        uni.navigateTo({
+          url: "/page_product/pages/product/evaluate?id=" + this.id
+        });
+      }
+    },
     getEvaluate: function getEvaluate() {
       var _this = this;
       var param = {
@@ -332,6 +310,12 @@ var _default = {
       };
       this.API.home.getValuationList(param).then(function (res) {
         console.log(res);
+        _this.evaluateTotal = res.count;
+        _this.evaluateList = res.data.map(function (el) {
+          return _objectSpread(_objectSpread({}, el), {}, {
+            img_url: el.img_url ? el.img_url.split(",") : []
+          });
+        });
       }).catch( /*#__PURE__*/function () {
         var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(err) {
           return _regenerator.default.wrap(function _callee$(_context) {
@@ -432,7 +416,8 @@ var _default = {
           num: 1,
           url: this.info.img_url ? this.info.img_url.split(",")[0] : "",
           title: this.info.title,
-          price: this.info.sale_price
+          price: this.info.sale_price,
+          is_auto_check: this.info.is_auto_check
         }];
         uni.navigateTo({
           url: "/page_product/pages/product/pay?product=" + encodeURIComponent(JSON.stringify(param))
@@ -472,7 +457,7 @@ var _default = {
                   _context3.next = 3;
                   return _this3.$store.dispatch("toLogon", {});
                 case 3:
-                  _this3.getDetail();
+                  _this3.getDetail(type);
                 case 4:
                 case "end":
                   return _context3.stop();

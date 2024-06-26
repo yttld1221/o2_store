@@ -88,6 +88,7 @@
     <view class="space-line-bottom">
       <uni-load-more :status="isLoading"></uni-load-more>
     </view>
+    <view class="safe-bottom"></view>
     <u-modal
       :show="show"
       :show-cancel-button="true"
@@ -217,7 +218,11 @@ export default {
           } else if (this.content == "send") {
             this.line_4_itemsSelected(4);
           } else {
-            this.$set(this.orderList[this.handleIndex], "status", 4);
+            if (this.current == 0) {
+              this.$set(this.orderList[this.handleIndex], "status", 4);
+            } else {
+              this.orderList.splice(this.handleIndex, 1);
+            }
           }
           uni.showToast({
             title:
@@ -276,7 +281,7 @@ export default {
               signType: newData.signType,
               paySign: newData.paySign,
               success: (res1) => {
-                this.getDetail(item.id);
+                this.getDetail(item);
               },
               fail: (err) => {
                 uni.showToast({
@@ -298,29 +303,41 @@ export default {
           });
       }
     },
-    getDetail(id) {
-      let dsq = setInterval(() => {
-        this.API.order
-          .getMyOrderInfo({ id })
-          .then((res) => {
-            clearInterval(dsq);
-            console.log(res);
-            if ([2, 3].includes(res.data.status)) {
-              uni.showToast({
-                title: "支付成功",
-                icon: "none",
+    getDetail(item) {
+      this.API.home
+        .getTaskInfo({ id: item.product_id })
+        .then((res2) => {
+          let dsq = setInterval(() => {
+            this.API.order
+              .getMyOrderInfo({ id: item.id })
+              .then((res) => {
+                clearInterval(dsq);
+                console.log(res);
+                if ([2, 3].includes(res.data.status)) {
+                  uni.showToast({
+                    title: "支付成功",
+                    icon: "none",
+                  });
+                  this.line_4_itemsSelected(
+                    res2.data.is_auto_check == 1 ? 4 : 2
+                  );
+                }
+              })
+              .catch(async (err) => {
+                if (err.code == 410) {
+                  clearInterval(dsq);
+                  await this.$store.dispatch("toLogon", {});
+                  this.getDetail(item);
+                }
               });
-              this.line_4_itemsSelected(2);
-            }
-          })
-          .catch(async (err) => {
-            if (err.code == 410) {
-              clearInterval(dsq);
-              await this.$store.dispatch("toLogon", {});
-              this.getDetail(id);
-            }
-          });
-      }, 1000);
+          }, 1000);
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.getDetail(item);
+          }
+        });
     },
     // 取消删除
     cancelDel() {
@@ -532,7 +549,7 @@ export default {
           width: 150rpx;
           height: 54rpx;
           background: #ff812f;
-          border-radius: 27rpx;
+          border-radius: 100rpx;
           border: 1px solid #ff812f;
           margin-left: 30rpx;
           font-family: PingFang SC;
@@ -547,7 +564,7 @@ export default {
           text-align: center;
           width: 150rpx;
           height: 54rpx;
-          border-radius: 27rpx;
+          border-radius: 100rpx;
           border: 1px solid #a2a2a2;
           font-family: PingFang SC;
           font-weight: 300;
@@ -558,11 +575,14 @@ export default {
     }
   }
   .space-line-bottom {
-    margin-top: 20px;
+    margin-top: 40rpx;
   }
   .flex-align {
     display: flex;
     align-items: center;
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 </style>

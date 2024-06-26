@@ -156,7 +156,7 @@
   width: 150rpx;
   height: 54rpx;
   background: #ff812f;
-  border-radius: 27rpx;
+  border-radius: 100rpx;
   border: 1px solid #ff812f;
   margin-left: 30rpx;
   font-family: PingFang SC;
@@ -171,7 +171,7 @@
   text-align: center;
   width: 150rpx;
   height: 54rpx;
-  border-radius: 27rpx;
+  border-radius: 100rpx;
   border: 1px solid #a2a2a2;
   font-family: PingFang SC;
   font-weight: 300;
@@ -179,10 +179,13 @@
   color: #818181;
 }
 .order .space-line-bottom.data-v-dbef2f78 {
-  margin-top: 20px;
+  margin-top: 40rpx;
 }
 .order .flex-align.data-v-dbef2f78 {
   display: flex;
   align-items: center;
+}
+.order .safe-bottom.data-v-dbef2f78 {
+  padding-bottom: env(safe-area-inset-bottom);
 }
 

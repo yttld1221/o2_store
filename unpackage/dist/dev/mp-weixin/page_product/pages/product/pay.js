@@ -288,6 +288,7 @@ var _default = {
   components: {},
   data: function data() {
     return {
+      is_auto_check: 1,
       list: [],
       addressInfo: {},
       remark: "",
@@ -324,6 +325,7 @@ var _default = {
       if (this.clickAble) {
         this.clickAble = false;
         var products = this.list.map(function (el) {
+          _this2.is_auto_check = el.is_auto_check;
           return {
             task_id: el.id,
             num: el.num,
@@ -402,7 +404,7 @@ var _default = {
           console.log(res);
           if ([2, 3].includes(res.data.status)) {
             uni.redirectTo({
-              url: "/page_product/pages/order/index?current=2",
+              url: "/page_product/pages/order/index?current=".concat(_this3.is_auto_check == 1 ? 4 : 2),
               success: function success() {
                 uni.showToast({
                   title: "支付成功",

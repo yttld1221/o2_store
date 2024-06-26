@@ -105,6 +105,7 @@ export default {
   components: {},
   data() {
     return {
+      is_auto_check: 1,
       list: [],
       addressInfo: {},
       remark: "",
@@ -139,6 +140,7 @@ export default {
       if (this.clickAble) {
         this.clickAble = false;
         let products = this.list.map((el) => {
+          this.is_auto_check = el.is_auto_check;
           return {
             task_id: el.id,
             num: el.num,
@@ -201,7 +203,9 @@ export default {
             console.log(res);
             if ([2, 3].includes(res.data.status)) {
               uni.redirectTo({
-                url: "/page_product/pages/order/index?current=2",
+                url: `/page_product/pages/order/index?current=${
+                  this.is_auto_check == 1 ? 4 : 2
+                }`,
                 success: () => {
                   uni.showToast({
                     title: "支付成功",

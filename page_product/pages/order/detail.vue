@@ -295,33 +295,43 @@ export default {
       }
     },
     getDetail() {
-      let dsq = setInterval(() => {
-        this.API.order
-          .getMyOrderInfo({ id: this.id })
-          .then((res) => {
-            clearInterval(dsq);
-            console.log(res);
-            if ([2, 3].includes(res.data.status)) {
-              uni.$emit("changeTab", 2);
-              uni.navigateBack({
-                delta: 1,
-                success: () => {
-                  uni.showToast({
-                    title: "支付取消",
-                    icon: "none",
+      this.API.home
+        .getTaskInfo({ id: this.info.product_id })
+        .then((res2) => {
+          let dsq = setInterval(() => {
+            this.API.order
+              .getMyOrderInfo({ id: this.id })
+              .then((res) => {
+                clearInterval(dsq);
+                console.log(res);
+                if ([2, 3].includes(res.data.status)) {
+                  uni.$emit("changeTab", res2.data.is_auto_check == 1 ? 4 : 2);
+                  uni.navigateBack({
+                    delta: 1,
+                    success: () => {
+                      uni.showToast({
+                        title: "支付成功",
+                        icon: "none",
+                      });
+                    },
                   });
-                },
+                }
+              })
+              .catch(async (err) => {
+                if (err.code == 410) {
+                  clearInterval(dsq);
+                  await this.$store.dispatch("toLogon", {});
+                  this.getDetail();
+                }
               });
-            }
-          })
-          .catch(async (err) => {
-            if (err.code == 410) {
-              clearInterval(dsq);
-              await this.$store.dispatch("toLogon", {});
-              this.getDetail();
-            }
-          });
-      }, 1000);
+          }, 1000);
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.getDetail(item);
+          }
+        });
     },
     // 获取详情
     getOrder() {

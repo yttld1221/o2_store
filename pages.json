@@ -123,6 +123,16 @@
 					}
 				},
 				{
+					"path": "pages/product/evaluate",
+					"style": {
+						"navigationBarBackgroundColor": "#ffffff",
+						"navigationBarTextStyle": "black",
+						"navigationBarTitleText": "商品评价",
+						"enablePullDownRefresh": true,
+						"onReachBottomDistance": 100
+					}
+				},
+				{
 					"path": "pages/product/pay",
 					"style": {
 						"navigationBarBackgroundColor": "#ffffff",
@@ -292,6 +302,14 @@
 						"navigationBarTitleText": "校园墙搜索",
 						"enablePullDownRefresh": false,
 						"onReachBottomDistance": 100
+					}
+				},
+				{
+					"path": "pages/account/index",
+					"style": {
+						"navigationBarBackgroundColor": "#FF812F",
+						"navigationBarTextStyle": "#FFFFFF",
+						"navigationBarTitleText": "账户"
 					}
 				}
 			]

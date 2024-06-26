@@ -143,6 +143,16 @@ const home = {
 			}
 		})
 	},
+	// v2余额-获取本人实时账户余额
+	getMyMoney(data) {
+		return api.get({
+			token: true,
+			url: `${path}/wechat/wx/getMyMoney`,
+			data: {
+				...data
+			}
+		})
+	},
 }
 
 export default home;

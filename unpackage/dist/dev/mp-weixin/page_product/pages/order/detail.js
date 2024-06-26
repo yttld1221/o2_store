@@ -387,51 +387,79 @@ var _default = {
     },
     getDetail: function getDetail() {
       var _this3 = this;
-      var dsq = setInterval(function () {
-        _this3.API.order.getMyOrderInfo({
-          id: _this3.id
-        }).then(function (res) {
-          clearInterval(dsq);
-          console.log(res);
-          if ([2, 3].includes(res.data.status)) {
-            uni.$emit("changeTab", 2);
-            uni.navigateBack({
-              delta: 1,
-              success: function success() {
-                uni.showToast({
-                  title: "支付取消",
-                  icon: "none"
-                });
-              }
-            });
-          }
-        }).catch( /*#__PURE__*/function () {
-          var _ref3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(err) {
-            return _regenerator.default.wrap(function _callee3$(_context3) {
-              while (1) {
-                switch (_context3.prev = _context3.next) {
-                  case 0:
-                    if (!(err.code == 410)) {
-                      _context3.next = 5;
-                      break;
-                    }
-                    clearInterval(dsq);
-                    _context3.next = 4;
-                    return _this3.$store.dispatch("toLogon", {});
-                  case 4:
-                    _this3.getDetail();
-                  case 5:
-                  case "end":
-                    return _context3.stop();
+      this.API.home.getTaskInfo({
+        id: this.info.product_id
+      }).then(function (res2) {
+        var dsq = setInterval(function () {
+          _this3.API.order.getMyOrderInfo({
+            id: _this3.id
+          }).then(function (res) {
+            clearInterval(dsq);
+            console.log(res);
+            if ([2, 3].includes(res.data.status)) {
+              uni.$emit("changeTab", res2.data.is_auto_check == 1 ? 4 : 2);
+              uni.navigateBack({
+                delta: 1,
+                success: function success() {
+                  uni.showToast({
+                    title: "支付成功",
+                    icon: "none"
+                  });
                 }
+              });
+            }
+          }).catch( /*#__PURE__*/function () {
+            var _ref3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(err) {
+              return _regenerator.default.wrap(function _callee3$(_context3) {
+                while (1) {
+                  switch (_context3.prev = _context3.next) {
+                    case 0:
+                      if (!(err.code == 410)) {
+                        _context3.next = 5;
+                        break;
+                      }
+                      clearInterval(dsq);
+                      _context3.next = 4;
+                      return _this3.$store.dispatch("toLogon", {});
+                    case 4:
+                      _this3.getDetail();
+                    case 5:
+                    case "end":
+                      return _context3.stop();
+                  }
+                }
+              }, _callee3);
+            }));
+            return function (_x3) {
+              return _ref3.apply(this, arguments);
+            };
+          }());
+        }, 1000);
+      }).catch( /*#__PURE__*/function () {
+        var _ref4 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4(err) {
+          return _regenerator.default.wrap(function _callee4$(_context4) {
+            while (1) {
+              switch (_context4.prev = _context4.next) {
+                case 0:
+                  if (!(err.code == 410)) {
+                    _context4.next = 4;
+                    break;
+                  }
+                  _context4.next = 3;
+                  return _this3.$store.dispatch("toLogon", {});
+                case 3:
+                  _this3.getDetail(item);
+                case 4:
+                case "end":
+                  return _context4.stop();
               }
-            }, _callee3);
-          }));
-          return function (_x3) {
-            return _ref3.apply(this, arguments);
-          };
-        }());
-      }, 1000);
+            }
+          }, _callee4);
+        }));
+        return function (_x4) {
+          return _ref4.apply(this, arguments);
+        };
+      }());
     },
     // 获取详情
     getOrder: function getOrder() {
@@ -447,28 +475,28 @@ var _default = {
           _this4.getRefund();
         }
       }).catch( /*#__PURE__*/function () {
-        var _ref4 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4(err) {
-          return _regenerator.default.wrap(function _callee4$(_context4) {
+        var _ref5 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(err) {
+          return _regenerator.default.wrap(function _callee5$(_context5) {
             while (1) {
-              switch (_context4.prev = _context4.next) {
+              switch (_context5.prev = _context5.next) {
                 case 0:
                   if (!(err.code == 410)) {
-                    _context4.next = 4;
+                    _context5.next = 4;
                     break;
                   }
-                  _context4.next = 3;
+                  _context5.next = 3;
                   return _this4.$store.dispatch("toLogon", {});
                 case 3:
                   _this4.getOrder();
                 case 4:
                 case "end":
-                  return _context4.stop();
+                  return _context5.stop();
               }
             }
-          }, _callee4);
+          }, _callee5);
         }));
-        return function (_x4) {
-          return _ref4.apply(this, arguments);
+        return function (_x5) {
+          return _ref5.apply(this, arguments);
         };
       }());
     },
@@ -504,28 +532,28 @@ var _default = {
           };
         });
       }).catch( /*#__PURE__*/function () {
-        var _ref5 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(err) {
-          return _regenerator.default.wrap(function _callee5$(_context5) {
+        var _ref6 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6(err) {
+          return _regenerator.default.wrap(function _callee6$(_context6) {
             while (1) {
-              switch (_context5.prev = _context5.next) {
+              switch (_context6.prev = _context6.next) {
                 case 0:
                   if (!(err.code == 410)) {
-                    _context5.next = 4;
+                    _context6.next = 4;
                     break;
                   }
-                  _context5.next = 3;
+                  _context6.next = 3;
                   return _this5.$store.dispatch("toLogon", {});
                 case 3:
                   _this5.getRefund();
                 case 4:
                 case "end":
-                  return _context5.stop();
+                  return _context6.stop();
               }
             }
-          }, _callee5);
+          }, _callee6);
         }));
-        return function (_x5) {
-          return _ref5.apply(this, arguments);
+        return function (_x6) {
+          return _ref6.apply(this, arguments);
         };
       }());
     }

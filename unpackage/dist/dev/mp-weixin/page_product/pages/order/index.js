@@ -311,6 +311,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 //
 //
 //
+//
 var _default = {
   components: {},
   data: function data() {
@@ -480,7 +481,11 @@ var _default = {
                   } else if (_this3.content == "send") {
                     _this3.line_4_itemsSelected(4);
                   } else {
-                    _this3.$set(_this3.orderList[_this3.handleIndex], "status", 4);
+                    if (_this3.current == 0) {
+                      _this3.$set(_this3.orderList[_this3.handleIndex], "status", 4);
+                    } else {
+                      _this3.orderList.splice(_this3.handleIndex, 1);
+                    }
                   }
                   uni.showToast({
                     title: _this3.content == "del" ? "订单删除成功" : _this3.content == "send" ? "确认收货成功" : "订单取消成功",
@@ -549,7 +554,7 @@ var _default = {
             signType: newData.signType,
             paySign: newData.paySign,
             success: function success(res1) {
-              _this4.getDetail(item.id);
+              _this4.getDetail(item);
             },
             fail: function fail(err) {
               uni.showToast({
@@ -588,48 +593,76 @@ var _default = {
         }());
       }
     },
-    getDetail: function getDetail(id) {
+    getDetail: function getDetail(item) {
       var _this5 = this;
-      var dsq = setInterval(function () {
-        _this5.API.order.getMyOrderInfo({
-          id: id
-        }).then(function (res) {
-          clearInterval(dsq);
-          console.log(res);
-          if ([2, 3].includes(res.data.status)) {
-            uni.showToast({
-              title: "支付成功",
-              icon: "none"
-            });
-            _this5.line_4_itemsSelected(2);
-          }
-        }).catch( /*#__PURE__*/function () {
-          var _ref3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4(err) {
-            return _regenerator.default.wrap(function _callee4$(_context4) {
-              while (1) {
-                switch (_context4.prev = _context4.next) {
-                  case 0:
-                    if (!(err.code == 410)) {
-                      _context4.next = 5;
-                      break;
-                    }
-                    clearInterval(dsq);
-                    _context4.next = 4;
-                    return _this5.$store.dispatch("toLogon", {});
-                  case 4:
-                    _this5.getDetail(id);
-                  case 5:
-                  case "end":
-                    return _context4.stop();
+      this.API.home.getTaskInfo({
+        id: item.product_id
+      }).then(function (res2) {
+        var dsq = setInterval(function () {
+          _this5.API.order.getMyOrderInfo({
+            id: item.id
+          }).then(function (res) {
+            clearInterval(dsq);
+            console.log(res);
+            if ([2, 3].includes(res.data.status)) {
+              uni.showToast({
+                title: "支付成功",
+                icon: "none"
+              });
+              _this5.line_4_itemsSelected(res2.data.is_auto_check == 1 ? 4 : 2);
+            }
+          }).catch( /*#__PURE__*/function () {
+            var _ref3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee4(err) {
+              return _regenerator.default.wrap(function _callee4$(_context4) {
+                while (1) {
+                  switch (_context4.prev = _context4.next) {
+                    case 0:
+                      if (!(err.code == 410)) {
+                        _context4.next = 5;
+                        break;
+                      }
+                      clearInterval(dsq);
+                      _context4.next = 4;
+                      return _this5.$store.dispatch("toLogon", {});
+                    case 4:
+                      _this5.getDetail(item);
+                    case 5:
+                    case "end":
+                      return _context4.stop();
+                  }
                 }
+              }, _callee4);
+            }));
+            return function (_x2) {
+              return _ref3.apply(this, arguments);
+            };
+          }());
+        }, 1000);
+      }).catch( /*#__PURE__*/function () {
+        var _ref4 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(err) {
+          return _regenerator.default.wrap(function _callee5$(_context5) {
+            while (1) {
+              switch (_context5.prev = _context5.next) {
+                case 0:
+                  if (!(err.code == 410)) {
+                    _context5.next = 4;
+                    break;
+                  }
+                  _context5.next = 3;
+                  return _this5.$store.dispatch("toLogon", {});
+                case 3:
+                  _this5.getDetail(item);
+                case 4:
+                case "end":
+                  return _context5.stop();
               }
-            }, _callee4);
-          }));
-          return function (_x2) {
-            return _ref3.apply(this, arguments);
-          };
-        }());
-      }, 1000);
+            }
+          }, _callee5);
+        }));
+        return function (_x3) {
+          return _ref4.apply(this, arguments);
+        };
+      }());
     },
     // 取消删除
     cancelDel: function cancelDel() {
@@ -668,28 +701,28 @@ var _default = {
           _this6.isLoading = "no-more"; // 取消加载动画
         }
       }).catch( /*#__PURE__*/function () {
-        var _ref4 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5(err) {
-          return _regenerator.default.wrap(function _callee5$(_context5) {
+        var _ref5 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6(err) {
+          return _regenerator.default.wrap(function _callee6$(_context6) {
             while (1) {
-              switch (_context5.prev = _context5.next) {
+              switch (_context6.prev = _context6.next) {
                 case 0:
                   if (!(err.code == 410)) {
-                    _context5.next = 4;
+                    _context6.next = 4;
                     break;
                   }
-                  _context5.next = 3;
+                  _context6.next = 3;
                   return _this6.$store.dispatch("toLogon", {});
                 case 3:
                   _this6.getMomentsList();
                 case 4:
                 case "end":
-                  return _context5.stop();
+                  return _context6.stop();
               }
             }
-          }, _callee5);
+          }, _callee6);
         }));
-        return function (_x3) {
-          return _ref4.apply(this, arguments);
+        return function (_x4) {
+          return _ref5.apply(this, arguments);
         };
       }());
     },
