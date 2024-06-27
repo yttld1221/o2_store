@@ -295,8 +295,13 @@ function isIntoDetail(id) {
 	});
 }
 
+function removeTrailingZeros(str) {
+	return str.indexOf('.') !== -1 ? str.replace(/\.?0*$/, '') : str;
+}
+
 // 暴露出去的方法
 module.exports = {
+	removeTrailingZeros,
 	isIntoDetail,
 	getNowDate,
 	upLoadImage,

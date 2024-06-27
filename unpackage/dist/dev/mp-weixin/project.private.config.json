@@ -8,29 +8,8 @@
     "miniprogram": {
       "list": [
         {
-          "name": "page_product/pages/account/index",
-          "pathName": "page_product/pages/account/index",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "page_product/pages/product/evaluate",
-          "pathName": "page_product/pages/product/evaluate",
-          "query": "id=271",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "page_product/pages/product/detail",
-          "pathName": "page_product/pages/product/detail",
-          "query": "id=271",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "page_product/pages/order/index",
-          "pathName": "page_product/pages/order/index",
+          "name": "page_product/pages/account/withdrawal",
+          "pathName": "page_product/pages/account/withdrawal",
           "query": "",
           "launchMode": "default",
           "scene": null

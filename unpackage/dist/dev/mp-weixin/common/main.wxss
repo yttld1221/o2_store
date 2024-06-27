@@ -261,4 +261,7 @@
 .tabbar .u-slide-up-enter-active {
   background: transparent !important;
 }
+.tabbar .tx-error {
+  width: 80%;
+}
 

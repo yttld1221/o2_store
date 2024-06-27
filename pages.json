@@ -311,6 +311,14 @@
 						"navigationBarTextStyle": "#FFFFFF",
 						"navigationBarTitleText": "账户"
 					}
+				},
+				{
+					"path": "pages/account/withdrawal",
+					"style": {
+						"navigationBarBackgroundColor": "#FF812F",
+						"navigationBarTextStyle": "#FFFFFF",
+						"navigationBarTitleText": "账户提现"
+					}
 				}
 			]
 		}

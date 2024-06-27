@@ -70,7 +70,7 @@
         <!-- 搜索 -->
         <view class="searchs-2">
           <view class="search-box-2">
-            <view class="flex-align">
+            <view class="flex-align search-input-box">
               <view class="search-picker" @click="toSchool()">
                 <text v-if="theSchool.title != ''">{{
                   theSchool.title.length < 5
@@ -1357,6 +1357,9 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 4rpx;
+  .search-input-box {
+    width: calc(100% - 150rpx);
+  }
 }
 
 .search-picker {
@@ -1369,6 +1372,7 @@ export default {
 }
 
 .search-input {
+  width: 50%;
   margin-left: 29rpx;
   font-family: PingFang SC;
   font-weight: 300;

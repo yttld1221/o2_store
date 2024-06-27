@@ -38,7 +38,8 @@
         "pages/push/index",
         "pages/push/range",
         "pages/search/schoolSearch",
-        "pages/account/index"
+        "pages/account/index",
+        "pages/account/withdrawal"
       ]
     }
   ],

@@ -185,6 +185,9 @@
   justify-content: space-between;
   padding: 4rpx;
 }
+.search-box-2 .search-input-box {
+  width: calc(100% - 150rpx);
+}
 .search-picker {
   margin-left: 25rpx;
   font-weight: 600;
@@ -194,6 +197,7 @@
   padding-right: 29rpx;
 }
 .search-input {
+  width: 50%;
   margin-left: 29rpx;
   font-family: PingFang SC;
   font-weight: 300;

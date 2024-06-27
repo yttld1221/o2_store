@@ -153,6 +153,26 @@ const home = {
 			}
 		})
 	},
+	// v2分销-分页获取我的一二级分销列表
+	getReferralList(data) {
+		return api.get({
+			token: true,
+			url: `${path}/wechat/wx/getReferralList`,
+			data: {
+				...data
+			}
+		})
+	},
+	// v2提现-提现申请
+	applyWithdraw(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/wx/applyWithdraw`,
+			data: {
+				...data
+			}
+		})
+	},
 }
 
 export default home;

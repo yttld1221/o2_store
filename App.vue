@@ -24,5 +24,8 @@ export default {
   .u-slide-up-enter-active {
     background: transparent !important;
   }
+  .tx-error {
+    width: 80%;
+  }
 }
 </style>
