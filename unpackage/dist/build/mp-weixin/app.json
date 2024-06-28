@@ -19,6 +19,7 @@
       "root": "page_product",
       "pages": [
         "pages/product/detail",
+        "pages/product/evaluate",
         "pages/product/pay",
         "pages/address/index",
         "pages/address/setAddress",
@@ -36,7 +37,9 @@
         "pages/info/protocol",
         "pages/push/index",
         "pages/push/range",
-        "pages/search/schoolSearch"
+        "pages/search/schoolSearch",
+        "pages/account/index",
+        "pages/account/withdrawal"
       ]
     }
   ],

@@ -35,9 +35,7 @@
           v-for="(item, index) in list"
           :key="index"
         >
-          {{ item.label }}({{
-            priceInfo[item.key] ? priceInfo[item.key] : 0
-          }}人)
+          {{ item.label }}({{ priceInfo[item.key] }}人)
           <view class="heng" v-if="current == index"></view>
         </view>
       </view>
@@ -57,13 +55,13 @@
         <view class="list-right">
           <view class="list-right-top">
             <view class="right-name">{{ item.nick_name }}</view>
-            <view class="right-num-money">
+            <view class="right-num-money" v-if="current == 0">
               <view class="right-num">{{ item.order_num }}个订单</view>
               <view class="right-money">{{ item.money }}元</view>
             </view>
           </view>
           <view class="list-right-bottom">
-            <view> 绑定时间：{{ item.pid_bind_at }} </view>
+            <view v-if="current == 0"> 绑定时间：{{ item.pid_bind_at }} </view>
             <view> 推广{{ item.extend_num }}人 </view>
           </view>
         </view>

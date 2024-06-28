@@ -51,13 +51,13 @@ export default {
   components: {},
   data() {
     return {
-      pay_type: "微信零钱",
+      pay_type: "微信线下打款",
       list: [
-        {
-          src: "/static/icon-lq.png",
-          name: "微信零钱",
-          enable: true,
-        },
+        // {
+        //   src: "/static/icon-lq.png",
+        //   name: "微信零钱",
+        //   enable: true,
+        // },
         {
           src: "/static/icon-wx.png",
           name: "微信线下打款",

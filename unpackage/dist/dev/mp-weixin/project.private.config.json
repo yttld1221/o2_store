@@ -3,18 +3,5 @@
   "projectname": "o2_store",
   "setting": {
     "compileHotReLoad": true
-  },
-  "condition": {
-    "miniprogram": {
-      "list": [
-        {
-          "name": "page_product/pages/account/withdrawal",
-          "pathName": "page_product/pages/account/withdrawal",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        }
-      ]
-    }
   }
 }
