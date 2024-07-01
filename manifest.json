@@ -62,7 +62,7 @@
         "usingComponents" : true,
         "lazyCodeLoading" : "requiredComponents",
         "unipush" : {
-            "enable" : true
+            "enable" : false
         }
     },
     "mp-alipay" : {

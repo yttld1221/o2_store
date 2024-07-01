@@ -10,7 +10,8 @@ export default new Vuex.Store({
 		// theUrl: 'https://school.izekai.cn',
 		theUrl: 'https://api2.allinnb.com',
 		// WSS接口前缀
-		theWssUrl: 'wss://school.izekai.cn/wss',
+		theWssUrl: 'wss://api2.allinnb.com/wss',
+		isclose: false, // 是否已连接
 		// 每次传图片的临时存储
 		tempImageUrl: [
 			// {
@@ -259,6 +260,7 @@ export default new Vuex.Store({
 										theLogonUser: res.data.data.user,
 										theToken: res.data.data.token
 									})
+									content.dispatch('startWs', {})
 									// console.log('theLogonUser',content.state.theLogonUser);
 									// console.log('theToken',content.state.theToken);
 
@@ -878,6 +880,97 @@ export default new Vuex.Store({
 			setTimeout(function () {
 				clearInterval(animtionActionInter)
 			}, 5000)
+		},
+		// 开启ws
+		startWs: (content, payload) =>{
+			// let param = {
+			//   data: {
+			//     to_user_id: 84,
+			//     msg: "你好啊.ggg",
+			//   },
+			//   cmd: "ws:sendChatMsg",
+			// };
+			// this.$store.dispatch("sendMessage", {
+			//   message:JSON.stringify(param) ,
+			//   type: "user",
+			// });
+			if (content.state.theToken) {
+				uni.connectSocket({
+					url: content.state.theWssUrl,
+					success: (res) => {
+						console.log('连接成功', res);
+					},
+					fail: (err) => {
+						console.log('err', err);
+					},
+				});
+				const heartbeatInterval = 30 * 1000;
+				let  heartbeatTimer=''
+				uni.onSocketOpen((res) => {
+					console.log('打开链接')
+					let param = {
+						data: {
+							"token": content.state.theToken
+						},
+						cmd: "ws:login",
+					}
+					uni.sendSocketMessage({
+						data: JSON.stringify(param), // 这里填写你要发送的数据
+						complete: function (res) {
+							console.log('发送成功', res);
+						}
+					});
+				
+					// 开始定时发送心跳
+					heartbeatTimer = setInterval(() => {
+						let param ={
+						  "data":{
+							"data":"ping"
+						  },
+						  "cmd":"ws:ping"
+						};
+					  uni.sendSocketMessage({
+					    data: JSON.stringify(param), // 心跳内容，根据服务器要求可能是特定格式
+					    success: function () {
+					      console.log('心跳发送成功');
+					    },
+					    fail: function () {
+					      console.log('心跳发送失败');
+					    }
+					  });
+					}, heartbeatInterval);
+				})
+
+				// 监听服务器消息
+				uni.onSocketMessage((res) => {
+					console.log("收到服务器消息1:", res.data)
+					if(res.data!='Opened'){
+						console.log("收到服务器消息:", JSON.parse(res.data));	
+					}
+				});
+				//发生了错误事件
+				uni.onSocketError(function () {
+					console.log("websocket发生了错误");
+				});
+				// 监听关闭连接，清除定时器
+				uni.onSocketClose((res) => {
+				  clearInterval(heartbeatTimer);
+				});
+			}
+
+		},
+		// 发送消息
+		sendMessage: function (content, payload) {
+			console.log(222)
+			uni.sendSocketMessage({
+				data: payload.message,
+				success: (res) => {
+					console.log('消息发送成功', res);
+				},
+				fail: (err) => {
+					console.log('消息发送失败', err);
+				}
+			});
 		},
 	}
 })

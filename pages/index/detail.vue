@@ -263,6 +263,7 @@ export default {
       theInputComment: "",
       // 评论
       theComments: [],
+      socket: "",
     };
   },
   filters: {
