@@ -13,6 +13,27 @@ const user = {
 			}
 		})
 	},
+	//v2消息中心-分页获取聊天的汇总数据
+	getMySummaryMsgList(data) {
+		return api.get({
+			token: true,
+			url: `${path}/wechat/sundry/getMySummaryMsgList`,
+			data: {
+				...data
+			}
+		})
+	},
+	//v2聊天对话-分页获取与指定人员聊天记录
+	getMyChatMsgList(data) {
+		return api.get({
+			token: true,
+			url: `${path}/wechat/sundry/getMyChatMsgList`,
+			data: {
+				...data
+			}
+		})
+	},
+	
 }
 
 export default user;

@@ -319,6 +319,14 @@
 						"navigationBarTextStyle": "#FFFFFF",
 						"navigationBarTitleText": "账户提现"
 					}
+				},
+				{
+					"path": "pages/chat/index",
+					"style": {
+						"navigationBarBackgroundColor": "#ffffff",
+						"navigationBarTextStyle": "black",
+						"navigationBarTitleText": ""
+					}
 				}
 			]
 		}

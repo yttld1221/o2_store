@@ -40,7 +40,11 @@
                 ></view
               ></view>
               <view class="message-desc">
-                {{ pageData.regard.data.msg }}
+                {{
+                  pageData.regard.data.msg
+                    ? pageData.regard.data.msg
+                    : "没有新的关注"
+                }}
               </view>
             </view>
           </view>
@@ -58,7 +62,11 @@
                 ></view
               ></view>
               <view class="message-desc">
-                {{ pageData.interact.data.msg }}
+                {{
+                  pageData.interact.data.msg
+                    ? pageData.interact.data.msg
+                    : "没有新的互动消息"
+                }}
               </view>
             </view>
           </view>
@@ -69,25 +77,40 @@
           v-for="(item, index) in messageList"
           :key="index"
         >
-          <view class="message-list-item-left flex-align">
+          <view class="message-list-item-left message-chat-box flex-align">
             <image
-              @click="topPerSonalhome(item.id)"
+              @click="topPerSonalhome(item, 'home')"
               mode="aspectFill"
-              :src="item.avatar_url"
+              :src="item.from_avatar_url"
             />
-            <view class="message-info">
-              <view class="message-name">{{ item.nick_name }}</view>
-              <view class="message-desc">
-                {{ item.intro ? item.intro : "这家伙很神秘，没有写个人简介。" }}
+            <view class="message-info" @click="topPerSonalhome(item, 'chat')">
+              <view class="message-name flex-align message-top">
+                <text>{{ item.from_nick_name }}</text>
+                <text class="time-text">{{ getTime(item.created_at) }}</text>
+              </view>
+              <view class="message-desc flex-align message-bottom">
+                <view
+                  class="chat-msg"
+                  :class="{ 'not-width': item.not_read_num > 0 }"
+                >
+                  {{ item.msg ? item.msg : "" }}
+                </view>
+                <view
+                  v-if="item.not_read_num > 0"
+                  class="not-read-text flex-align"
+                  >{{ item.not_read_num }}</view
+                >
               </view>
             </view>
           </view>
-          <uni-icons color="#333333" type="right" size="20"></uni-icons>
         </view>
       </view>
     </view>
+
     <!-- 底部垫层 -->
-    <view class="space-line-bottom"> </view>
+    <view class="space-line-bottom"
+      ><uni-load-more :status="isLoading"></uni-load-more
+    ></view>
     <view class="safe-bottom"></view>
     <tab-Bar current="3"></tab-Bar>
   </view>
@@ -98,6 +121,10 @@ export default {
   data() {
     return {
       messageList: [],
+      isLoading: "loading",
+      // 当前获取的校园墙页码，每次需要+1
+      theGetListPage: 1,
+      theGetListPagesize: 1000,
       searchInputText: "",
       // 顶部状态栏和导航栏高度
       statusBarHeight: 0,
@@ -131,6 +158,12 @@ export default {
     let barObj = this.$public.getTopIconDistance();
     this.statusBarHeight = barObj.statusBarHeight;
     this.navBarHeight = barObj.navBarHeight;
+    uni.$on("changeMessageList", () => {
+      this.theGetListPage = 1;
+      // 重置数组
+      this.messageList = [];
+      this.getMessage();
+    });
   },
   onShow() {
     // 记录当前的previousPage，用于二次点击发布回到原来页面
@@ -153,7 +186,62 @@ export default {
     })();
     // console.log('that.$store.state.isRedTip',that.$store.state.isRedTip);
   },
+  onReachBottom() {
+    // 调用接口
+    this.getMessage();
+  },
   methods: {
+    getTime(time) {
+      if (time) {
+        return this.$public.formatTime(time);
+      }
+    },
+    // 跳转主页
+    topPerSonalhome: function (item, type) {
+      let url =
+        type == "home"
+          ? "/pages/follow/personalhome?id="
+          : "/page_product/pages/chat/index?id=";
+      url += item.from_user_id;
+      if (type == "chat") {
+        url += "&name=" + item.from_nick_name;
+      }
+      uni.navigateTo({
+        url,
+      });
+    },
+    getMessage() {
+      this.isLoading = "loading"; // 加载中
+      let params = {
+        page: this.theGetListPage,
+        pagesize: this.theGetListPagesize,
+      };
+      this.API.user
+        .getMySummaryMsgList(params)
+        .then((res) => {
+          console.log(res);
+          // 如果是请求第一页，证明是首次请求，就重置一下
+          if (this.theGetListPage == 1) {
+            this.messageList = [];
+          }
+          if (res.data.length != 0) {
+            for (let i = 0; i < res.data.length; i++) {
+              this.messageList.push(res.data[i]);
+            }
+            this.isLoading = "no-more"; // 取消加载动画
+            // 页面+1
+            this.theGetListPage += 1;
+          } else {
+            this.isLoading = "no-more"; // 取消加载动画
+          }
+        })
+        .catch(async (err) => {
+          if (err.code == 410) {
+            await this.$store.dispatch("toLogon", {});
+            this.getMessage();
+          }
+        });
+    },
     //------------------------------------------------  页面跳转  -----------------------------------------------------
     //------------------------------------------------  页面跳转  -----------------------------------------------------
     //------------------------------------------------  页面跳转  -----------------------------------------------------
@@ -184,6 +272,7 @@ export default {
 
             if (res.data.code == 0) {
               _that.pageData = res.data.data;
+              _that.getMessage();
               resolve();
             } else if (res.data.code == 500) {
               uni.showToast({
@@ -337,6 +426,15 @@ export default {
             font-size: 28rpx;
             color: #000000;
           }
+          .message-top {
+            justify-content: space-between;
+            .time-text {
+              font-family: PingFang SC;
+              font-weight: 400;
+              font-size: 22rpx;
+              color: #888888;
+            }
+          }
           .red-tip-box {
             position: relative;
             display: flex;
@@ -352,6 +450,33 @@ export default {
             white-space: nowrap; /* 确保文本在一行内显示，避免换行 */
             text-overflow: ellipsis; /* 用省略号表示被截断的文本 */
           }
+
+          .message-bottom {
+            width: 100%;
+            position: relative;
+            overflow: visible !important;
+            .chat-msg {
+              overflow: hidden; /* 确保内容超出容器时会被隐藏 */
+              white-space: nowrap; /* 确保文本在一行内显示，避免换行 */
+              text-overflow: ellipsis; /* 用省略号表示被截断的文本 */
+            }
+            .not-width {
+              width: calc(100% - 30rpx);
+            }
+            .not-read-text {
+              position: absolute;
+              right: 0;
+              font-family: PingFang SC;
+              font-weight: 400;
+              font-size: 22rpx;
+              color: #ffffff;
+              width: 30rpx;
+              height: 30rpx;
+              background: #ff0000;
+              border-radius: 50%;
+              justify-content: center;
+            }
+          }
         }
       }
       .message-btn {
@@ -365,6 +490,15 @@ export default {
       }
       .is-regard {
         background: #bbbbbb;
+      }
+    }
+    .message-chat-box {
+      width: 100%;
+      .message-info {
+        width: calc(100% - 119rpx);
+        .message-desc {
+          width: 100%;
+        }
       }
     }
   }

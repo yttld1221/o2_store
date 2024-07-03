@@ -882,7 +882,7 @@ export default new Vuex.Store({
 			}, 5000)
 		},
 		// 开启ws
-		startWs: (content, payload) =>{
+		startWs: (content, payload) => {
 			// let param = {
 			//   data: {
 			//     to_user_id: 84,
@@ -905,7 +905,7 @@ export default new Vuex.Store({
 					},
 				});
 				const heartbeatInterval = 30 * 1000;
-				let  heartbeatTimer=''
+				let heartbeatTimer = ''
 				uni.onSocketOpen((res) => {
 					console.log('打开链接')
 					let param = {
@@ -920,32 +920,37 @@ export default new Vuex.Store({
 							console.log('发送成功', res);
 						}
 					});
-				
+
 					// 开始定时发送心跳
 					heartbeatTimer = setInterval(() => {
-						let param ={
-						  "data":{
-							"data":"ping"
-						  },
-						  "cmd":"ws:ping"
+						let param = {
+							"data": {
+								"data": "ping"
+							},
+							"cmd": "ws:ping"
 						};
-					  uni.sendSocketMessage({
-					    data: JSON.stringify(param), // 心跳内容，根据服务器要求可能是特定格式
-					    success: function () {
-					      console.log('心跳发送成功');
-					    },
-					    fail: function () {
-					      console.log('心跳发送失败');
-					    }
-					  });
+						uni.sendSocketMessage({
+							data: JSON.stringify(param), // 心跳内容，根据服务器要求可能是特定格式
+							success: function () {
+								console.log('心跳发送成功');
+							},
+							fail: function () {
+								console.log('心跳发送失败');
+							}
+						});
 					}, heartbeatInterval);
 				})
 
 				// 监听服务器消息
 				uni.onSocketMessage((res) => {
 					console.log("收到服务器消息1:", res.data)
-					if(res.data!='Opened'){
-						console.log("收到服务器消息:", JSON.parse(res.data));	
+					if (res.data != 'Opened') {
+						console.log("收到服务器消息:", JSON.parse(res.data));
+						let messages = JSON.parse(res.data)
+						if (messages.data.from_user_id == content.state.theLogonUser.id || messages.data.to_user_id == content.state.theLogonUser.id) {
+							uni.$emit("changeMessageList", {});
+							uni.$emit("changeMessageInfo", messages.data);
+						}
 					}
 				});
 				//发生了错误事件
@@ -954,7 +959,7 @@ export default new Vuex.Store({
 				});
 				// 监听关闭连接，清除定时器
 				uni.onSocketClose((res) => {
-				  clearInterval(heartbeatTimer);
+					clearInterval(heartbeatTimer);
 				});
 			}
 
@@ -966,9 +971,12 @@ export default new Vuex.Store({
 				data: payload.message,
 				success: (res) => {
 					console.log('消息发送成功', res);
+
 				},
-				fail: (err) => {
+				fail: async (err) => {
 					console.log('消息发送失败', err);
+					await content.dispatch('startWs', {})
+					content.dispatch('sendMessage', payload)
 				}
 			});
 		},

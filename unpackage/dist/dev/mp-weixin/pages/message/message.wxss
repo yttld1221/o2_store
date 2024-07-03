@@ -127,6 +127,15 @@
   font-size: 28rpx;
   color: #000000;
 }
+.message-container .message-list .message-list-item .message-list-item-left .message-info .message-top.data-v-a91f51d4 {
+  justify-content: space-between;
+}
+.message-container .message-list .message-list-item .message-list-item-left .message-info .message-top .time-text.data-v-a91f51d4 {
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #888888;
+}
 .message-container .message-list .message-list-item .message-list-item-left .message-info .red-tip-box.data-v-a91f51d4 {
   position: relative;
   display: flex;
@@ -145,6 +154,35 @@
   text-overflow: ellipsis;
   /* 用省略号表示被截断的文本 */
 }
+.message-container .message-list .message-list-item .message-list-item-left .message-info .message-bottom.data-v-a91f51d4 {
+  width: 100%;
+  position: relative;
+  overflow: visible !important;
+}
+.message-container .message-list .message-list-item .message-list-item-left .message-info .message-bottom .chat-msg.data-v-a91f51d4 {
+  overflow: hidden;
+  /* 确保内容超出容器时会被隐藏 */
+  white-space: nowrap;
+  /* 确保文本在一行内显示，避免换行 */
+  text-overflow: ellipsis;
+  /* 用省略号表示被截断的文本 */
+}
+.message-container .message-list .message-list-item .message-list-item-left .message-info .message-bottom .not-width.data-v-a91f51d4 {
+  width: calc(100% - 30rpx);
+}
+.message-container .message-list .message-list-item .message-list-item-left .message-info .message-bottom .not-read-text.data-v-a91f51d4 {
+  position: absolute;
+  right: 0;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #ffffff;
+  width: 30rpx;
+  height: 30rpx;
+  background: #ff0000;
+  border-radius: 50%;
+  justify-content: center;
+}
 .message-container .message-list .message-list-item .message-btn.data-v-a91f51d4 {
   background: #ff812f;
   color: #ffffff;
@@ -156,6 +194,15 @@
 }
 .message-container .message-list .message-list-item .is-regard.data-v-a91f51d4 {
   background: #bbbbbb;
+}
+.message-container .message-list .message-chat-box.data-v-a91f51d4 {
+  width: 100%;
+}
+.message-container .message-list .message-chat-box .message-info.data-v-a91f51d4 {
+  width: calc(100% - 119rpx);
+}
+.message-container .message-list .message-chat-box .message-info .message-desc.data-v-a91f51d4 {
+  width: 100%;
 }
 .space-line-bottom.data-v-a91f51d4 {
   height: 250rpx;

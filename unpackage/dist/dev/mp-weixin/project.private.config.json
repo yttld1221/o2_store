@@ -3,5 +3,18 @@
   "projectname": "o2_store",
   "setting": {
     "compileHotReLoad": true
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "page_product/pages/chat/index",
+          "pathName": "page_product/pages/chat/index",
+          "query": "id=22&name=%E6%9D%8E%E6%98%93%E5%B3%B0",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
   }
 }

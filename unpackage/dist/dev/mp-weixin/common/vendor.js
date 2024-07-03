@@ -10622,6 +10622,11 @@ var _default = new _vuex.default.Store({
           console.log("收到服务器消息1:", res.data);
           if (res.data != 'Opened') {
             console.log("收到服务器消息:", JSON.parse(res.data));
+            var messages = JSON.parse(res.data);
+            if (messages.data.from_user_id == content.state.theLogonUser.id || messages.data.to_user_id == content.state.theLogonUser.id) {
+              uni.$emit("changeMessageList", {});
+              uni.$emit("changeMessageInfo", messages.data);
+            }
           }
         });
         //发生了错误事件
@@ -10642,9 +10647,29 @@ var _default = new _vuex.default.Store({
         success: function success(res) {
           console.log('消息发送成功', res);
         },
-        fail: function fail(err) {
-          console.log('消息发送失败', err);
-        }
+        fail: function () {
+          var _fail = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee9(err) {
+            return _regenerator.default.wrap(function _callee9$(_context9) {
+              while (1) {
+                switch (_context9.prev = _context9.next) {
+                  case 0:
+                    console.log('消息发送失败', err);
+                    _context9.next = 3;
+                    return content.dispatch('startWs', {});
+                  case 3:
+                    content.dispatch('sendMessage', payload);
+                  case 4:
+                  case "end":
+                    return _context9.stop();
+                }
+              }
+            }, _callee9);
+          }));
+          function fail(_x) {
+            return _fail.apply(this, arguments);
+          }
+          return fail;
+        }()
       });
     }
   }
@@ -12625,9 +12650,45 @@ function isIntoDetail(id) {
 function removeTrailingZeros(str) {
   return str.indexOf('.') !== -1 ? str.replace(/\.?0*$/, '') : str;
 }
+function formatTime(time) {
+  // 创建时间对象
+  var date = new Date(time.replace(/-/g, "/"));
+
+  // 获取小时和分钟，确保小时只有一位数
+  var hours = date.getHours().toString().padStart(2, '0');
+  var minutes = date.getMinutes().toString().padStart(2, '0');
+
+  // 计算昨天此时的时间
+  var yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  var yesterdayHours = yesterday.getHours().toString().padStart(2, '0');
+  var yesterdayMinutes = yesterday.getMinutes().toString().padStart(2, '0');
+
+  // 根据时间与昨天时间的差异输出相应的格式
+  if (date.toDateString() === new Date().toDateString()) {
+    // 今天
+    if (hours > 12) {
+      return '下午 ' + (hours - 12) + ':' + minutes;
+    } else {
+      return '上午 ' + hours + ':' + minutes;
+    }
+  } else if (date.toDateString() === yesterday.toDateString()) {
+    // 昨天
+    return '昨天 ' + (hours > 12 ? '下午 ' + (hours - 12) : '上午 ' + hours) + ':' + minutes;
+  } else {
+    // 昨天之前
+    var str = date.getMonth() + 1 + '月' + date.getDate() + '日';
+    var nowDate = new Date();
+    if (nowDate.getFullYear() != date.getFullYear()) {
+      str = date.getFullYear() + '年' + str;
+    }
+    return str;
+  }
+}
 
 // 暴露出去的方法
 module.exports = {
+  formatTime: formatTime,
   removeTrailingZeros: removeTrailingZeros,
   isIntoDetail: isIntoDetail,
   getNowDate: getNowDate,
@@ -13378,6 +13439,22 @@ var user = {
     return _api.default.post({
       token: true,
       url: "".concat(path, "/wechat/sundry/getMyPerson"),
+      data: _objectSpread({}, data)
+    });
+  },
+  //v2消息中心-分页获取聊天的汇总数据
+  getMySummaryMsgList: function getMySummaryMsgList(data) {
+    return _api.default.get({
+      token: true,
+      url: "".concat(path, "/wechat/sundry/getMySummaryMsgList"),
+      data: _objectSpread({}, data)
+    });
+  },
+  //v2聊天对话-分页获取与指定人员聊天记录
+  getMyChatMsgList: function getMyChatMsgList(data) {
+    return _api.default.get({
+      token: true,
+      url: "".concat(path, "/wechat/sundry/getMyChatMsgList"),
       data: _objectSpread({}, data)
     });
   }
@@ -22663,15 +22740,7 @@ uni.addInterceptor({
 /* 204 */,
 /* 205 */,
 /* 206 */,
-/* 207 */,
-/* 208 */,
-/* 209 */,
-/* 210 */,
-/* 211 */,
-/* 212 */,
-/* 213 */,
-/* 214 */,
-/* 215 */
+/* 207 */
 /*!********************************************************************************!*\
   !*** D:/ouying/o2_store/page_product/components/piaoyi-cityPicker/cityData.js ***!
   \********************************************************************************/
@@ -33397,6 +33466,14 @@ var addressList = [{
 exports.addressList = addressList;
 
 /***/ }),
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
 /* 216 */,
 /* 217 */,
 /* 218 */,
@@ -39451,7 +39528,14 @@ module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"取消\",\"uni-search-
 /* 753 */,
 /* 754 */,
 /* 755 */,
-/* 756 */
+/* 756 */,
+/* 757 */,
+/* 758 */,
+/* 759 */,
+/* 760 */,
+/* 761 */,
+/* 762 */,
+/* 763 */
 /*!***************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-popup/props.js ***!
   \***************************************************************************/
@@ -39548,14 +39632,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 757 */,
-/* 758 */,
-/* 759 */,
-/* 760 */,
-/* 761 */,
-/* 762 */,
-/* 763 */,
-/* 764 */
+/* 764 */,
+/* 765 */,
+/* 766 */,
+/* 767 */,
+/* 768 */,
+/* 769 */,
+/* 770 */,
+/* 771 */
 /*!**********************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-loading-icon/props.js ***!
   \**********************************************************************************/
@@ -39632,14 +39716,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 765 */,
-/* 766 */,
-/* 767 */,
-/* 768 */,
-/* 769 */,
-/* 770 */,
-/* 771 */,
-/* 772 */
+/* 772 */,
+/* 773 */,
+/* 774 */,
+/* 775 */,
+/* 776 */,
+/* 777 */,
+/* 778 */,
+/* 779 */
 /*!**************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-swiper-indicator/props.js ***!
   \**************************************************************************************/
@@ -39686,14 +39770,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 773 */,
-/* 774 */,
-/* 775 */,
-/* 776 */,
-/* 777 */,
-/* 778 */,
-/* 779 */,
-/* 780 */
+/* 780 */,
+/* 781 */,
+/* 782 */,
+/* 783 */,
+/* 784 */,
+/* 785 */,
+/* 786 */,
+/* 787 */
 /*!********************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-transition/props.js ***!
   \********************************************************************************/
@@ -39735,7 +39819,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 781 */
+/* 788 */
 /*!*************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-transition/transition.js ***!
   \*************************************************************************************/
@@ -39752,7 +39836,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 34));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
-var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 782));
+var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 789));
 // 定义一个一定时间后自动成功的promise，让调用nextTick方法处，进入下一个then方法
 var nextTick = function nextTick() {
   return new Promise(function (resolve) {
@@ -39844,7 +39928,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 782 */
+/* 789 */
 /*!***************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-transition/nvue.ani-map.js ***!
   \***************************************************************************************/
@@ -40037,14 +40121,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 783 */,
-/* 784 */,
-/* 785 */,
-/* 786 */,
-/* 787 */,
-/* 788 */,
-/* 789 */,
-/* 790 */
+/* 790 */,
+/* 791 */,
+/* 792 */,
+/* 793 */,
+/* 794 */,
+/* 795 */,
+/* 796 */,
+/* 797 */
 /*!**************************************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uni-transition/components/uni-transition/createAnimation.js ***!
   \**************************************************************************************************/
@@ -40178,12 +40262,12 @@ function createAnimation(option, _this) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 791 */,
-/* 792 */,
-/* 793 */,
-/* 794 */,
-/* 795 */,
-/* 796 */
+/* 798 */,
+/* 799 */,
+/* 800 */,
+/* 801 */,
+/* 802 */,
+/* 803 */
 /*!**************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-line/props.js ***!
   \**************************************************************************/
@@ -40234,13 +40318,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 797 */,
-/* 798 */,
-/* 799 */,
-/* 800 */,
-/* 801 */,
-/* 802 */,
-/* 803 */,
 /* 804 */,
 /* 805 */,
 /* 806 */,
@@ -40248,7 +40325,14 @@ exports.default = _default;
 /* 808 */,
 /* 809 */,
 /* 810 */,
-/* 811 */
+/* 811 */,
+/* 812 */,
+/* 813 */,
+/* 814 */,
+/* 815 */,
+/* 816 */,
+/* 817 */,
+/* 818 */
 /*!****************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-picker/props.js ***!
   \****************************************************************************/
@@ -40345,13 +40429,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 812 */,
-/* 813 */,
-/* 814 */,
-/* 815 */,
-/* 816 */,
-/* 817 */,
-/* 818 */,
 /* 819 */,
 /* 820 */,
 /* 821 */,
@@ -40366,7 +40443,14 @@ exports.default = _default;
 /* 830 */,
 /* 831 */,
 /* 832 */,
-/* 833 */
+/* 833 */,
+/* 834 */,
+/* 835 */,
+/* 836 */,
+/* 837 */,
+/* 838 */,
+/* 839 */,
+/* 840 */
 /*!*****************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-overlay/props.js ***!
   \*****************************************************************************/
@@ -40408,14 +40492,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 834 */,
-/* 835 */,
-/* 836 */,
-/* 837 */,
-/* 838 */,
-/* 839 */,
-/* 840 */,
-/* 841 */
+/* 841 */,
+/* 842 */,
+/* 843 */,
+/* 844 */,
+/* 845 */,
+/* 846 */,
+/* 847 */,
+/* 848 */
 /*!********************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-status-bar/props.js ***!
   \********************************************************************************/
@@ -40441,14 +40525,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 842 */,
-/* 843 */,
-/* 844 */,
-/* 845 */,
-/* 846 */,
-/* 847 */,
-/* 848 */,
-/* 849 */
+/* 849 */,
+/* 850 */,
+/* 851 */,
+/* 852 */,
+/* 853 */,
+/* 854 */,
+/* 855 */,
+/* 856 */
 /*!*********************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-safe-bottom/props.js ***!
   \*********************************************************************************/
@@ -40468,14 +40552,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 850 */,
-/* 851 */,
-/* 852 */,
-/* 853 */,
-/* 854 */,
-/* 855 */,
-/* 856 */,
-/* 857 */
+/* 857 */,
+/* 858 */,
+/* 859 */,
+/* 860 */,
+/* 861 */,
+/* 862 */,
+/* 863 */,
+/* 864 */
 /*!*****************************************************************************!*\
   !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-toolbar/props.js ***!
   \*****************************************************************************/

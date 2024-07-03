@@ -299,8 +299,45 @@ function removeTrailingZeros(str) {
 	return str.indexOf('.') !== -1 ? str.replace(/\.?0*$/, '') : str;
 }
 
+function formatTime(time) {
+	// 创建时间对象
+	var date = new Date(time.replace(/-/g, "/"));
+
+	// 获取小时和分钟，确保小时只有一位数
+	var hours = date.getHours().toString().padStart(2, '0');
+	var minutes = date.getMinutes().toString().padStart(2, '0');
+
+	// 计算昨天此时的时间
+	var yesterday = new Date();
+	yesterday.setDate(yesterday.getDate() - 1);
+	var yesterdayHours = yesterday.getHours().toString().padStart(2, '0');
+	var yesterdayMinutes = yesterday.getMinutes().toString().padStart(2, '0');
+
+	// 根据时间与昨天时间的差异输出相应的格式
+	if (date.toDateString() === new Date().toDateString()) {
+		// 今天
+		if (hours > 12) {
+			return '下午 ' + (hours - 12) + ':' + minutes;
+		} else {
+			return '上午 ' + hours + ':' + minutes;
+		}
+	} else if (date.toDateString() === yesterday.toDateString()) {
+		// 昨天
+		return '昨天 ' + (hours > 12 ? '下午 ' + (hours - 12) : '上午 ' + hours) + ':' + minutes;
+	} else {
+		// 昨天之前
+		let str = (date.getMonth() + 1) + '月' + date.getDate() + '日';
+		let nowDate = new Date();
+		if (nowDate.getFullYear() != date.getFullYear()) {
+			str = date.getFullYear() + '年' + str
+		}
+		return str
+	}
+}
+
 // 暴露出去的方法
 module.exports = {
+	formatTime,
 	removeTrailingZeros,
 	isIntoDetail,
 	getNowDate,
