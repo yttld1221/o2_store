@@ -77,6 +77,7 @@ export default {
 .list-box {
   display: flex;
   flex-wrap: wrap;
+  padding: 0 30rpx;
 }
 
 .list {

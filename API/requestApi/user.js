@@ -33,7 +33,17 @@ const user = {
 			}
 		})
 	},
-	
+	// v2系统消息-系统消息设置已读（互动和关注消息）
+	setSystemMsgIsRead(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/sundry/setSystemMsgIsRead`,
+			data: {
+				...data
+			}
+		})
+	},
+
 }
 
 export default user;

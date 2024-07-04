@@ -489,6 +489,9 @@ var _default = {
             var _that = that;
             if (res.data.code == 0) {
               _that.pageData = res.data.data;
+              _that.theGetListPage = 1;
+              // 重置数组
+              _that.messageList = [];
               _that.getMessage();
               resolve();
             } else if (res.data.code == 500) {

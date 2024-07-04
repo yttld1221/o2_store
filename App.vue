@@ -28,4 +28,9 @@ export default {
     width: 80%;
   }
 }
+.prew-video{
+	.u-popup__content {
+	  background-color: transparent !important;
+	}
+}
 </style>

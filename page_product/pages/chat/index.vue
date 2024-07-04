@@ -3,14 +3,14 @@
     <scroll-view
       v-if="showScroll"
       @click="closeBottom"
-      :style="{height:`calc(100vh - ${bottomHeight}px)`}"
+      :style="{ height: `calc(100vh - ${bottomHeight}px)` }"
       :refresher-triggered="triggered"
       refresher-enabled
       refresher-default-style="none"
       @refresherrefresh="pullList"
       class="scroll-view"
       scroll-y
-      :scroll-with-animation="isShow"
+      :scroll-with-animation="false"
       :scroll-top="top"
     >
       <view class="list-item" v-for="(item, index) in list" :key="index">
@@ -27,8 +27,25 @@
             class="avatar"
             mode="widthFix"
           ></image>
-          <view class="content" v-if="item.messageType === 'image'">
-            <image :src="item.content" mode="widthFix"></image>
+          <view v-if="getMsgType(item.msg) == 'image'">
+            <image
+             @click.stop="prewFile(getUrl(item.msg, 'theqnxasendimage'), 'image')"
+              class="message-image"
+              :src="getUrl(item.msg, 'theqnxasendimage')"
+              mode="widthFix"
+            ></image>
+          </view>
+          <view class="video-box" v-else-if="getMsgType(item.msg) == 'video'">
+            <view
+              @click.stop="prewFile(getUrl(item.msg, 'theqnxasendvideo'), 'video')"
+              class="video-mask"
+            ></view>
+            <video
+			:id="'video'+item.id"
+              class="myVideo"
+			  :autoplay="false"
+              :src="getUrl(item.msg, 'theqnxasendvideo')"
+            ></video>
           </view>
           <view class="content" v-else>
             <view>{{ item.msg }}</view>
@@ -48,6 +65,9 @@
         :style="{ 'align-items': rowLine == 1 ? 'center' : 'flex-end' }"
       >
         <u--textarea
+          @blur="textFocus = false"
+          :focus="textFocus"
+          confirmType="send"
           @linechange="lineChange"
           @confirm="sendMessage"
           @focus="focusContent"
@@ -91,15 +111,18 @@
         </view>
       </view>
     </view>
+    <prew-video ref="prewVideo" />
   </view>
 </template>
 
 <script>
 import emoKeyboard from "./components/emoKeyboard.vue";
+import prewVideo from "../../components/prewVideo.vue";
 export default {
-  components: { emoKeyboard },
+  components: { emoKeyboard, prewVideo },
   data() {
     return {
+      textFocus: false,
       showScroll: true,
       useList: [
         { label: "图片", icon: "image-filled" },
@@ -142,8 +165,7 @@ export default {
       uni.setNavigationBarTitle({
         title: options.name,
       });
-      // 调用接口
-      this.getMessage("init");
+
       this.getData();
     }
 
@@ -159,10 +181,25 @@ export default {
         if (this.theLogonUser.id == data.from_user_id) {
           this.scrollToBottom();
         }
+        if (this.theLogonUser.id == data.to_user_id) {
+          this.isRead([data]);
+          // this.$refs.uNotify.show({
+          //   type: "warning",
+          //   color: "#ffffff",
+          //   bgColor: "#FF812F",
+          //   message: "有新消息",
+          //   duration: 0,
+          //   safeAreaInsetTop: true,
+          // });
+        }
       }
     });
   },
   onShow() {
+    this.theGetListPage = 1;
+    this.list = [];
+    // 调用接口
+    this.getMessage("init");
     this.theLogonUser = this.$store.state.theLogonUser;
   },
   computed: {
@@ -174,6 +211,36 @@ export default {
     },
   },
   methods: {
+    //   预览
+    prewFile(url, type) {
+		console.log(url)
+      if (type == "image") {
+        uni.previewImage({
+          current: 0, // 当前显示图片索引
+          urls: [url], // 需要预览的图片http链接列表
+        });
+      } else {
+        this.$refs.prewVideo.open(url);
+      }
+    },
+    getUrl(text, key) {
+      if (text) {
+        return text.split(key)[0];
+      }
+    },
+    getMsgType(text) {
+      if (text) {
+        let type = "";
+        if (text.indexOf("theqnxasendimage") > -1) {
+          type = "image";
+        } else if (text.indexOf("theqnxasendvideo") > -1) {
+          type = "video";
+        } else {
+          type = "text";
+        }
+        return type;
+      }
+    },
     chooseUse(index) {
       uni.chooseMedia({
         count: index == 2 ? 1 : 100, // 默认为9，可以设置为需要的文件数量
@@ -248,10 +315,13 @@ export default {
       });
     },
     closeBottom() {
-      this.showBottom = false;
-      this.$nextTick(() => {
-        this.getBottomHeight();
-      });
+		if(this.showBottom){
+			this.showBottom = false;
+			this.typeShow=''
+			this.$nextTick(() => {
+			  this.getBottomHeight();
+			});
+		}
     },
     // 打开底部
     openBottom(type) {
@@ -422,6 +492,7 @@ export default {
           type: "user",
         });
         this.content = "";
+		this.textFocus =this.typeShow!='use'?true:false;
       }
     },
     sendMessage() {
@@ -461,7 +532,11 @@ export default {
               });
             } else if (type == "pull") {
               this.triggered = false;
+			   this.$nextTick(() => {
+			  this.getTop(res.data.length)
+			  });
             }
+            this.isRead(res.data);
           } else {
             if (type == "pull") {
               this.triggered = false;
@@ -475,6 +550,39 @@ export default {
             this.getMessage(type);
           }
         });
+    },
+	getTop(len){
+		let query = uni.createSelectorQuery().in(this);
+		query
+		  .selectAll(".list-item")
+		  .boundingClientRect((data) => {
+			  console.log(data,len)
+			 
+				  this.top = data[len-2].top;
+			  
+		  })
+		  .exec();
+	},
+	isRead(list) {
+      let arr = list.filter(
+        (el) => el.status == 2 && el.to_user_id == this.theLogonUser.id
+      );
+      if (arr.length) {
+        let params = {
+          ids: arr.map((el) => el.id).join(","),
+        };
+        this.API.user
+          .setSystemMsgIsRead(params)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch(async (err) => {
+            if (err.code == 410) {
+              await this.$store.dispatch("toLogon", {});
+              this.isRead(list);
+            }
+          });
+      }
     },
     showTime() {
       for (let i = 0; i < this.list.length; i++) {
@@ -612,9 +720,6 @@ $uni-font-size-paragraph: 15px;
         width: 100%;
         word-wrap: break-word;
       }
-      image {
-        width: 200rpx;
-      }
     }
     &.self {
       justify-content: flex-end;
@@ -654,6 +759,24 @@ $uni-font-size-paragraph: 15px;
         }
       }
     }
+    .video-box {
+      position: relative;
+      width: 200rpx;
+      height: 250rpx;
+      .video-mask {
+		z-index:10;
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+      .myVideo {
+        border-radius: 20rpx;
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
 
   .tool {
@@ -674,9 +797,9 @@ $uni-font-size-paragraph: 15px;
     }
     .tool-bottom {
       border-top: 1rpx solid rgba(211, 211, 211, 0.5);
-      padding: 20rpx 30rpx 0;
+      padding: 20rpx 0 0;
       .use-box {
-        padding: 26rpx 0;
+        padding: 26rpx 30rpx;
         display: flex;
         .use-item {
           margin-right: 52rpx;
@@ -709,12 +832,12 @@ $uni-font-size-paragraph: 15px;
       margin-left: 21rpx;
     }
   }
+  .message-image {
+    width: 200rpx;
+    border-radius: 20rpx;
+  }
   /deep/ .u-textarea {
     padding: 5px !important;
-    // .u-textarea__field {
-    //   min-height: 70rpx !important;
-    //   font-size: 36rpx !important;
-    // }
   }
 }
 </style>

@@ -1,8 +1,14 @@
 <template>
   <view class="prew-video">
-    <u-popup :safeAreaInsetBottom='false' mode="center" :show="show" @close="close" @open="open">
+    <u-popup
+      :safeAreaInsetBottom="false"
+      mode="center"
+      :show="show"
+      @close="close"
+      @open="open"
+    >
       <view class="flex-center">
-        <video v-if="show" id="myVideo" :src="videoUrl" autoplay></video>
+        <video  :show-fullscreen-btn="false" controls style="width:100%; height: 100%;" v-if="show"  id="myVideo" :src="videoUrl" autoplay></video>
       </view>
     </u-popup>
   </view>
@@ -15,6 +21,7 @@ export default {
     return {
       videoUrl: "",
       show: false,
+	  videoContext:''
     };
   },
   methods: {
@@ -33,11 +40,12 @@ export default {
   .flex-center {
     display: flex;
     justify-content: center;
-    width: 300px;
-    height: 225px;
+    width: 70vw;
+    height: 70vh;
+    #myVideo {
+      width: 100%;
+      height: 100%;
+    }
   }
-}
-/deep/ .u-popup__content {
-  background-color: transparent !important;
 }
 </style>
