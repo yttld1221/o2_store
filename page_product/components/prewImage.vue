@@ -1,11 +1,8 @@
 <template>
 	<view class="prew-video">
 		<u-popup :safeAreaInsetBottom="false" mode="center" :show="show" @close="close" @open="open">
-			<view v-if="show" class="flex-center">
-				<video :show-fullscreen-btn="false" controls style="width:100%; height: calc(100% - 40px);" id="myVideo"
-					:src="videoUrl" autoplay></video>
-				<uni-icons @click="close" color='white' style="margin: 10px 0 0 30rpx;" type="close"
-					size="30"></uni-icons>
+			<view v-if="show" @click="close" class="flex-center">
+				<image  mode="widthFix" :src="imageUrl"></image>
 			</view>
 		</u-popup>
 	</view>
@@ -16,14 +13,14 @@
 		components: {},
 		data() {
 			return {
-				videoUrl: "",
+				imageUrl: "",
 				show: false,
 			};
 		},
 		methods: {
 			open(url) {
 				this.show = true;
-				this.videoUrl = url;
+				this.imageUrl = url;
 			},
 			close() {
 				this.show = false;
@@ -34,6 +31,7 @@
 <style lang="scss" scoped>
 	.prew-video {
 		.flex-center {
+			justify-content: center;
 			background-color: #000000 !important;
 			box-sizing: border-box;
 			display: flex;
@@ -41,6 +39,11 @@
 			width: 100vw;
 			height: 100vh;
 			padding-bottom: calc(10px + env(safe-area-inset-bottom));
+
+			&>image {
+				width: 100%;
+				height: 100%;
+			}
 		}
 	}
 </style>

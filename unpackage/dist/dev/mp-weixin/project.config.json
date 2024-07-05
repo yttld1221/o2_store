@@ -19,7 +19,7 @@
     "ignoreUploadUnusedFiles": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.25.4",
+  "libVersion": "3.3.5",
   "appid": "wxf2f79ccf1a034ce7",
   "projectname": "o2_store",
   "condition": {

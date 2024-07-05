@@ -25,13 +25,12 @@
 /* 透明度 */
 /* 文章场景相关 */
 .prew-video .flex-center.data-v-30a4adc0 {
+  background-color: #000000 !important;
+  box-sizing: border-box;
   display: flex;
-  justify-content: center;
-  width: 70vw;
-  height: 70vh;
-}
-.prew-video .flex-center #myVideo.data-v-30a4adc0 {
-  width: 100%;
-  height: 100%;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
 }
 

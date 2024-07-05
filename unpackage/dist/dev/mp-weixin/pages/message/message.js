@@ -137,9 +137,11 @@ var render = function () {
   var l0 = _vm.__map(_vm.messageList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m0 = _vm.getTime(item.created_at)
+    var m1 = item.msg ? _vm.getText(item.msg) : null
     return {
       $orig: $orig,
       m0: m0,
+      m1: m1,
     }
   })
   _vm.$mp.data = Object.assign(
@@ -192,41 +194,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 34));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -394,6 +361,19 @@ var _default = {
     this.getMessage();
   },
   methods: {
+    getText: function getText(text) {
+      if (text) {
+        var type = "";
+        if (text.indexOf("theqnxasendimage") > -1) {
+          type = "[图片]";
+        } else if (text.indexOf("theqnxasendvideo") > -1) {
+          type = "[视频]";
+        } else {
+          type = text;
+        }
+        return type;
+      }
+    },
     getTime: function getTime(time) {
       if (time) {
         return this.$public.formatTime(time);

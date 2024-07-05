@@ -4,6 +4,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
+		isOpen: false,
 		isOnload: false,
 		sceneId: 0,
 		// 接口前缀
@@ -141,18 +142,21 @@ export default new Vuex.Store({
 		theNickName: ''
 	},
 	mutations: {
-		changeTheLogonUser: function (state, payload) {
+		changeTheLogonUser: function(state, payload) {
 			state.theLogonUser = payload.theLogonUser;
 			state.theToken = payload.theToken;
 			uni.setStorageSync('token', payload.theToken);
 		},
-		setScene: function (state, payload) {
+		setScene: function(state, payload) {
 			state.sceneId = payload;
 		},
-		changeOnload: function (state, payload) {
+		changeOnload: function(state, payload) {
 			state.isOnload = payload;
 		},
-		changeTheLogonUser_register: function (state, payload) {
+		changeWebSock: function(state, payload) {
+			state.isOpen = payload;
+		},
+		changeTheLogonUser_register: function(state, payload) {
 			state.theLogonUser.level = payload.level;
 			state.theToken = payload.theToken;
 			state.theLogonUser.avatar_url = payload.avatar_url;
@@ -160,48 +164,48 @@ export default new Vuex.Store({
 		},
 
 		// 认证的验证码发送后，重置为59
-		changecodeSecond: function (state, payload) {
+		changecodeSecond: function(state, payload) {
 			state.codeSecond = payload.codeSecond;
 		},
 
 		// 设置状态栏和标题栏高度
-		changePreviousPage: function (state, payload) {
+		changePreviousPage: function(state, payload) {
 			state.previousPage = payload.previousPage;
 			state.isPage_2 = payload.isPage_2;
 		},
 
 		// 消除红点提示
-		changeRedTip: function (state, payload) {
+		changeRedTip: function(state, payload) {
 			state.isRedTip = payload.isRedTip;
 		},
 
 
 		// 设置状态栏和标题栏高度
-		changeNavBarHeight: function (state, payload) {
+		changeNavBarHeight: function(state, payload) {
 			state.statusBarHeight = payload.statusBarHeight;
 			state.navBarHeight = payload.navBarHeight;
 			state.tabBarHeight = payload.tabBarHeight;
 		},
 		// 改变当前选择的地址
-		changeStore_addressNow: function (state, payload) {
+		changeStore_addressNow: function(state, payload) {
 			state.store_addressNow.title = payload.tempSelectedAddress.title;
 			state.store_addressNow.status = payload.tempSelectedAddress.status;
 			state.store_addressNow.code = payload.tempSelectedAddress.code;
 		},
 		// 改变当前选择的地址（认证页面）
-		changeStore_addressRegister: function (state, payload) {
+		changeStore_addressRegister: function(state, payload) {
 			state.store_addressRegister.title = payload.tempSelectedAddress.title;
 			state.store_addressRegister.status = payload.tempSelectedAddress.status;
 			state.store_addressRegister.code = payload.tempSelectedAddress.code;
 		},
 		// 改变当前选择的地址（发布页面）
-		changeStore_addressPush: function (state, payload) {
+		changeStore_addressPush: function(state, payload) {
 			state.store_addressPush.title = payload.tempSelectedAddress.title;
 			state.store_addressPush.status = payload.tempSelectedAddress.status;
 			state.store_addressPush.code = payload.tempSelectedAddress.code;
 		},
 		// 改变当前选择的地址
-		changeStore_schoolNow: function (state, payload) {
+		changeStore_schoolNow: function(state, payload) {
 			state.store_schoolNow.id = payload.id;
 			// 注意 tempSelectedSchool 中的name改成了title
 			state.store_schoolNow.title = payload.title;
@@ -211,15 +215,15 @@ export default new Vuex.Store({
 			state.store_schoolNow.update_id = payload.update_id;
 		},
 		// 改变公开范围选择
-		changeTheSelectedranges: function (state, payload) {
+		changeTheSelectedranges: function(state, payload) {
 			state.theSelectedranges = payload.theSelectedranges;
 		},
 		//重置
-		changeTempImageUrl: function (state, payload) {
+		changeTempImageUrl: function(state, payload) {
 			state.tempImageUrl = [];
 		},
 		//
-		changeNickName: function (state, payload) {
+		changeNickName: function(state, payload) {
 			state.theNickName = payload.nick_name
 		}
 	},
@@ -231,13 +235,13 @@ export default new Vuex.Store({
 	// ----------------------------------------------注意：----------------------------------------------
 	actions: {
 		// 登录(含两层，第一层是登录微信获取code,第二层是调用服务端的正式登录接口)
-		toLogon: function (content, payload) {
+		toLogon: function(content, payload) {
 			let _this = this;
-			return new Promise(function (resolve, reject) {
+			return new Promise(function(resolve, reject) {
 				// 这是登录方法，uniapp整合过了的（微信小程序也适用）
 				uni.login({
 					provider: 'weixin', //使用微信登录
-					success: function (loginRes) { // loginRes拿到code
+					success: function(loginRes) { // loginRes拿到code
 						// console.log('loginRes', loginRes);
 						let that = _this;
 						let code = loginRes.code;
@@ -257,8 +261,10 @@ export default new Vuex.Store({
 								// 接口返回两个东西，一个是登录人信息，一个是token  
 								if (res.data.code == 0) {
 									content.commit('changeTheLogonUser', {
-										theLogonUser: res.data.data.user,
-										theToken: res.data.data.token
+										theLogonUser: res.data.data
+											.user,
+										theToken: res.data.data
+											.token
 									})
 									content.dispatch('startWs', {})
 									// console.log('theLogonUser',content.state.theLogonUser);
@@ -300,9 +306,9 @@ export default new Vuex.Store({
 		},
 
 		// 点赞
-		toThumb: function (content, payload) {
+		toThumb: function(content, payload) {
 			let _this = this;
-			return new Promise(function (resolve, reject) {
+			return new Promise(function(resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/moments/thumb',
@@ -331,7 +337,7 @@ export default new Vuex.Store({
 						} else if (res.data.code == 410) {
 							let __that = that;
 							// 异步转同步，
-							(async function () {
+							(async function() {
 								// 登录
 								await __that.$store.dispatch('toLogon', {});
 
@@ -359,9 +365,9 @@ export default new Vuex.Store({
 			})
 		},
 		// 收藏帖子
-		toCollection: function (content, payload) {
+		toCollection: function(content, payload) {
 			let _this = this;
-			return new Promise(function (resolve, reject) {
+			return new Promise(function(resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/moments/collection',
@@ -390,7 +396,7 @@ export default new Vuex.Store({
 						} else if (res.data.code == 410) {
 							let __that = that;
 							// 异步转同步，
-							(async function () {
+							(async function() {
 								// 登录
 								await __that.$store.dispatch('toLogon', {});
 
@@ -418,9 +424,9 @@ export default new Vuex.Store({
 			})
 		},
 		// 关注（ta）
-		toRegard: function (content, payload) {
+		toRegard: function(content, payload) {
 			let _this = this;
-			return new Promise(function (resolve, reject) {
+			return new Promise(function(resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/wx/regard',
@@ -449,7 +455,7 @@ export default new Vuex.Store({
 						} else if (res.data.code == 410) {
 							let __that = that;
 							// 异步转同步，
-							(async function () {
+							(async function() {
 								// 登录
 								await __that.$store.dispatch('toLogon', {});
 
@@ -477,9 +483,9 @@ export default new Vuex.Store({
 			})
 		},
 		// 加入组队
-		toEntry: function (content, payload) {
+		toEntry: function(content, payload) {
 			let _this = this;
-			return new Promise(function (resolve, reject) {
+			return new Promise(function(resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/moments/momentsEntry',
@@ -508,7 +514,7 @@ export default new Vuex.Store({
 						} else if (res.data.code == 410) {
 							let __that = that;
 							// 异步转同步，
-							(async function () {
+							(async function() {
 								// 登录
 								await __that.$store.dispatch('toLogon', {});
 
@@ -540,9 +546,9 @@ export default new Vuex.Store({
 			})
 		},
 		// 上线/下线 帖子
-		upDownMyMoments: function (content, payload) {
+		upDownMyMoments: function(content, payload) {
 			let that = this;
-			return new Promise(function (resolve, reject) {
+			return new Promise(function(resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/moments/upDownMyMoments',
@@ -558,7 +564,8 @@ export default new Vuex.Store({
 						// console.log('upDownMyMoments_res',res);
 						if (res.data.code == 0) {
 							uni.showToast({
-								title: (payload.is_on == 1 ? '发布' : '下线') + '成功',
+								title: (payload.is_on == 1 ? '发布' : '下线') +
+									'成功',
 								duration: 500,
 								icon: 'none'
 							})
@@ -567,7 +574,7 @@ export default new Vuex.Store({
 								content.state.isOn_true = true;
 							} else {
 								uni.$emit("publishSchool", {});
-								setTimeout(function () {
+								setTimeout(function() {
 									uni.switchTab({
 										url: "/pages/index/index",
 									});
@@ -583,7 +590,7 @@ export default new Vuex.Store({
 						} else if (res.data.code == 410) {
 							let __that = that;
 							// 异步转同步，
-							(async function () {
+							(async function() {
 								// 登录
 								await __that.$store.dispatch('toLogon', {});
 
@@ -612,9 +619,9 @@ export default new Vuex.Store({
 			})
 		},
 		// 获取帖子详情：用于列表查看（他人，通用）
-		getMomentInfo: function (content, payload) {
+		getMomentInfo: function(content, payload) {
 			let that = this;
-			return new Promise(function (resolve, reject) {
+			return new Promise(function(resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/moments/getMomentInfo',
@@ -641,7 +648,7 @@ export default new Vuex.Store({
 							let __that = that;
 
 							// 异步转同步
-							(async function () {
+							(async function() {
 								// 登录
 								await __that.$store.dispatch('toLogon', {});
 
@@ -670,9 +677,9 @@ export default new Vuex.Store({
 			})
 		},
 		// 获取个人主页
-		getHomePageTop: function (content, payload) {
+		getHomePageTop: function(content, payload) {
 			let that = this;
-			return new Promise(function (resolve, reject) {
+			return new Promise(function(resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/wx/getHomePageTop',
@@ -698,7 +705,7 @@ export default new Vuex.Store({
 							let __that = that;
 
 							// 异步转同步
-							(async function () {
+							(async function() {
 								// 登录
 								await content.dispatch('toLogon', {});
 
@@ -711,7 +718,7 @@ export default new Vuex.Store({
 									confirmText: '前往首页',
 									confirmColor: '#f89f12',
 									showCancel: false,
-									success: function (res) {
+									success: function(res) {
 										if (res.confirm) {
 											uni.switchTab({
 												url: '/pages/index/index'
@@ -742,9 +749,9 @@ export default new Vuex.Store({
 			})
 		},
 		// 上传图片
-		upLoadImage: function (content, payload) {
+		upLoadImage: function(content, payload) {
 			let that = this;
-			return new Promise(function (resolve, reject) {
+			return new Promise(function(resolve, reject) {
 				// 调用登录接口，服务端正真的登录接口
 				uni.request({
 					url: content.state.theUrl + '/wechat/sundry/getOssUploadSign',
@@ -780,7 +787,11 @@ export default new Vuex.Store({
 									filePath: payload.tempFilePaths[i],
 									name: 'file',
 									formData: {
-										key: res.data.data.dir + payload.name[i] + '_' + content.state.theLogonUser.id + '.' + payload.tempFiles[i].extname, // 这里传过来的是时间，格式示例：2024-03-22_23:15:04
+										key: res.data.data.dir + payload.name[
+											i] + '_' + content.state
+											.theLogonUser.id + '.' + payload
+											.tempFiles[i]
+											.extname, // 这里传过来的是时间，格式示例：2024-03-22_23:15:04
 										policy: res.data.data.policy,
 										OssAccessKeyId: res.data.data.accessid,
 										success_action_status: '200',
@@ -788,20 +799,40 @@ export default new Vuex.Store({
 									},
 									success: (uploadFileRes) => {
 										// console.log('uploadFileRes', uploadFileRes);
-										if (uploadFileRes.statusCode == 200) {
-											content.state.tempImageUrl.push({
-												url: res.data.data.host + '/' + res.data.data.dir + payload.name[i] + '_' + content.state.theLogonUser.id + '.' + payload.tempFiles[i].extname,
-												uuid: payload.tempFiles[i].uuid
+										if (uploadFileRes.statusCode ==
+											200) {
+											content.state.tempImageUrl
+										.push({
+												url: res.data.data
+													.host + '/' +
+													res.data.data
+													.dir + payload
+													.name[i] + '_' +
+													content.state
+													.theLogonUser
+													.id + '.' +
+													payload
+													.tempFiles[i]
+													.extname,
+												uuid: payload
+													.tempFiles[i]
+													.uuid
 											})
 
 											// console.log('content.state.tempImageUrl',content.state.tempImageUrl);
 
-											if (i == payload.tempFilePaths.length - 1) {
+											if (i == payload.tempFilePaths
+												.length - 1) {
 												resolve();
 											}
 										} else {
 											uni.showToast({
-												title: '错误:' + uploadFileRes.statusCode + ':' + uploadFileRes.errMsg,
+												title: '错误:' +
+													uploadFileRes
+													.statusCode +
+													':' +
+													uploadFileRes
+													.errMsg,
 												duration: 2500,
 												icon: 'none'
 											})
@@ -833,7 +864,7 @@ export default new Vuex.Store({
 						} else if (res.data.code == 410) {
 							let __that = that;
 							// 异步转同步，
-							(async function () {
+							(async function() {
 								// 登录
 								await content.dispatch('toLogon', {});
 
@@ -869,31 +900,20 @@ export default new Vuex.Store({
 		},
 
 		// 消息动画
-		animtionAction: function (content, payload) {
+		animtionAction: function(content, payload) {
 			let _payload = payload;
-			let animtionActionInter = setInterval(function () {
+			let animtionActionInter = setInterval(function() {
 				_payload.animtionAction
 			}, 1000)
 			content.state.isRedTip = true;
 
 
-			setTimeout(function () {
+			setTimeout(function() {
 				clearInterval(animtionActionInter)
 			}, 5000)
 		},
 		// 开启ws
 		startWs: (content, payload) => {
-			// let param = {
-			//   data: {
-			//     to_user_id: 84,
-			//     msg: "你好啊.ggg",
-			//   },
-			//   cmd: "ws:sendChatMsg",
-			// };
-			// this.$store.dispatch("sendMessage", {
-			//   message:JSON.stringify(param) ,
-			//   type: "user",
-			// });
 			if (content.state.theToken) {
 				uni.connectSocket({
 					url: content.state.theWssUrl,
@@ -905,8 +925,11 @@ export default new Vuex.Store({
 					},
 				});
 				const heartbeatInterval = 30 * 1000;
+				const RECONNECT_INTERVAL = 3000; // 延迟3秒后进行重连
+
 				let heartbeatTimer = ''
 				uni.onSocketOpen((res) => {
+					content.commit('changeWebSock', true)
 					console.log('打开链接')
 					let param = {
 						data: {
@@ -916,7 +939,7 @@ export default new Vuex.Store({
 					}
 					uni.sendSocketMessage({
 						data: JSON.stringify(param), // 这里填写你要发送的数据
-						complete: function (res) {
+						complete: function(res) {
 							console.log('发送成功', res);
 						}
 					});
@@ -931,11 +954,16 @@ export default new Vuex.Store({
 						};
 						uni.sendSocketMessage({
 							data: JSON.stringify(param), // 心跳内容，根据服务器要求可能是特定格式
-							success: function () {
+							success: function() {
 								console.log('心跳发送成功');
 							},
-							fail: function () {
+							fail: function() {
 								console.log('心跳发送失败');
+								clearInterval(heartbeatTimer);
+								setTimeout(() => {
+									console.log('开始重连...');
+									content.dispatch('startWs', {})
+								}, RECONNECT_INTERVAL);
 							}
 						});
 					}, heartbeatInterval);
@@ -947,25 +975,37 @@ export default new Vuex.Store({
 					if (res.data != 'Opened') {
 						console.log("收到服务器消息:", JSON.parse(res.data));
 						let messages = JSON.parse(res.data)
-						if (messages.data.from_user_id == content.state.theLogonUser.id || messages.data.to_user_id == content.state.theLogonUser.id) {
+						if (messages.data.from_user_id == content.state.theLogonUser.id || messages
+							.data.to_user_id == content.state.theLogonUser.id) {
 							uni.$emit("changeMessageList", {});
 							uni.$emit("changeMessageInfo", messages.data);
 						}
 					}
 				});
 				//发生了错误事件
-				uni.onSocketError(function () {
+				uni.onSocketError(function() {
+					content.commit('changeWebSock', false)
 					console.log("websocket发生了错误");
+					clearInterval(heartbeatTimer);
+					setTimeout(() => {
+						console.log('开始重连...');
+						content.dispatch('startWs', {})
+					}, RECONNECT_INTERVAL);
 				});
 				// 监听关闭连接，清除定时器
 				uni.onSocketClose((res) => {
+					content.commit('changeWebSock', false)
 					clearInterval(heartbeatTimer);
+					setTimeout(() => {
+						console.log('开始重连...');
+						content.dispatch('startWs', {})
+					}, RECONNECT_INTERVAL);
 				});
 			}
 
 		},
 		// 发送消息
-		sendMessage: function (content, payload) {
+		sendMessage: function(content, payload) {
 			console.log(222)
 			uni.sendSocketMessage({
 				data: payload.message,
@@ -975,7 +1015,6 @@ export default new Vuex.Store({
 				},
 				fail: async (err) => {
 					console.log('消息发送失败', err);
-					await content.dispatch('startWs', {})
 					content.dispatch('sendMessage', payload)
 				}
 			});
