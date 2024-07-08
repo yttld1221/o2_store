@@ -34,8 +34,9 @@
 		</scroll-view>
 		<view class="tool" id="bottom-fix" :style="{ bottom: `${keyHeight}px` }">
 			<view class="input-box" :style="{ 'align-items': rowLine == 1 ? 'center' : 'flex-end' }">
-				<uni-easyinput class="focus-border" :clearable='false' :adjust-position='false' :trim="true"
-					cursorSpacing="100" v-model="content" confirmType="send" @blur="closeContent" @focus="focusContent"
+				<textarea @linechange='lineChange' :show-confirm-bar='false' auto-height rows="1" cursor-spacing='100' style="width:calc(100% - 170rpx)" maxlength="-1" :confirm-hold="true"
+					:focus="textFocus" class="focus-border" :clearable='false' :adjust-position='false' :trim="true"
+					v-model="content" confirmType="send" @blur="closeContent" @focus="focusContent"
 					@confirm="sendMessage" />
 				<image @click="openBottom('emoji')" class="icon-image" style="margin-left: 33rpx"
 					src="/static/xiaolian.png"></image>
@@ -315,6 +316,7 @@
 				});
 			},
 			closeBottom() {
+				0
 				if (this.showBottom) {
 					this.showBottom = false;
 					this.typeShow = ''
@@ -333,6 +335,7 @@
 			},
 			closeContent() {
 				this.showScroll = false
+				this.textFocus = false;
 				this.keyHeight = 0
 				this.heightArr[0] = 'calc(100% - ' + (this.bottomHeight + this.keyHeight) + 'px)'
 				this.cs += 0.01
@@ -521,6 +524,7 @@
 					});
 					this.content = "";
 					this.textFocus = this.typeShow != 'use' ? true : false;
+					console.log(this.textFocus)
 				}
 			},
 			sendMessage() {
@@ -801,6 +805,14 @@
 				display: flex;
 				padding: 15rpx 30rpx;
 				min-height: 100rpx;
+
+				.focus-border {
+					padding:5rpx 10rpx;
+					border: 1px solid #D3D3D3;
+					background: #FAFAFA;
+					height:70rpx;
+					border-radius: 10rpx;
+				}
 			}
 
 			.tool-bottom {

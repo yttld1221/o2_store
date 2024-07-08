@@ -1,844 +1,763 @@
 <template>
-  <view class="content">
-    <!-- 置顶的搜索输入框 -->
-    <view
-      v-if="inputBottomHeight != 0"
-      class="z-input"
-      :style="'position: fixed;z-index:999;bottom:' + inputBottomHeight + 'px;'"
-    >
-      <text>{{ searchInputText }}</text>
-    </view>
-    <!-- tabbar的背景 -->
-    <!-- <image class="tabbar-bg" :style="'bottom:'+(tabBarHeight-10)+ 'px;'" src="/static/tabbar_bg@3x.png" mode="widthFix"></image> -->
+	<view class="content">
+		<!-- 置顶的搜索输入框 -->
+		<view v-if="inputBottomHeight != 0" class="z-input"
+			:style="'position: fixed;z-index:999;bottom:' + inputBottomHeight + 'px;'">
+			<text>{{ searchInputText }}</text>
+		</view>
+		<!-- tabbar的背景 -->
+		<!-- <image class="tabbar-bg" :style="'bottom:'+(tabBarHeight-10)+ 'px;'" src="/static/tabbar_bg@3x.png" mode="widthFix"></image> -->
 
-    <!-- 背景 -->
-    <view
-      class="bg-box"
-      :style="{
-        height: statusBarHeight + navBarHeight + schoolHeight - 1 + 'px',
-      }"
-    >
-      <view
-        class="bg"
-        :style="{
-          'background-size':
-            '100% ' +
-            Number(statusBarHeight + navBarHeight + schoolHeight) +
-            'px',
-        }"
-      ></view
-    ></view>
-    <!-- 导航切换栏 -->
-    <view
-      class="titles"
-      :style="'top:' + statusBarHeight + 'px;height:' + navBarHeight + 'px;'"
-    >
-      <view class="titles-box">
-        <view
-          :key="index"
-          class="titles-item"
-          @click="toTitleOne(index)"
-          :class="{ 'title-selected': index == theTitleIndex }"
-          v-for="(item, index) in titleName"
-          >{{ item }}</view
-        >
-      </view>
-    </view>
-    <!-- 定位选择 -->
-    <view
-      @click="toAddress()"
-      class="location"
-      :style="'top:' + statusBarHeight + 'px;height:' + navBarHeight + 'px;'"
-    >
-      <u-icon top="1" name="map-fill" color="#000000" size="16"></u-icon>
-      <text class="city-text">{{
+		<!-- 背景 -->
+		<view class="bg-box" :style="{
+        height: statusBarHeight + navBarHeight + schoolHeight + 'px',
+      }">
+		</view>
+		<!-- 导航切换栏 -->
+		<view class="titles" :style="'top:' + statusBarHeight + 'px;height:' + navBarHeight + 'px;'">
+			<view class="titles-box">
+				<view :key="index" class="titles-item" @click="toTitleOne(index)"
+					:class="{ 'title-selected': index == theTitleIndex }" v-for="(item, index) in titleName">{{ item }}
+				</view>
+			</view>
+		</view>
+		<!-- 定位选择 -->
+		<view @click="toAddress()" class="location"
+			:style="'top:' + statusBarHeight + 'px;height:' + navBarHeight + 'px;'">
+			<u-icon top="1" name="map-fill" color="#000000" size="16"></u-icon>
+			<text class="city-text">{{
         theAddress.title != undefined
           ? theAddress.title.length < 4
             ? theAddress.title
             : theAddress.title.substring(0, 3) + "..."
           : "选择地区"
       }}</text>
-      <u-icon name="arrow-down-fill" color="#000000" size="12"></u-icon>
-    </view>
+			<u-icon name="arrow-down-fill" color="#000000" size="12"></u-icon>
+		</view>
 
-    <template v-if="theTitleIndex == 1">
-      <!-- 校园墙 -->
-      <view
-        class="school"
-        :style="'top:' + (statusBarHeight + navBarHeight) + 'px;'"
-      >
-        <!-- 搜索 -->
-        <view class="searchs-2">
-          <view class="search-box-2">
-            <view class="flex-align search-input-box">
-              <view class="search-picker" @click="toSchool()">
-                <text v-if="theSchool.title != ''">{{
+		<template v-if="theTitleIndex == 1">
+			<!-- 校园墙 -->
+			<view class="school" :style="'top:' + (statusBarHeight + navBarHeight) + 'px;'">
+				<!-- 搜索 -->
+				<view class="searchs-2">
+					<view class="search-box-2">
+						<view class="flex-align search-input-box">
+							<view class="search-picker" @click="toSchool()">
+								<text v-if="theSchool.title != ''">{{
                   theSchool.title.length < 5
                     ? theSchool.title
                     : theSchool.title.substring(0, 4) + "..."
                 }}</text>
-                <text v-if="theSchool.title == ''">全部校区</text>
-                <uni-icons
-                  class="margin-left-5"
-                  type="down"
-                  size="12"
-                ></uni-icons>
-              </view>
-              <view @click="searchPost" class="search-input"
-                >请输入搜索内容</view
-              >
-            </view>
-            <view @click="searchPost" class="search-button">
-              <image
-                class="image-width-20"
-                src="/static/1_search_2@3x.png"
-                mode="widthFix"
-              ></image>
-            </view>
-          </view>
-        </view>
-        <!-- 标题 -->
-        <view class="posts">
-          <view class="posts-titles">
-            <scroll-view
-              class="scroll-view"
-              scroll-x="true"
-              scroll-with-animation="true"
-            >
-              <view
-                :class="{
+								<text v-if="theSchool.title == ''">全部校区</text>
+								<uni-icons class="margin-left-5" type="down" size="12"></uni-icons>
+							</view>
+							<view @click="searchPost" class="search-input">请输入搜索内容</view>
+						</view>
+						<view @click="searchPost" class="search-button">
+							<image class="image-width-20" src="/static/1_search_2@3x.png" mode="widthFix"></image>
+						</view>
+					</view>
+				</view>
+				<!-- 标题 -->
+				<view class="posts">
+					<view class="posts-titles">
+						<scroll-view class="scroll-view" scroll-x="true" scroll-with-animation="true">
+							<view :class="{
                   'posts-titles-one': true,
                   'posts-titles-one-choised': schoolOneTitleIndex == index,
-                }"
-                @click="choiseOneTitle(index)"
-                v-for="(item, index) in titles"
-              >
-                <view class="posts-titles-item">
-                  <view>{{ item }}</view>
-                  <view
-                    :class="{ 'short-line': schoolOneTitleIndex == index }"
-                  ></view>
-                </view>
-              </view>
-            </scroll-view>
-          </view>
-          <!-- 筛选 -->
-          <!-- <image
+                }" @click="choiseOneTitle(index)" v-for="(item, index) in titles">
+								<view class="posts-titles-item">
+									<view>{{ item }}</view>
+									<view :class="{ 'short-line': schoolOneTitleIndex == index }"></view>
+								</view>
+							</view>
+						</scroll-view>
+					</view>
+					<!-- 筛选 -->
+					<!-- <image
             @click="$public.disabled_tip('高级筛选')"
             class="types-img"
             src="/static/1_shaixuan.png"
             mode="widthFix"
           ></image> -->
-        </view>
-      </view>
-      <!-- 内容 -->
-      <view
-        :style="
+				</view>
+			</view>
+			<!-- 内容 -->
+			<view :style="
           'margin-top:' +
           (statusBarHeight + navBarHeight + schoolHeight) +
           'px;'
-        "
-        :class="{ 'al-box': titles[schoolOneTitleIndex] == '分享/安利' }"
-      >
-        <!--瀑布流照片墙
+        " :class="{ 'al-box': titles[schoolOneTitleIndex] == '分享/安利' }">
+				<!--瀑布流照片墙
         <waterfall
           @toDetail="toDetail"
           :list="school_datas"
           v-if="titles[schoolOneTitleIndex] == '分享/安利'"
         ></waterfall>-->
-        <view
-          :class="
+				<view :class="
             titles[schoolOneTitleIndex] == '分享/安利'
               ? 'al-item'
               : 'posts-data'
-          "
-          :key="index"
-          v-for="(item, index) in school_datas"
-        >
-          <post-type-zudui
-            compoentType="list"
-            @toDetail="toDetail"
-            @topPerSonalhome="topPerSonalhome"
-            @toThumb="toThumb"
-            @actionMore="actionMore"
-            @zuduiButtons="zuduiButtons"
-            :postsDataOneIndex="
+          " :key="index" v-for="(item, index) in school_datas">
+					<post-type-zudui compoentType="list" @toDetail="toDetail" @topPerSonalhome="topPerSonalhome"
+						@toThumb="toThumb" @actionMore="actionMore" @zuduiButtons="zuduiButtons" :postsDataOneIndex="
               titles[schoolOneTitleIndex] == '分享/安利' ? -1 : index
-            "
-            :theData="item"
-          ></post-type-zudui>
-        </view>
-      </view>
-    </template>
-    <template v-else>
-      <view
-        class="school home-search"
-        :style="'top:' + (statusBarHeight + navBarHeight) + 'px;'"
-      >
-        <view class="search-box">
-          <u-search
-            @click="toSearch()"
-            disabled
-            placeholder="请输入搜索关键词"
-            v-model="searchInputText"
-            :showAction="false"
-          ></u-search
-        ></view>
-        <view class="home-type">
-          <image
-            class="the-line-3-bottom"
-            src="https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240511/admin/0ea97dedc8c1adfd15d2f17197fdd882.png"
-          ></image>
-          <types @changeTab="changeTab" :list="tabArr"></types>
-        </view>
-      </view>
-      <!-- :style="{ 'margin-top': `${statusBarHeight + navBarHeight + 230}px` }" -->
-      <view
-        class="list-container"
-        :style="
+            " :theData="item"></post-type-zudui>
+				</view>
+			</view>
+		</template>
+		<template v-else>
+			<view class="school home-search" :style="'top:' + (statusBarHeight + navBarHeight) + 'px;'">
+				<view class="search-box">
+					<u-search @click="toSearch()" disabled placeholder="请输入搜索关键词" v-model="searchInputText"
+						:showAction="false"></u-search>
+				</view>
+				<view class="home-type">
+					<image class="the-line-3-bottom"
+						src="https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240511/admin/0ea97dedc8c1adfd15d2f17197fdd882.png">
+					</image>
+					<types @changeTab="changeTab" :list="tabArr"></types>
+				</view>
+			</view>
+			<!-- :style="{ 'margin-top': `${statusBarHeight + navBarHeight + 230}px` }" -->
+			<view class="list-container" :style="
           'margin-top:' +
           (statusBarHeight + navBarHeight + contentHeight) +
           'px;'
-        "
-      >
-        <view
-          @click="goDetail(item)"
-          class="list-item"
-          v-for="(item, index) in school_datas"
-          :key="index"
-        >
-          <view class="image-box">
-            <image mode="aspectFill" :src="item.img_url" />
-          </view>
-          <view class="list-item-info">
-            <view class="list-item-title">{{ item.title }}</view>
-            <view class="list-item-price flex-algin">
-              <view class="list-item-price-left"
-                >¥<text style="font-size: 34rpx">{{
+        ">
+				<view @click="goDetail(item)" class="list-item" v-for="(item, index) in school_datas" :key="index">
+					<view class="image-box">
+						<image mode="aspectFill" :src="item.img_url" />
+					</view>
+					<view class="list-item-info">
+						<view class="list-item-title">{{ item.title }}</view>
+						<view class="list-item-price flex-algin">
+							<view class="list-item-price-left">¥<text style="font-size: 34rpx">{{
                   item.sale_price
-                }}</text></view
-              >
-              <view class="list-item-price-right"
-                >已售：{{ item.sale_num }}</view
-              >
-            </view>
-          </view>
-        </view>
-      </view>
-    </template>
+                }}</text></view>
+							<view class="list-item-price-right">已售：{{ item.sale_num }}</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</template>
 
-    <!-- 底部垫层 -->
-    <view class="space-line-bottom">
-      <uni-load-more :status="isLoading"></uni-load-more>
-    </view>
-    <view class="safe-bottom"></view>
-    <tab-Bar ref="theMessage" current="0"></tab-Bar>
-  </view>
+		<!-- 底部垫层 -->
+		<view class="space-line-bottom">
+			<uni-load-more :status="isLoading"></uni-load-more>
+		</view>
+		<view class="safe-bottom"></view>
+		<tab-Bar ref="theMessage" current="0"></tab-Bar>
+	</view>
 </template>
 
 <script>
-import types from "./components/types.vue";
-export default {
-  components: {
-    types,
-  },
-  data() {
-    return {
-      inviteId: "",
-      contentHeight: 0,
-      tabArr: [],
-      momentType: "",
-      theLevel: 0,
+	import types from "./components/types.vue";
+	export default {
+		components: {
+			types,
+		},
+		data() {
+			return {
+				inviteId: "",
+				contentHeight: 0,
+				tabArr: [],
+				momentType: "",
+				theLevel: 0,
 
-      contentText: {
-        contentdown: "查看更多",
-        contentrefresh: "加载中...",
-        contentnomore: "到底了，可点击此处手动加载~",
-      },
+				contentText: {
+					contentdown: "查看更多",
+					contentrefresh: "加载中...",
+					contentnomore: "到底了，可点击此处手动加载~",
+				},
 
-      // 最后的加载组件的加载动画效果，
-      isLoading: "loading",
-      // 当前获取的校园墙页码，每次需要+1
-      theGetMomentsListPage: 1,
-      theGetMomentsListPagesize: 10,
+				// 最后的加载组件的加载动画效果，
+				isLoading: "loading",
+				// 当前获取的校园墙页码，每次需要+1
+				theGetMomentsListPage: 1,
+				theGetMomentsListPagesize: 10,
 
-      titleName: ["首页", "校园墙"],
-      theTitleIndex: 1,
-      schoolOneTitleIndex: 0,
+				titleName: ["首页", "校园墙"],
+				theTitleIndex: 1,
+				schoolOneTitleIndex: 0,
 
-      // 顶部状态栏
-      statusBarHeight: 0,
-      // 导航标题栏
-      navBarHeight: 0,
-      // 底部tabbar高度
-      tabBarHeight: 0,
+				// 顶部状态栏
+				statusBarHeight: 0,
+				// 导航标题栏
+				navBarHeight: 0,
+				// 底部tabbar高度
+				tabBarHeight: 0,
 
-      // 搜索输入框内容
-      searchInputText: "",
-      // 获取焦点时候的输入框的高度，主要是给置顶的bottom用，就是键盘高度
-      inputBottomHeight: 0,
+				// 搜索输入框内容
+				searchInputText: "",
+				// 获取焦点时候的输入框的高度，主要是给置顶的bottom用，就是键盘高度
+				inputBottomHeight: 0,
 
-      //
-      titles: [
-        "综合",
-        "话题",
-        "组队/搭子",
-        "分享/安利",
-        "兼职",
-        "表白",
-        "求助",
-        "其他",
-      ],
-      tempTitles: ["综合", "话题"],
-      textWidths: 0,
+				//
+				titles: [
+					"综合",
+					"话题",
+					"组队/搭子",
+					"分享/安利",
+					"兼职",
+					"表白",
+					"求助",
+					"其他",
+				],
+				tempTitles: ["综合", "话题"],
+				textWidths: 0,
 
-      // 注意这个临时地址主要是为了给首页判断的，当选择完地址后，这里要通过这个判断是否变更了地址，如果改变了，则需要重新获取数据的
-      tempAddressTitle: "",
-      tempSchoolTitle: "",
-      // 当前所在地址
-      theAddress: {
-        title: "",
-        status: 0,
-        code: "",
-      },
-      theSchool: {
-        id: 1,
-        title: "",
-        status: 1,
-        addr: "",
-        create_id: 1,
-        update_id: 1,
-      },
-      currentIndex: 0,
-      school_datas: [],
-      schoolHeight: 0,
-    };
-  },
-  onLoad() {
-    // --------------------------------------------------------------处理初始状态--------------------------------------------------------------
-    // --------------------------------------------------------------处理初始状态--------------------------------------------------------------
-    // --------------------------------------------------------------处理初始状态--------------------------------------------------------------
-    // 获取状态栏高度
-    this.getTopIconDistance();
-    // 加载的时候保留一下当前的地址
-    // 就是为了后续判断是否变更过（跳转二级页面返回的时候需要判断）
-    this.tempAddressTitle = this.$store.state.store_addressNow.title;
-    this.tempSchoolTitle = this.$store.state.store_schoolNow.title;
+				// 注意这个临时地址主要是为了给首页判断的，当选择完地址后，这里要通过这个判断是否变更了地址，如果改变了，则需要重新获取数据的
+				tempAddressTitle: "",
+				tempSchoolTitle: "",
+				// 当前所在地址
+				theAddress: {
+					title: "",
+					status: 0,
+					code: "",
+				},
+				theSchool: {
+					id: 1,
+					title: "",
+					status: 1,
+					addr: "",
+					create_id: 1,
+					update_id: 1,
+				},
+				currentIndex: 0,
+				school_datas: [],
+				schoolHeight: 100,
+			};
+		},
+		onLoad() {
+			// --------------------------------------------------------------处理初始状态--------------------------------------------------------------
+			// --------------------------------------------------------------处理初始状态--------------------------------------------------------------
+			// --------------------------------------------------------------处理初始状态--------------------------------------------------------------
+			// 获取状态栏高度
+			this.getTopIconDistance();
+			// 加载的时候保留一下当前的地址
+			// 就是为了后续判断是否变更过（跳转二级页面返回的时候需要判断）
+			this.tempAddressTitle = this.$store.state.store_addressNow.title;
+			this.tempSchoolTitle = this.$store.state.store_schoolNow.title;
 
-    // 获取本地地址（如果有的话），并传给全局变量中
-    let storage_addressNow = this.getStorageSync("storage_addressNow");
-    this.$store.commit("changeStore_addressNow", {
-      tempSelectedAddress: storage_addressNow,
-    });
-    let query = uni.createSelectorQuery().in(this);
-    query
-      .select(".school")
-      .boundingClientRect((data) => {
-        this.schoolHeight = data.height;
-      })
-      .exec();
+			// 获取本地地址（如果有的话），并传给全局变量中
+			let storage_addressNow = this.getStorageSync("storage_addressNow");
+			this.$store.commit("changeStore_addressNow", {
+				tempSelectedAddress: storage_addressNow,
+			});
 
-    this.getShopType();
-    uni.$on("changeIndexArea", async (data) => {
-      this.theSchool = {
-        id: 0,
-        title: "",
-        status: 1,
-        addr: "",
-        create_id: 1,
-        update_id: 1,
-      };
-      this.$store.commit("changeStore_schoolNow", {
-        id: 0,
-        title: "",
-        status: 1,
-        addr: "",
-        create_id: 1,
-        update_id: 1,
-      });
-      // 重置一下，需要重新获取数据，那么页码和容器都要重置
-      this.theGetMomentsListPage = 1;
-      this.school_datas = [];
-      // 接口调用
-      if (this.theTitleIndex == 1) {
-        await this.getMomentsList("area");
-      } else {
-        await this.initShop();
-        this.tempAddressTitle = this.theAddress.title;
-      }
-    });
-    uni.$on("changeIndexSchool", async (data) => {
-      this.theGetMomentsListPage = 1;
-      this.school_datas = [];
-      await this.getMomentsList("school");
-    });
-    uni.$on("publishSchool", async (data) => {
-      this.$refs.theMessage.pubLish();
-      this.theTitleIndex = 1;
-      this.theGetMomentsListPage = 1;
-      this.school_datas = [];
-      await this.getMomentsList();
-    });
-  },
+			this.getShopType();
+			uni.$on("changeIndexArea", async (data) => {
+				this.theSchool = {
+					id: 0,
+					title: "",
+					status: 1,
+					addr: "",
+					create_id: 1,
+					update_id: 1,
+				};
+				this.$store.commit("changeStore_schoolNow", {
+					id: 0,
+					title: "",
+					status: 1,
+					addr: "",
+					create_id: 1,
+					update_id: 1,
+				});
+				// 重置一下，需要重新获取数据，那么页码和容器都要重置
+				this.theGetMomentsListPage = 1;
+				this.school_datas = [];
+				// 接口调用
+				if (this.theTitleIndex == 1) {
+					await this.getMomentsList("area");
+				} else {
+					await this.initShop();
+					this.tempAddressTitle = this.theAddress.title;
+				}
+			});
+			uni.$on("changeIndexSchool", async (data) => {
+				this.theGetMomentsListPage = 1;
+				this.school_datas = [];
+				await this.getMomentsList("school");
+			});
+			uni.$on("publishSchool", async (data) => {
+				this.$refs.theMessage.pubLish();
+				this.theTitleIndex = 1;
+				this.theGetMomentsListPage = 1;
+				this.school_datas = [];
+				await this.getMomentsList();
+			});
+		},
+		onReady() {
 
-  //分享按钮
-  onShareAppMessage(e) {
-    console.log(e, this.inviteId);
-    if (e.from == "button") {
-      return {
-        title: this.inviteId.title,
-        path: `/pages/index/detail?id=${this.inviteId.id}`,
-        imageUrl: this.inviteId.url
-          ? this.inviteId.url.split(",")[0]
-          : "/static/icon-zd.png",
-      };
-    }
-  },
-  onShow() {
-    this.theLevel = this.$store.state.theLogonUser.level;
-    // 判断一下，防止重复登录
-    // if(this.$store.state.theLogonUser.id == 0){
-    // 	this.$store.dispatch('toLogon', {});
-    // }
+			let query = uni.createSelectorQuery().in(this);
+			query
+				.select(".school")
+				.boundingClientRect((data) => {
+					this.schoolHeight = data.height;
+				})
+				.exec();
+		},
+		//分享按钮
+		onShareAppMessage(e) {
+			console.log(e, this.inviteId);
+			if (e.from == "button") {
+				return {
+					title: this.inviteId.title,
+					path: `/pages/index/detail?id=${this.inviteId.id}`,
+					imageUrl: this.inviteId.url ?
+						this.inviteId.url.split(",")[0] : "/static/icon-zd.png",
+				};
+			}
+		},
+		onShow() {
+			this.theLevel = this.$store.state.theLogonUser.level;
+			// 判断一下，防止重复登录
+			// if(this.$store.state.theLogonUser.id == 0){
+			// 	this.$store.dispatch('toLogon', {});
+			// }
 
-    // 记录当前的previousPage，用于二次点击发布回到原来页面
-    this.$store.commit("changePreviousPage", {
-      previousPage: 0,
-      isPage_2: false,
-    });
+			// 记录当前的previousPage，用于二次点击发布回到原来页面
+			this.$store.commit("changePreviousPage", {
+				previousPage: 0,
+				isPage_2: false,
+			});
 
-    // 从全局中，获取地址和学校（这里特意放在onshow中，便于首次或者从地址页面返回的时候都会触发）
-    this.theAddress = this.$store.state.store_addressNow;
-    this.theSchool = this.$store.state.store_schoolNow;
+			// 从全局中，获取地址和学校（这里特意放在onshow中，便于首次或者从地址页面返回的时候都会触发）
+			this.theAddress = this.$store.state.store_addressNow;
+			this.theSchool = this.$store.state.store_schoolNow;
 
-    // 地址为空，就弹窗提示选择地址
-    let that = this;
+			// 地址为空，就弹窗提示选择地址
+			let that = this;
 
-    // console.log('that.theAddress.title',that.theAddress.title);
-    if (that.theAddress.title == "" || that.theAddress.title == undefined) {
-      // 表示当前地址为空，可能是用户第一次打开小程序，没有本地缓存数据
-      uni.showModal({
-        title: "温馨提示：",
-        content: "您当前还没有选择地区，点击“前往”将前往地区选择哦~",
-        confirmText: "前往",
-        confirmColor: "#f89f12",
-        showCancel: false,
-        success: function (res) {
-          if (res.confirm) {
-            that.toAddress();
-          }
-        },
-      });
-    }
-  },
-  // 监听下拉动作
-  onPullDownRefresh() {
-    let that = this;
-    // 重置获取的页码
-    that.theGetMomentsListPage = 1;
-    // 重置搜索文本
-    that.searchInputText = "";
-    // 重置数组
-    that.school_datas = [];
-    // 异步转同步调用
-    (async function () {
-      if (that.theTitleIndex == 1) {
-        await that.getMomentsList();
-      } else {
-        await that.initShop();
-      }
-      // 等待接口返回后，取消下拉刷新动画
-      uni.stopPullDownRefresh();
-    })();
-  },
-  // 页面触底的监听事件，配合pages.json中的"onReachBottomDistance": 0，0的位置写距离底部的距离
-  onReachBottom() {
-    // 触底后动画效果开启
-    this.isLoading = "loading";
-    if (this.theTitleIndex == 1) {
-      this.getMomentsList();
-    } else {
-      this.initShop();
-    }
-    // 调用接口
-  },
-  methods: {
-    // 跳转搜索
-    toSearch() {
-      uni.navigateTo({
-        url: "/page_product/pages/search/index",
-      });
-    },
-    // 跳转详情
-    goDetail(item) {
-      uni.navigateTo({
-        url: "/page_product/pages/product/detail?id=" + item.id,
-      });
-    },
-    // 加载更多
-    loadMore() {
-      if (this.theTitleIndex == 1) {
-        this.getMomentsList();
-      } else {
-        this.initShop();
-      }
-    },
-    // 初始化数据
-    initData() {
-      (async () => {
-        this.theGetMomentsListPage = 1;
-        this.school_datas = [];
+			// console.log('that.theAddress.title',that.theAddress.title);
+			if (that.theAddress.title == "" || that.theAddress.title == undefined) {
+				// 表示当前地址为空，可能是用户第一次打开小程序，没有本地缓存数据
+				uni.showModal({
+					title: "温馨提示：",
+					content: "您当前还没有选择地区，点击“前往”将前往地区选择哦~",
+					confirmText: "前往",
+					confirmColor: "#f89f12",
+					showCancel: false,
+					success: function(res) {
+						if (res.confirm) {
+							that.toAddress();
+						}
+					},
+				});
+			}
+		},
+		// 监听下拉动作
+		onPullDownRefresh() {
+			let that = this;
+			// 重置获取的页码
+			that.theGetMomentsListPage = 1;
+			// 重置搜索文本
+			that.searchInputText = "";
+			// 重置数组
+			that.school_datas = [];
+			// 异步转同步调用
+			(async function() {
+				if (that.theTitleIndex == 1) {
+					await that.getMomentsList();
+				} else {
+					await that.initShop();
+				}
+				// 等待接口返回后，取消下拉刷新动画
+				uni.stopPullDownRefresh();
+			})();
+		},
+		// 页面触底的监听事件，配合pages.json中的"onReachBottomDistance": 0，0的位置写距离底部的距离
+		onReachBottom() {
+			// 触底后动画效果开启
+			this.isLoading = "loading";
+			if (this.theTitleIndex == 1) {
+				this.getMomentsList();
+			} else {
+				this.initShop();
+			}
+			// 调用接口
+		},
+		methods: {
+			// 跳转搜索
+			toSearch() {
+				uni.navigateTo({
+					url: "/page_product/pages/search/index",
+				});
+			},
+			// 跳转详情
+			goDetail(item) {
+				uni.navigateTo({
+					url: "/page_product/pages/product/detail?id=" + item.id,
+				});
+			},
+			// 加载更多
+			loadMore() {
+				if (this.theTitleIndex == 1) {
+					this.getMomentsList();
+				} else {
+					this.initShop();
+				}
+			},
+			// 初始化数据
+			initData() {
+				(async () => {
+					this.theGetMomentsListPage = 1;
+					this.school_datas = [];
 
-        await this.getMomentsList();
-        this.tempAddressTitle = this.$store.state.store_addressNow.title;
-      })();
-    },
-    initShop() {
-      this.isLoading = "loading"; // 加载中
-      let param = {
-        page: this.theGetMomentsListPage,
-        pagesize: this.theGetMomentsListPagesize,
-        category_id: this.momentType,
-        is_hot: this.momentType == 0 ? 1 : 0,
-        is_product: 1,
-        // // 行政区划编码，选定的最低一级区域的编码，空字符串是全部
-        area_code: this.$store.state.store_addressNow.code,
-      };
-      this.API.home
-        .getTaskList(param)
-        .then((res) => {
-          console.log(res);
-          // 如果是请求第一页，证明是首次请求，就重置一下
-          if (this.theGetMomentsListPage == 1) {
-            this.school_datas = [];
-          }
-          if (res.data.length != 0) {
-            for (let i = 0; i < res.data.length; i++) {
-              this.school_datas.push({
-                ...res.data[i],
-                img_url: res.data[i].img_url
-                  ? res.data[i].img_url.split(",")[0]
-                  : "",
-              });
-            }
+					await this.getMomentsList();
+					this.tempAddressTitle = this.$store.state.store_addressNow.title;
+				})();
+			},
+			initShop() {
+				this.isLoading = "loading"; // 加载中
+				let param = {
+					page: this.theGetMomentsListPage,
+					pagesize: this.theGetMomentsListPagesize,
+					category_id: this.momentType,
+					is_hot: this.momentType == 0 ? 1 : 0,
+					is_product: 1,
+					// // 行政区划编码，选定的最低一级区域的编码，空字符串是全部
+					area_code: this.$store.state.store_addressNow.code,
+				};
+				this.API.home
+					.getTaskList(param)
+					.then((res) => {
+						console.log(res);
+						// 如果是请求第一页，证明是首次请求，就重置一下
+						if (this.theGetMomentsListPage == 1) {
+							this.school_datas = [];
+						}
+						if (res.data.length != 0) {
+							for (let i = 0; i < res.data.length; i++) {
+								this.school_datas.push({
+									...res.data[i],
+									img_url: res.data[i].img_url ?
+										res.data[i].img_url.split(",")[0] : "",
+								});
+							}
 
-            this.isLoading = "no-more"; // 取消加载动画
-            // 页面+1
-            this.theGetMomentsListPage += 1;
-          } else {
-            this.isLoading = "no-more"; // 取消加载动画
-          }
-          console.log(this.school_datas);
-        })
-        .catch(async (err) => {
-          if (err.code == 410) {
-            await this.$store.dispatch("toLogon", {});
-            this.initShop();
-          }
-        });
-    },
-    getShopType() {
-      if (this.theTitleIndex == 1) {
-        this.initData();
-      } else {
-        this.$nextTick(() => {
-          let query = uni.createSelectorQuery().in(this);
-          query
-            .select(".home-search")
-            .boundingClientRect((data) => {
-              this.contentHeight = data.height;
-            })
-            .exec();
-        });
-        this.API.home
-          .getAllMenu({})
-          .then((res) => {
-            console.log(res);
-            this.tabArr = [{ name: "精选", id: 0 }];
-            //所有分类
-            // res.data.forEach((el) => {
-            // 	el.children.forEach(item=>{
-            // 		this.tabArr.push({ name:item.title=='全部'?el.title:item.title, id: item.id });
-            // 	})
-            // });
-            res.data.forEach((el) => {
-              if (el.category_id > 0) {
-                this.tabArr.push({ name: el.title, id: el.category_id });
-              }
-            });
-            if (this.tabArr.length) {
-              this.theGetMomentsListPage = 1;
-              this.school_datas = [];
-              this.momentType = this.tabArr[0].id;
-              this.initShop();
-            }
-          })
-          .catch(async (err) => {
-            console.log(err);
-            if (err.code == 410) {
-              await this.$store.dispatch("toLogon", {});
-              await this.getShopType();
-              this.tempAddressTitle = this.$store.state.store_addressNow.title;
-              this.tempSchoolTitle = this.$store.state.store_schoolNow.title;
-            }
-          });
-      }
-    },
-    changeTab(item) {
-      console.log(item);
-      this.currentIndex = item.currentIndex;
-      this.theGetMomentsListPage = 1;
-      this.school_datas = [];
-      this.momentType = item.id;
-      this.initShop();
-    },
-    // 消息动画
-    animtionAction: function () {
-      let that = this;
-      let animtionActionInter = setInterval(function () {
-        that.$refs.theMessage.animtionAction();
-      }, 1000);
-      that.$store.commit("changeRedTip", {
-        isRedTip: true,
-      });
+							this.isLoading = "no-more"; // 取消加载动画
+							// 页面+1
+							this.theGetMomentsListPage += 1;
+						} else {
+							this.isLoading = "no-more"; // 取消加载动画
+						}
+						console.log(this.school_datas);
+					})
+					.catch(async (err) => {
+						if (err.code == 410) {
+							await this.$store.dispatch("toLogon", {});
+							this.initShop();
+						}
+					});
+			},
+			getShopType() {
+				if (this.theTitleIndex == 1) {
+					this.initData();
+				} else {
+					this.$nextTick(() => {
+						let query = uni.createSelectorQuery().in(this);
+						query
+							.select(".home-search")
+							.boundingClientRect((data) => {
+								this.contentHeight = data.height;
+							})
+							.exec();
+					});
+					this.API.home
+						.getAllMenu({})
+						.then((res) => {
+							console.log(res);
+							this.tabArr = [{
+								name: "精选",
+								id: 0
+							}];
+							//所有分类
+							// res.data.forEach((el) => {
+							// 	el.children.forEach(item=>{
+							// 		this.tabArr.push({ name:item.title=='全部'?el.title:item.title, id: item.id });
+							// 	})
+							// });
+							res.data.forEach((el) => {
+								if (el.category_id > 0) {
+									this.tabArr.push({
+										name: el.title,
+										id: el.category_id
+									});
+								}
+							});
+							if (this.tabArr.length) {
+								this.theGetMomentsListPage = 1;
+								this.school_datas = [];
+								this.momentType = this.tabArr[0].id;
+								this.initShop();
+							}
+						})
+						.catch(async (err) => {
+							console.log(err);
+							if (err.code == 410) {
+								await this.$store.dispatch("toLogon", {});
+								await this.getShopType();
+								this.tempAddressTitle = this.$store.state.store_addressNow.title;
+								this.tempSchoolTitle = this.$store.state.store_schoolNow.title;
+							}
+						});
+				}
+			},
+			changeTab(item) {
+				console.log(item);
+				this.currentIndex = item.currentIndex;
+				this.theGetMomentsListPage = 1;
+				this.school_datas = [];
+				this.momentType = item.id;
+				this.initShop();
+			},
+			// 消息动画
+			animtionAction: function() {
+				let that = this;
+				let animtionActionInter = setInterval(function() {
+					that.$refs.theMessage.animtionAction();
+				}, 1000);
+				that.$store.commit("changeRedTip", {
+					isRedTip: true,
+				});
 
-      setTimeout(function () {
-        clearInterval(animtionActionInter);
-      }, 5000);
-    },
+				setTimeout(function() {
+					clearInterval(animtionActionInter);
+				}, 5000);
+			},
 
-    // 浏览器本地存储和删除
-    setStorageSync: function (key, data) {
-      try {
-        uni.setStorageSync(key, data);
-      } catch (e) {
-        uni.showToast({
-          title: e,
-          duration: 2500,
-          icon: "none",
-        });
-      }
-    },
-    getStorageSync: function (key) {
-      try {
-        const value = uni.getStorageSync(key);
-        return value;
-      } catch (e) {
-        uni.showToast({
-          title: e,
-          duration: 2500,
-          icon: "none",
-        });
-      }
-    },
-    // ---------------------------------------------------页面方法---------------------------------------------------
-    // ---------------------------------------------------页面方法---------------------------------------------------
-    // ---------------------------------------------------页面方法---------------------------------------------------
-    // 获取状态栏高度
-    getTopIconDistance() {
-      uni.getSystemInfo({
-        success: (res) => {
-          // 获取手机顶部状态栏的高度
-          this.statusBarHeight = res.statusBarHeight || 0;
+			// 浏览器本地存储和删除
+			setStorageSync: function(key, data) {
+				try {
+					uni.setStorageSync(key, data);
+				} catch (e) {
+					uni.showToast({
+						title: e,
+						duration: 2500,
+						icon: "none",
+					});
+				}
+			},
+			getStorageSync: function(key) {
+				try {
+					const value = uni.getStorageSync(key);
+					return value;
+				} catch (e) {
+					uni.showToast({
+						title: e,
+						duration: 2500,
+						icon: "none",
+					});
+				}
+			},
+			// ---------------------------------------------------页面方法---------------------------------------------------
+			// ---------------------------------------------------页面方法---------------------------------------------------
+			// ---------------------------------------------------页面方法---------------------------------------------------
+			// 获取状态栏高度
+			getTopIconDistance() {
+				uni.getSystemInfo({
+					success: (res) => {
+						// 获取手机顶部状态栏的高度
+						this.statusBarHeight = res.statusBarHeight || 0;
 
-          // 获取导航栏的高度（手机状态栏高度 + 胶囊高度 + 胶囊的上下间距）
-          const menuButtonInfo = uni.getMenuButtonBoundingClientRect();
-          this.navBarHeight =
-            menuButtonInfo.height +
-            (menuButtonInfo.top - this.statusBarHeight) * 2;
-          this.tabBarHeight = res.screenHeight - res.safeArea.bottom;
+						// 获取导航栏的高度（手机状态栏高度 + 胶囊高度 + 胶囊的上下间距）
+						const menuButtonInfo = uni.getMenuButtonBoundingClientRect();
+						this.navBarHeight =
+							menuButtonInfo.height +
+							(menuButtonInfo.top - this.statusBarHeight) * 2;
+						this.tabBarHeight = res.screenHeight - res.safeArea.bottom;
 
-          // 设置全局变量
-          this.$store.commit("changeNavBarHeight", {
-            statusBarHeight: this.statusBarHeight,
-            navBarHeight: this.navBarHeight,
-            tabBarHeight: this.tabBarHeight,
-          });
-        },
-        fail: (err) => {},
-      });
-    },
-    // 获取键盘高度
-    // 这里主要解决键盘弹出的时候，会顶掉input内容上移，通过 adjust-position 属性控制不上移，但是会不显示
-    // 所以，需要写一个自动在键盘顶部显示的内容层
-    inputBindFocus(e) {
-      this.inputBottomHeight = e.detail.height;
-    },
-    inputBindBlur() {
-      this.inputBottomHeight = 0;
-    },
+						// 设置全局变量
+						this.$store.commit("changeNavBarHeight", {
+							statusBarHeight: this.statusBarHeight,
+							navBarHeight: this.navBarHeight,
+							tabBarHeight: this.tabBarHeight,
+						});
+					},
+					fail: (err) => {},
+				});
+			},
+			// 获取键盘高度
+			// 这里主要解决键盘弹出的时候，会顶掉input内容上移，通过 adjust-position 属性控制不上移，但是会不显示
+			// 所以，需要写一个自动在键盘顶部显示的内容层
+			inputBindFocus(e) {
+				this.inputBottomHeight = e.detail.height;
+			},
+			inputBindBlur() {
+				this.inputBottomHeight = 0;
+			},
 
-    // 选择首页或校园墙的界面
-    toTitleOne: function (index) {
-      // this.animtionAction();
-      this.theTitleIndex = index;
-      let that = this;
-      // 重置获取的页码
-      that.theGetMomentsListPage = 1;
-      // 重置搜索文本
-      that.searchInputText = "";
-      // 重置数组
-      that.school_datas = [];
-      if (index == 0) {
-        if (that.tabArr.length) {
-          that.momentType = that.tabArr[0].id;
-          that.initShop();
-        } else {
-          that.getShopType();
-        }
-      } else {
-        that.getMomentsList();
-      }
-    },
-    // 选择标签（校园墙）
-    choiseOneTitle: function (index) {
-      this.schoolOneTitleIndex = index;
-      let that = this;
-      // 重置获取的页码
-      that.theGetMomentsListPage = 1;
-      // 重置数组
-      that.school_datas = [];
-      that.getMomentsList();
-    },
+			// 选择首页或校园墙的界面
+			toTitleOne: function(index) {
+				// this.animtionAction();
+				this.theTitleIndex = index;
+				let that = this;
+				// 重置获取的页码
+				that.theGetMomentsListPage = 1;
+				// 重置搜索文本
+				that.searchInputText = "";
+				// 重置数组
+				that.school_datas = [];
+				if (index == 0) {
+					if (that.tabArr.length) {
+						that.momentType = that.tabArr[0].id;
+						that.initShop();
+					} else {
+						that.getShopType();
+					}
+				} else {
+					that.getMomentsList();
+				}
+			},
+			// 选择标签（校园墙）
+			choiseOneTitle: function(index) {
+				this.schoolOneTitleIndex = index;
+				let that = this;
+				// 重置获取的页码
+				that.theGetMomentsListPage = 1;
+				// 重置数组
+				that.school_datas = [];
+				that.getMomentsList();
+			},
 
-    // 清空输入框
-    emptyInput: function (type) {
-      if ((type = "searchInputText")) {
-        this.searchInputText = "";
-      }
-    },
+			// 清空输入框
+			emptyInput: function(type) {
+				if ((type = "searchInputText")) {
+					this.searchInputText = "";
+				}
+			},
 
-    //------------------------------------------------  页面跳转  -----------------------------------------------------
-    //------------------------------------------------  页面跳转  -----------------------------------------------------
-    //------------------------------------------------  页面跳转  -----------------------------------------------------
-    // 跳转地址选择
-    toAddress: function () {
-      uni.navigateTo({
-        // type=index 表示是index页面过来的
-        url: "/pages/index/address?type=index",
-      });
-    },
-    // 跳转学校选择
-    toSchool: function () {
-      uni.navigateTo({
-        url: "/pages/index/school",
-      });
-    },
-    // 跳转详情页
-    toDetail: function (id) {
-      uni.navigateTo({
-        url: "/pages/index/detail?id=" + id,
-      });
-    },
-    // 跳转主页
-    topPerSonalhome: function (option) {
-      if (option.is_anonymous == 2) {
-        // 不匿名
-        uni.navigateTo({
-          url: "/pages/follow/personalhome?id=" + option.id,
-        });
-      } else {
-        uni.showToast({
-          title: "这个人很神秘，不想让你看到TA的主页~",
-          duration: 2500,
-          icon: "none",
-        });
-      }
-    },
+			//------------------------------------------------  页面跳转  -----------------------------------------------------
+			//------------------------------------------------  页面跳转  -----------------------------------------------------
+			//------------------------------------------------  页面跳转  -----------------------------------------------------
+			// 跳转地址选择
+			toAddress: function() {
+				uni.navigateTo({
+					// type=index 表示是index页面过来的
+					url: "/pages/index/address?type=index",
+				});
+			},
+			// 跳转学校选择
+			toSchool: function() {
+				uni.navigateTo({
+					url: "/pages/index/school",
+				});
+			},
+			// 跳转详情页
+			toDetail: function(id) {
+				uni.navigateTo({
+					url: "/pages/index/detail?id=" + id,
+				});
+			},
+			// 跳转主页
+			topPerSonalhome: function(option) {
+				if (option.is_anonymous == 2) {
+					// 不匿名
+					uni.navigateTo({
+						url: "/pages/follow/personalhome?id=" + option.id,
+					});
+				} else {
+					uni.showToast({
+						title: "这个人很神秘，不想让你看到TA的主页~",
+						duration: 2500,
+						icon: "none",
+					});
+				}
+			},
 
-    //------------------------------------------------  接口方法  -----------------------------------------------------
-    //------------------------------------------------  接口方法  -----------------------------------------------------
-    //------------------------------------------------  接口方法  -----------------------------------------------------
-    // 分页获取接口数据
-    getMomentsList: function (getType = "") {
-      let _this = this;
-      return new Promise(function (resolve, reject) {
-        let that = _this;
-        that.isLoading = "loading"; // 加载中
-        // 判断如果是空字符串，证明是首次加载进来，不应该调用接口
-        if (that.$store.state.store_addressNow.title != "") {
-          uni.request({
-            url: that.$store.state.theUrl + "/wechat/moments/getMomentsList",
-            method: "POST",
-            header: {
-              token: that.$store.state.theToken,
-            },
-            data: {
-              // 传参不全，当前只用到onload时候需要的字段
-              page: that.theGetMomentsListPage,
-              pagesize: that.theGetMomentsListPagesize,
-              // 校园墙类型：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他，传空字符串为全部
-              // schoolOneTitleIndex == 0 表示是综合，就是全部的意思，所以传空
-              type:
-                that.schoolOneTitleIndex == 0
-                  ? ""
-                  : that.titles[that.schoolOneTitleIndex],
-              // type: "",
+			//------------------------------------------------  接口方法  -----------------------------------------------------
+			//------------------------------------------------  接口方法  -----------------------------------------------------
+			//------------------------------------------------  接口方法  -----------------------------------------------------
+			// 分页获取接口数据
+			getMomentsList: function(getType = "") {
+				let _this = this;
+				return new Promise(function(resolve, reject) {
+					let that = _this;
+					that.isLoading = "loading"; // 加载中
+					// 判断如果是空字符串，证明是首次加载进来，不应该调用接口
+					if (that.$store.state.store_addressNow.title != "") {
+						uni.request({
+							url: that.$store.state.theUrl + "/wechat/moments/getMomentsList",
+							method: "POST",
+							header: {
+								token: that.$store.state.theToken,
+							},
+							data: {
+								// 传参不全，当前只用到onload时候需要的字段
+								page: that.theGetMomentsListPage,
+								pagesize: that.theGetMomentsListPagesize,
+								// 校园墙类型：话题、组队/搭子、分享/安利、二手闲置、兼职、表白、求助、其他，传空字符串为全部
+								// schoolOneTitleIndex == 0 表示是综合，就是全部的意思，所以传空
+								type: that.schoolOneTitleIndex == 0 ?
+									"" : that.titles[that.schoolOneTitleIndex],
+								// type: "",
 
-              // 搜索字段，默认是个空
-              title: that.searchInputText,
-              // // 当前选中的学校id
-              school_id: that.$store.state.store_schoolNow.id,
-              // // 行政区划编码，选定的最低一级区域的编码，空字符串是全部
-              area_code: that.$store.state.store_addressNow.code,
-            },
-            success: (res) => {
-              // console.log('getMomentsList_res', res);
-              let _that = that;
-              // 如果是请求第一页，证明是首次请求，就重置一下
-              if (_that.theGetMomentsListPage == 1) {
-                _that.school_datas = [];
-              }
+								// 搜索字段，默认是个空
+								title: that.searchInputText,
+								// // 当前选中的学校id
+								school_id: that.$store.state.store_schoolNow.id,
+								// // 行政区划编码，选定的最低一级区域的编码，空字符串是全部
+								area_code: that.$store.state.store_addressNow.code,
+							},
+							success: (res) => {
+								// console.log('getMomentsList_res', res);
+								let _that = that;
+								// 如果是请求第一页，证明是首次请求，就重置一下
+								if (_that.theGetMomentsListPage == 1) {
+									_that.school_datas = [];
+								}
 
-              if (getType == "area") {
-                _that.tempAddressTitle = _that.theAddress.title;
-              } else if (getType == "school") {
-                _that.tempSchoolTitle =
-                  _that.$store.state.store_schoolNow.title;
-              }
-              if (res.data.code == 0) {
-                if (res.data.data.length != 0) {
-                  if (_that.titles[_that.schoolOneTitleIndex] != "分享/安利") {
-                    res.data.data = res.data.data.filter(
-                      (el) => el.type != "分享/安利"
-                    );
-                  }
-                  for (let i = 0; i < res.data.data.length; i++) {
-                    _that.school_datas.push({
-                      ...res.data.data[i],
-                      img_url: res.data.data[i].url
-                        ? res.data.data[i].url.split(",")[0]
-                        : "",
-                    });
-                  }
+								if (getType == "area") {
+									_that.tempAddressTitle = _that.theAddress.title;
+								} else if (getType == "school") {
+									_that.tempSchoolTitle =
+										_that.$store.state.store_schoolNow.title;
+								}
+								if (res.data.code == 0) {
+									if (res.data.data.length != 0) {
+										if (_that.titles[_that.schoolOneTitleIndex] != "分享/安利") {
+											res.data.data = res.data.data.filter(
+												(el) => el.type != "分享/安利"
+											);
+										}
+										for (let i = 0; i < res.data.data.length; i++) {
+											_that.school_datas.push({
+												...res.data.data[i],
+												img_url: res.data.data[i].url ?
+													res.data.data[i].url.split(",")[0] :
+													"",
+											});
+										}
 
-                  _that.isLoading = "no-more"; // 取消加载动画
-                  // console.log('_that.addressData',_that.addressData);
-                  // 页面+1
-                  _that.theGetMomentsListPage += 1;
-                  _that.tempAddressTitle = _that.theAddress.title;
-                  resolve();
-                } else {
-                  _that.isLoading = "no-more"; // 取消加载动画
-                  // uni.showToast({
-                  // 	title: '没有更多了哦~',
-                  // 	duration: 1500,
-                  // 	icon: 'none'
-                  // })
-                  resolve();
-                }
-              } else if (res.data.code == 500) {
-                uni.showToast({
-                  title: "服务器连接失败，请反馈官方客服哦~",
-                  duration: 2500,
-                  icon: "none",
-                });
-              } else if (res.data.code == 410) {
-                let __that = _that;
-                (async function () {
-                  // 登录
-                  await __that.$store.dispatch("toLogon", {});
-                  /*
+										_that.isLoading = "no-more"; // 取消加载动画
+										// console.log('_that.addressData',_that.addressData);
+										// 页面+1
+										_that.theGetMomentsListPage += 1;
+										_that.tempAddressTitle = _that.theAddress.title;
+										resolve();
+									} else {
+										_that.isLoading = "no-more"; // 取消加载动画
+										// uni.showToast({
+										// 	title: '没有更多了哦~',
+										// 	duration: 1500,
+										// 	icon: 'none'
+										// })
+										resolve();
+									}
+								} else if (res.data.code == 500) {
+									uni.showToast({
+										title: "服务器连接失败，请反馈官方客服哦~",
+										duration: 2500,
+										icon: "none",
+									});
+								} else if (res.data.code == 410) {
+									let __that = _that;
+									(async function() {
+										// 登录
+										await __that.$store.dispatch("toLogon", {});
+										/*
 										// 连接WSS
 										uni.connectSocket({
 										  url: 'wss://school.izekai.cn/wss',
@@ -906,682 +825,706 @@ export default {
 										});
 										*/
 
-                  // 重置
-                  __that.theGetMomentsListPage = 1;
-                  // 获取省市数据
-                  __that.getMomentsList(getType);
-                  __that.tempAddressTitle =
-                    __that.$store.state.store_addressNow.title;
-                  __that.tempSchoolTitle =
-                    __that.$store.state.store_schoolNow.title;
-                })();
-                // uni.showModal({
-                // 	title: '温馨提示：',
-                // 	content: '当前登录身份已过期，点击“重新登录”继续吧~',
-                // 	confirmText: '重新登录',
-                // 	confirmColor: '#f89f12',
-                // 	showCancel: false,
-                // 	success: function(res) {
-                // 		if (res.confirm) {
-                // 			let __that = _that;
-                // 			// 异步转同步，
-                // 			(async function() {
-                // 				// 登录
-                // 				await __that.$store.dispatch('toLogon', {});
+										// 重置
+										__that.theGetMomentsListPage = 1;
+										// 获取省市数据
+										__that.getMomentsList(getType);
+										__that.tempAddressTitle =
+											__that.$store.state.store_addressNow.title;
+										__that.tempSchoolTitle =
+											__that.$store.state.store_schoolNow.title;
+									})();
+									// uni.showModal({
+									// 	title: '温馨提示：',
+									// 	content: '当前登录身份已过期，点击“重新登录”继续吧~',
+									// 	confirmText: '重新登录',
+									// 	confirmColor: '#f89f12',
+									// 	showCancel: false,
+									// 	success: function(res) {
+									// 		if (res.confirm) {
+									// 			let __that = _that;
+									// 			// 异步转同步，
+									// 			(async function() {
+									// 				// 登录
+									// 				await __that.$store.dispatch('toLogon', {});
 
-                // 				// 重置
-                // 				__that.theGetMomentsListPage = 1;
-                // 				// 获取省市数据
-                // 				__that.getMomentsList();
-                // 			})()
-                // 		}
-                // 	}
-                // });
-              } else {
-                uni.showToast({
-                  title: res.data.msg,
-                  duration: 2500,
-                  icon: "none",
-                });
-              }
-            },
-            fail: (res) => {
-              uni.showToast({
-                title: "网络失败，请重试！多次无效后，反馈官方客服哦！",
-                duration: 2500,
-                icon: "none",
-              });
-            },
-          });
-        }
-      });
-    },
+									// 				// 重置
+									// 				__that.theGetMomentsListPage = 1;
+									// 				// 获取省市数据
+									// 				__that.getMomentsList();
+									// 			})()
+									// 		}
+									// 	}
+									// });
+								} else {
+									uni.showToast({
+										title: res.data.msg,
+										duration: 2500,
+										icon: "none",
+									});
+								}
+							},
+							fail: (res) => {
+								uni.showToast({
+									title: "网络失败，请重试！多次无效后，反馈官方客服哦！",
+									duration: 2500,
+									icon: "none",
+								});
+							},
+						});
+					}
+				});
+			},
 
-    // 搜索
-    searchPost: function () {
-      // 点搜索的话，应该需要重置一下数据
-      // 重置后，接下去的触底加载应该是延用一样的逻辑，只是当前的搜索字段没有重置，一直保留
-      // this.school_datas = [];
-      // // 注意：搜索的话，默认把这个页码重置为1就行了，因为之后就是启用触底加载了
-      // this.theGetMomentsListPage = 1;
-      // this.getMomentsList();
-      uni.navigateTo({
-        url: "/page_product/pages/search/schoolSearch",
-      });
-    },
+			// 搜索
+			searchPost: function() {
+				// 点搜索的话，应该需要重置一下数据
+				// 重置后，接下去的触底加载应该是延用一样的逻辑，只是当前的搜索字段没有重置，一直保留
+				// this.school_datas = [];
+				// // 注意：搜索的话，默认把这个页码重置为1就行了，因为之后就是启用触底加载了
+				// this.theGetMomentsListPage = 1;
+				// this.getMomentsList();
+				uni.navigateTo({
+					url: "/page_product/pages/search/schoolSearch",
+				});
+			},
 
-    // 点赞
-    // 说明：点赞的接口放在index.js公共store中
-    toThumb: async function (option) {
-      // 这里之所以又加了一层，是为了拿到子组件传过来的option
-      // 这是保存一下当前本人的点赞状态，用于判断最后本地是增加还是减少点赞数的
-      let temp_is_thumb = option.is_thumb;
-      await this.$store.dispatch("toThumb", {
-        id: option.id,
-        is_thumb: option.is_thumb,
-      });
+			// 点赞
+			// 说明：点赞的接口放在index.js公共store中
+			toThumb: async function(option) {
+				// 这里之所以又加了一层，是为了拿到子组件传过来的option
+				// 这是保存一下当前本人的点赞状态，用于判断最后本地是增加还是减少点赞数的
+				let temp_is_thumb = option.is_thumb;
+				await this.$store.dispatch("toThumb", {
+					id: option.id,
+					is_thumb: option.is_thumb,
+				});
 
-      // console.log('this.$store.state.is_thumb_true ',this.$store.state.is_thumb_true );
-      if (this.$store.state.is_thumb_true == true) {
-        for (let i = 0; i < this.school_datas.length; i++) {
-          if (option.id == this.school_datas[i].id) {
-            if (temp_is_thumb == 2) {
-              // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
-              this.$set(
-                this.school_datas[i],
-                "thumb_num",
-                this.school_datas[i].thumb_num + 1
-              );
-              this.$set(this.school_datas[i], "is_thumb", 1);
-              uni.showToast({
-                title: "点赞成功",
-                duration: 1000,
-                icon: "none",
-              });
-            } else {
-              this.$set(
-                this.school_datas[i],
-                "thumb_num",
-                this.school_datas[i].thumb_num - 1
-              );
-              this.$set(this.school_datas[i], "is_thumb", 2);
-              uni.showToast({
-                title: "已取消点赞",
-                duration: 1000,
-                icon: "none",
-              });
-            }
-          }
-        }
-      }
-    },
-    //打开三个点的操作
-    actionMore: function (option) {
-      let that = this;
-      let temp_is_collection = option.is_collection;
-      let itemList = [
-        option.is_collection == 2 ? "收藏" : "取消收藏",
-        option.is_regard == 1 ? "取消关注" : "关注TA",
-        "不看此类话题",
-      ];
-      if (this.$store.state.theLogonUser.id == option.create_id) {
-        itemList.splice(1, 1);
-      }
-      uni.showActionSheet({
-        itemList,
-        itemColor: "#333333",
-        success: (res) => {
-          // console.log(res.tapIndex);
-          if (["收藏", "取消收藏"].includes(itemList[res.tapIndex])) {
-            let _that = that;
-            (async function () {
-              await _that.$store.dispatch("toCollection", {
-                id: option.id,
-              });
+				// console.log('this.$store.state.is_thumb_true ',this.$store.state.is_thumb_true );
+				if (this.$store.state.is_thumb_true == true) {
+					for (let i = 0; i < this.school_datas.length; i++) {
+						if (option.id == this.school_datas[i].id) {
+							if (temp_is_thumb == 2) {
+								// 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
+								this.$set(
+									this.school_datas[i],
+									"thumb_num",
+									this.school_datas[i].thumb_num + 1
+								);
+								this.$set(this.school_datas[i], "is_thumb", 1);
+								uni.showToast({
+									title: "点赞成功",
+									duration: 1000,
+									icon: "none",
+								});
+							} else {
+								this.$set(
+									this.school_datas[i],
+									"thumb_num",
+									this.school_datas[i].thumb_num - 1
+								);
+								this.$set(this.school_datas[i], "is_thumb", 2);
+								uni.showToast({
+									title: "已取消点赞",
+									duration: 1000,
+									icon: "none",
+								});
+							}
+						}
+					}
+				}
+			},
+			//打开三个点的操作
+			actionMore: function(option) {
+				let that = this;
+				let temp_is_collection = option.is_collection;
+				let itemList = [
+					option.is_collection == 2 ? "收藏" : "取消收藏",
+					option.is_regard == 1 ? "取消关注" : "关注TA",
+					"不看此类话题",
+				];
+				if (this.$store.state.theLogonUser.id == option.create_id) {
+					itemList.splice(1, 1);
+				}
+				uni.showActionSheet({
+					itemList,
+					itemColor: "#333333",
+					success: (res) => {
+						// console.log(res.tapIndex);
+						if (["收藏", "取消收藏"].includes(itemList[res.tapIndex])) {
+							let _that = that;
+							(async function() {
+								await _that.$store.dispatch("toCollection", {
+									id: option.id,
+								});
 
-              if (_that.$store.state.is_collection_true == true) {
-                // 表示调用接口成功
-                for (let i = 0; i < _that.school_datas.length; i++) {
-                  if (option.id == _that.school_datas[i].id) {
-                    if (temp_is_collection == 2) {
-                      // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
-                      _that.$set(_that.school_datas[i], "is_collection", 1);
-                      uni.showToast({
-                        title: "收藏成功",
-                        duration: 1000,
-                        icon: "none",
-                      });
-                    } else {
-                      _that.$set(_that.school_datas[i], "is_collection", 2);
-                      uni.showToast({
-                        title: "已取消收藏",
-                        duration: 1000,
-                        icon: "none",
-                      });
-                    }
-                  }
-                }
-              }
-            })();
-          } else if (["取消关注", "关注TA"].includes(itemList[res.tapIndex])) {
-            this.followHandle(option);
-          } else if (["不看此类话题"].includes(itemList[res.tapIndex])) {
-            this.ignoreType(option);
-          }
-        },
-        fail: function (res) {
-          // console.log(res.errMsg);
-        },
-      });
-    },
-    // 忽略话题
-    ignoreType(option) {
-      this.API.home
-        .addDelMyIgnoreType({
-          ignore_type: option.type,
-          type: 1,
-        })
-        .then((res) => {
-          console.log(res.data);
-          this.choiseOneTitle(0);
-          uni.showToast({
-            title: "操作成功",
-            duration: 1000,
-            icon: "none",
-          });
-        })
-        .catch(async (err) => {
-          if (err.code == 410) {
-            await this.$store.dispatch("toLogon", {});
-            this.ignoreType(option);
-          }
-        });
-    },
-    // 关注
-    followHandle(option) {
-      this.API.order
-        .regard({
-          to_user_id: option.create_id,
-        })
-        .then((res) => {
-          console.log(res.data);
-          this.$set(
-            this.school_datas[option.index],
-            "is_regard",
-            option.is_regard == 1 ? 2 : 1
-          );
-          uni.showToast({
-            title: option.is_regard == 1 ? "已取消关注" : "关注成功",
-            duration: 1000,
-            icon: "none",
-          });
-        })
-        .catch(async (err) => {
-          if (err.code == 410) {
-            await this.$store.dispatch("toLogon", {});
-            this.followHandle(option);
-          }
-        });
-    },
-    // 邀请/组队按钮
-    zuduiButtons: async function (option) {
-      if (option.type == 1) {
-        // 1表示是组队的按钮
-        // 这是保存一下当前本人的加入状态，用于判断最后本地是显示加入还是退出
-        let temp_is_entry = option.is_entry;
-        await this.$store.dispatch("toEntry", {
-          id: option.id,
-          is_entry: option.is_entry,
-        });
+								if (_that.$store.state.is_collection_true == true) {
+									// 表示调用接口成功
+									for (let i = 0; i < _that.school_datas.length; i++) {
+										if (option.id == _that.school_datas[i].id) {
+											if (temp_is_collection == 2) {
+												// 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
+												_that.$set(_that.school_datas[i], "is_collection",
+													1);
+												uni.showToast({
+													title: "收藏成功",
+													duration: 1000,
+													icon: "none",
+												});
+											} else {
+												_that.$set(_that.school_datas[i], "is_collection",
+													2);
+												uni.showToast({
+													title: "已取消收藏",
+													duration: 1000,
+													icon: "none",
+												});
+											}
+										}
+									}
+								}
+							})();
+						} else if (["取消关注", "关注TA"].includes(itemList[res.tapIndex])) {
+							this.followHandle(option);
+						} else if (["不看此类话题"].includes(itemList[res.tapIndex])) {
+							this.ignoreType(option);
+						}
+					},
+					fail: function(res) {
+						// console.log(res.errMsg);
+					},
+				});
+			},
+			// 忽略话题
+			ignoreType(option) {
+				this.API.home
+					.addDelMyIgnoreType({
+						ignore_type: option.type,
+						type: 1,
+					})
+					.then((res) => {
+						console.log(res.data);
+						this.choiseOneTitle(0);
+						uni.showToast({
+							title: "操作成功",
+							duration: 1000,
+							icon: "none",
+						});
+					})
+					.catch(async (err) => {
+						if (err.code == 410) {
+							await this.$store.dispatch("toLogon", {});
+							this.ignoreType(option);
+						}
+					});
+			},
+			// 关注
+			followHandle(option) {
+				this.API.order
+					.regard({
+						to_user_id: option.create_id,
+					})
+					.then((res) => {
+						console.log(res.data);
+						this.$set(
+							this.school_datas[option.index],
+							"is_regard",
+							option.is_regard == 1 ? 2 : 1
+						);
+						uni.showToast({
+							title: option.is_regard == 1 ? "已取消关注" : "关注成功",
+							duration: 1000,
+							icon: "none",
+						});
+					})
+					.catch(async (err) => {
+						if (err.code == 410) {
+							await this.$store.dispatch("toLogon", {});
+							this.followHandle(option);
+						}
+					});
+			},
+			// 邀请/组队按钮
+			zuduiButtons: async function(option) {
+				if (option.type == 1) {
+					// 1表示是组队的按钮
+					// 这是保存一下当前本人的加入状态，用于判断最后本地是显示加入还是退出
+					let temp_is_entry = option.is_entry;
+					await this.$store.dispatch("toEntry", {
+						id: option.id,
+						is_entry: option.is_entry,
+					});
 
-        // console.log('this.$store.state.is_entry_true ',this.$store.state.is_entry_true );
-        if (this.$store.state.is_entry_true == true) {
-          for (let i = 0; i < this.school_datas.length; i++) {
-            if (option.id == this.school_datas[i].id) {
-              if (temp_is_entry == 2) {
-                // 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
-                this.$set(
-                  this.school_datas[i],
-                  "entry_num",
-                  this.school_datas[i].entry_num + 1
-                );
-                this.$set(this.school_datas[i], "is_entry", 1);
-                uni.showToast({
-                  title: "加入成功",
-                  duration: 1000,
-                  icon: "none",
-                });
-              } else {
-                this.$set(
-                  this.school_datas[i],
-                  "entry_num",
-                  this.school_datas[i].entry_num - 1
-                );
-                this.$set(this.school_datas[i], "is_entry", 2);
-                uni.showToast({
-                  title: "已退出组队",
-                  duration: 1000,
-                  icon: "none",
-                });
-              }
-            }
-          }
-        }
-      } else {
-        this.inviteId = option;
-      }
-    },
-  },
-};
+					// console.log('this.$store.state.is_entry_true ',this.$store.state.is_entry_true );
+					if (this.$store.state.is_entry_true == true) {
+						for (let i = 0; i < this.school_datas.length; i++) {
+							if (option.id == this.school_datas[i].id) {
+								if (temp_is_entry == 2) {
+									// 使用$set响应的改变对象数据，第一个参数是对象本身，第二个参数是属性（记得加引号），第三个是改变后的值
+									this.$set(
+										this.school_datas[i],
+										"entry_num",
+										this.school_datas[i].entry_num + 1
+									);
+									this.$set(this.school_datas[i], "is_entry", 1);
+									uni.showToast({
+										title: "加入成功",
+										duration: 1000,
+										icon: "none",
+									});
+								} else {
+									this.$set(
+										this.school_datas[i],
+										"entry_num",
+										this.school_datas[i].entry_num - 1
+									);
+									this.$set(this.school_datas[i], "is_entry", 2);
+									uni.showToast({
+										title: "已退出组队",
+										duration: 1000,
+										icon: "none",
+									});
+								}
+							}
+						}
+					}
+				} else {
+					this.inviteId = option;
+				}
+			},
+		},
+	};
 </script>
 
 <style lang='scss'>
-::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
+	::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+	}
 
-.z-input {
-  background-color: rgba(255, 240, 232, 0.8);
-  width: 93vw;
-  height: 45px;
-  line-height: 45px;
-  padding: 0 3.5vw;
-  overflow-x: scroll;
-}
+	.z-input {
+		background-color: rgba(255, 240, 232, 0.8);
+		width: 93vw;
+		height: 45px;
+		line-height: 45px;
+		padding: 0 3.5vw;
+		overflow-x: scroll;
+	}
 
-.z-input text {
-  white-space: nowrap;
-}
+	.z-input text {
+		white-space: nowrap;
+	}
 
-.flex-row {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-}
+	.flex-row {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+	}
 
-.flex-column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+	.flex-column {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 
-.tabbar-bg {
-  width: 100vw;
-  position: fixed;
-  z-index: 999 !important;
-}
+	.tabbar-bg {
+		width: 100vw;
+		position: fixed;
+		z-index: 999 !important;
+	}
 
-.tabbar-mid-button {
-  width: 55px;
-  right: 10px;
-  position: absolute;
-  z-index: 9999999999 !important;
-}
+	.tabbar-mid-button {
+		width: 55px;
+		right: 10px;
+		position: absolute;
+		z-index: 9999999999 !important;
+	}
 
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #ffffff;
-  /* justify-content: center; */
-  /* background-color: #fafafa; */
-  /* height: 100vh; */
-  overflow: scroll;
-}
+	.content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		background-color: #ffffff;
+		/* justify-content: center; */
+		/* background-color: #fafafa; */
+		/* height: 100vh; */
+		overflow: scroll;
+	}
 
-.font-15-blod {
-  font-size: 15px;
-  font-weight: bold;
-}
+	.font-15-blod {
+		font-size: 15px;
+		font-weight: bold;
+	}
 
-.margin-left-10 {
-  margin-left: 2vw;
-}
+	.margin-left-10 {
+		margin-left: 2vw;
+	}
 
-.margin-left-5 {
-  margin-left: 12rpx;
-}
+	.margin-left-5 {
+		margin-left: 12rpx;
+	}
 
-.image-width-20 {
-  width: 27rpx;
-  height: 28rpx;
-}
-.types-img {
-  width: 32rpx;
-  height: 32rpx;
-}
+	.image-width-20 {
+		width: 27rpx;
+		height: 28rpx;
+	}
 
-.space-data {
-  position: fixed;
-}
+	.types-img {
+		width: 32rpx;
+		height: 32rpx;
+	}
 
-.bg-box {
-  width: 100%;
-  position: fixed;
-  z-index: 9;
-  top: 0;
-  background: #ffffff;
-}
-.bg {
-  width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-image: url("https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240614/2024-06-14_14_46_30_0_22.png");
-}
+	.space-data {
+		position: fixed;
+	}
 
-.titles {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  z-index: 9;
-}
+	.bg-box {
+		width: 100%;
+		position: fixed;
+		min-height: 300rpx;
+		z-index: 9;
+		top: 0;
+		background: linear-gradient(to right, rgb(254, 170, 91), rgb(255, 230, 107));
+	}
 
-.titles-box {
-  width: 263rpx;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.04);
-  padding: 4rpx;
-  border-radius: 40rpx;
-  .titles-item {
-    line-height: 47rpx;
-    text-align: center;
-    font-family: PingFang SC;
-    font-weight: 400;
-    font-size: 26rpx;
-    color: #333333;
-    height: 47rpx;
-    flex: 1;
-  }
-}
+	.titles {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		position: fixed;
+		z-index: 9;
+	}
 
-.title {
-  /* margin: 0 5px; */
-  padding: 0 15px;
-  font-size: 13px;
-}
+	.titles-box {
+		width: 263rpx;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		background: rgba(0, 0, 0, 0.04);
+		padding: 4rpx;
+		border-radius: 40rpx;
 
-.title-selected {
-  background: linear-gradient(0deg, #ffffff 0%, #fff4e3 51%, #ffffff 99%);
-  border-radius: 24rpx;
-  opacity: 0.9;
-  font-family: PingFang SC;
-  font-weight: 600;
-  font-size: 26rpx;
-  color: #f89f12 !important;
-}
+		.titles-item {
+			line-height: 47rpx;
+			text-align: center;
+			font-family: PingFang SC;
+			font-weight: 400;
+			font-size: 26rpx;
+			color: #333333;
+			height: 47rpx;
+			flex: 1;
+		}
+	}
 
-.location {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: start;
-  position: fixed;
-  left: 0;
-  z-index: 9;
-  padding-left: 30rpx;
-}
+	.title {
+		/* margin: 0 5px; */
+		padding: 0 15px;
+		font-size: 13px;
+	}
 
-.school {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  z-index: 99;
-}
+	.title-selected {
+		background: linear-gradient(0deg, #ffffff 0%, #fff4e3 51%, #ffffff 99%);
+		border-radius: 24rpx;
+		opacity: 0.9;
+		font-family: PingFang SC;
+		font-weight: 600;
+		font-size: 26rpx;
+		color: #f89f12 !important;
+	}
 
-.searchs-2 {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 30rpx;
-  margin-top: 40rpx;
-  z-index: 9;
-}
+	.location {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: start;
+		position: fixed;
+		left: 0;
+		z-index: 9;
+		padding-left: 30rpx;
+	}
 
-.search-box-2 {
-  width: 100%;
-  height: 68rpx;
-  background: #f6f6f6;
-  border-radius: 200rpx;
-  background-color: rgba(246, 246, 246, 0.9);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4rpx;
-  .search-input-box {
-    width: calc(100% - 150rpx);
-  }
-}
+	.school {
+		position: fixed;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		width: 100%;
+		z-index: 99;
+	}
 
-.search-picker {
-  margin-left: 25rpx;
-  font-weight: 600;
-  font-size: 24rpx;
-  color: #000000;
-  border-right: #666666 1px solid;
-  padding-right: 29rpx;
-}
+	.searchs-2 {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 30rpx;
+		margin-top: 40rpx;
+		z-index: 9;
+	}
 
-.search-input {
-  width: 50%;
-  margin-left: 29rpx;
-  font-family: PingFang SC;
-  font-weight: 300;
-  font-size: 22rpx;
-  color: #666666;
-}
+	.search-box-2 {
+		width: 100%;
+		height: 68rpx;
+		background: #f6f6f6;
+		border-radius: 200rpx;
+		background-color: rgba(246, 246, 246, 0.9);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		padding: 4rpx;
 
-.search-button {
-  width: 100rpx;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  border-radius: 200rpx;
-  background-color: #f89f12;
-}
+		.search-input-box {
+			width: calc(100% - 150rpx);
+		}
+	}
 
-.posts {
-  height: 104rpx;
-  margin-top: 34rpx;
-  padding: 0 30rpx;
-  background-color: #fff0e8;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom: #e8e8e8 1px solid;
+	.search-picker {
+		margin-left: 25rpx;
+		font-weight: 600;
+		font-size: 24rpx;
+		color: #000000;
+		border-right: #666666 1px solid;
+		padding-right: 29rpx;
+	}
 
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+	.search-input {
+		width: 50%;
+		margin-left: 29rpx;
+		font-family: PingFang SC;
+		font-weight: 300;
+		font-size: 22rpx;
+		color: #666666;
+	}
 
-  box-shadow: 0 -15px 15px 0px #fdc35f;
-}
+	.search-button {
+		width: 100rpx;
+		height: 100%;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		border-radius: 200rpx;
+		background-color: #f89f12;
+	}
 
-.posts-titles {
-  // width: calc(100% - 50rpx);
-  width: 100%;
-  overflow: scroll;
-}
-.scroll-view {
-  white-space: nowrap;
-  display: flex;
-  height: 104rpx;
-  .posts-titles-one {
-    overflow: hidden;
-    height: 104rpx;
-    display: inline-block;
-    font-family: PingFang SC;
-    font-weight: 500;
-    font-size: 26rpx;
-    color: #333333;
-    margin-right: 57rpx;
-    .posts-titles-item {
-      overflow: hidden;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-    }
-  }
-  .posts-titles-one:last-child {
-    margin-right: 0;
-  }
+	.posts {
+		height: 104rpx;
+		margin-top: 34rpx;
+		padding: 0 30rpx;
+		background-color: #fff0e8;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		border-bottom: #e8e8e8 1px solid;
 
-  .posts-titles-one-choised {
-    font-weight: 600;
-    font-size: 30rpx;
-  }
-}
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
 
-.short-line {
-  position: absolute;
-  bottom: 15rpx;
-  width: 40rpx;
-  height: 8rpx;
-  background: linear-gradient(270deg, #ffc974, #f89f12);
-  border-radius: 200rpx;
-}
+		box-shadow: 0 -15px 15px 0px #fdc35f;
+	}
 
-.posts-data {
-  position: relative;
-  z-index: 1;
-  width: 100vw;
-}
+	.posts-titles {
+		// width: calc(100% - 50rpx);
+		width: 100%;
+		overflow: scroll;
+	}
 
-.space-line-bottom {
-  height: 250rpx;
-}
-.city-text {
-  margin: 0 12rpx;
-  font-family: PingFang SC;
-  font-weight: 600;
-  font-size: 32rpx;
-  color: #000000;
-}
-.home-search {
-  .search-box {
-    padding: 40rpx 30rpx 32rpx;
-  }
-  .home-type {
-    background: #ffffff;
-    box-shadow: 0rpx -9rpx 5rpx 1rpx rgba(0, 0, 0, 0.02);
-    border-radius: 20rpx 20rpx 0 0;
-    border-top: 2px solid #ffffff;
-    padding: 26rpx 26rpx 0;
-    image {
-      width: 100%;
-      height: 187rpx;
-    }
-  }
-}
-.list-container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 29rpx 30rpx 0;
-  box-sizing: border-box;
-  .list-item {
-    margin-bottom: 20rpx;
-    width: 335rpx;
-    border-radius: 10rpx 10rpx 0rpx 0rpx;
-    .image-box {
-      background: #ffffff;
-      border-radius: 10rpx 10rpx 0rpx 0rpx;
-      width: 335rpx;
-      height: 335rpx;
-      z-index: 1;
-      position: relative;
-      image {
-        border-radius: 10rpx 10rpx 0rpx 0rpx;
-        width: 335rpx;
-        height: 335rpx;
-      }
-    }
-    .list-item-info {
-      margin-top: -15rpx;
-      padding: 30rpx 21rpx 32rpx;
-      background: #ffffff;
-      box-shadow: 0rpx 0rpx 7rpx 1rpx rgba(0, 0, 0, 0.04);
-      border-radius: 0 0 10rpx 10rpx;
-      border: 1px solid #f4f4f4;
-      border-top: none;
-      .list-item-title {
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-family: PingFang SC;
-        font-weight: 500;
-        font-size: 24rpx;
-        color: #393a3e;
-        margin-bottom: 24rpx;
-      }
-      .list-item-price {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        .list-item-price-left {
-          font-family: PingFang SC;
-          font-weight: 300;
-          font-size: 22rpx;
-          color: #f23333;
-          line-height: 24rpx;
-        }
-        .list-item-price-right {
-          font-family: PingFang SC;
-          font-weight: 400;
-          font-size: 22rpx;
-          color: #999999;
-        }
-      }
-    }
-  }
-}
-.al-box {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0 30rpx;
-  overflow: hidden;
-  display: flex;
-  flex-wrap: wrap;
-  .al-item {
-    margin: 20rpx 0 0 0;
-    border-radius: 2rpx 2rpx 0 0;
-    padding: 0 10rpx;
-    width: 50%;
-    box-sizing: border-box;
-    image {
-      width: 100%;
-      height: 430rpx;
-      border-radius: 2rpx 2rpx 0 0;
-    }
-    &:nth-child(2n-1) {
-      padding-left: 0;
-    }
-    &:nth-child(2n) {
-      padding-right: 0;
-    }
-  }
-}
-.safe-bottom {
-  padding-bottom: env(safe-area-inset-bottom);
-}
-.flex-align {
-  display: flex;
-  align-items: center;
-}
+	.scroll-view {
+		white-space: nowrap;
+		display: flex;
+		height: 104rpx;
+
+		.posts-titles-one {
+			overflow: hidden;
+			height: 104rpx;
+			display: inline-block;
+			font-family: PingFang SC;
+			font-weight: 500;
+			font-size: 26rpx;
+			color: #333333;
+			margin-right: 57rpx;
+
+			.posts-titles-item {
+				overflow: hidden;
+				position: relative;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				height: 100%;
+			}
+		}
+
+		.posts-titles-one:last-child {
+			margin-right: 0;
+		}
+
+		.posts-titles-one-choised {
+			font-weight: 600;
+			font-size: 30rpx;
+		}
+	}
+
+	.short-line {
+		position: absolute;
+		bottom: 15rpx;
+		width: 40rpx;
+		height: 8rpx;
+		background: linear-gradient(270deg, #ffc974, #f89f12);
+		border-radius: 200rpx;
+	}
+
+	.posts-data {
+		position: relative;
+		z-index: 1;
+		width: 100vw;
+	}
+
+	.space-line-bottom {
+		height: 250rpx;
+	}
+
+	.city-text {
+		margin: 0 12rpx;
+		font-family: PingFang SC;
+		font-weight: 600;
+		font-size: 32rpx;
+		color: #000000;
+	}
+
+	.home-search {
+		.search-box {
+			padding: 40rpx 30rpx 32rpx;
+		}
+
+		.home-type {
+			background: #ffffff;
+			box-shadow: 0rpx -9rpx 5rpx 1rpx rgba(0, 0, 0, 0.02);
+			border-radius: 20rpx 20rpx 0 0;
+			border-top: 2px solid #ffffff;
+			padding: 26rpx 26rpx 0;
+
+			image {
+				width: 100%;
+				height: 187rpx;
+			}
+		}
+	}
+
+	.list-container {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		padding: 29rpx 30rpx 0;
+		box-sizing: border-box;
+
+		.list-item {
+			margin-bottom: 20rpx;
+			width: 335rpx;
+			border-radius: 10rpx 10rpx 0rpx 0rpx;
+
+			.image-box {
+				background: #ffffff;
+				border-radius: 10rpx 10rpx 0rpx 0rpx;
+				width: 335rpx;
+				height: 335rpx;
+				z-index: 1;
+				position: relative;
+
+				image {
+					border-radius: 10rpx 10rpx 0rpx 0rpx;
+					width: 335rpx;
+					height: 335rpx;
+				}
+			}
+
+			.list-item-info {
+				margin-top: -15rpx;
+				padding: 30rpx 21rpx 32rpx;
+				background: #ffffff;
+				box-shadow: 0rpx 0rpx 7rpx 1rpx rgba(0, 0, 0, 0.04);
+				border-radius: 0 0 10rpx 10rpx;
+				border: 1px solid #f4f4f4;
+				border-top: none;
+
+				.list-item-title {
+					width: 100%;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					font-family: PingFang SC;
+					font-weight: 500;
+					font-size: 24rpx;
+					color: #393a3e;
+					margin-bottom: 24rpx;
+				}
+
+				.list-item-price {
+					display: flex;
+					justify-content: space-between;
+					align-items: flex-end;
+
+					.list-item-price-left {
+						font-family: PingFang SC;
+						font-weight: 300;
+						font-size: 22rpx;
+						color: #f23333;
+						line-height: 24rpx;
+					}
+
+					.list-item-price-right {
+						font-family: PingFang SC;
+						font-weight: 400;
+						font-size: 22rpx;
+						color: #999999;
+					}
+				}
+			}
+		}
+	}
+
+	.al-box {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0 30rpx;
+		overflow: hidden;
+		display: flex;
+		flex-wrap: wrap;
+
+		.al-item {
+			margin: 20rpx 0 0 0;
+			border-radius: 2rpx 2rpx 0 0;
+			padding: 0 10rpx;
+			width: 50%;
+			box-sizing: border-box;
+
+			image {
+				width: 100%;
+				height: 430rpx;
+				border-radius: 2rpx 2rpx 0 0;
+			}
+
+			&:nth-child(2n-1) {
+				padding-left: 0;
+			}
+
+			&:nth-child(2n) {
+				padding-right: 0;
+			}
+		}
+	}
+
+	.safe-bottom {
+		padding-bottom: env(safe-area-inset-bottom);
+	}
+
+	.flex-align {
+		display: flex;
+		align-items: center;
+	}
 </style>

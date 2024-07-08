@@ -140,7 +140,6 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var m0 = Number(_vm.statusBarHeight + _vm.navBarHeight + _vm.schoolHeight)
   var g0 =
     _vm.theAddress.title != undefined ? _vm.theAddress.title.length : null
   var g1 =
@@ -159,7 +158,6 @@ var render = function () {
     {},
     {
       $root: {
-        m0: m0,
         g0: g0,
         g1: g1,
         g2: g2,
@@ -274,7 +272,7 @@ var _default = {
       },
       currentIndex: 0,
       school_datas: [],
-      schoolHeight: 0
+      schoolHeight: 100
     };
   },
   onLoad: function onLoad() {
@@ -294,10 +292,6 @@ var _default = {
     this.$store.commit("changeStore_addressNow", {
       tempSelectedAddress: storage_addressNow
     });
-    var query = uni.createSelectorQuery().in(this);
-    query.select(".school").boundingClientRect(function (data) {
-      _this2.schoolHeight = data.height;
-    }).exec();
     this.getShopType();
     uni.$on("changeIndexArea", /*#__PURE__*/function () {
       var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(data) {
@@ -394,6 +388,13 @@ var _default = {
         return _ref3.apply(this, arguments);
       };
     }());
+  },
+  onReady: function onReady() {
+    var _this3 = this;
+    var query = uni.createSelectorQuery().in(this);
+    query.select(".school").boundingClientRect(function (data) {
+      _this3.schoolHeight = data.height;
+    }).exec();
   },
   //分享按钮
   onShareAppMessage: function onShareAppMessage(e) {
@@ -516,18 +517,18 @@ var _default = {
     },
     // 初始化数据
     initData: function initData() {
-      var _this3 = this;
+      var _this4 = this;
       (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee5() {
         return _regenerator.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _this3.theGetMomentsListPage = 1;
-                _this3.school_datas = [];
+                _this4.theGetMomentsListPage = 1;
+                _this4.school_datas = [];
                 _context5.next = 4;
-                return _this3.getMomentsList();
+                return _this4.getMomentsList();
               case 4:
-                _this3.tempAddressTitle = _this3.$store.state.store_addressNow.title;
+                _this4.tempAddressTitle = _this4.$store.state.store_addressNow.title;
               case 5:
               case "end":
                 return _context5.stop();
@@ -537,7 +538,7 @@ var _default = {
       }))();
     },
     initShop: function initShop() {
-      var _this4 = this;
+      var _this5 = this;
       this.isLoading = "loading"; // 加载中
       var param = {
         page: this.theGetMomentsListPage,
@@ -551,23 +552,23 @@ var _default = {
       this.API.home.getTaskList(param).then(function (res) {
         console.log(res);
         // 如果是请求第一页，证明是首次请求，就重置一下
-        if (_this4.theGetMomentsListPage == 1) {
-          _this4.school_datas = [];
+        if (_this5.theGetMomentsListPage == 1) {
+          _this5.school_datas = [];
         }
         if (res.data.length != 0) {
           for (var i = 0; i < res.data.length; i++) {
-            _this4.school_datas.push(_objectSpread(_objectSpread({}, res.data[i]), {}, {
+            _this5.school_datas.push(_objectSpread(_objectSpread({}, res.data[i]), {}, {
               img_url: res.data[i].img_url ? res.data[i].img_url.split(",")[0] : ""
             }));
           }
-          _this4.isLoading = "no-more"; // 取消加载动画
+          _this5.isLoading = "no-more"; // 取消加载动画
           // 页面+1
-          _this4.theGetMomentsListPage += 1;
+          _this5.theGetMomentsListPage += 1;
         } else {
-          _this4.isLoading = "no-more"; // 取消加载动画
+          _this5.isLoading = "no-more"; // 取消加载动画
         }
 
-        console.log(_this4.school_datas);
+        console.log(_this5.school_datas);
       }).catch( /*#__PURE__*/function () {
         var _ref6 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee6(err) {
           return _regenerator.default.wrap(function _callee6$(_context6) {
@@ -579,9 +580,9 @@ var _default = {
                     break;
                   }
                   _context6.next = 3;
-                  return _this4.$store.dispatch("toLogon", {});
+                  return _this5.$store.dispatch("toLogon", {});
                 case 3:
-                  _this4.initShop();
+                  _this5.initShop();
                 case 4:
                 case "end":
                   return _context6.stop();
@@ -595,19 +596,19 @@ var _default = {
       }());
     },
     getShopType: function getShopType() {
-      var _this5 = this;
+      var _this6 = this;
       if (this.theTitleIndex == 1) {
         this.initData();
       } else {
         this.$nextTick(function () {
-          var query = uni.createSelectorQuery().in(_this5);
+          var query = uni.createSelectorQuery().in(_this6);
           query.select(".home-search").boundingClientRect(function (data) {
-            _this5.contentHeight = data.height;
+            _this6.contentHeight = data.height;
           }).exec();
         });
         this.API.home.getAllMenu({}).then(function (res) {
           console.log(res);
-          _this5.tabArr = [{
+          _this6.tabArr = [{
             name: "精选",
             id: 0
           }];
@@ -619,17 +620,17 @@ var _default = {
           // });
           res.data.forEach(function (el) {
             if (el.category_id > 0) {
-              _this5.tabArr.push({
+              _this6.tabArr.push({
                 name: el.title,
                 id: el.category_id
               });
             }
           });
-          if (_this5.tabArr.length) {
-            _this5.theGetMomentsListPage = 1;
-            _this5.school_datas = [];
-            _this5.momentType = _this5.tabArr[0].id;
-            _this5.initShop();
+          if (_this6.tabArr.length) {
+            _this6.theGetMomentsListPage = 1;
+            _this6.school_datas = [];
+            _this6.momentType = _this6.tabArr[0].id;
+            _this6.initShop();
           }
         }).catch( /*#__PURE__*/function () {
           var _ref7 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee7(err) {
@@ -643,13 +644,13 @@ var _default = {
                       break;
                     }
                     _context7.next = 4;
-                    return _this5.$store.dispatch("toLogon", {});
+                    return _this6.$store.dispatch("toLogon", {});
                   case 4:
                     _context7.next = 6;
-                    return _this5.getShopType();
+                    return _this6.getShopType();
                   case 6:
-                    _this5.tempAddressTitle = _this5.$store.state.store_addressNow.title;
-                    _this5.tempSchoolTitle = _this5.$store.state.store_schoolNow.title;
+                    _this6.tempAddressTitle = _this6.$store.state.store_addressNow.title;
+                    _this6.tempSchoolTitle = _this6.$store.state.store_schoolNow.title;
                   case 8:
                   case "end":
                     return _context7.stop();
@@ -713,22 +714,22 @@ var _default = {
     // ---------------------------------------------------页面方法---------------------------------------------------
     // 获取状态栏高度
     getTopIconDistance: function getTopIconDistance() {
-      var _this6 = this;
+      var _this7 = this;
       uni.getSystemInfo({
         success: function success(res) {
           // 获取手机顶部状态栏的高度
-          _this6.statusBarHeight = res.statusBarHeight || 0;
+          _this7.statusBarHeight = res.statusBarHeight || 0;
 
           // 获取导航栏的高度（手机状态栏高度 + 胶囊高度 + 胶囊的上下间距）
           var menuButtonInfo = uni.getMenuButtonBoundingClientRect();
-          _this6.navBarHeight = menuButtonInfo.height + (menuButtonInfo.top - _this6.statusBarHeight) * 2;
-          _this6.tabBarHeight = res.screenHeight - res.safeArea.bottom;
+          _this7.navBarHeight = menuButtonInfo.height + (menuButtonInfo.top - _this7.statusBarHeight) * 2;
+          _this7.tabBarHeight = res.screenHeight - res.safeArea.bottom;
 
           // 设置全局变量
-          _this6.$store.commit("changeNavBarHeight", {
-            statusBarHeight: _this6.statusBarHeight,
-            navBarHeight: _this6.navBarHeight,
-            tabBarHeight: _this6.tabBarHeight
+          _this7.$store.commit("changeNavBarHeight", {
+            statusBarHeight: _this7.statusBarHeight,
+            navBarHeight: _this7.navBarHeight,
+            tabBarHeight: _this7.tabBarHeight
           });
         },
         fail: function fail(err) {}
@@ -910,64 +911,68 @@ var _default = {
                           /*
                           // 连接WSS
                           uni.connectSocket({
-                          url: 'wss://school.izekai.cn/wss',
+                            url: 'wss://school.izekai.cn/wss',
                           });
-                          				// 打开监听  
+                          
+                          // 打开监听  
                           uni.onSocketOpen(function (res) {
-                          // 登录
-                          // 测试号数据存一下
-                          // wss://school.izekai.cn/wss
-                          // {"data":{"token":"639bba3ff80c75e545d336c5bc1118a5"},"cmd":"ws:login"}
-                          // {"data":{"msg":"3523532532525","to_user_id":1},"cmd":"ws:sendChatMsg"}
-                          uni.sendSocketMessage({
-                          data:JSON.stringify({
-                          data:{
-                          token:__that.$store.state.theToken
-                          },
-                          cmd:'ws:login'
-                          }),
-                          success: (res) => {
-                          console.log('登录WSS',res);
-                          }
-                          })
-                          						// 心跳包
-                          var inter = setInterval(function(){
-                          uni.sendSocketMessage({
-                          data:JSON.stringify({
-                          data:'ping',
-                          cmd:'ws:ping'
-                          }),
-                          success: (res) => {
-                          console.log('心跳包',res);
-                          }
-                          })
-                          },30000)
-                          						console.log('onSocketMessage我监听到了',res);
-                          // 发送消息
-                          // uni.sendSocketMessage({
-                          // 	data:JSON.stringify({
-                          // 		data:{
-                          // 			to_user_id:5
-                          // 			msg:'我是发送的消息！！！！！'
-                          // 		},
-                          // 		cmd:'ws:sendChatMsg'
-                          // 	})
-                          // })
-                          						});
+                          	// 登录
+                          	// 测试号数据存一下
+                          	// wss://school.izekai.cn/wss
+                          	// {"data":{"token":"639bba3ff80c75e545d336c5bc1118a5"},"cmd":"ws:login"}
+                          	// {"data":{"msg":"3523532532525","to_user_id":1},"cmd":"ws:sendChatMsg"}
+                          	uni.sendSocketMessage({
+                          		data:JSON.stringify({
+                          			data:{
+                          				token:__that.$store.state.theToken
+                          			},
+                          			cmd:'ws:login'
+                          		}),
+                          		success: (res) => {
+                          			console.log('登录WSS',res);
+                          		}
+                          	})
+                          	
+                          	// 心跳包
+                          	var inter = setInterval(function(){
+                          		uni.sendSocketMessage({
+                          			data:JSON.stringify({
+                          				data:'ping',
+                          				cmd:'ws:ping'
+                          			}),
+                          			success: (res) => {
+                          				console.log('心跳包',res);
+                          			}
+                          		})
+                          	},30000)
+                          	
+                          	console.log('onSocketMessage我监听到了',res);
+                          	// 发送消息
+                          	// uni.sendSocketMessage({
+                          	// 	data:JSON.stringify({
+                          	// 		data:{
+                          	// 			to_user_id:5
+                          	// 			msg:'我是发送的消息！！！！！'
+                          	// 		},
+                          	// 		cmd:'ws:sendChatMsg'
+                          	// 	})
+                          	// })
+                            
+                          });
                           // 监听关闭
                           uni.onSocketClose(function (res) {
-                          console.log('WebSocket 已关闭！');
+                            console.log('WebSocket 已关闭！');
                           });
                           // 监听消息
                           uni.onSocketMessage(function (res) {
-                          console.log('收到服务器内容：' + JSON.parse(res.data));
-                          // __that.animtionAction();
-                          if(JSON.parse(res.data).cmd == 'ws:sendChatMsg'){
-                          console.log('我解析成功啦啦啦啦！！！');
-                          __that.$store.dispatch('animtionAction',{
-                          animtionAction:__that.$refs.theMessage.animtionAction()
-                          });
-                          }
+                            console.log('收到服务器内容：' + JSON.parse(res.data));
+                          	// __that.animtionAction();
+                          	if(JSON.parse(res.data).cmd == 'ws:sendChatMsg'){
+                          		console.log('我解析成功啦啦啦啦！！！');
+                          		__that.$store.dispatch('animtionAction',{
+                          			animtionAction:__that.$refs.theMessage.animtionAction()
+                          		});
+                          	}
                           });
                           */
 
@@ -1094,7 +1099,7 @@ var _default = {
     }(),
     //打开三个点的操作
     actionMore: function actionMore(option) {
-      var _this7 = this;
+      var _this8 = this;
       var that = this;
       var temp_is_collection = option.is_collection;
       var itemList = [option.is_collection == 2 ? "收藏" : "取消收藏", option.is_regard == 1 ? "取消关注" : "关注TA", "不看此类话题"];
@@ -1150,9 +1155,9 @@ var _default = {
               }, _callee10);
             }))();
           } else if (["取消关注", "关注TA"].includes(itemList[res.tapIndex])) {
-            _this7.followHandle(option);
+            _this8.followHandle(option);
           } else if (["不看此类话题"].includes(itemList[res.tapIndex])) {
-            _this7.ignoreType(option);
+            _this8.ignoreType(option);
           }
         },
         fail: function fail(res) {
@@ -1162,13 +1167,13 @@ var _default = {
     },
     // 忽略话题
     ignoreType: function ignoreType(option) {
-      var _this8 = this;
+      var _this9 = this;
       this.API.home.addDelMyIgnoreType({
         ignore_type: option.type,
         type: 1
       }).then(function (res) {
         console.log(res.data);
-        _this8.choiseOneTitle(0);
+        _this9.choiseOneTitle(0);
         uni.showToast({
           title: "操作成功",
           duration: 1000,
@@ -1185,9 +1190,9 @@ var _default = {
                     break;
                   }
                   _context11.next = 3;
-                  return _this8.$store.dispatch("toLogon", {});
+                  return _this9.$store.dispatch("toLogon", {});
                 case 3:
-                  _this8.ignoreType(option);
+                  _this9.ignoreType(option);
                 case 4:
                 case "end":
                   return _context11.stop();
@@ -1202,12 +1207,12 @@ var _default = {
     },
     // 关注
     followHandle: function followHandle(option) {
-      var _this9 = this;
+      var _this10 = this;
       this.API.order.regard({
         to_user_id: option.create_id
       }).then(function (res) {
         console.log(res.data);
-        _this9.$set(_this9.school_datas[option.index], "is_regard", option.is_regard == 1 ? 2 : 1);
+        _this10.$set(_this10.school_datas[option.index], "is_regard", option.is_regard == 1 ? 2 : 1);
         uni.showToast({
           title: option.is_regard == 1 ? "已取消关注" : "关注成功",
           duration: 1000,
@@ -1224,9 +1229,9 @@ var _default = {
                     break;
                   }
                   _context12.next = 3;
-                  return _this9.$store.dispatch("toLogon", {});
+                  return _this10.$store.dispatch("toLogon", {});
                 case 3:
-                  _this9.followHandle(option);
+                  _this10.followHandle(option);
                 case 4:
                 case "end":
                   return _context12.stop();

@@ -94,15 +94,10 @@
 .bg-box {
   width: 100%;
   position: fixed;
+  min-height: 300rpx;
   z-index: 9;
   top: 0;
-  background: #ffffff;
-}
-.bg {
-  width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-image: url("https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240614/2024-06-14_14_46_30_0_22.png");
+  background: linear-gradient(to right, #feaa5b, #ffe66b);
 }
 .titles {
   width: 100%;

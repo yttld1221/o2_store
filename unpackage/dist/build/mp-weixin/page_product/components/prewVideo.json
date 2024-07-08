@@ -1,7 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "u-popup": "/uni_modules/uview-ui/components/u-popup/u-popup",
-    "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons"
-  }
-}
