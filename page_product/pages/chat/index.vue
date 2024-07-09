@@ -34,16 +34,23 @@
 		</scroll-view>
 		<view class="tool" id="bottom-fix" :style="{ bottom: `${keyHeight}px` }">
 			<view class="input-box" :style="{ 'align-items': rowLine == 1 ? 'center' : 'flex-end' }">
-				<textarea @linechange='lineChange' :show-confirm-bar='false' auto-height rows="1" cursor-spacing='100' style="width:calc(100% - 170rpx)" maxlength="-1" :confirm-hold="true"
-					:focus="textFocus" class="focus-border" :clearable='false' :adjust-position='false' :trim="true"
-					v-model="content" confirmType="send" @blur="closeContent" @focus="focusContent"
-					@confirm="sendMessage" />
-				<image @click="openBottom('emoji')" class="icon-image" style="margin-left: 33rpx"
-					src="/static/xiaolian.png"></image>
-				<image @click="openBottom('use')" class="icon-image" src="/static/plus-circle.png"></image>
+				<textarea @linechange='lineChange' :show-confirm-bar='false' auto-height rows="1" cursor-spacing='100'
+					maxlength="-1" :confirm-hold="true" :focus="textFocus" class="focus-border" :clearable='false'
+					:adjust-position='false' :trim="true" v-model="content" confirmType="send" @blur="closeContent"
+					@focus="focusContent" @confirm="sendMessage" />
+				<view class="btn-box emoji-btn">
+					<image @click="openBottom('emoji')" mode='scaleToFill' class="icon-image"
+						src="/static/xiaolian.png"></image>
+				</view>
+				<view class="btn-box">
+					<image @click="openBottom('use')" mode='scaleToFill' class="icon-image"
+						src="/static/plus-circle.png">
+					</image>
+				</view>
 			</view>
 			<view class="tool-bottom" v-if="showBottom">
-				<emoKeyboard v-if="typeShow == 'emoji'" :show="true" :data="emojiList" @change="changeBq"></emoKeyboard>
+				<emoKeyboard :content='this.content' @delMsg='delMsg' @sendMessage='sendMessage'
+					v-if="typeShow == 'emoji'" :show="true" :data="emojiList" @change="changeBq"></emoKeyboard>
 				<view class="use-box" v-else>
 					<view @click="chooseUse(index)" class="use-item" :key="index" v-for="(item, index) in useList">
 						<view class="img-box">
@@ -185,6 +192,20 @@
 			},
 		},
 		methods: {
+			delMsg() { //删除	
+				if (!this.content) return
+				const lastTwoChars = this.content.slice(-2);
+				if (this.isEmoji(lastTwoChars)) {
+					this.content = this.content.substring(0, this.content.length - 2);
+				} else {
+					this.content = this.content.substring(0, this.content.length - 1);
+				}
+			},
+			isEmoji(str) {
+				// 匹配表情的正则表达式
+				const regExp = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
+				return regExp.test(str);
+			},
 			onScroll(event) {
 				// console.log(event)
 				let query = uni.createSelectorQuery().in(this);
@@ -316,7 +337,6 @@
 				});
 			},
 			closeBottom() {
-				0
 				if (this.showBottom) {
 					this.showBottom = false;
 					this.typeShow = ''
@@ -339,13 +359,14 @@
 				this.keyHeight = 0
 				this.heightArr[0] = 'calc(100% - ' + (this.bottomHeight + this.keyHeight) + 'px)'
 				this.cs += 0.01
-				setTimeout(() => {
+				// 延迟滚到底部100
+				// this.$nextTick(() => {
 					this.showScroll = true
 					this.scrollToBottom();
 					if (!this.showBottom) {
 						this.closeBottom();
 					}
-				}, 100)
+				// })
 			},
 			// 获取焦点
 			focusContent(e) {
@@ -354,11 +375,12 @@
 				this.keyHeight = e.detail.height
 				this.heightArr[0] = 'calc(100% - ' + (this.bottomHeight + this.keyHeight) + 'px)'
 				this.cs += 0.01
-				setTimeout(() => {
+				// 延迟滚到底部100
+				// this.$nextTick(() => {
 					this.showScroll = true
 					this.scrollToBottom();
 					this.closeBottom();
-				}, 100)
+				// })
 			},
 			// 获取底部高度
 			getBottomHeight(type = "") {
@@ -372,10 +394,11 @@
 							this.bottomHeight = data.height;
 							this.heightArr[0] = 'calc(100% - ' + (this.bottomHeight + this.keyHeight) + 'px)'
 							this.cs += 0.01
-							setTimeout(() => {
+							// 延迟滚到底部50
+							this.$nextTick(() => {
 								this.showScroll = true;
 								this.scrollToBottom();
-							}, 100)
+							})
 						}
 					})
 					.exec();
@@ -523,7 +546,7 @@
 						type: "user",
 					});
 					this.content = "";
-					this.textFocus = this.typeShow != 'use' ? true : false;
+					this.textFocus = !this.showBottom && !this.typeShow ? true : false;
 					console.log(this.textFocus)
 				}
 			},
@@ -786,6 +809,7 @@
 		.media-height {
 			.message {
 				height: 305rpx;
+				box-sizing: border-box;
 			}
 		}
 
@@ -807,10 +831,11 @@
 				min-height: 100rpx;
 
 				.focus-border {
-					padding:5rpx 10rpx;
+					width: calc(100% - 170rpx);
+					padding: 5rpx 10rpx;
 					border: 1px solid #D3D3D3;
 					background: #FAFAFA;
-					height:70rpx;
+					height: 70rpx;
 					border-radius: 10rpx;
 				}
 			}
@@ -852,16 +877,25 @@
 				}
 			}
 
+			.btn-box {
+				margin-left: 21rpx;
+				display: flex;
+				align-items: center;
+			}
+
 			.icon-image {
 				width: 58rpx;
 				height: 58rpx;
-				margin-left: 21rpx;
+			}
+
+			.emoji-btn {
+				margin-left: 33rpx;
 			}
 		}
 
 		.message-image {
-			width: 200rpx;
-			height: 250rpx;
+			width: 200rpx !important;
+			height: 250rpx !important;
 			border-radius: 20rpx;
 		}
 
@@ -881,5 +915,13 @@
 			}
 		}
 
+
+		/deep/ .u-button--info {
+			margin-right: 20rpx;
+
+			.u-icon__icon {
+				font-size: 60rpx !important;
+			}
+		}
 	}
 </style>

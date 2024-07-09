@@ -117,6 +117,20 @@
   margin-left: 50rpx;
 }
 .mall .mall-top .info-container .other-info .other-info-right.data-v-0d16a354 {
+  display: flex;
+  align-items: center;
+}
+.mall .mall-top .info-container .other-info .regard-btn.data-v-0d16a354 {
+  padding: 15rpx 30rpx;
+  background: #f89f12;
+  border-radius: 50rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 26rpx;
+  color: #ffffff;
+}
+.mall .mall-top .info-container .other-info .sx-btn.data-v-0d16a354 {
+  margin-left: 21rpx;
   padding: 15rpx 30rpx;
   background: #f89f12;
   border-radius: 50rpx;

@@ -8,6 +8,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/follow/personalhome",
+          "pathName": "pages/follow/personalhome",
+          "query": "id=22",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "page_product/pages/chat/index",
           "pathName": "page_product/pages/chat/index",
           "query": "id=22&name=%E6%9D%8E%E6%98%93%E5%B3%B0",

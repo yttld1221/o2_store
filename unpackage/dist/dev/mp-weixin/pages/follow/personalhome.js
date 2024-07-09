@@ -248,24 +248,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default = {
   data: function data() {
     return {
@@ -345,6 +327,11 @@ var _default = {
     }
   },
   methods: {
+    toChat: function toChat() {
+      uni.navigateTo({
+        url: "/page_product/pages/chat/index?id=" + this.id + "&name=" + this.userInfo.nick_name
+      });
+    },
     // 邀请/组队按钮
     zuduiButtons: function () {
       var _zuduiButtons = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(option) {

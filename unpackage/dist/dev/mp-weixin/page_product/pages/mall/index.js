@@ -268,44 +268,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default = {
   data: function data() {
     return {
@@ -610,6 +572,11 @@ var _default = {
     goDetail: function goDetail(item) {
       uni.navigateTo({
         url: "/page_product/pages/product/detail?id=" + item.id
+      });
+    },
+    toChat: function toChat() {
+      uni.navigateTo({
+        url: "/page_product/pages/chat/index?id=" + this.userId + "&name=" + this.userInfo.nick_name
       });
     },
     // 关注
