@@ -28,7 +28,7 @@
 						<view @click="toFans()" class="mar-l-50 flex-algin"><text>{{ userInfo.fans_num }}</text>粉丝
 						</view>
 					</view>
-					<view class="other-info-right" :style="{ visibility: id != theLogonUser.id ? '' : 'hidden' }">
+					<view class="other-info-right" :style="{ visibility: userId != theLogonUser.id ? '' : 'hidden' }">
 						<view class="regard-btn" @click="followHandle()"
 							:class="{ 'is-regard': userInfo.is_regard == 1 }">
 							{{ userInfo.is_regard == 1 ? "取消关注" : "关注" }}

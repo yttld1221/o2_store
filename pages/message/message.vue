@@ -9,10 +9,10 @@
 			</view>
 		</view>
 		<view class="message-container" :style="'margin-top:' + (statusBarHeight + navBarHeight) + 'px;'">
-			<view class="search-box">
+			<!-- <view class="search-box">
 				<u-search @click="toSearch()" disabled placeholder="请输入搜索关键词" v-model="searchInputText"
 					:showAction="false"></u-search>
-			</view>
+			</view> -->
 			<view class="message-list">
 				<!-- 关注 -->
 				<view @click="toRegard('关注')" class="message-list-item flex-align">
@@ -385,7 +385,9 @@
 	}
 
 	.message-container {
-		padding: 40rpx 30rpx 0;
+		// padding: 40rpx 30rpx 0;
+		border-top: 20rpx solid #fafafa;
+		padding: 0 30rpx;
 
 		.message-list {
 			overflow: hidden;

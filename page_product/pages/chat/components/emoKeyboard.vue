@@ -7,9 +7,9 @@
 		</view>
 		<view class="del">
 			<view @click="delMsg()" class="del-btn btn-style">
-				<u-icon name="backspace" size="30"></u-icon>
+				<u-icon :color="content?'#606266':'#c8c9cc'" name="backspace" size="30"></u-icon>
 			</view>
-			<view @click="sendMessage()" class="send-btn btn-style">
+			<view @click="sendMessage()" class="send-btn btn-style" :class="{'no-content':!content}">
 				发送
 			</view>
 		</view>
@@ -51,7 +51,9 @@
 		},
 		watch: {
 			content: {
-				handler(newVal) {},
+				handler(newVal) {
+					console.log(this.content)
+				},
 				deep: true
 			}
 		},
@@ -140,6 +142,11 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+		}
+		.no-content{
+			border:1rpx solid #ebedf0;
+			background-color: #fff;
+			color: #c8c9cc;
 		}
 	}
 </style>

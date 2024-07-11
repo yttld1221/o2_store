@@ -49,7 +49,7 @@
 				</view>
 			</view>
 			<view class="tool-bottom" v-if="showBottom">
-				<emoKeyboard :content='this.content' @delMsg='delMsg' @sendMessage='sendMessage'
+				<emoKeyboard :content='content' @delMsg='delMsg' @sendMessage='sendMessage'
 					v-if="typeShow == 'emoji'" :show="true" :data="emojiList" @change="changeBq"></emoKeyboard>
 				<view class="use-box" v-else>
 					<view @click="chooseUse(index)" class="use-item" :key="index" v-for="(item, index) in useList">

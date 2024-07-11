@@ -1,7 +1,6 @@
 {
   "navigationStyle": "custom",
   "usingComponents": {
-    "u-search": "/uni_modules/uview-ui/components/u-search/u-search",
     "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons",
     "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more",
     "tab-bar": "/uni_modules/tab-Bar/components/tab-Bar/tab-Bar"

@@ -100,7 +100,8 @@
   text-align: center;
 }
 .message-container.data-v-a91f51d4 {
-  padding: 40rpx 30rpx 0;
+  border-top: 20rpx solid #fafafa;
+  padding: 0 30rpx;
 }
 .message-container .message-list.data-v-a91f51d4 {
   overflow: hidden;
