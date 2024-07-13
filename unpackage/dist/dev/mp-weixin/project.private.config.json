@@ -3,18 +3,5 @@
   "projectname": "o2_store",
   "setting": {
     "compileHotReLoad": true
-  },
-  "condition": {
-    "miniprogram": {
-      "list": [
-        {
-          "name": "page_product/pages/chat/index",
-          "pathName": "page_product/pages/chat/index",
-          "query": "id=84&name=%E6%B8%B8%E5%AE%A284",
-          "launchMode": "default",
-          "scene": null
-        }
-      ]
-    }
   }
 }

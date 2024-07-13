@@ -187,43 +187,6 @@ exports.default = void 0;
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default = {
   name: "tabbar",
   props: ["current"],
@@ -291,8 +254,8 @@ var _default = {
         text: "关注"
       }, {
         pagePath: "pages/push/push",
-        iconPath: "/static/3_tabbar_push_new@3x.png",
-        selectedIconPath: "/static/3_tabbar_push_cancel_new@3x.png",
+        iconPath: "/static/icon-push.png",
+        selectedIconPath: "/static/icon-cancel.png",
         text: "发布"
       }, {
         pagePath: "pages/message/message",
@@ -368,6 +331,8 @@ var _default = {
         if (e == 3) {
           // 表示进入了消息页
         }
+        this.show = false;
+        this.momentIndex = this.current;
         uni.switchTab({
           url: "/" + this.list[e].pagePath
         });
