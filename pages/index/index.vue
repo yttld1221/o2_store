@@ -199,6 +199,7 @@
 					"话题",
 					"组队/搭子",
 					"分享/安利",
+					"二手闲置",
 					"兼职",
 					"表白",
 					"求助",
@@ -885,7 +886,7 @@
 				// this.theGetMomentsListPage = 1;
 				// this.getMomentsList();
 				uni.navigateTo({
-					url: "/page_product/pages/search/schoolSearch",
+					url: "/page_product/pages/search/schoolIndex",
 				});
 			},
 

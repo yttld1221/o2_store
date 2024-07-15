@@ -299,9 +299,28 @@
 					"style": {
 						"navigationBarBackgroundColor": "#ffffff",
 						"navigationBarTextStyle": "black",
+						"navigationBarTitleText": "搜索结果",
+						"enablePullDownRefresh": false,
+						"onReachBottomDistance": 100
+					}
+				},
+				{
+					"path": "pages/search/schoolIndex",
+					"style": {
+						"navigationBarBackgroundColor": "#ffffff",
+						"navigationBarTextStyle": "black",
 						"navigationBarTitleText": "校园墙搜索",
 						"enablePullDownRefresh": false,
 						"onReachBottomDistance": 100
+					}
+				},
+				{
+					"path": "pages/address/choose",
+					"style": {
+						"navigationBarBackgroundColor": "#ffffff",
+						"navigationBarTextStyle": "black",
+						"navigationBarTitleText": "切换城市",
+						"enablePullDownRefresh": false
 					}
 				},
 				{

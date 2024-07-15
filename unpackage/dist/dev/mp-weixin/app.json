@@ -38,6 +38,8 @@
         "pages/push/index",
         "pages/push/range",
         "pages/search/schoolSearch",
+        "pages/search/schoolIndex",
+        "pages/address/choose",
         "pages/account/index",
         "pages/account/withdrawal",
         "pages/chat/index"

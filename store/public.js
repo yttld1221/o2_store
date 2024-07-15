@@ -239,12 +239,14 @@ function upLoadImage(payload) {
 						});
 					}
 				} else if (res.data.code == 500) {
+					uni.hideLoading();
 					uni.showToast({
 						title: '服务器连接失败，请反馈官方客服哦~',
 						duration: 2500,
 						icon: 'none'
 					})
 				} else if (res.data.code == 410) {
+					uni.hideLoading();
 					// 异步转同步，
 					(async function () {
 						// 登录
@@ -262,6 +264,7 @@ function upLoadImage(payload) {
 						})
 					})()
 				} else {
+					uni.hideLoading();
 					uni.showToast({
 						title: res.data.msg,
 						duration: 2500,
@@ -270,6 +273,7 @@ function upLoadImage(payload) {
 				}
 			},
 			fail: (res) => {
+				uni.hideLoading();
 				uni.showToast({
 					title: '网络失败，请重试！多次无效后，反馈官方客服哦！',
 					duration: 2500,

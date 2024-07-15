@@ -173,6 +173,16 @@ const home = {
 			}
 		})
 	},
+	// 获取地址数据
+	getAreaTree(data) {
+		return api.post({
+			token: true,
+			url: `${path}/wechat/sundry/getAreaTree`,
+			data: {
+				...data
+			}
+		})
+	},
 }
 
 export default home;
