@@ -16,15 +16,15 @@
 				"onReachBottomDistance": 100
 			}
 		},
-		{
-			"path": "pages/index/address",
-			"style": {
-				"navigationBarBackgroundColor": "#ffffff",
-				"navigationBarTextStyle": "black",
-				"navigationBarTitleText": "选择地区",
-				"enablePullDownRefresh": true
-			}
-		},
+		// {
+		// 	"path": "pages/index/address",
+		// 	"style": {
+		// 		"navigationBarBackgroundColor": "#ffffff",
+		// 		"navigationBarTextStyle": "black",
+		// 		"navigationBarTitleText": "选择地区",
+		// 		"enablePullDownRefresh": true
+		// 	}
+		// },
 		{
 			"path": "pages/index/school",
 			"style": {

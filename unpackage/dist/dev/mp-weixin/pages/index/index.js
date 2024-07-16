@@ -789,7 +789,7 @@ var _default = {
     toAddress: function toAddress() {
       uni.navigateTo({
         // type=index 表示是index页面过来的
-        url: "/pages/index/address?type=index"
+        url: "/page_product/pages/address/choose?type=index"
       });
     },
     // 跳转学校选择

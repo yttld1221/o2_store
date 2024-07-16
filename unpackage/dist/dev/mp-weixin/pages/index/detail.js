@@ -398,89 +398,6 @@ var _cityData = __webpack_require__(/*! ../../page_product/components/piaoyi-cit
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default = {
   data: function data() {
     return {
@@ -597,6 +514,23 @@ var _default = {
     }
   },
   methods: {
+    // 长按
+    onLongPress: function onLongPress(option) {
+      console.log(option);
+      if (this.$store.state.theLogonUser.id == option.create_id || this.detailData.create_id == this.$store.state.theLogonUser.id) {
+        var itemList = ['删除'];
+        uni.showActionSheet({
+          itemList: itemList,
+          itemColor: "#333333",
+          success: function success(res) {
+            if (["删除"].includes(itemList[res.tapIndex])) {}
+          },
+          fail: function fail(res) {
+            // console.log(res.errMsg);
+          }
+        });
+      }
+    },
     // 是否是本人
     isMe: function isMe() {
       return this.detailData.create_id != this.$store.state.theLogonUser.id;

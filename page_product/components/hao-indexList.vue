@@ -4,7 +4,7 @@
 		<view class="hao-search" v-if="isSearch">
 			<view class="hao-searchCent">
 				<image src="/static/haoIndexListImg/search.png" class="hao-searchImg"></image>
-				<input type="text" v-model="inputKey" @input="searchInput" placeholder="请输入搜索信息"
+				<input type="text" v-model="inputKey" @input="searchInput" placeholder="输入城市或区县名搜索"
 					class="hao-searchInput" />
 			</view>
 		</view>
@@ -54,7 +54,7 @@
 			<view>
 				<view class="hao-modu" v-if="isCurrentCity || isHotCity">
 					<view class="hao-current" v-if="isCurrentCity">
-						<view class="hao-moduTitle">当前定位城市</view>
+						<view class="hao-moduTitle">当前选择城市</view>
 						<view class="hao-currentBox">
 							<view class="hao-currentLs">
 								<image src="/static/haoIndexListImg/posi.png" class="hao-currentImg"></image>
@@ -258,6 +258,10 @@
 							result.push(r)
 						}
 					})
+					if (this.inputKey && !result.length) {
+						result = [{}]
+					}
+					console.log(result)
 					this.searchList = result;
 				}, 800)
 			},
@@ -300,7 +304,6 @@
 
 				if (this.currentCeiling !== null) {
 					//大于最后一个
-					console.log(allTop, this.listInfo, 666)
 					if (allTop >= this.listInfo[this.listInfo.length - 1].top) {
 						this.currentCeiling = this.listInfo.length - 1;
 						return
@@ -363,7 +366,7 @@
 			},
 			//选取
 			selectIndex(e) {
-				if (!e || e.target) return;
+				if (!e || e.target || !e.code) return;
 				console.log('选取', e)
 				this.$emit('haoTap', e);
 			},
@@ -578,8 +581,8 @@
 					border-radius: 10rpx;
 					background-color: #fff;
 					border: 2rpx solid #eee;
-					padding: 0 40rpx;
 					height: 50rpx;
+					width: 32%;
 					display: flex;
 					align-items: center;
 					justify-content: center;
@@ -606,7 +609,7 @@
 
 				.hao-hotEachCity {
 					padding: 0 20rpx;
-					width: 140rpx;
+					width: 32%;
 					height: 50rpx;
 					line-height: 50rpx;
 					text-align: center;
@@ -616,10 +619,11 @@
 					color: #333;
 					font-size: 28rpx;
 					border-radius: 10rpx;
-					margin-bottom: 26rpx;
-					margin-right: 30rpx;
+					margin-bottom: 10rpx;
+					margin-right: 10rpx;
 					background-color: #fff;
 					border: 2rpx solid #eee;
+					box-sizing: border-box;
 				}
 			}
 		}

@@ -488,7 +488,7 @@ var _default = {
     },
     chooseArea: function chooseArea() {
       uni.navigateTo({
-        url: "/pages/index/address?type=mall"
+        url: "/page_product/pages/address/choose?type=mall"
       });
     },
     chooseMedia: function chooseMedia(types) {

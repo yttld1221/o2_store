@@ -527,7 +527,7 @@ export default {
       if (this.theLevel == 0) {
         uni.navigateTo({
           // type=index 表示是index页面过来的
-          url: "/pages/index/address?type=register",
+          url: "/page_product/pages/address/choose?type=register",
         });
       } else {
         uni.showToast({

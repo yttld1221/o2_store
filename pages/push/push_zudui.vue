@@ -894,7 +894,7 @@ export default {
     toAddress: function () {
       uni.navigateTo({
         // type=1 表示是index页面过来的
-        url: "/pages/index/address?type=push",
+        url: "/page_product/pages/address/choose?type=push",
       });
     },
   },

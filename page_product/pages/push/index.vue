@@ -37,6 +37,10 @@
 					<view :class="{ is_anonymous: theData.is_anonymous == 1 }">匿名发布</view>
 				</view>
 			</view>
+			<!-- 话题 -->
+			<view class="line-2" v-if="type != '分享/安利'&&theSelectedLabels.length">
+				<view class="line-2-one" :key="index" v-for="(item, index) in theSelectedLabels">#{{ item }}</view>
+			</view>
 		</view>
 		<view class="choose-box">
 			<view class="choose-item" v-if="!['组队/搭子'].includes(type)" @click="toRange()">
@@ -159,8 +163,8 @@
 					<text>确认返回</text>
 				</view> -->
 				<view class="the-selected-labels">
-					<view class="the-selected-labels-title">可添加多个话题哦~</view>
-					<view class="tips">(提示：轻击可删除哦~)</view>
+					<view class="the-selected-labels-title">可添加多个话题</view>
+					<view class="tips">(提示：轻击可删除)</view>
 					<view class="the-selected-labels-label">
 						<view @click="deletedOne(index)" class="label-one" v-for="(item, index) in theSelectedLabels">
 							{{ item }}
@@ -354,7 +358,7 @@
 			// 跳转地址选择
 			toAddress: function() {
 				uni.navigateTo({
-					url: "/pages/index/address?type=push",
+					url: "/page_product/pages/address/choose?type=push",
 				});
 			},
 			// 选择时间
@@ -515,7 +519,7 @@
 				let arr = this.theSelectedLabels.filter((el) => el == item);
 				if (arr.length) {
 					uni.showToast({
-						title: "已添加过这个话题了哦~",
+						title: "已添加过这个话题了",
 						duration: 1500,
 						icon: "none",
 					});
@@ -587,7 +591,7 @@
 								resolve();
 							} else if (res.data.code == 500) {
 								uni.showToast({
-									title: "服务器连接失败，请反馈官方客服哦~",
+									title: "服务器连接失败，请反馈官方客服",
 									duration: 2500,
 									icon: "none",
 								});
@@ -611,7 +615,7 @@
 						},
 						fail: (res) => {
 							uni.showToast({
-								title: "网络失败，请重试！多次无效后，反馈官方客服哦！",
+								title: "网络失败，请重试！多次无效后，反馈官方客服！",
 								duration: 2500,
 								icon: "none",
 							});
@@ -800,6 +804,20 @@
 			.the-button-1 {
 				background-color: #ff812f;
 			}
+		}
+
+		.line-2 {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			padding-bottom: 30rpx;
+			line-height: 40rpx;
+		}
+
+		.line-2-one {
+			color: #f89f12;
+			font-size: 24rpx;
+			margin-right: 20rpx;
 		}
 
 		.huati_popup-box {
