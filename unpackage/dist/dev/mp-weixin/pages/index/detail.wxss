@@ -118,7 +118,7 @@
   margin-top: 10rpx;
 }
 .space-line-bottom {
-  height: 100px;
+  height: 220rpx;
 }
 .comment-input {
   position: fixed;
@@ -315,6 +315,9 @@
   font-weight: 600;
   font-size: 33rpx;
   color: #ff812f;
+}
+.al-detail {
+  border-bottom: 15rpx solid #fafafa;
 }
 .al-detail .al-regard {
   border-bottom: 10rpx solid #f7f7f7;

@@ -10,7 +10,7 @@
           <text style="color: #ff6155; margin: 0 5px">{{
             theSelectedranges.length
           }}</text
-          >）：轻击可删除区域哦~</view
+          >）：轻击可删除区域</view
         >
         <view @click="submitOk" class="submit-btn">确认</view>
       </view>
@@ -100,7 +100,7 @@ export default {
         for (let i = 0; i < this.theSelectedranges.length; i++) {
           if (arr[0].code == this.theSelectedranges[i].code) {
             uni.showToast({
-              title: "已添加过这个城市了哦~",
+              title: "已添加过这个城市了",
               duration: 1500,
               icon: "none",
             });
@@ -194,7 +194,7 @@ export default {
               // console.log('_that.addressData',_that.addressData);
             } else if (res.data.code == 500) {
               uni.showToast({
-                title: "服务器连接失败，请反馈官方客服哦~",
+                title: "服务器连接失败，请反馈官方客服",
                 duration: 2500,
                 icon: "none",
               });
@@ -219,7 +219,7 @@ export default {
           },
           fail: (res) => {
             uni.showToast({
-              title: "网络失败，请重试！多次无效后，反馈官方客服哦！",
+              title: "网络失败，请重试！多次无效后，反馈官方客服！",
               duration: 2500,
               icon: "none",
             });

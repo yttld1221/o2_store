@@ -263,7 +263,7 @@
 					}
 					console.log(result)
 					this.searchList = result;
-				}, 800)
+				}, 200)
 			},
 			//获取节点信息
 			getLocation() {
@@ -581,8 +581,8 @@
 					border-radius: 10rpx;
 					background-color: #fff;
 					border: 2rpx solid #eee;
-					height: 50rpx;
-					width: 32%;
+					padding: 15rpx 20rpx;
+					min-width: 32%;
 					display: flex;
 					align-items: center;
 					justify-content: center;
@@ -606,12 +606,11 @@
 				display: flex;
 				align-items: center;
 				flex-wrap: wrap;
+				justify-content: space-between;
 
 				.hao-hotEachCity {
-					padding: 0 20rpx;
+					padding: 15rpx 20rpx;
 					width: 32%;
-					height: 50rpx;
-					line-height: 50rpx;
 					text-align: center;
 					white-space: nowrap;
 					overflow: hidden;
@@ -619,8 +618,7 @@
 					color: #333;
 					font-size: 28rpx;
 					border-radius: 10rpx;
-					margin-bottom: 10rpx;
-					margin-right: 10rpx;
+					margin-bottom: 15rpx;
 					background-color: #fff;
 					border: 2rpx solid #eee;
 					box-sizing: border-box;

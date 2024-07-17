@@ -1,13 +1,91 @@
 <template>
 	<view class="content">
-		<view v-if="!['兼职', '分享/安利', ''].includes(detailData.type)">
+		<view class="jz-detail" v-if="detailData.type == '兼职'">
+			<view class="jz-box">
+				<view class="jz-top">
+					<!-- 标题 -->
+					<view class="type-line-1">
+						<view class="type-line-1-title">{{ detailData.title }}</view>
+						<view class="type-line-1-amount">{{ detailData.wages
+		      }}<text v-if="detailData.wages != '面议'">{{
+		        detailData.settlement | getSettlement
+		      }}</text>
+						</view>
+					</view>
+					<view class="jz-labels" v-if="label.length">
+						<view class="jz-labels-item" :key="index" v-for="(item, index) in label">{{ item }}</view>
+					</view>
+					<!-- 地址和结算方式 -->
+					<view class="type-line-2">
+						<view class="type-line-2-address">
+							<u-icon name="map-fill" color="rgba(190,190,190,1)" size="20"></u-icon>
+							<view class="type-line-2-address-name">{{
+		        detailData.area_name
+		      }}</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="jz-content">
+				<view class="jz-content-title"> 职位描述 </view>
+				<view class="jz-content-desc">
+					<view>工作内容：</view>
+					<view>{{ detailData.content }}</view>
+				</view>
+			</view>
+			<view class="jz-address">
+				<view class="jz-address-label"> 工作地址 </view>
+				<view class="jz-address-text">{{ detailData.city }}</view>
+			</view>
+		</view>
+		<view class="al-detail" v-else-if="detailData.type == '分享/安利'">
+			<u-swiper radius="0" bgColor="#FFFFFF" @click="previewImage" height="750rpx" :list="srcList"
+				@change="(e) => (currentNum = e.current)" :autoplay="false" indicatorStyle="right: 0px">
+				<u-swiper-item slot="item" v-for="(item, index) in srcList" :key="index">
+					<u-image :src="item" width="100%" height="750rpx" mode="aspectFill"></u-image>
+				</u-swiper-item>
+				<view slot="indicator" class="indicator-num">
+					<text class="indicator-num__text"><text style="font-size: 28rpx">{{ currentNum + 1 }}</text><text
+							style="font-size: 18rpx">/{{ srcList.length }}</text></text>
+				</view>
+			</u-swiper>
+			<view class="al-regard flex-align">
+				<view class="al-regard-left flex-align">
+					<view @click="
+		      topPerSonalhome({ id: detailData.create_id, is_anonymous: 2 })
+		    " class="comment-one-avatar avatar-img" :style="'background: url(' + detailData.avatar_url + ');'"></view>
+					<view class="al-regard-info">
+						<view class="name-text">{{ detailData.nick_name }}</view>
+						<view class="time-text">{{ getTime(detailData.released_at) }}</view>
+					</view>
+				</view>
+				<view v-if="isMe()" class="regard-btn" :style="{
+		    background: detailData.is_regard == 1 ? '#bbbbbb' : '#ff812f',
+		  }" @click="toFollow()">
+					{{ detailData.is_regard == 1 ? "取消关注" : "关注" }}
+				</view>
+			</view>
+			<view class="al-content">
+				<view class="al-content-title">{{ detailData.title }}</view>
+				<view class="al-content-text">{{ detailData.content }}</view>
+				<view v-if="detailData.task_id" class="al-product flex-align" @click="toProduct()">
+					<view class="icon-box">
+						<u-icon name="shopping-cart-fill" color="#FFFFFF" size="20"></u-icon>
+					</view>
+					<view class="al-product-title flex-align"><text>购物</text>
+						<view class="shu"></view>
+						<view class="title-text">{{ detailData.task_title }}</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view v-if="!['兼职', ''].includes(detailData.type)">
 			<!-- 内容 -->
-			<view class="posts-data">
+			<view class="posts-data" v-if="!['分享/安利'].includes(detailData.type)">
 				<post-type-zudui :showPhone="showPhone" :showMore="showMore" @toThumb="toThumb"
 					@zuduiButtons="zuduiButtons" @topPerSonalhome="topPerSonalhome" @actionMore="actionMore"
 					:isDetail="true" :postsDataOneIndex="1" :theData="detailData"></post-type-zudui>
 			</view>
-
 			<!-- 评论区域 -->
 			<view class="comment">
 				<view class="comment-title">精彩评论</view>
@@ -46,88 +124,9 @@
 				<uni-load-more :status="loading"></uni-load-more>
 			</view>
 		</view>
-		<view class="jz-detail" v-else-if="detailData.type == '兼职'">
-			<view class="jz-box">
-				<view class="jz-top">
-					<!-- 标题 -->
-					<view class="type-line-1">
-						<view class="type-line-1-title">{{ detailData.title }}</view>
-						<view class="type-line-1-amount">{{ detailData.wages
-              }}<text v-if="detailData.wages != '面议'">{{
-                detailData.settlement | getSettlement
-              }}</text>
-						</view>
-					</view>
-					<view class="jz-labels" v-if="label.length">
-						<view class="jz-labels-item" :key="index" v-for="(item, index) in label">{{ item }}</view>
-					</view>
-					<!-- 地址和结算方式 -->
-					<view class="type-line-2">
-						<view class="type-line-2-address">
-							<u-icon name="map-fill" color="rgba(190,190,190,1)" size="20"></u-icon>
-							<view class="type-line-2-address-name">{{
-                detailData.area_name
-              }}</view>
-						</view>
-					</view>
-				</view>
-			</view>
-			<view class="jz-content">
-				<view class="jz-content-title"> 职位描述 </view>
-				<view class="jz-content-desc">
-					<view>工作内容：</view>
-					<view>{{ detailData.content }}</view>
-				</view>
-			</view>
-			<view class="jz-address">
-				<view class="jz-address-label"> 工作地址 </view>
-				<view class="jz-address-text">{{ detailData.city }}</view>
-			</view>
-		</view>
-		<view class="al-detail" v-else-if="detailData.type == '分享/安利'">
-			<u-swiper radius="0" bgColor="#FFFFFF" @click="previewImage" height="750rpx" :list="srcList"
-				@change="(e) => (currentNum = e.current)" :autoplay="false" indicatorStyle="right: 0px">
-				<u-swiper-item slot="item" v-for="(item, index) in srcList" :key="index">
-					<u-image :src="item" width="100%" height="750rpx" mode="aspectFill"></u-image>
-				</u-swiper-item>
-				<view slot="indicator" class="indicator-num">
-					<text class="indicator-num__text"><text style="font-size: 28rpx">{{ currentNum + 1 }}</text><text
-							style="font-size: 18rpx">/{{ srcList.length }}</text></text>
-				</view>
-			</u-swiper>
-			<view class="al-regard flex-align">
-				<view class="al-regard-left flex-align">
-					<view @click="
-              topPerSonalhome({ id: detailData.create_id, is_anonymous: 2 })
-            " class="comment-one-avatar avatar-img" :style="'background: url(' + detailData.avatar_url + ');'"></view>
-					<view class="al-regard-info">
-						<view class="name-text">{{ detailData.nick_name }}</view>
-						<view class="time-text">{{ getTime(detailData.released_at) }}</view>
-					</view>
-				</view>
-				<view v-if="isMe()" class="regard-btn" :style="{
-            background: detailData.is_regard == 1 ? '#bbbbbb' : '#ff812f',
-          }" @click="toFollow()">
-					{{ detailData.is_regard == 1 ? "取消关注" : "关注" }}
-				</view>
-			</view>
-			<view class="al-content">
-				<view class="al-content-title">{{ detailData.title }}</view>
-				<view class="al-content-text">{{ detailData.content }}</view>
-				<view v-if="detailData.task_id" class="al-product flex-align" @click="toProduct()">
-					<view class="icon-box">
-						<u-icon name="shopping-cart-fill" color="#FFFFFF" size="20"></u-icon>
-					</view>
-					<view class="al-product-title flex-align"><text>购物</text>
-						<view class="shu"></view>
-						<view class="title-text">{{ detailData.task_title }}</view>
-					</view>
-				</view>
-			</view>
-		</view>
 		<!-- 评论输入框 -->
 		<view v-if="
-        !['兼职', '分享/安利', ''].includes(detailData.type) &&
+        !['兼职', ''].includes(detailData.type) &&
         detailData.is_on == 1
       " class="comment-input" :style="'bottom:' + 0 + 'px;'">
 			<view class="btn-box">
@@ -215,7 +214,7 @@
 		// 监听下拉动作
 		onPullDownRefresh() {
 			let that = this;
-			if (!["兼职", "分享/安利"].includes(that.detailData.type)) {
+			if (!["兼职"].includes(that.detailData.type)) {
 				// 重置获取的页码
 				that.theGetCommentListPage = 1;
 
@@ -243,7 +242,7 @@
 		},
 		// 页面触底的监听事件，配合pages.json中的"onReachBottomDistance": 0，0的位置写距离底部的距离
 		onReachBottom() {
-			if (!["兼职", "分享/安利"].includes(this.detailData.type)) {
+			if (!["兼职"].includes(this.detailData.type)) {
 				// 触底后动画效果开启
 				this.isLoading = "loading";
 
@@ -385,7 +384,7 @@
 					})
 					.then((res) => {
 						this.detailData = res.data;
-						if (!["兼职", "分享/安利"].includes(this.detailData.type)) {
+						if (!["兼职"].includes(this.detailData.type)) {
 							this.getCommentList();
 						} else if (["兼职"].includes(this.detailData.type)) {
 							this.getArea();
@@ -970,7 +969,7 @@
 	}
 
 	.space-line-bottom {
-		height: 100px;
+		height: 220rpx;
 	}
 
 	.comment-input {
@@ -1203,6 +1202,8 @@
 	}
 
 	.al-detail {
+		border-bottom: 15rpx solid #fafafa;
+
 		.al-regard {
 			border-bottom: 10rpx solid #f7f7f7;
 			padding: 30rpx;
