@@ -584,7 +584,7 @@ export default {
 }
 .line-2-one {
   color: #f89f12;
-  font-size: 24rpx;
+  font-size: 26rpx;
   margin-right: 20rpx;
 }
 .jz-labels {
@@ -608,7 +608,7 @@ export default {
 }
 
 .line-3 {
-  font-size: 24rpx;
+  font-size: 26rpx;
   margin-top: 10rpx;
   color: #040000;
 }

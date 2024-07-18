@@ -1295,9 +1295,8 @@
 		width: 50%;
 		margin-left: 29rpx;
 		font-family: PingFang SC;
-		font-weight: 300;
-		font-size: 22rpx;
-		color: #666666;
+		font-size: 26rpx;
+		color: #909399;
 	}
 
 	.search-button {
@@ -1460,7 +1459,7 @@
 					text-overflow: ellipsis;
 					font-family: PingFang SC;
 					font-weight: 500;
-					font-size: 24rpx;
+					font-size: 26rpx;
 					color: #393a3e;
 					margin-bottom: 24rpx;
 				}

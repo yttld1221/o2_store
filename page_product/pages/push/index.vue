@@ -2,11 +2,11 @@
 	<view class="push">
 		<view class="push-form">
 			<view class="form-item">
-				<u--input :maxlength="type == '兼职' ? 10 : 60" :placeholder="nameObj[type]" v-model="theData.title"
-					placeholderStyle="color:#666666;" border="none"></u--input>
+				<u--input placeholderClass='input-text' :maxlength="type == '兼职' ? 10 : 60" :placeholder="nameObj[type]"
+					v-model="theData.title" placeholderStyle="color:#666666;" border="none"></u--input>
 			</view>
 			<view class="form-item form-content">
-				<u--textarea autoHeight border="none" placeholderStyle="color:#666666;" v-model="theData.content"
+				<u--textarea border="none" disableDefaultPadding autoHeight v-model="theData.content"
 					:placeholder="contentObj[type]">
 				</u--textarea>
 			</view>
@@ -60,7 +60,7 @@
 				<view class="choose-item hope-num">
 					<view class="left-label">期望人数</view>
 					<view class="flex-algin">
-						<u--input placeholderStyle="color:#666666;" placeholder="请输入期望人数" v-model="theData.hope_num"
+						<u--input placeholderClass='input-text1' placeholder="请输入期望人数" v-model="theData.hope_num"
 							border="none" type="number"></u--input>
 					</view>
 				</view>
@@ -85,7 +85,7 @@
 				<view class="choose-item hope-num">
 					<view class="left-label">结算报酬</view>
 					<view class="flex-algin">
-						<u--input placeholderStyle="color:#666666;" placeholder="请输入具体金额或面议" v-model="theData.wages"
+						<u--input placeholderClass='input-text1' placeholder="请输入具体金额或面议" v-model="theData.wages"
 							border="none" type="number"></u--input>
 					</view>
 				</view>
@@ -688,28 +688,53 @@
 		.push-form {
 			padding: 0 30rpx;
 			border-top: 20rpx solid #fafafa;
+
+			&>.line-2 {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+				padding-bottom: 30rpx;
+				line-height: 40rpx;
+
+				.line-2-one {
+					color: #f89f12;
+					font-size: 24rpx;
+					margin-right: 20rpx;
+				}
+			}
 		}
 
 		.form-item {
 			padding: 40rpx 0;
 			border-bottom: 1rpx solid rgba(144, 144, 144, 0.4);
 
+			/deep/ .u-input__content__field-wrapper__field {
+				margin: 0 !important;
+				padding: 0 !important;
+			}
+
 			/deep/ .u-textarea {
 				min-height: 160rpx !important;
 				padding: 0 !important;
 
 				.u-textarea__field {
-					font-size: 24rpx !important;
+					color: #666666 !important;
+				}
+
+				.textarea-placeholder {
+					font-size: 15px !important;
 					color: #666666 !important;
 				}
 			}
 
-			/deep/ .input-placeholder {
-				font-family: PingFang SC;
-				font-weight: 400;
-				font-size: 28rpx !important;
+			/deep/ .input-text {
+				font-size: 15px !important;
 				color: #666666 !important;
 			}
+		}
+
+		/deep/ .input-text1 {
+			color: #666666 !important;
 		}
 
 		.upload-box {
@@ -806,19 +831,6 @@
 			}
 		}
 
-		.line-2 {
-			display: flex;
-			flex-direction: row;
-			flex-wrap: wrap;
-			padding-bottom: 30rpx;
-			line-height: 40rpx;
-		}
-
-		.line-2-one {
-			color: #f89f12;
-			font-size: 24rpx;
-			margin-right: 20rpx;
-		}
 
 		.huati_popup-box {
 			height: 85vh;
@@ -1067,7 +1079,7 @@
 				border-radius: 38rpx;
 				font-family: PingFang SC;
 				font-weight: 400;
-				font-size: 26rpx;
+				font-size: 30rpx;
 				color: #ffffff;
 				line-height: 76rpx;
 				text-align: center;

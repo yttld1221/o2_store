@@ -492,7 +492,7 @@ export default {
         .fans-desc {
           font-family: PingFang SC;
           font-weight: 400;
-          font-size: 22rpx;
+          font-size: 24rpx;
           color: #b3b3b3;
           width: 55vw;
           overflow: hidden; /* 确保内容超出容器时会被隐藏 */

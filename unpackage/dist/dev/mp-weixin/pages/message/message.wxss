@@ -145,7 +145,7 @@
 .message-container .message-list .message-list-item .message-list-item-left .message-info .message-desc.data-v-a91f51d4 {
   font-family: PingFang SC;
   font-weight: 400;
-  font-size: 22rpx;
+  font-size: 24rpx;
   color: #b3b3b3;
   width: 65vw;
   overflow: hidden;

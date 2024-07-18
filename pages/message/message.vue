@@ -437,7 +437,7 @@
 						.message-desc {
 							font-family: PingFang SC;
 							font-weight: 400;
-							font-size: 22rpx;
+							font-size: 24rpx;
 							color: #b3b3b3;
 							width: 65vw;
 							overflow: hidden;
