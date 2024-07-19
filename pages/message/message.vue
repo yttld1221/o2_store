@@ -75,7 +75,7 @@
 		</view>
 
 		<!-- 底部垫层 -->
-		<view class="space-line-bottom"><uni-load-more :status="isLoading"></uni-load-more></view>
+		<!-- <view class="space-line-bottom"><uni-load-more :status="isLoading"></uni-load-more></view> -->
 		<view class="safe-bottom"></view>
 		<tab-Bar current="3"></tab-Bar>
 	</view>
@@ -182,7 +182,7 @@
 					"/page_product/pages/chat/index?id=";
 				url += item.from_user_id;
 				if (type == "chat") {
-					url += "&name=" + item.from_nick_name;
+					url += "&name=" + item.from_nick_name + "&num=" + item.not_read_num;
 				}
 				uni.navigateTo({
 					url,

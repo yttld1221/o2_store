@@ -101,13 +101,10 @@ var components
 try {
   components = {
     uniIcons: function () {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 472))
-    },
-    uniLoadMore: function () {
-      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 495))
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 468))
     },
     tabBar: function () {
-      return Promise.all(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/tab-Bar/components/tab-Bar/tab-Bar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 506))
+      return Promise.all(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/tab-Bar/components/tab-Bar/tab-Bar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 502))
     },
   }
 } catch (e) {
@@ -381,7 +378,7 @@ var _default = {
       var url = type == "home" ? "/pages/follow/personalhome?id=" : "/page_product/pages/chat/index?id=";
       url += item.from_user_id;
       if (type == "chat") {
-        url += "&name=" + item.from_nick_name;
+        url += "&name=" + item.from_nick_name + "&num=" + item.not_read_num;
       }
       uni.navigateTo({
         url: url

@@ -3,5 +3,18 @@
   "projectname": "o2_store",
   "setting": {
     "compileHotReLoad": true
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "page_product/pages/chat/index",
+          "pathName": "page_product/pages/chat/index",
+          "query": "id=84&name=游客&num=0",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
   }
 }

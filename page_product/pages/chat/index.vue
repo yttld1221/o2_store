@@ -1,5 +1,9 @@
 <template>
 	<view class="chat">
+		<view @click='toTop' v-if="showMore" class="more-message">
+			<u-icon name="arrow-left-double" color="#ff812f"></u-icon>
+			{{notNum}}条新消息
+		</view>
 		<scroll-view :scroll-anchoring='true' @click="closeBottom" :style="{height:heightArr[0]}"
 			:refresher-triggered="triggered" refresher-enabled refresher-default-style="none"
 			@refresherrefresh="pullList" class="scroll-view" scroll-y :scroll-with-animation="false" @scroll="onScroll"
@@ -49,8 +53,8 @@
 				</view>
 			</view>
 			<view class="tool-bottom" v-if="showBottom">
-				<emoKeyboard :content='content' @delMsg='delMsg' @sendMessage='sendMessage'
-					v-if="typeShow == 'emoji'" :show="true" :data="emojiList" @change="changeBq"></emoKeyboard>
+				<emoKeyboard :content='content' @delMsg='delMsg' @sendMessage='sendMessage' v-if="typeShow == 'emoji'"
+					:show="true" :data="emojiList" @change="changeBq"></emoKeyboard>
 				<view class="use-box" v-else>
 					<view @click="chooseUse(index)" class="use-item" :key="index" v-for="(item, index) in useList">
 						<view class="img-box">
@@ -113,6 +117,8 @@
 				id: "",
 				triggered: false,
 				bottomHeight: 1,
+				notNum: 0,
+				showMore: false
 			};
 		},
 		watch: {
@@ -140,6 +146,9 @@
 					title: options.name,
 				});
 				this.getData();
+			}
+			if (options.num > this.theGetListPagesize) {
+				this.notNum = options.num
 			}
 
 			uni.$on("changeMessageInfo", (data) => {
@@ -192,6 +201,12 @@
 			},
 		},
 		methods: {
+			toTop() {
+				this.$nextTick(() => {
+					this.top = 0;
+					this.showMore = false
+				})
+			},
 			delMsg() { //删除	
 				if (!this.content) return
 				const lastTwoChars = this.content.slice(-2);
@@ -220,6 +235,9 @@
 							// 获取scroll-view的可视区域高度
 							const windowHeight = data.height;
 
+							if (scrollTop == 0 && this.showMore) {
+								this.showMore = false
+							}
 							// 判断是否滚动到底部
 							this.isReachBottom = scrollTop + windowHeight >= scrollHeight - 120;
 							// console.log('是否滚动到:', scrollTop, windowHeight, scrollTop + windowHeight, scrollHeight);
@@ -361,11 +379,11 @@
 				this.cs += 0.01
 				// 延迟滚到底部100
 				// this.$nextTick(() => {
-					this.showScroll = true
-					this.scrollToBottom();
-					if (!this.showBottom) {
-						this.closeBottom();
-					}
+				this.showScroll = true
+				this.scrollToBottom();
+				if (!this.showBottom) {
+					this.closeBottom();
+				}
 				// })
 			},
 			// 获取焦点
@@ -377,9 +395,9 @@
 				this.cs += 0.01
 				// 延迟滚到底部100
 				// this.$nextTick(() => {
-					this.showScroll = true
-					this.scrollToBottom();
-					this.closeBottom();
+				this.showScroll = true
+				this.scrollToBottom();
+				this.closeBottom();
 				// })
 			},
 			// 获取底部高度
@@ -530,10 +548,11 @@
 			pullList() {
 				this.isShow = true;
 				this.triggered = true;
+				this.showMore = false
 				this.getMessage("pull");
 			},
 			commonSend(msg) {
-				if (msg) {
+				if (msg !== '') {
 					let param = {
 						data: {
 							to_user_id: this.id,
@@ -541,6 +560,7 @@
 						},
 						cmd: "ws:sendChatMsg",
 					};
+					console.log(param)
 					this.$store.dispatch("sendMessage", {
 						message: JSON.stringify(param),
 						type: "user",
@@ -562,7 +582,7 @@
 			getMessage(type = "") {
 				let params = {
 					page: this.theGetListPage,
-					pagesize: this.theGetListPagesize,
+					pagesize: this.notNum > 0 && type == 'init' ? this.notNum : this.theGetListPagesize,
 					from_user_id: this.id,
 				};
 				this.API.user
@@ -590,6 +610,7 @@
 							if (type == "init") {
 								this.$nextTick(() => {
 									this.getBottomHeight();
+									this.showMore = this.notNum > 0 ? true : false
 								});
 							} else if (type == "pull") {
 								this.triggered = false;
@@ -678,8 +699,30 @@
 </script>
 <style lang="scss" scoped>
 	.chat {
+		position: relative;
 		background: #fafafa;
 		height: 100vh;
+
+		.more-message {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 250rpx;
+			border-radius: 100rpx 0 0 100rpx;
+			position: fixed;
+			right: 0;
+			top: 300rpx;
+			color: #ff812f;
+			background: #ffffff;
+			z-index: 1000;
+			padding: 15rpx 0;
+			font-size: 28rpx;
+
+			/deep/ .uicon-arrow-left-double {
+				transform: rotate(90deg);
+				margin-right: 8rpx;
+			}
+		}
 
 		.scroll-view {
 			background: #fafafa;
