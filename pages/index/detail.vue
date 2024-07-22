@@ -115,7 +115,9 @@
 							</view>
 						</view>
 						<!-- <text class="hf-btn">回复</text> -->
-						<view class="comment-one-content-line-2">{{ item.msg }}</view>
+						<view v-if="item.msg" class="comment-one-content-line-2">{{ item.msg }}</view>
+						<image v-if="item.imgUrl" @click="prewFile(item.imgUrl)" class="comment-one-content-line-3"
+							mode="aspectFill" :src="item.imgUrl" />
 					</view>
 				</view>
 			</view>
@@ -128,11 +130,33 @@
 		<view v-if="
         !['兼职', ''].includes(detailData.type) &&
         detailData.is_on == 1
-      " class="comment-input" :style="'bottom:' + 0 + 'px;'">
+      " class="comment-input" :class="{'bottom-safe':keyboardHeight<=0}" :style="'bottom:' + keyboardHeight + 'px;'">
 			<view class="btn-box">
-				<uni-easyinput :trim="true" cursorSpacing="50" v-model="theInputComment" confirmType="send"
-					placeholder="想要说点什么..." />
-				<view @click="toComment" class="comment-button">发送</view>
+				<view class="btn-left" :class="{'line-changes':rowLine>1}"
+					:style="{'border-radius':keyboardHeight<=0?'50rpx':'20rpx'}">
+					<view class="btn-left-textarea">
+						<textarea :focus="textFocus" style="width:100%" hold-keyboard placeholder="想要说点什么..."
+							@linechange='lineChange' :show-confirm-bar='false' auto-height rows="1" cursor-spacing='100'
+							maxlength="-1" class="focus-border" :clearable='false' :adjust-position='false' :trim="true"
+							v-model="theInputComment" confirmType="send" @confirm="toComment" @focus="focusContent" />
+						<image @click="prewFile(uploadImg)" v-if="keyboardHeight<=0&&uploadImg" class="image-style"
+							mode="aspectFill" :src="uploadImg" />
+						<uni-icons @click="imgClick('close')" v-if='keyboardHeight<=0' type="image"
+							size="30"></uni-icons>
+					</view>
+					<view class="img-box" v-if="keyboardHeight>0&&uploadImg">
+						<view class="del-icon" @click.native.stop="delFile()">
+							<u-icon name="close" color="#FFFFFF" size="14"></u-icon>
+						</view>
+						<image @click="prewFile(uploadImg)" mode="aspectFill" :src="uploadImg" />
+					</view>
+				</view>
+				<view v-if='keyboardHeight<=0&&(theInputComment || uploadImg)' @click="toComment"
+					class="comment-button out-btn">发送</view>
+			</view>
+			<view v-if='keyboardHeight>0' class="open-bottom-box">
+				<uni-icons @click="imgClick('open')" type="image" size="30"></uni-icons>
+				<view v-if='theInputComment || uploadImg' @click="toComment" class="comment-button">发送</view>
 			</view>
 		</view>
 		<view v-else-if="
@@ -147,16 +171,25 @@
 				</view>
 			</view>
 		</view>
+		<u-overlay :show="showoverlay" @click="closeKey"></u-overlay>
+		<prew-image ref="prewImage" />
 	</view>
 </template>
 
 <script>
+	import prewImage from "../../components/prewImage.vue";
 	import {
 		addressList
 	} from "../../page_product/components/piaoyi-cityPicker/cityData";
 	export default {
+		components: {
+			prewImage
+		},
 		data() {
 			return {
+				uploadImg: '',
+				showoverlay: false,
+				rowLine: 1,
 				label: "",
 				currentNum: 0,
 				srcList: [],
@@ -184,6 +217,8 @@
 				// 评论
 				theComments: [],
 				socket: "",
+				keyboardHeight: 0,
+				textFocus: false
 			};
 		},
 		filters: {
@@ -208,6 +243,11 @@
 			uni.$on("changeRegard", (data) => {
 				if (this.detailData.type == "分享/安利") {
 					this.$set(this.detailData, "is_regard", data);
+				}
+			});
+			uni.onKeyboardHeightChange(res => {
+				if (res.height == 0 && this.showoverlay) {
+					this.closeKey()
 				}
 			});
 		},
@@ -262,7 +302,17 @@
 				};
 			}
 		},
+		onUnload() {
+			// 页面销毁时取消监听
+			uni.offKeyboardHeightChange();
+		},
 		methods: {
+			lineChange(event) {
+				console.log(event.detail.lineCount, this.rowLine, '行数')
+				if (event.detail.lineCount != this.rowLine) {
+					this.rowLine = event.detail.lineCount;
+				}
+			},
 			// 长按
 			onLongPress(option) {
 				console.log(option)
@@ -663,7 +713,13 @@
 
 								if (res.data.code == 0) {
 									for (let i = 0; i < res.data.data.length; i++) {
-										_that.theComments.push(res.data.data[i]);
+										let arr = res.data.data[i].msg ? res.data.data[i].msg
+											.split('detailPl') : []
+										_that.theComments.push({
+											...res.data.data[i],
+											msg: arr[0],
+											imgUrl: arr[1]
+										});
 									}
 
 									_that.theGetCommentListPage += 1;
@@ -703,6 +759,99 @@
 					}
 				});
 			},
+			closeKey() {
+				uni.hideKeyboard();
+				this.showoverlay = false
+				this.keyboardHeight = 0
+				this.textFocus = false
+			},
+			imgClick(types) {
+				uni.chooseMedia({
+					count: 1, // 默认为9，可以设置为需要的文件数量
+					mediaType: ["image"], // 可以选择视频和图片
+					sizeType: ["compressed"],
+					sourceType: ["album", "camera"], // 可以选择从相册或相机中选择
+					success: (res1) => {
+						const tempFiles = res1.tempFiles;
+						// 这里可以获取到选择的文件列表，进行后续上传操作
+						console.log(tempFiles);
+						// 例如，可以使用uni.uploadFile来上传文件
+						tempFiles.forEach((file) => {
+							this.API.order
+								.getOssUploadSign({
+									type: "img",
+								})
+								.then((res) => {
+									console.log(res);
+									let fileTypes = file.tempFilePath.substring(
+										file.tempFilePath.lastIndexOf(".") + 1
+									);
+									let key = `${
+				              res.data.dir
+				            }${this.$public.getNowDateTime()}_refund_0_${
+				              this.$store.state.theLogonUser.id
+				            }.${fileTypes}`;
+									console.log(key, "key");
+									uni.uploadFile({
+										url: res.data.host,
+										filePath: file.tempFilePath,
+										formData: {
+											key,
+											policy: res.data.policy,
+											OssAccessKeyId: res.data.accessid,
+											success_action_status: "200",
+											signature: res.data.signature,
+										},
+										name: "file", // 这是后端接收文件的字段名
+										success: (uploadFileRes) => {
+											if (uploadFileRes.statusCode == 200) {
+												console.log(key, "key1");
+												this.uploadImg =
+													`${res.data.host}/${key}`
+												this.$nextTick(() => {
+													this.textFocus = true
+												})
+											}
+										},
+										fail: (error) => {
+											console.error("upload fail:", error);
+										},
+									});
+								})
+								.catch(async (err) => {
+									if (err.code == 410) {
+										await this.$store.dispatch("toLogon", {});
+										uni.showToast({
+											title: "网络失败，请重试！",
+											duration: 2500,
+											icon: "none",
+										});
+									}
+								});
+						});
+					},
+					fail: (error) => {
+						console.error("choose media fail:", error);
+						if (types == 'open') {
+							this.textFocus = true
+						}
+					},
+				});
+			},
+			// 删除文件
+			delFile() {
+				this.uploadImg = ''
+			},
+			//   预览
+			prewFile(url) {
+				console.log(url)
+				this.$refs.prewImage.open(url);
+			},
+			// 获取焦点
+			focusContent(e) {
+				this.showoverlay = true
+				this.keyboardHeight = e.detail.height
+			},
 			// 发布评论接口
 			toComment: function() {
 				let _this = this;
@@ -721,7 +870,7 @@
 						return;
 					}
 					// 判断如果是空字符串，证明是首次加载进来，不应该调用接口
-					if (that.theInputComment != "") {
+					if (that.theInputComment || that.uploadImg) {
 						uni.request({
 							url: that.$store.state.theUrl + "/wechat/moments/comment",
 							method: "POST",
@@ -729,7 +878,7 @@
 								token: that.$store.state.theToken,
 							},
 							data: {
-								msg: that.theInputComment,
+								msg: that.theInputComment + 'detailPl' + that.uploadImg,
 								moments_id: that.detailData.id,
 							},
 							success: (res) => {
@@ -740,7 +889,8 @@
 									_that.theComments.unshift({
 										id: 0,
 										moments_id: _that.detailData.id,
-										msg: _that.theInputComment,
+										msg: _that.theInputComment + 'detailPl' + _that
+											.uploadImg,
 										create_id: _that.$store.state.theLogonUser.id,
 										created_at: "刚刚",
 										thumb_num: 0,
@@ -752,11 +902,13 @@
 									});
 									// 重置
 									_that.theInputComment = "";
+									_that.uploadImg = ''
+									_that.closeKey()
 
 									resolve();
 								} else if (res.data.code == 500) {
 									uni.showToast({
-										title: "服务器连接失败，请反馈官方客服哦~",
+										title: "服务器连接失败，请反馈官方客服",
 										duration: 2500,
 										icon: "none",
 									});
@@ -780,7 +932,7 @@
 							},
 							fail: (res) => {
 								uni.showToast({
-									title: "网络失败，请重试！多次无效后，反馈官方客服哦！",
+									title: "网络失败，请重试！多次无效后，反馈官方客服！",
 									duration: 2500,
 									icon: "none",
 								});
@@ -788,7 +940,7 @@
 						});
 					} else {
 						uni.showToast({
-							title: "评论内容不能为空哦~",
+							title: "评论内容不能为空",
 							duration: 2500,
 							icon: "none",
 						});
@@ -968,6 +1120,13 @@
 		margin-top: 10rpx;
 	}
 
+	.comment-one-content-line-3 {
+		margin-top: 10rpx;
+		width: 200rpx;
+		height: 200rpx;
+		border-radius: 10rpx;
+	}
+
 	.space-line-bottom {
 		height: 220rpx;
 	}
@@ -976,8 +1135,8 @@
 		position: fixed;
 		bottom: 0;
 		width: 100%;
-		z-index: 999;
-		padding: 20rpx 30rpx 40rpx;
+		z-index: 10072;
+		padding: 20rpx 30rpx;
 		background-color: #ffffff;
 		box-sizing: border-box;
 
@@ -986,27 +1145,103 @@
 			flex-direction: row;
 			align-items: center;
 
-			/deep/ .uni-easyinput {
-				.is-input-border {
-					border: 2rpx solid #dcdfe6;
+			.btn-left {
+				padding: 5rpx 20rpx;
+				width: 100%;
+				background: #F7F6F6;
+
+				.btn-left-textarea {
+					width: 100%;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+
+					.image-style {
+						width: 60rpx;
+						height: 35rpx;
+						margin: 0 20rpx;
+					}
 				}
 
-				.uni-easyinput__content-input {
-					height: 66rpx;
+				.close-height {
+					height: 20px;
+					overflow: hidden;
+					/*内容超出后隐藏*/
+					text-overflow: ellipsis;
+					/*超出内容显示为省略号*/
+					white-space: nowrap;
+					/*文本不进行换行*/
+					resize: none;
+					box-sizing: border-box;
+					width: 100%;
+				}
+
+				.img-box {
+					margin: 20rpx 0;
+					position: relative;
+					width: 100rpx;
+					height: 100rpx;
+
+
+					&>.del-icon {
+						cursor: pointer;
+						padding: 4rpx;
+						border-radius: 50%;
+						background: #969696;
+						margin-top: 5rpx;
+						position: absolute;
+						right: 0rpx;
+						margin-right: 5rpx;
+						z-index: 6;
+					}
+
+					&>image {
+						width: 100rpx;
+						height: 100rpx;
+						border-radius: 10rpx;
+					}
 				}
 			}
+
+			.line-changes {
+				border-radius: 20rpx !important;
+			}
+
+			.out-btn {
+				margin-left: 20rpx;
+				word-break: keep-all;
+			}
+
+			// /deep/ .uni-easyinput {
+			// 	.is-input-border {
+			// 		border: 2rpx solid #dcdfe6;
+			// 	}
+
+			// 	.uni-easyinput__content-input {
+			// 		height: 66rpx;
+			// 	}
+			// }
+		}
+
+		.open-bottom-box {
+			margin-top: 20rpx;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
 		}
 	}
 
+	.bottom-safe {
+		padding-bottom: calc(20rpx + env(safe-area-inset-bottom)/2);
+	}
+
 	.comment-button {
-		width: 127rpx;
-		height: 70rpx;
-		line-height: 70rpx;
+		padding: 10rpx 20rpx;
 		background-color: #ff812f;
 		color: #ffffff;
 		border-radius: 200rpx;
 		text-align: center;
-		margin-left: 23rpx;
+		box-sizing: border-box;
 	}
 
 	.hf-btn {

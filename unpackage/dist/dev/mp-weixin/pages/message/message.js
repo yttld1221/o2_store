@@ -101,10 +101,10 @@ var components
 try {
   components = {
     uniIcons: function () {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 468))
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 472))
     },
     tabBar: function () {
-      return Promise.all(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/tab-Bar/components/tab-Bar/tab-Bar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 502))
+      return Promise.all(/*! import() | uni_modules/tab-Bar/components/tab-Bar/tab-Bar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/tab-Bar/components/tab-Bar/tab-Bar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/tab-Bar/components/tab-Bar/tab-Bar.vue */ 506))
     },
   }
 } catch (e) {

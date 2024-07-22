@@ -11,7 +11,6 @@
     "minified": true,
     "newFeature": true,
     "bigPackageSizeSupport": true,
-    "ignoreUploadUnusedFiles": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -19,7 +18,7 @@
     }
   },
   "compileType": "miniprogram",
-  "libVersion": "3.5.0",
+  "libVersion": "3.5.1",
   "appid": "wxf2f79ccf1a034ce7",
   "projectname": "o2_store",
   "condition": {

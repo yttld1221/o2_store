@@ -8,9 +8,9 @@
     "miniprogram": {
       "list": [
         {
-          "name": "page_product/pages/chat/index",
-          "pathName": "page_product/pages/chat/index",
-          "query": "id=84&name=游客&num=0",
+          "name": "pages/index/detail",
+          "pathName": "pages/index/detail",
+          "query": "id=147",
           "launchMode": "default",
           "scene": null
         }

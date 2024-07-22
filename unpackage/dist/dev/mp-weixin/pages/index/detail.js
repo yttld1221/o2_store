@@ -101,25 +101,25 @@ var components
 try {
   components = {
     uIcon: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 459))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-icon/u-icon */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-icon/u-icon")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-icon/u-icon.vue */ 463))
     },
     uSwiper: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swiper/u-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swiper/u-swiper")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swiper/u-swiper.vue */ 531))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swiper/u-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swiper/u-swiper")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swiper/u-swiper.vue */ 535))
     },
     uImage: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-image/u-image */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-image/u-image")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-image/u-image.vue */ 539))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-image/u-image */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-image/u-image")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-image/u-image.vue */ 543))
     },
     postTypeZudui: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui */ "uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui").then(__webpack_require__.bind(null, /*! @/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui.vue */ 476))
+      return __webpack_require__.e(/*! import() | uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui */ "uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui").then(__webpack_require__.bind(null, /*! @/uni_modules/post-type-zudui/components/post-type-zudui/post-type-zudui.vue */ 480))
     },
     uniIcons: function () {
-      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 468))
+      return Promise.all(/*! import() | uni_modules/uni-icons/components/uni-icons/uni-icons */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-icons/components/uni-icons/uni-icons")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-icons/components/uni-icons/uni-icons.vue */ 472))
     },
     uniLoadMore: function () {
-      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 491))
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 495))
     },
-    uniEasyinput: function () {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput */ "uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue */ 547))
+    uOverlay: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-overlay/u-overlay */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-overlay/u-overlay")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-overlay/u-overlay.vue */ 857))
     },
   }
 } catch (e) {
@@ -238,163 +238,25 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 34));
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
 var _cityData = __webpack_require__(/*! ../../page_product/components/piaoyi-cityPicker/cityData */ 199);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+var prewImage = function prewImage() {
+  __webpack_require__.e(/*! require.ensure | components/prewImage */ "components/prewImage").then((function () {
+    return resolve(__webpack_require__(/*! ../../components/prewImage.vue */ 979));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 var _default = {
+  components: {
+    prewImage: prewImage
+  },
   data: function data() {
     return {
+      uploadImg: '',
+      showoverlay: false,
+      rowLine: 1,
       label: "",
       currentNum: 0,
       srcList: [],
@@ -419,7 +281,9 @@ var _default = {
       theInputComment: "",
       // 评论
       theComments: [],
-      socket: ""
+      socket: "",
+      keyboardHeight: 0,
+      textFocus: false
     };
   },
   filters: {
@@ -445,6 +309,11 @@ var _default = {
     uni.$on("changeRegard", function (data) {
       if (_this2.detailData.type == "分享/安利") {
         _this2.$set(_this2.detailData, "is_regard", data);
+      }
+    });
+    uni.onKeyboardHeightChange(function (res) {
+      if (res.height == 0 && _this2.showoverlay) {
+        _this2.closeKey();
       }
     });
   },
@@ -507,7 +376,17 @@ var _default = {
       };
     }
   },
+  onUnload: function onUnload() {
+    // 页面销毁时取消监听
+    uni.offKeyboardHeightChange();
+  },
   methods: {
+    lineChange: function lineChange(event) {
+      console.log(event.detail.lineCount, this.rowLine, '行数');
+      if (event.detail.lineCount != this.rowLine) {
+        this.rowLine = event.detail.lineCount;
+      }
+    },
     // 长按
     onLongPress: function onLongPress(option) {
       console.log(option);
@@ -941,7 +820,11 @@ var _default = {
               }
               if (res.data.code == 0) {
                 for (var i = 0; i < res.data.data.length; i++) {
-                  _that.theComments.push(res.data.data[i]);
+                  var arr = res.data.data[i].msg ? res.data.data[i].msg.split('detailPl') : [];
+                  _that.theComments.push(_objectSpread(_objectSpread({}, res.data.data[i]), {}, {
+                    msg: arr[0],
+                    imgUrl: arr[1]
+                  }));
                 }
                 _that.theGetCommentListPage += 1;
                 resolve();
@@ -990,6 +873,113 @@ var _default = {
         }
       });
     },
+    closeKey: function closeKey() {
+      uni.hideKeyboard();
+      this.showoverlay = false;
+      this.keyboardHeight = 0;
+      this.textFocus = false;
+    },
+    imgClick: function imgClick(types) {
+      var _this6 = this;
+      uni.chooseMedia({
+        count: 1,
+        // 默认为9，可以设置为需要的文件数量
+        mediaType: ["image"],
+        // 可以选择视频和图片
+        sizeType: ["compressed"],
+        sourceType: ["album", "camera"],
+        // 可以选择从相册或相机中选择
+        success: function success(res1) {
+          var tempFiles = res1.tempFiles;
+          // 这里可以获取到选择的文件列表，进行后续上传操作
+          console.log(tempFiles);
+          // 例如，可以使用uni.uploadFile来上传文件
+          tempFiles.forEach(function (file) {
+            _this6.API.order.getOssUploadSign({
+              type: "img"
+            }).then(function (res) {
+              console.log(res);
+              var fileTypes = file.tempFilePath.substring(file.tempFilePath.lastIndexOf(".") + 1);
+              var key = "".concat(res.data.dir).concat(_this6.$public.getNowDateTime(), "_refund_0_").concat(_this6.$store.state.theLogonUser.id, ".").concat(fileTypes);
+              console.log(key, "key");
+              uni.uploadFile({
+                url: res.data.host,
+                filePath: file.tempFilePath,
+                formData: {
+                  key: key,
+                  policy: res.data.policy,
+                  OssAccessKeyId: res.data.accessid,
+                  success_action_status: "200",
+                  signature: res.data.signature
+                },
+                name: "file",
+                // 这是后端接收文件的字段名
+                success: function success(uploadFileRes) {
+                  if (uploadFileRes.statusCode == 200) {
+                    console.log(key, "key1");
+                    _this6.uploadImg = "".concat(res.data.host, "/").concat(key);
+                    _this6.$nextTick(function () {
+                      _this6.textFocus = true;
+                    });
+                  }
+                },
+                fail: function fail(error) {
+                  console.error("upload fail:", error);
+                }
+              });
+            }).catch( /*#__PURE__*/function () {
+              var _ref6 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8(err) {
+                return _regenerator.default.wrap(function _callee8$(_context8) {
+                  while (1) {
+                    switch (_context8.prev = _context8.next) {
+                      case 0:
+                        if (!(err.code == 410)) {
+                          _context8.next = 4;
+                          break;
+                        }
+                        _context8.next = 3;
+                        return _this6.$store.dispatch("toLogon", {});
+                      case 3:
+                        uni.showToast({
+                          title: "网络失败，请重试！",
+                          duration: 2500,
+                          icon: "none"
+                        });
+                      case 4:
+                      case "end":
+                        return _context8.stop();
+                    }
+                  }
+                }, _callee8);
+              }));
+              return function (_x5) {
+                return _ref6.apply(this, arguments);
+              };
+            }());
+          });
+        },
+        fail: function fail(error) {
+          console.error("choose media fail:", error);
+          if (types == 'open') {
+            _this6.textFocus = true;
+          }
+        }
+      });
+    },
+    // 删除文件
+    delFile: function delFile() {
+      this.uploadImg = '';
+    },
+    //   预览
+    prewFile: function prewFile(url) {
+      console.log(url);
+      this.$refs.prewImage.open(url);
+    },
+    // 获取焦点
+    focusContent: function focusContent(e) {
+      this.showoverlay = true;
+      this.keyboardHeight = e.detail.height;
+    },
     // 发布评论接口
     toComment: function toComment() {
       var _this = this;
@@ -1007,7 +997,7 @@ var _default = {
           return;
         }
         // 判断如果是空字符串，证明是首次加载进来，不应该调用接口
-        if (that.theInputComment != "") {
+        if (that.theInputComment || that.uploadImg) {
           uni.request({
             url: that.$store.state.theUrl + "/wechat/moments/comment",
             method: "POST",
@@ -1015,7 +1005,7 @@ var _default = {
               token: that.$store.state.theToken
             },
             data: {
-              msg: that.theInputComment,
+              msg: that.theInputComment + 'detailPl' + that.uploadImg,
               moments_id: that.detailData.id
             },
             success: function success(res) {
@@ -1025,7 +1015,7 @@ var _default = {
                 _that.theComments.unshift({
                   id: 0,
                   moments_id: _that.detailData.id,
-                  msg: _that.theInputComment,
+                  msg: _that.theInputComment + 'detailPl' + _that.uploadImg,
                   create_id: _that.$store.state.theLogonUser.id,
                   created_at: "刚刚",
                   thumb_num: 0,
@@ -1036,32 +1026,34 @@ var _default = {
                 });
                 // 重置
                 _that.theInputComment = "";
+                _that.uploadImg = '';
+                _that.closeKey();
                 resolve();
               } else if (res.data.code == 500) {
                 uni.showToast({
-                  title: "服务器连接失败，请反馈官方客服哦~",
+                  title: "服务器连接失败，请反馈官方客服",
                   duration: 2500,
                   icon: "none"
                 });
               } else if (res.data.code == 410) {
                 var __that = _that;
                 // 异步转同步，
-                (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee8() {
-                  return _regenerator.default.wrap(function _callee8$(_context8) {
+                (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee9() {
+                  return _regenerator.default.wrap(function _callee9$(_context9) {
                     while (1) {
-                      switch (_context8.prev = _context8.next) {
+                      switch (_context9.prev = _context9.next) {
                         case 0:
-                          _context8.next = 2;
+                          _context9.next = 2;
                           return __that.$store.dispatch("toLogon", {});
                         case 2:
                           // 获取省市数据
                           __that.toComment();
                         case 3:
                         case "end":
-                          return _context8.stop();
+                          return _context9.stop();
                       }
                     }
-                  }, _callee8);
+                  }, _callee9);
                 }))();
               } else {
                 uni.showToast({
@@ -1073,7 +1065,7 @@ var _default = {
             },
             fail: function fail(res) {
               uni.showToast({
-                title: "网络失败，请重试！多次无效后，反馈官方客服哦！",
+                title: "网络失败，请重试！多次无效后，反馈官方客服！",
                 duration: 2500,
                 icon: "none"
               });
@@ -1081,7 +1073,7 @@ var _default = {
           });
         } else {
           uni.showToast({
-            title: "评论内容不能为空哦~",
+            title: "评论内容不能为空",
             duration: 2500,
             icon: "none"
           });
@@ -1121,22 +1113,22 @@ var _default = {
           } else if (res.data.code == 410) {
             var __that = _that;
             // 异步转同步，
-            (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee9() {
-              return _regenerator.default.wrap(function _callee9$(_context9) {
+            (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee10() {
+              return _regenerator.default.wrap(function _callee10$(_context10) {
                 while (1) {
-                  switch (_context9.prev = _context9.next) {
+                  switch (_context10.prev = _context10.next) {
                     case 0:
-                      _context9.next = 2;
+                      _context10.next = 2;
                       return __that.$store.dispatch("toLogon", {});
                     case 2:
                       // 获取省市数据
                       __that.commentThumb();
                     case 3:
                     case "end":
-                      return _context9.stop();
+                      return _context10.stop();
                   }
                 }
-              }, _callee9);
+              }, _callee10);
             }))();
           } else {
             uni.showToast({
