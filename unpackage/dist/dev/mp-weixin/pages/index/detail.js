@@ -119,7 +119,7 @@ try {
       return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 495))
     },
     uOverlay: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-overlay/u-overlay */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-overlay/u-overlay")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-overlay/u-overlay.vue */ 857))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-overlay/u-overlay */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-overlay/u-overlay")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-overlay/u-overlay.vue */ 551))
     },
   }
 } catch (e) {
@@ -245,7 +245,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var prewImage = function prewImage() {
   __webpack_require__.e(/*! require.ensure | components/prewImage */ "components/prewImage").then((function () {
-    return resolve(__webpack_require__(/*! ../../components/prewImage.vue */ 979));
+    return resolve(__webpack_require__(/*! ../../components/prewImage.vue */ 559));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -254,6 +254,7 @@ var _default = {
   },
   data: function data() {
     return {
+      bottomHeight: 80,
       uploadImg: '',
       showoverlay: false,
       rowLine: 1,
@@ -382,9 +383,17 @@ var _default = {
   },
   methods: {
     lineChange: function lineChange(event) {
+      var _this3 = this;
       console.log(event.detail.lineCount, this.rowLine, '行数');
       if (event.detail.lineCount != this.rowLine) {
         this.rowLine = event.detail.lineCount;
+        var query = uni.createSelectorQuery().in(this);
+        query.select(".comment-input").boundingClientRect(function (data) {
+          console.log(data);
+          if (data) {
+            _this3.bottomHeight = data.height;
+          }
+        }).exec();
       }
     },
     // 长按
@@ -466,10 +475,10 @@ var _default = {
       return text;
     },
     getArea: function getArea() {
-      var _this3 = this;
+      var _this4 = this;
       this.addressArr = [];
       _cityData.addressList.forEach(function (el) {
-        _this3.addressArr.push({
+        _this4.addressArr.push({
           value: el.code,
           label: el.name,
           children: el.children.map(function (item) {
@@ -490,24 +499,24 @@ var _default = {
       });
     },
     getDetail: function getDetail() {
-      var _this4 = this;
+      var _this5 = this;
       this.API.home.getMomentInfo({
         moments_id: this.id
       }).then(function (res) {
-        _this4.detailData = res.data;
-        if (!["兼职"].includes(_this4.detailData.type)) {
-          _this4.getCommentList();
-        } else if (["兼职"].includes(_this4.detailData.type)) {
-          _this4.getArea();
+        _this5.detailData = res.data;
+        if (!["兼职"].includes(_this5.detailData.type)) {
+          _this5.getCommentList();
+        } else if (["兼职"].includes(_this5.detailData.type)) {
+          _this5.getArea();
         }
-        if (["兼职", "分享/安利", "组队/搭子"].includes(_this4.detailData.type)) {
+        if (["兼职", "分享/安利", "组队/搭子"].includes(_this5.detailData.type)) {
           uni.setNavigationBarTitle({
-            title: _this4.detailData.type == "分享/安利" ? "安利详情" : _this4.detailData.type == "兼职" ? "兼职详情" : "组队详情"
+            title: _this5.detailData.type == "分享/安利" ? "安利详情" : _this5.detailData.type == "兼职" ? "兼职详情" : "组队详情"
           });
-          if (["分享/安利"].includes(_this4.detailData.type)) {
-            _this4.srcList = _this4.detailData.url ? _this4.detailData.url.split(",") : [];
-          } else if (["兼职"].includes(_this4.detailData.type)) {
-            _this4.label = res.data.label ? res.data.label.split(",") : [];
+          if (["分享/安利"].includes(_this5.detailData.type)) {
+            _this5.srcList = _this5.detailData.url ? _this5.detailData.url.split(",") : [];
+          } else if (["兼职"].includes(_this5.detailData.type)) {
+            _this5.label = res.data.label ? res.data.label.split(",") : [];
           }
         }
       }).catch( /*#__PURE__*/function () {
@@ -521,9 +530,9 @@ var _default = {
                     break;
                   }
                   _context2.next = 3;
-                  return _this4.$store.dispatch("toLogon", {});
+                  return _this5.$store.dispatch("toLogon", {});
                 case 3:
-                  _this4.getDetail();
+                  _this5.getDetail();
                 case 4:
                 case "end":
                   return _context2.stop();
@@ -679,12 +688,12 @@ var _default = {
     },
     // 关注
     followHandle: function followHandle(option) {
-      var _this5 = this;
+      var _this6 = this;
       this.API.order.regard({
         to_user_id: option.create_id
       }).then(function (res) {
         console.log(res.data);
-        _this5.$set(_this5.detailData, "is_regard", option.is_regard == 1 ? 2 : 1);
+        _this6.$set(_this6.detailData, "is_regard", option.is_regard == 1 ? 2 : 1);
         uni.showToast({
           title: option.is_regard == 1 ? "已取消关注" : "关注成功",
           duration: 1000,
@@ -701,9 +710,9 @@ var _default = {
                     break;
                   }
                   _context5.next = 3;
-                  return _this5.$store.dispatch("toLogon", {});
+                  return _this6.$store.dispatch("toLogon", {});
                 case 3:
-                  _this5.followHandle(option);
+                  _this6.followHandle(option);
                 case 4:
                 case "end":
                   return _context5.stop();
@@ -820,7 +829,8 @@ var _default = {
               }
               if (res.data.code == 0) {
                 for (var i = 0; i < res.data.data.length; i++) {
-                  var arr = res.data.data[i].msg ? res.data.data[i].msg.split('detailPl') : [];
+                  var str = 'qnxDetailPl' + _that.$store.state.theLogonUser.id;
+                  var arr = res.data.data[i].msg ? res.data.data[i].msg.split(str) : [];
                   _that.theComments.push(_objectSpread(_objectSpread({}, res.data.data[i]), {}, {
                     msg: arr[0],
                     imgUrl: arr[1]
@@ -880,7 +890,7 @@ var _default = {
       this.textFocus = false;
     },
     imgClick: function imgClick(types) {
-      var _this6 = this;
+      var _this7 = this;
       uni.chooseMedia({
         count: 1,
         // 默认为9，可以设置为需要的文件数量
@@ -895,12 +905,12 @@ var _default = {
           console.log(tempFiles);
           // 例如，可以使用uni.uploadFile来上传文件
           tempFiles.forEach(function (file) {
-            _this6.API.order.getOssUploadSign({
+            _this7.API.order.getOssUploadSign({
               type: "img"
             }).then(function (res) {
               console.log(res);
               var fileTypes = file.tempFilePath.substring(file.tempFilePath.lastIndexOf(".") + 1);
-              var key = "".concat(res.data.dir).concat(_this6.$public.getNowDateTime(), "_refund_0_").concat(_this6.$store.state.theLogonUser.id, ".").concat(fileTypes);
+              var key = "".concat(res.data.dir).concat(_this7.$public.getNowDateTime(), "_detail_0_").concat(_this7.$store.state.theLogonUser.id, ".").concat(fileTypes);
               console.log(key, "key");
               uni.uploadFile({
                 url: res.data.host,
@@ -917,9 +927,9 @@ var _default = {
                 success: function success(uploadFileRes) {
                   if (uploadFileRes.statusCode == 200) {
                     console.log(key, "key1");
-                    _this6.uploadImg = "".concat(res.data.host, "/").concat(key);
-                    _this6.$nextTick(function () {
-                      _this6.textFocus = true;
+                    _this7.uploadImg = "".concat(res.data.host, "/").concat(key);
+                    _this7.$nextTick(function () {
+                      _this7.textFocus = true;
                     });
                   }
                 },
@@ -938,7 +948,7 @@ var _default = {
                           break;
                         }
                         _context8.next = 3;
-                        return _this6.$store.dispatch("toLogon", {});
+                        return _this7.$store.dispatch("toLogon", {});
                       case 3:
                         uni.showToast({
                           title: "网络失败，请重试！",
@@ -961,7 +971,7 @@ var _default = {
         fail: function fail(error) {
           console.error("choose media fail:", error);
           if (types == 'open') {
-            _this6.textFocus = true;
+            _this7.textFocus = true;
           }
         }
       });
@@ -998,6 +1008,7 @@ var _default = {
         }
         // 判断如果是空字符串，证明是首次加载进来，不应该调用接口
         if (that.theInputComment || that.uploadImg) {
+          var msg = that.theInputComment + 'qnxDetailPl' + that.$store.state.theLogonUser.id + that.uploadImg;
           uni.request({
             url: that.$store.state.theUrl + "/wechat/moments/comment",
             method: "POST",
@@ -1005,17 +1016,20 @@ var _default = {
               token: that.$store.state.theToken
             },
             data: {
-              msg: that.theInputComment + 'detailPl' + that.uploadImg,
+              msg: msg,
               moments_id: that.detailData.id
             },
             success: function success(res) {
               // console.log('toComment', res);
               var _that = that;
               if (res.data.code == 0) {
+                var str = 'qnxDetailPl' + _that.$store.state.theLogonUser.id;
+                var arr = msg ? msg.split(str) : [];
                 _that.theComments.unshift({
                   id: 0,
                   moments_id: _that.detailData.id,
-                  msg: _that.theInputComment + 'detailPl' + _that.uploadImg,
+                  msg: arr[0],
+                  imgUrl: arr[1],
                   create_id: _that.$store.state.theLogonUser.id,
                   created_at: "刚刚",
                   thumb_num: 0,

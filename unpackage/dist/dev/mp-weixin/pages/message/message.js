@@ -128,20 +128,24 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var m0 = _vm.pageData.interact.data.msg
+    ? _vm.getRegardMsg(_vm.pageData.interact.data)
+    : null
   var l0 = _vm.__map(_vm.messageList, function (item, index) {
     var $orig = _vm.__get_orig(item)
-    var m0 = _vm.getTime(item.created_at)
-    var m1 = item.msg ? _vm.getText(item.msg) : null
+    var m1 = _vm.getTime(item.created_at)
+    var m2 = item.msg ? _vm.getText(item.msg) : null
     return {
       $orig: $orig,
-      m0: m0,
       m1: m1,
+      m2: m2,
     }
   })
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
+        m0: m0,
         l0: l0,
       },
     }
@@ -355,6 +359,15 @@ var _default = {
     this.getMessage();
   },
   methods: {
+    getRegardMsg: function getRegardMsg(item) {
+      if (item.msg) {
+        var str = 'qnxDetailPl' + this.$store.state.theLogonUser.id;
+        var arr = item.msg ? item.msg.split(str) : [];
+        console.log(arr);
+        var msg = arr[0] + (arr[1] ? '[图片]' : '');
+        return msg;
+      }
+    },
     getText: function getText(text) {
       if (text) {
         var type = "";

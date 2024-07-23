@@ -127,9 +127,11 @@ var render = function () {
   var _c = _vm._self._c || _h
   var l0 = _vm.__map(_vm.pageData, function (item, index) {
     var $orig = _vm.__get_orig(item)
+    var m0 = _vm.type == "互动" ? _vm.getRegardMsg(item) : null
     var g0 = _vm.type == "互动" ? _vm.$public.strToArr(item.img_url, ",") : null
     return {
       $orig: $orig,
+      m0: m0,
       g0: g0,
     }
   })
@@ -183,30 +185,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 34));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -310,6 +288,15 @@ var _default = {
     }))();
   },
   methods: {
+    getRegardMsg: function getRegardMsg(item) {
+      if (item.msg) {
+        var str = 'qnxDetailPl' + this.$store.state.theLogonUser.id;
+        var arr = item.msg ? item.msg.split(str) : [];
+        console.log(arr);
+        var msg = arr[0] + (arr[1] ? '[图片]' : '');
+        return msg;
+      }
+    },
     //------------------------------------------------  页面跳转  -----------------------------------------------------
     //------------------------------------------------  页面跳转  -----------------------------------------------------
     //------------------------------------------------  页面跳转  -----------------------------------------------------

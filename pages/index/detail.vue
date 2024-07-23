@@ -79,7 +79,7 @@
 				</view>
 			</view>
 		</view>
-		<view v-if="!['兼职', ''].includes(detailData.type)">
+		<view v-if="!['兼职', ''].includes(detailData.type)" :style="'padding-bottom:' + bottomHeight + 'px;'">
 			<!-- 内容 -->
 			<view class="posts-data" v-if="!['分享/安利'].includes(detailData.type)">
 				<post-type-zudui :showPhone="showPhone" :showMore="showMore" @toThumb="toThumb"
@@ -187,6 +187,7 @@
 		},
 		data() {
 			return {
+				bottomHeight: 80,
 				uploadImg: '',
 				showoverlay: false,
 				rowLine: 1,
@@ -311,6 +312,16 @@
 				console.log(event.detail.lineCount, this.rowLine, '行数')
 				if (event.detail.lineCount != this.rowLine) {
 					this.rowLine = event.detail.lineCount;
+					let query = uni.createSelectorQuery().in(this);
+					query
+						.select(".comment-input")
+						.boundingClientRect((data) => {
+							console.log(data)
+							if (data) {
+								this.bottomHeight = data.height;
+							}
+						})
+						.exec();
 				}
 			},
 			// 长按
@@ -713,8 +724,10 @@
 
 								if (res.data.code == 0) {
 									for (let i = 0; i < res.data.data.length; i++) {
+										let str = 'qnxDetailPl' + _that.$store.state.theLogonUser
+											.id
 										let arr = res.data.data[i].msg ? res.data.data[i].msg
-											.split('detailPl') : []
+											.split(str) : []
 										_that.theComments.push({
 											...res.data.data[i],
 											msg: arr[0],
@@ -788,7 +801,7 @@
 									);
 									let key = `${
 				              res.data.dir
-				            }${this.$public.getNowDateTime()}_refund_0_${
+				            }${this.$public.getNowDateTime()}_detail_0_${
 				              this.$store.state.theLogonUser.id
 				            }.${fileTypes}`;
 									console.log(key, "key");
@@ -871,6 +884,8 @@
 					}
 					// 判断如果是空字符串，证明是首次加载进来，不应该调用接口
 					if (that.theInputComment || that.uploadImg) {
+						let msg = that.theInputComment + 'qnxDetailPl' + that.$store.state.theLogonUser.id +
+							that.uploadImg
 						uni.request({
 							url: that.$store.state.theUrl + "/wechat/moments/comment",
 							method: "POST",
@@ -878,7 +893,7 @@
 								token: that.$store.state.theToken,
 							},
 							data: {
-								msg: that.theInputComment + 'detailPl' + that.uploadImg,
+								msg,
 								moments_id: that.detailData.id,
 							},
 							success: (res) => {
@@ -886,11 +901,13 @@
 								let _that = that;
 
 								if (res.data.code == 0) {
+									let str = 'qnxDetailPl' + _that.$store.state.theLogonUser.id
+									let arr = msg ? msg.split(str) : []
 									_that.theComments.unshift({
 										id: 0,
 										moments_id: _that.detailData.id,
-										msg: _that.theInputComment + 'detailPl' + _that
-											.uploadImg,
+										msg: arr[0],
+										imgUrl: arr[1],
 										create_id: _that.$store.state.theLogonUser.id,
 										created_at: "刚刚",
 										thumb_num: 0,
@@ -1128,7 +1145,7 @@
 	}
 
 	.space-line-bottom {
-		height: 220rpx;
+		// height: 220rpx;
 	}
 
 	.comment-input {

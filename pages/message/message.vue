@@ -44,7 +44,7 @@
 							<view class="message-desc">
 								{{
                   pageData.interact.data.msg
-                    ? pageData.interact.data.msg
+                    ? getRegardMsg(pageData.interact.data)
                     : "没有新的互动消息"
                 }}
 							</view>
@@ -156,6 +156,15 @@
 			this.getMessage();
 		},
 		methods: {
+			getRegardMsg(item) {
+				if (item.msg) {
+					let str = 'qnxDetailPl' + this.$store.state.theLogonUser.id
+					let arr = item.msg ? item.msg.split(str) : []
+					console.log(arr)
+					let msg = arr[0] + (arr[1] ? '[图片]' : '')
+					return msg
+				}
+			},
 			getText(text) {
 				if (text) {
 					let type = "";

@@ -123,9 +123,6 @@
   height: 200rpx;
   border-radius: 10rpx;
 }
-.space-line-bottom {
-  height: 220rpx;
-}
 .comment-input {
   position: fixed;
   bottom: 0;

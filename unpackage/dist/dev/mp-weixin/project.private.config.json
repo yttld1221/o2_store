@@ -8,9 +8,9 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/index/detail",
-          "pathName": "pages/index/detail",
-          "query": "id=147",
+          "name": "pages/message/message",
+          "pathName": "pages/message/message",
+          "query": "",
           "launchMode": "default",
           "scene": null
         }
