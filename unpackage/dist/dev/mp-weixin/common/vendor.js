@@ -9635,6 +9635,7 @@ var _theLogonUser;
 _vue.default.use(_vuex.default);
 var _default = new _vuex.default.Store({
   state: {
+    notNum: 0,
     isOpen: false,
     isOnload: false,
     sceneId: 0,
@@ -9782,6 +9783,9 @@ var _default = new _vuex.default.Store({
     changeRedTip: function changeRedTip(state, payload) {
       state.isRedTip = payload.isRedTip;
     },
+    changeNum: function changeNum(state, payload) {
+      state.notNum = payload;
+    },
     // 设置状态栏和标题栏高度
     changeNavBarHeight: function changeNavBarHeight(state, payload) {
       state.statusBarHeight = payload.statusBarHeight;
@@ -9869,6 +9873,7 @@ var _default = new _vuex.default.Store({
                     theToken: res.data.data.token
                   });
                   content.dispatch('startWs', {});
+                  content.dispatch('getNotNum', {});
                   // console.log('theLogonUser',content.state.theLogonUser);
                   // console.log('theToken',content.state.theToken);
 
@@ -10558,6 +10563,54 @@ var _default = new _vuex.default.Store({
       setTimeout(function () {
         clearInterval(animtionActionInter);
       }, 5000);
+    },
+    getNotNum: function getNotNum(content, payload) {
+      return new Promise(function (resolve, reject) {
+        // 调用登录接口，服务端正真的登录接口
+        uni.request({
+          url: content.state.theUrl + '/wechat/sundry/getMySummaryMsgList',
+          method: 'GET',
+          header: {
+            token: content.state.theToken
+          },
+          data: {
+            page: 1,
+            pagesize: 1000
+          },
+          success: function success(res) {
+            if (res.data.code == 0) {
+              if (res.data.data.length != 0) {
+                var num = 0;
+                res.data.data.forEach(function (item) {
+                  num += item.not_read_num;
+                });
+                content.commit('changeNum', num);
+              }
+              resolve();
+            } else if (res.data.code == 500) {
+              uni.showToast({
+                title: '服务器连接失败，请反馈官方客服哦~',
+                duration: 2500,
+                icon: 'none'
+              });
+            } else {
+              uni.showToast({
+                title: res.data.msg,
+                duration: 2500,
+                icon: 'none'
+              });
+            }
+          },
+          fail: function fail(res) {
+            uni.showToast({
+              title: '网络失败，请重试！多次无效后，反馈官方客服哦！',
+              duration: 2500,
+              icon: 'none'
+            });
+            resolve();
+          }
+        });
+      });
     },
     // 开启ws
     startWs: function startWs(content, payload) {
@@ -40662,6 +40715,194 @@ var _default = {
     title: {
       type: String,
       default: uni.$u.props.toolbar.title
+    }
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 894 */,
+/* 895 */,
+/* 896 */,
+/* 897 */,
+/* 898 */,
+/* 899 */,
+/* 900 */,
+/* 901 */,
+/* 902 */,
+/* 903 */,
+/* 904 */,
+/* 905 */,
+/* 906 */,
+/* 907 */,
+/* 908 */,
+/* 909 */,
+/* 910 */,
+/* 911 */,
+/* 912 */,
+/* 913 */,
+/* 914 */,
+/* 915 */,
+/* 916 */,
+/* 917 */,
+/* 918 */,
+/* 919 */,
+/* 920 */,
+/* 921 */,
+/* 922 */,
+/* 923 */,
+/* 924 */,
+/* 925 */,
+/* 926 */,
+/* 927 */,
+/* 928 */,
+/* 929 */,
+/* 930 */,
+/* 931 */,
+/* 932 */,
+/* 933 */,
+/* 934 */,
+/* 935 */,
+/* 936 */,
+/* 937 */,
+/* 938 */,
+/* 939 */,
+/* 940 */,
+/* 941 */,
+/* 942 */,
+/* 943 */,
+/* 944 */,
+/* 945 */,
+/* 946 */,
+/* 947 */,
+/* 948 */,
+/* 949 */,
+/* 950 */,
+/* 951 */,
+/* 952 */,
+/* 953 */,
+/* 954 */,
+/* 955 */,
+/* 956 */,
+/* 957 */,
+/* 958 */,
+/* 959 */,
+/* 960 */,
+/* 961 */,
+/* 962 */,
+/* 963 */,
+/* 964 */,
+/* 965 */,
+/* 966 */,
+/* 967 */,
+/* 968 */,
+/* 969 */,
+/* 970 */,
+/* 971 */,
+/* 972 */,
+/* 973 */,
+/* 974 */,
+/* 975 */,
+/* 976 */,
+/* 977 */,
+/* 978 */,
+/* 979 */,
+/* 980 */,
+/* 981 */,
+/* 982 */,
+/* 983 */,
+/* 984 */,
+/* 985 */,
+/* 986 */,
+/* 987 */,
+/* 988 */,
+/* 989 */,
+/* 990 */,
+/* 991 */,
+/* 992 */
+/*!***************************************************************************!*\
+  !*** D:/ouying/o2_store/uni_modules/uview-ui/components/u-badge/props.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    // 是否显示圆点
+    isDot: {
+      type: Boolean,
+      default: uni.$u.props.badge.isDot
+    },
+    // 显示的内容
+    value: {
+      type: [Number, String],
+      default: uni.$u.props.badge.value
+    },
+    // 是否显示
+    show: {
+      type: Boolean,
+      default: uni.$u.props.badge.show
+    },
+    // 最大值，超过最大值会显示 '{max}+'
+    max: {
+      type: [Number, String],
+      default: uni.$u.props.badge.max
+    },
+    // 主题类型，error|warning|success|primary
+    type: {
+      type: String,
+      default: uni.$u.props.badge.type
+    },
+    // 当数值为 0 时，是否展示 Badge
+    showZero: {
+      type: Boolean,
+      default: uni.$u.props.badge.showZero
+    },
+    // 背景颜色，优先级比type高，如设置，type参数会失效
+    bgColor: {
+      type: [String, null],
+      default: uni.$u.props.badge.bgColor
+    },
+    // 字体颜色
+    color: {
+      type: [String, null],
+      default: uni.$u.props.badge.color
+    },
+    // 徽标形状，circle-四角均为圆角，horn-左下角为直角
+    shape: {
+      type: String,
+      default: uni.$u.props.badge.shape
+    },
+    // 设置数字的显示方式，overflow|ellipsis|limit
+    // overflow会根据max字段判断，超出显示`${max}+`
+    // ellipsis会根据max判断，超出显示`${max}...`
+    // limit会依据1000作为判断条件，超出1000，显示`${value/1000}K`，比如2.2k、3.34w，最多保留2位小数
+    numberType: {
+      type: String,
+      default: uni.$u.props.badge.numberType
+    },
+    // 设置badge的位置偏移，格式为 [x, y]，也即设置的为top和right的值，absolute为true时有效
+    offset: {
+      type: Array,
+      default: uni.$u.props.badge.offset
+    },
+    // 是否反转背景和字体颜色
+    inverted: {
+      type: Boolean,
+      default: uni.$u.props.badge.inverted
+    },
+    // 是否绝对定位
+    absolute: {
+      type: Boolean,
+      default: uni.$u.props.badge.absolute
     }
   }
 };

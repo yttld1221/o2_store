@@ -79,6 +79,9 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    uBadge: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-badge/u-badge */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-badge/u-badge")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-badge/u-badge.vue */ 987))
+    },
     uPopup: function () {
       return Promise.all(/*! import() | uni_modules/uview-ui/components/u-popup/u-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-popup/u-popup")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-popup/u-popup.vue */ 795))
     },
@@ -143,6 +146,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+//
+//
 //
 //
 //
@@ -276,8 +281,13 @@ var _default = {
   computed: {
     isRedTip: function isRedTip() {
       return this.$store.state.isRedTip;
+    },
+    notNum: function notNum() {
+      // 通过this.$store访问store
+      return this.$store.state.notNum; // 假设store中有一个名为message的状态
     }
   },
+
   methods: {
     pubLish: function pubLish() {
       this.momentIndex = 0;

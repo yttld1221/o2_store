@@ -80,6 +80,7 @@
   z-index: 10090;
 }
 .item-box {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;

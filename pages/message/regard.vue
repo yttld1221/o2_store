@@ -2,25 +2,32 @@
 	<view class="content">
 		<!-- 内容：关注的人 -->
 		<view class="followed-users">
-			<view class="followed-users-item flex-align" :class="[{ 'no-read': item.status == 2 && type == '互动' }]"
-				v-for="(item, index) in pageData" :key="index">
-				<view class="followed-users-item-left flex-align">
-					<view class="img-box">
-						<view class="dian" v-if="item.status == 2 && type == '互动'"></view>
-						<image @click="topPerSonalhome(item.from_user_id)" mode="aspectFill"
-							:src="item.from_avatar_url" />
-					</view>
-					<view @click="toDetail(item)" class="message-info">
-						<view class="message-name">{{ item.from_nick_name }}</view>
-						<view class="message-desc" :class="type == '关注' ? 'gz-desc' : 'hd-desc'">
-							{{type == '互动'?getRegardMsg(item):item.msg }}
+			<u-swipe-action>
+				<u-swipe-action-item :disabled="type == '互动'?false:true" @click="submit(item)" :options="options"
+					v-for="(item, index) in pageData" :key="index" :index="index">
+					<view class="followed-users-item flex-align"
+						:class="[{ 'no-read': item.status == 2 && type == '互动' }]">
+						<view class="followed-users-item-left flex-align">
+							<view class="img-box">
+								<view class="dian" v-if="item.status == 2 && type == '互动'"></view>
+								<image @click="topPerSonalhome(item.from_user_id)" mode="aspectFill"
+									:src="item.from_avatar_url" />
+							</view>
+							<view @click="toDetail(item)" class="message-info">
+								<view class="message-name">{{ item.from_nick_name }}</view>
+								<view class="message-desc" :class="type == '关注' ? 'gz-desc' : 'hd-desc'">
+									{{type == '互动'?getRegardMsg(item):item.msg }}
+								</view>
+							</view>
 						</view>
+						<view v-if="type == '关注'" @click="topPerSonalhome(item.from_user_id)" class="message-btn">TA的主页
+						</view>
+						<image @click="toDetail(item)" v-if="type == '互动'" class="img_url"
+							:class="{ 'bg-img': item.img_url }" :src="$public.strToArr(item.img_url, ',')[0]"
+							mode="aspectFill"></image>
 					</view>
-				</view>
-				<view v-if="type == '关注'" @click="topPerSonalhome(item.from_user_id)" class="message-btn">TA的主页</view>
-				<image @click="toDetail(item)" v-if="type == '互动'" class="img_url" :class="{ 'bg-img': item.img_url }"
-					:src="$public.strToArr(item.img_url, ',')[0]" mode="aspectFill"></image>
-			</view>
+				</u-swipe-action-item>
+			</u-swipe-action>
 			<!-- 底部垫层 -->
 			<view @click="getMySystemMsgList()" class="space-line-bottom">
 				<uni-load-more :status="isMore" :content-text="contentText"></uni-load-more>
@@ -33,6 +40,12 @@
 	export default {
 		data() {
 			return {
+				options: [{
+					text: "删除",
+					style: {
+						backgroundColor: "#FF812F",
+					},
+				}],
 				contentText: {
 					contentdown: "查看更多",
 					contentrefresh: "加载中...",
@@ -80,6 +93,9 @@
 			})();
 		},
 		methods: {
+			submit(e) {
+				console.log(e);
+			},
 			getRegardMsg(item) {
 				if (item.msg) {
 					let str = 'qnxDetailPl' + this.$store.state.theLogonUser.id
@@ -273,6 +289,9 @@
 		.followed-users-item {
 			padding: 20rpx 30rpx;
 			justify-content: space-between;
+			border-top: 1px solid #FFFFFF;
+			border-bottom: 1px solid #FFFFFF;
+			box-sizing: border-box;
 
 			.followed-users-item-left {
 				.img-box {
@@ -453,4 +472,9 @@
 		display: flex;
 		align-items: center;
 	}
+
+	// /deep/ .u-swipe-action-item__right {
+	// 	top: 1rpx !important;
+	// 	bottom: 1rpx !important;
+	// }
 </style>

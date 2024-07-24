@@ -7,6 +7,8 @@
 			<view :class="{ 'tabbar-item': true, 'tabbar-item-push': index == 2 }" v-for="(item, index) in list"
 				:key="index" @click="changeTab(index)">
 				<view class="item-box" :class="{ 'img-box': index == 2 }">
+					<u-badge v-if="index == 3" absolute :offset="[0,notNum>99?'-20':notNum>9?'-12':'-6']" max="99"
+						:value="notNum"></u-badge>
 					<image :animation="index == 3 ? animationData : ''" :class="{ img: index != 2, push: index == 2 }"
 						:mode="index != 2?'widthFix':''" :src="item.selectedIconPath" v-if="momentIndex == index">
 					</image>
@@ -146,6 +148,10 @@
 			isRedTip: function() {
 				return this.$store.state.isRedTip;
 			},
+			notNum() {
+				// 通过this.$store访问store
+				return this.$store.state.notNum; // 假设store中有一个名为message的状态
+			}
 		},
 		methods: {
 			pubLish() {
@@ -282,6 +288,7 @@
 	}
 
 	.item-box {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;

@@ -100,6 +100,12 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    uSwipeAction: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swipe-action/u-swipe-action */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swipe-action/u-swipe-action")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swipe-action/u-swipe-action.vue */ 630))
+    },
+    uSwipeActionItem: function () {
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swipe-action-item/u-swipe-action-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swipe-action-item/u-swipe-action-item")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swipe-action-item/u-swipe-action-item.vue */ 636))
+    },
     uniLoadMore: function () {
       return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 495))
     },
@@ -216,9 +222,22 @@ var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/r
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
+      options: [{
+        text: "删除",
+        style: {
+          backgroundColor: "#FF812F"
+        }
+      }],
       contentText: {
         contentdown: "查看更多",
         contentrefresh: "加载中...",
@@ -288,6 +307,9 @@ var _default = {
     }))();
   },
   methods: {
+    submit: function submit(e) {
+      console.log(e);
+    },
     getRegardMsg: function getRegardMsg(item) {
       if (item.msg) {
         var str = 'qnxDetailPl' + this.$store.state.theLogonUser.id;

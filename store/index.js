@@ -4,6 +4,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
+		notNum: 0,
 		isOpen: false,
 		isOnload: false,
 		sceneId: 0,
@@ -178,7 +179,9 @@ export default new Vuex.Store({
 		changeRedTip: function(state, payload) {
 			state.isRedTip = payload.isRedTip;
 		},
-
+		changeNum: function(state, payload) {
+			state.notNum = payload;
+		},
 
 		// 设置状态栏和标题栏高度
 		changeNavBarHeight: function(state, payload) {
@@ -267,6 +270,7 @@ export default new Vuex.Store({
 											.token
 									})
 									content.dispatch('startWs', {})
+									content.dispatch('getNotNum', {})
 									// console.log('theLogonUser',content.state.theLogonUser);
 									// console.log('theToken',content.state.theToken);
 
@@ -788,7 +792,7 @@ export default new Vuex.Store({
 									name: 'file',
 									formData: {
 										key: res.data.data.dir + payload.name[
-											i] + '_' + content.state
+												i] + '_' + content.state
 											.theLogonUser.id + '.' + payload
 											.tempFiles[i]
 											.extname, // 这里传过来的是时间，格式示例：2024-03-22_23:15:04
@@ -802,22 +806,22 @@ export default new Vuex.Store({
 										if (uploadFileRes.statusCode ==
 											200) {
 											content.state.tempImageUrl
-										.push({
-												url: res.data.data
-													.host + '/' +
-													res.data.data
-													.dir + payload
-													.name[i] + '_' +
-													content.state
-													.theLogonUser
-													.id + '.' +
-													payload
-													.tempFiles[i]
-													.extname,
-												uuid: payload
-													.tempFiles[i]
-													.uuid
-											})
+												.push({
+													url: res.data.data
+														.host + '/' +
+														res.data.data
+														.dir + payload
+														.name[i] + '_' +
+														content.state
+														.theLogonUser
+														.id + '.' +
+														payload
+														.tempFiles[i]
+														.extname,
+													uuid: payload
+														.tempFiles[i]
+														.uuid
+												})
 
 											// console.log('content.state.tempImageUrl',content.state.tempImageUrl);
 
@@ -911,6 +915,55 @@ export default new Vuex.Store({
 			setTimeout(function() {
 				clearInterval(animtionActionInter)
 			}, 5000)
+		},
+		getNotNum(content, payload) {
+			return new Promise((resolve, reject) => {
+				// 调用登录接口，服务端正真的登录接口
+				uni.request({
+					url: content.state.theUrl + '/wechat/sundry/getMySummaryMsgList',
+					method: 'GET',
+					header: {
+						token: content.state.theToken
+					},
+					data: {
+						page: 1,
+						pagesize: 1000,
+					},
+					success: (res) => {
+						if (res.data.code == 0) {
+							if (res.data.data.length != 0) {
+								let num = 0
+								res.data.data.forEach(item => {
+									num += item.not_read_num;
+								})
+								content.commit('changeNum', num)
+							}
+							resolve();
+						} else if (res.data.code == 500) {
+							uni.showToast({
+								title: '服务器连接失败，请反馈官方客服哦~',
+								duration: 2500,
+								icon: 'none'
+							})
+						} else {
+							uni.showToast({
+								title: res.data.msg,
+								duration: 2500,
+								icon: 'none'
+							})
+						}
+					},
+					fail: (res) => {
+						uni.showToast({
+							title: '网络失败，请重试！多次无效后，反馈官方客服哦！',
+							duration: 2500,
+							icon: 'none'
+						})
+						resolve();
+					}
+				})
+			})
+
 		},
 		// 开启ws
 		startWs: (content, payload) => {
