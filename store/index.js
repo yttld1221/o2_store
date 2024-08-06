@@ -1032,6 +1032,7 @@ export default new Vuex.Store({
 							.data.to_user_id == content.state.theLogonUser.id) {
 							uni.$emit("changeMessageList", {});
 							uni.$emit("changeMessageInfo", messages.data);
+							content.dispatch('getNotNum', {})
 						}
 					}
 				});

@@ -664,6 +664,7 @@
 						.setSystemMsgIsRead(params)
 						.then((res) => {
 							console.log(res);
+							this.$store.dispatch('getNotNum', {})
 						})
 						.catch(async (err) => {
 							if (err.code == 410) {

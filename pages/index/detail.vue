@@ -95,29 +95,32 @@
 					<view @click="topPerSonalhome({ id: item.create_id, is_anonymous: 2 })" class="comment-one-avatar"
 						:style="'background: url(' + item.avatar_url + ');'"></view>
 					<!-- 内容 -->
-					<view class="comment-one-content">
+					<view class="comment-one-content" @click="plComment(item)">
 						<view class="comment-one-content-line-1">
 							<!-- 名字和时间 -->
 							<view class="comment-one-content-line-1-left">
 								<view class="left-name">{{ item.nick_name }}</view>
 								<view v-if="theComments.length > 0" class="left-time">{{
-                  showDateTime(item)
-                }}</view>
+				  showDateTime(item)
+				}}</view>
 								<!-- <view class="left-time">{{item.created_at != '刚刚'?$public.showDateTime(item.created_at):'刚刚'}}</view> -->
 							</view>
 							<!-- 点赞 -->
-							<view @click="commentThumb(item, index)" class="comment-one-content-line-1-right">
+							<view @click.stop="commentThumb(item, index)" class="comment-one-content-line-1-right">
+								<uni-icons type="hand-up" :color="item.is_thumb == 2 ? '#000000' : '#ff6155'"
+									size="20"></uni-icons>
 								<view class="right-num" :style="item.is_thumb == 2 ? '#000000' : 'color: #ff6155;'">
 									{{ item.thumb_num }}
 								</view>
-								<uni-icons type="hand-up" :color="item.is_thumb == 2 ? '#000000' : '#ff6155'"
-									size="20"></uni-icons>
 							</view>
 						</view>
 						<!-- <text class="hf-btn">回复</text> -->
 						<view v-if="item.msg" class="comment-one-content-line-2">{{ item.msg }}</view>
-						<image v-if="item.imgUrl" @click="prewFile(item.imgUrl)" class="comment-one-content-line-3"
-							mode="aspectFill" :src="item.imgUrl" />
+						<image v-if="item.imgUrl" @click.stop="prewShowFile(item.imgUrl)"
+							class="comment-one-content-line-3" mode="aspectFill" :src="item.imgUrl" />
+						<readMore @clickChild='child=>plComment(child)' @onLongChild='child=>onLongPress(child)'
+							:isDetail='true' childLen='10' :parentId="item.id">
+						</readMore>
 					</view>
 				</view>
 			</view>
@@ -135,7 +138,7 @@
 				<view class="btn-left" :class="{'line-changes':rowLine>1}"
 					:style="{'border-radius':keyboardHeight<=0?'50rpx':'20rpx'}">
 					<view class="btn-left-textarea">
-						<textarea :focus="textFocus" style="width:100%" hold-keyboard placeholder="想要说点什么..."
+						<textarea :focus="textFocus" style="width:100%" hold-keyboard :placeholder="placeText"
 							@linechange='lineChange' :show-confirm-bar='false' auto-height rows="1" cursor-spacing='100'
 							maxlength="-1" class="focus-border" :clearable='false' :adjust-position='false' :trim="true"
 							v-model="theInputComment" confirmType="send" @confirm="toComment" @focus="focusContent" />
@@ -177,16 +180,37 @@
 </template>
 
 <script>
+	import readMore from '@/components/readMore.vue'
 	import prewImage from "../../components/prewImage.vue";
 	import {
 		addressList
 	} from "../../page_product/components/piaoyi-cityPicker/cityData";
 	export default {
 		components: {
-			prewImage
+			prewImage,
+			readMore
 		},
 		data() {
 			return {
+				plId: '',
+				plNick: '',
+				placeText: '想要说点什么...',
+				plList: [{
+					is_thumb: 2,
+					thumb_num: 5,
+					avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240611/2024-06-11_09_43_03_avatar_0_22.png",
+					nick_name: "姓名2",
+					created_at: "2024-07-27 16:34:16",
+					msg: "有事需要代课222",
+					imgUrl: 'https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240428/2024-04-28_17_43_15_0_48.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_100'
+				}, {
+					is_thumb: 2,
+					thumb_num: 5,
+					avatar_url: "https://schoolwx.oss-cn-hangzhou.aliyuncs.com/school/img/v2/20240611/2024-06-11_09_43_03_avatar_0_22.png",
+					nick_name: "姓名3",
+					created_at: "2024-07-29 18:40:16",
+					msg: "有事需要代课333"
+				}],
 				bottomHeight: 80,
 				uploadImg: '',
 				showoverlay: false,
@@ -324,6 +348,15 @@
 						.exec();
 				}
 			},
+			// 点击回复
+			plComment(item) {
+				this.plId = item.create_id
+				this.plNick = item.nick_name
+				this.placeText = `回复@${item.nick_name}`
+				this.$nextTick(() => {
+					this.textFocus = true
+				})
+			},
 			// 长按
 			onLongPress(option) {
 				console.log(option)
@@ -332,6 +365,7 @@
 					this.detailData.create_id == this.$store.state.theLogonUser.id
 				) {
 					let itemList = [
+						option.msg,
 						'删除'
 					];
 					uni.showActionSheet({
@@ -777,6 +811,11 @@
 				this.showoverlay = false
 				this.keyboardHeight = 0
 				this.textFocus = false
+				if (!this.theInputComment && !this.uploadImg) {
+					this.placeText = '想要说点什么...'
+					this.plId = ''
+					this.plNick = ''
+				}
 			},
 			imgClick(types) {
 				uni.chooseMedia({
@@ -855,10 +894,18 @@
 			delFile() {
 				this.uploadImg = ''
 			},
-			//   预览
+			//   输入框状态预览
 			prewFile(url) {
 				console.log(url)
 				this.$refs.prewImage.open(url);
+			},
+			//   评论显示预览
+			prewShowFile(url) {
+				console.log(url)
+				uni.previewImage({
+					current: 0,
+					urls: [url]
+				})
 			},
 			// 获取焦点
 			focusContent(e) {
@@ -1069,6 +1116,10 @@
 		margin-bottom: 50rpx;
 	}
 
+	.comment-one-item {
+		margin: 25rpx 0 0 0;
+	}
+
 	.comment-one:last-child {
 		margin-bottom: 0;
 	}
@@ -1083,9 +1134,27 @@
 		background-size: cover !important;
 	}
 
+	.comment-pl-avatar {
+		width: 40rpx;
+		height: 40rpx;
+		margin-right: 20rpx;
+	}
+
 	.comment-one-content {
 		width: calc(100% - 90rpx);
 		margin-left: 20rpx;
+	}
+
+	.comment-pl-content {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.comment-pl-line-1 {
+		display: flex;
+		align-items: center;
 	}
 
 	.comment-one-content-line-1 {
@@ -1126,7 +1195,7 @@
 		font-weight: 400;
 		font-size: 20rpx;
 		color: #333333;
-		margin-right: 9rpx;
+		margin-left: 9rpx;
 	}
 
 	.comment-one-content-line-2 {
@@ -1135,6 +1204,11 @@
 		font-size: 24rpx;
 		color: #111111;
 		margin-top: 10rpx;
+		word-break: break-all;
+	}
+
+	.comment-one-pl-line-2 {
+		padding-left: 60rpx;
 	}
 
 	.comment-one-content-line-3 {
